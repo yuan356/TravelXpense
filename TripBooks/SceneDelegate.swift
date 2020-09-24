@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  TripBooks
 //
-//  Created by 阿遠 on 2020/9/16.
+//  Created by yuan on 2020/9/16.
 //  Copyright © 2020 yuan. All rights reserved.
 //
 

@@ -3,29 +3,63 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C3F207825188E6B008628C5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207725188E6B008628C5 /* Category.swift */; };
+		1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207A2518940A008628C5 /* SubCategory.swift */; };
+		1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207D2518AD1F008628C5 /* Icons.swift */; };
+		1C6C50C52519A9D600F5EC43 /* AccountingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C50C42519A9D600F5EC43 /* AccountingViewController.swift */; };
+		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
+		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
+		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
+		1CA803732519F2B6003D7708 /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803712519F2B6003D7708 /* BookTableViewCell.swift */; };
+		1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803722519F2B6003D7708 /* BookTableViewCell.xib */; };
+		1CA8037A251B2857003D7708 /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA80379251B2857003D7708 /* BookService.swift */; };
+		1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */; };
+		1CA803D7251C8D5B003D7708 /* TBDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */; };
+		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
-		1CD181F92512048C00AFD985 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* ViewController.swift */; };
+		1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* BookViewController.swift */; };
 		1CD181FC2512048C00AFD985 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD181FA2512048C00AFD985 /* Main.storyboard */; };
 		1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181FD2512048C00AFD985 /* TripBooks.xcdatamodeld */; };
 		1CD182012512048D00AFD985 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182002512048D00AFD985 /* Assets.xcassets */; };
 		1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182022512048D00AFD985 /* LaunchScreen.storyboard */; };
+		1CD1820D2512050900AFD985 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820C2512050900AFD985 /* Detail.swift */; };
+		1CD1820F2512139200AFD985 /* Func.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820E2512139200AFD985 /* Func.swift */; };
+		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripBooks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		167ED0DEC892068602740001 /* Pods-TripBooks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.release.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.release.xcconfig"; sourceTree = "<group>"; };
+		1C3F207725188E6B008628C5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		1C3F207A2518940A008628C5 /* SubCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategory.swift; sourceTree = "<group>"; };
+		1C3F207D2518AD1F008628C5 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		1C6C50C42519A9D600F5EC43 /* AccountingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountingViewController.swift; sourceTree = "<group>"; };
+		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
+		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		1CA803712519F2B6003D7708 /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
+		1CA803722519F2B6003D7708 /* BookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookTableViewCell.xib; sourceTree = "<group>"; };
+		1CA80379251B2857003D7708 /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
+		1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+anchors.swift"; sourceTree = "<group>"; };
+		1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePickerView.swift; sourceTree = "<group>"; };
+		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD181F62512048C00AFD985 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1CD181F82512048C00AFD985 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1CD181F82512048C00AFD985 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		1CD181FB2512048C00AFD985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1CD181FE2512048C00AFD985 /* TripBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TripBooks.xcdatamodel; sourceTree = "<group>"; };
 		1CD182002512048D00AFD985 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1CD182032512048D00AFD985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1CD182052512048D00AFD985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1CD1820C2512050900AFD985 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		1CD1820E2512139200AFD985 /* Func.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Func.swift; sourceTree = "<group>"; };
+		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +67,72 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1C6C50C42519A9D600F5EC43 /* AccountingViewController.swift */,
+				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		1C6C50CB2519AA0900F5EC43 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */,
+				1CD1820E2512139200AFD985 /* Func.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		1C6C50CF2519ABB300F5EC43 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				1CA803232519AD35003D7708 /* DBManager.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
+		1CA8036F2519F27B003D7708 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1CA803712519F2B6003D7708 /* BookTableViewCell.swift */,
+				1CA803722519F2B6003D7708 /* BookTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1CA80378251B2845003D7708 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1CA80379251B2857003D7708 /* BookService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		1CA803D2251C8D5B003D7708 /* TBDatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */,
+				1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */,
+			);
+			path = TBDatePicker;
+			sourceTree = "<group>";
+		};
 		1CD181E82512048B00AFD985 = {
 			isa = PBXGroup;
 			children = (
 				1CD181F32512048B00AFD985 /* TripBooks */,
 				1CD181F22512048B00AFD985 /* Products */,
+				61631689A378B42A74B3D4E8 /* Pods */,
+				CB18AB1F58B956D4ED5E73BC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,16 +147,52 @@
 		1CD181F32512048B00AFD985 /* TripBooks */ = {
 			isa = PBXGroup;
 			children = (
+				1CA803D2251C8D5B003D7708 /* TBDatePicker */,
+				1CA80378251B2845003D7708 /* Service */,
+				1CA8036F2519F27B003D7708 /* View */,
+				1C6C50CF2519ABB300F5EC43 /* DB */,
+				1C6C50CB2519AA0900F5EC43 /* Tools */,
+				1C6C50C72519A9E200F5EC43 /* ViewController */,
+				1CD1820B2512049900AFD985 /* Model */,
 				1CD181F42512048B00AFD985 /* AppDelegate.swift */,
 				1CD181F62512048C00AFD985 /* SceneDelegate.swift */,
-				1CD181F82512048C00AFD985 /* ViewController.swift */,
+				1CD181F82512048C00AFD985 /* BookViewController.swift */,
 				1CD181FA2512048C00AFD985 /* Main.storyboard */,
-				1CD182002512048D00AFD985 /* Assets.xcassets */,
 				1CD182022512048D00AFD985 /* LaunchScreen.storyboard */,
+				1CD182002512048D00AFD985 /* Assets.xcassets */,
 				1CD182052512048D00AFD985 /* Info.plist */,
 				1CD181FD2512048C00AFD985 /* TripBooks.xcdatamodeld */,
 			);
 			path = TripBooks;
+			sourceTree = "<group>";
+		};
+		1CD1820B2512049900AFD985 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1CD1820C2512050900AFD985 /* Detail.swift */,
+				1C3F207725188E6B008628C5 /* Category.swift */,
+				1C3F207A2518940A008628C5 /* SubCategory.swift */,
+				1C3F207D2518AD1F008628C5 /* Icons.swift */,
+				1CA8036C2519E25E003D7708 /* Book.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		61631689A378B42A74B3D4E8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */,
+				167ED0DEC892068602740001 /* Pods-TripBooks.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CB18AB1F58B956D4ED5E73BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,9 +202,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1CD182082512048D00AFD985 /* Build configuration list for PBXNativeTarget "TripBooks" */;
 			buildPhases = (
+				3619035B765B3B9B241EE444 /* [CP] Check Pods Manifest.lock */,
 				1CD181ED2512048B00AFD985 /* Sources */,
 				1CD181EE2512048B00AFD985 /* Frameworks */,
 				1CD181EF2512048B00AFD985 /* Resources */,
+				1647729FE7AD1B308969D583 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -128,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
 				1CD181FC2512048C00AFD985 /* Main.storyboard in Resources */,
@@ -136,15 +264,71 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1647729FE7AD1B308969D583 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TripBooks/Pods-TripBooks-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TripBooks/Pods-TripBooks-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TripBooks/Pods-TripBooks-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3619035B765B3B9B241EE444 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TripBooks-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1CD181ED2512048B00AFD985 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CD181F92512048C00AFD985 /* ViewController.swift in Sources */,
+				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
+				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
+				1CA803D7251C8D5B003D7708 /* TBDatePickerView.swift in Sources */,
+				1CD1820D2512050900AFD985 /* Detail.swift in Sources */,
+				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,
+				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
+				1C6C50C52519A9D600F5EC43 /* AccountingViewController.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
+				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
+				1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */,
+				1CA8037A251B2857003D7708 /* BookService.swift in Sources */,
+				1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */,
+				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,
+				1CD1820F2512139200AFD985 /* Func.swift in Sources */,
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,
+				1CA803732519F2B6003D7708 /* BookTableViewCell.swift in Sources */,
+				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,9 +470,11 @@
 		};
 		1CD182092512048D00AFD985 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8N45U64W34;
 				INFOPLIST_FILE = TripBooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -303,9 +489,11 @@
 		};
 		1CD1820A2512048D00AFD985 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 167ED0DEC892068602740001 /* Pods-TripBooks.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8N45U64W34;
 				INFOPLIST_FILE = TripBooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
