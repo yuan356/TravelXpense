@@ -57,7 +57,7 @@ class DBManager: NSObject {
                     \(BookField.name) Varchar(100),
                     \(BookField.country) Varchar(50),
                     \(BookField.coverImageNo) integer,
-                    \(BookField.totalAmount) Double,
+                    \(BookField.totalAmount) Double DEFAULT 0,
                     \(BookField.startDate) Date,
                     \(BookField.daysInterval) integer,
                     \(BookField.createTime) Double);
@@ -217,7 +217,6 @@ class DBManager: NSObject {
 
                 while dataLists.next() {
                     let book: Book?
-                    
                     if let name = dataLists.string(forColumn: BookField.name),
                        let country = dataLists.string(forColumn: BookField.country),
                        let startDate = dataLists.date(forColumn: BookField.startDate) {

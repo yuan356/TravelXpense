@@ -62,17 +62,29 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectedBook = books[indexPath.row]
-        performSegue(withIdentifier: "update", sender: nil)
+        let vc = AccountingViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
             BookService.shared.deleteBook(bookId: self.books[indexPath.row].id) {
                 self.updateTable()
             }
+            completionHandler(true)
         }
+        
+        let updateAction = UIContextualAction(style: .normal, title: "Update") { (action, sourceView, completionHandler) in
+            self.didSelectedBook = self.books[indexPath.row]
+            self.performSegue(withIdentifier: "update", sender: nil)
+        }
+        
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, updateAction])
+        return swipeConfiguration
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.tableView.dequeueReusableCell(withIdentifier: "BookTableViewCell", for: indexPath) as? BookTableViewCell {
             let book = books[indexPath.row]
@@ -82,7 +94,13 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageNo.text = String(book.coverImageNo ?? 0)
             cell.createTime.text = Func.convertDoubleTimeToDateStr(timeStamp: book.createTime)
             cell.startDateLabel.text = Func.convertDateToDateStr(date: book.startDate)
+            cell.totalAmountLabel.text = String(book.totalAmount)
             cell.daysInterval.text = String(book.daysInterval)
+            
+            let calendar = Calendar.current
+            let endDate = calendar.date(byAdding: .day, value: book.daysInterval, to: book.startDate)!
+            cell.endDateLabel.text = Func.convertDateToDateStr(date: endDate)
+            
             return cell
         }
         

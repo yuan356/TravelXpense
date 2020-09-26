@@ -189,7 +189,9 @@
                     <navigationItem key="navigationItem" id="M8j-CI-UZ4"/>
                     <connections>
                         <outlet property="bookNameTextField" destination="LOd-uG-ffl" id="5VN-WD-xib"/>
+                        <outlet property="endDateTextField" destination="jA1-QI-FlS" id="HtY-b2-UwU"/>
                         <outlet property="locationTextField" destination="hm8-H0-q8v" id="1Pi-lQ-qaX"/>
+                        <outlet property="startDateTextField" destination="hFL-bd-RXG" id="89u-Gd-9hw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xwC-fb-LFa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

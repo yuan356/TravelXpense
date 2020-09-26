@@ -2,7 +2,7 @@
 //  AccountingViewController.swift
 //  TripBooks
 //
-//  Created by yuan on 2020/9/22.
+//  Created by 阿遠 on 2020/9/26.
 //  Copyright © 2020 yuan. All rights reserved.
 //
 
@@ -10,12 +10,20 @@ import UIKit
 
 class AccountingViewController: UIViewController {
 
+    @IBOutlet weak var contentView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let pageViewController = UIPageViewController()
+        
+        
+        
+        contentView.addSubview(pageViewController.view)
+        pageViewController.view.backgroundColor = .blue
+        pageViewController.view.fillSuperview()
     }
-    
+
 
     /*
     // MARK: - Navigation

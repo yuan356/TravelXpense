@@ -15,9 +15,21 @@ protocol EditNewBookDelegate: AnyObject {
 class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var bookNameTextField: UITextField!
-    @IBOutlet weak var startDate: UIDatePicker!
-    @IBOutlet weak var endDate: UIDatePicker!
+    @IBOutlet weak var startDateTextField: UITextField!
+    @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var locationTextField: UITextField!
+    
+    var startDate: Date? {
+        didSet {
+            startDateTextField.text = Func.convertDateToDateStr(date: startDate!)
+        }
+    }
+    
+    var endDate: Date? {
+        didSet {
+            endDateTextField.text = Func.convertDateToDateStr(date: endDate!)
+        }
+    }
     
     weak var delegate: EditNewBookDelegate?
     
@@ -31,35 +43,33 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
         
         if let book = book {
             bookNameTextField.text = book.name
-            startDate.date = book.startDate
+            startDate = book.startDate
             let calendar = Calendar.current
-            endDate.date = calendar.date(byAdding: .day, value: book.daysInterval, to: book.startDate)!
+            endDate = calendar.date(byAdding: .day, value: book.daysInterval, to: book.startDate)!
             locationTextField.text = book.country
         }
-    }
-
-    @IBAction func startDateChanged(_ sender: Any) {
-        endDate.minimumDate = startDate.date
     }
     
     @IBAction func saveBtnClicked(_ sender: Any) {
         
         guard let bookName = bookNameTextField.text,
               let location = locationTextField.text,
-              let daysInterval = Func.getDaysInterval(start: startDate.date, end: endDate.date) else {
+              let startDate = startDate,
+              let endDate = endDate,
+              let daysInterval = Func.getDaysInterval(start: startDate, end: endDate) else {
             return
         }
         
 
         if isAdd {
-            BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate.date, daysInterval: daysInterval) { (newBook) in
+            BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate, daysInterval: daysInterval) { (newBook) in
                 self.delegate?.updateTable()
                 self.showMsg("新增成功！")
             }
             
         } else {
             if let bookId = self.book?.id {
-                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate.date, daysInterval: daysInterval, bookId: bookId) { (book) in
+                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate, daysInterval: daysInterval, bookId: bookId) { (book) in
                     self.delegate?.updateTable()
                     self.showMsg("更新成功！")
                 }
@@ -84,8 +94,17 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func selectDate(_ sender: Any) {
+    @IBAction func selectDate(_ sender: UIButton) {
         let datepicker = TBDatePicker(superview: self.view)
+        if let identifier = sender.restorationIdentifier {
+            datepicker.buttonIdentifier = identifier
+            if identifier == "end" {
+                if let startDate = startDate {
+                    datepicker.setMinimumDate(date: startDate)
+                }
+            }
+        }
+        datepicker.delegate = self
         datepicker.show()
     }
     
@@ -93,4 +112,14 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+}
+
+extension InsertNewBookViewController: TBDatePickerDelegate {
+    func changeDate(identifier: String, date: Date) {
+        if identifier == "start" {
+            startDate = date
+        } else {
+            endDate = date
+        }
+    }
 }

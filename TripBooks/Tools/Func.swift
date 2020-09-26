@@ -43,7 +43,7 @@ class Func {
 //    }
     static func convertDoubleTimeToDateStr(timeStamp: Double) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        dateFormatter.dateFormat = "yyyy/MM/dd"
         dateFormatter.timeZone = .current // 取得系統目前timezone
         let date = Date(timeIntervalSince1970: timeStamp)
         let today = dateFormatter.string(from: date)
@@ -52,7 +52,7 @@ class Func {
     
     static func convertDateToDateStr(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        dateFormatter.dateFormat = "yyyy/MM/dd"
         dateFormatter.timeZone = .current // 取得系統目前timezone
         let today = dateFormatter.string(from: date)
         return today

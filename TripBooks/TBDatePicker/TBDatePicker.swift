@@ -7,10 +7,16 @@
 
 import UIKit
 
-class TBDatePicker: TBDatePickerViewDelegate {
+protocol TBDatePickerDelegate: AnyObject {
+    func changeDate(identifier: String, date: Date)
+}
 
+class TBDatePicker {
+    
     private let superview: UIView
     private let datepickeView: TBDatePickerView
+    
+    weak var delegate: TBDatePickerDelegate?
     
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -21,6 +27,8 @@ class TBDatePicker: TBDatePickerViewDelegate {
         return datePicker
     }()
     
+    var buttonIdentifier: String = ""
+    
     init(superview: UIView) {
         
         self.superview = superview
@@ -30,8 +38,11 @@ class TBDatePicker: TBDatePickerViewDelegate {
     }
     
     func getDate() -> Date {
-        print(self.datePicker.date)
         return self.datePicker.date
+    }
+    
+    func setMinimumDate(date: Date) {
+        self.datePicker.minimumDate = date
     }
     
     // MARK: show & close
@@ -40,11 +51,22 @@ class TBDatePicker: TBDatePickerViewDelegate {
             self.superview.addSubview(self.datepickeView)
         }, completion: nil)
     }
-    
+}
+
+extension TBDatePicker: TBDatePickerViewDelegate {
     func removeFromSuperView() {
-        getDate()
         UIView.transition(with: self.superview, duration: 0.15, options: [.transitionCrossDissolve], animations: {
             self.datepickeView.removeFromSuperview()
         }, completion: nil)
     }
+    
+    func setDateToToday() {
+        self.datePicker.setDate( Date(), animated: true)
+    }
+    
+    func selectDateDone() {
+        self.delegate?.changeDate(identifier: self.buttonIdentifier, date: self.datePicker.date)
+        removeFromSuperView()
+    }
+    
 }

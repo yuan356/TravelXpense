@@ -23,6 +23,14 @@ extension UIView {
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
+    func anchorToSuperViewCenter() {
+        translatesAutoresizingMaskIntoConstraints = false
+        if let superview = superview {
+            centerXAnchor.constraint(equalTo: superview.centerXAnchor).isActive = true
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor).isActive = true
+        }
+    }
+    
     func anchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?,  trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -49,6 +57,10 @@ extension UIView {
         if size.height != 0 {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
+    }
+    
+    func setAutoresizingToFalse() {
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }
 
