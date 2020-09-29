@@ -21,29 +21,23 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwV-AK-AL6" userLabel="navViewContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kcs-MK-uzS" userLabel="navView">
-                            <rect key="frame" x="0.0" y="44" width="375" height="50"/>
+                            <rect key="frame" x="0.0" y="44" width="375" height="35"/>
                             <subviews>
-                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="MnP-lK-IWV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Prd-sO-l0O">
-                                        <size key="itemSize" width="128" height="128"/>
-                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </collectionViewFlowLayout>
-                                </collectionView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Japan Travel - 京都大阪八日遊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PmV-wp-e5h">
+                                    <rect key="frame" x="64" y="6.6666666666666643" width="247" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="7Ey-ch-70G"/>
-                                <constraint firstItem="MnP-lK-IWV" firstAttribute="top" secondItem="Kcs-MK-uzS" secondAttribute="top" id="QHg-kG-Nxl"/>
-                                <constraint firstItem="MnP-lK-IWV" firstAttribute="leading" secondItem="Kcs-MK-uzS" secondAttribute="leading" id="btT-pf-dYR"/>
-                                <constraint firstAttribute="trailing" secondItem="MnP-lK-IWV" secondAttribute="trailing" id="fOh-HA-AxE"/>
-                                <constraint firstAttribute="bottom" secondItem="MnP-lK-IWV" secondAttribute="bottom" id="yQw-Nc-7eW"/>
+                                <constraint firstAttribute="height" constant="35" id="7Ey-ch-70G"/>
+                                <constraint firstItem="PmV-wp-e5h" firstAttribute="centerY" secondItem="Kcs-MK-uzS" secondAttribute="centerY" id="IJp-7V-Gex"/>
+                                <constraint firstItem="PmV-wp-e5h" firstAttribute="centerX" secondItem="Kcs-MK-uzS" secondAttribute="centerX" id="qHL-RO-ikd"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -55,13 +49,50 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4k-fy-rBs" userLabel="tabViewContainer">
-                    <rect key="frame" x="0.0" y="718" width="375" height="94"/>
+                    <rect key="frame" x="0.0" y="728" width="375" height="84"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H9e-6y-XoN" userLabel="tabView">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUm-Hg-Y5k">
+                                    <rect key="frame" x="8" y="13" width="30" height="25"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="8Jf-J9-fAY"/>
+                                        <constraint firstAttribute="width" secondItem="AUm-Hg-Y5k" secondAttribute="height" multiplier="1:1" id="fkT-r9-Wga"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" backgroundImage="pencil" catalog="system"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aoz-NA-cYV">
+                                    <rect key="frame" x="172.66666666666666" y="10.999999999999998" width="30" height="28.666666666666664"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="Aoz-NA-cYV" secondAttribute="height" id="VHB-NJ-wYc"/>
+                                        <constraint firstAttribute="width" constant="30" id="dp3-Bh-ru1"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" backgroundImage="plus.circle" catalog="system"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z54-ig-zau">
+                                    <rect key="frame" x="337" y="10" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="Z54-ig-zau" secondAttribute="height" multiplier="1:1" id="KQg-3n-Nzs"/>
+                                        <constraint firstAttribute="width" constant="30" id="MIN-Oo-2MK"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" backgroundImage="home">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                </button>
+                            </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="SHe-Kg-5vw"/>
+                                <constraint firstItem="AUm-Hg-Y5k" firstAttribute="centerY" secondItem="H9e-6y-XoN" secondAttribute="centerY" id="1gm-oX-8Ad"/>
+                                <constraint firstItem="Aoz-NA-cYV" firstAttribute="centerX" secondItem="H9e-6y-XoN" secondAttribute="centerX" id="4QM-47-sH5"/>
+                                <constraint firstAttribute="trailing" secondItem="Z54-ig-zau" secondAttribute="trailing" constant="8" id="4kE-sV-Cqi"/>
+                                <constraint firstAttribute="height" constant="50" id="SHe-Kg-5vw"/>
+                                <constraint firstItem="Aoz-NA-cYV" firstAttribute="centerY" secondItem="H9e-6y-XoN" secondAttribute="centerY" id="a8O-7O-eBI"/>
+                                <constraint firstItem="Z54-ig-zau" firstAttribute="centerY" secondItem="H9e-6y-XoN" secondAttribute="centerY" id="e1Z-xD-a3c"/>
+                                <constraint firstItem="AUm-Hg-Y5k" firstAttribute="leading" secondItem="H9e-6y-XoN" secondAttribute="leading" constant="8" id="erK-3H-Qsj"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -73,7 +104,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Hp-eo-cJc" userLabel="contentView">
-                    <rect key="frame" x="0.0" y="94" width="375" height="624"/>
+                    <rect key="frame" x="0.0" y="79" width="375" height="649"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
@@ -98,6 +129,9 @@
         </view>
     </objects>
     <resources>
+        <image name="home" width="512" height="512"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -8,17 +8,35 @@
 
 import UIKit
 
+enum AccountingPage: String {
+    case Record
+    case Chart
+}
+
 class AccountingViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let pageViewController = AccountionPageViewController()
+    
+        switchPage(page: .Record)
+    }
+    
+    func switchPage(page: AccountingPage) {
+        var vc: UIViewController?
+        switch page {
+        case .Record:
+            vc = RecordContainerViewController()
+        default:
+            break
+        }
         
-        contentView.addSubview(pageViewController.view)
-        pageViewController.view.fillSuperview()
+        if let vc = vc {
+            self.contentView.addSubview(vc.view)
+            self.addChild(vc)
+            vc.view.fillSuperview()
+        }
     }
 
 }

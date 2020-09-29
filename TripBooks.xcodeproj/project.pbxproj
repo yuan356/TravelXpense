@@ -10,6 +10,7 @@
 		1C3F207825188E6B008628C5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207725188E6B008628C5 /* Category.swift */; };
 		1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207A2518940A008628C5 /* SubCategory.swift */; };
 		1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207D2518AD1F008628C5 /* Icons.swift */; };
+		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
@@ -21,7 +22,7 @@
 		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
 		1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803ED251EF130003D7708 /* AccountingViewController.xib */; };
 		1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* AccountingViewController.swift */; };
-		1CA803F5251F2560003D7708 /* AccountionPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F4251F2560003D7708 /* AccountionPageViewController.swift */; };
+		1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F4251F2560003D7708 /* RecordPageViewController.swift */; };
 		1CA803F8251F2895003D7708 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F7251F2895003D7708 /* RecordViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
@@ -41,6 +42,7 @@
 		1C3F207725188E6B008628C5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		1C3F207A2518940A008628C5 /* SubCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategory.swift; sourceTree = "<group>"; };
 		1C3F207D2518AD1F008628C5 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
 		1CA803ED251EF130003D7708 /* AccountingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountingViewController.xib; sourceTree = "<group>"; };
 		1CA803F1251F2532003D7708 /* AccountingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountingViewController.swift; sourceTree = "<group>"; };
-		1CA803F4251F2560003D7708 /* AccountionPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountionPageViewController.swift; sourceTree = "<group>"; };
+		1CA803F4251F2560003D7708 /* RecordPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPageViewController.swift; sourceTree = "<group>"; };
 		1CA803F7251F2895003D7708 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,11 +85,10 @@
 		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1C8B6F312521D9D9000D423B /* Record */,
 				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
 				1CA803ED251EF130003D7708 /* AccountingViewController.xib */,
 				1CA803F1251F2532003D7708 /* AccountingViewController.swift */,
-				1CA803F4251F2560003D7708 /* AccountionPageViewController.swift */,
-				1CA803F7251F2895003D7708 /* RecordViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -107,6 +108,16 @@
 				1CA803232519AD35003D7708 /* DBManager.swift */,
 			);
 			path = DB;
+			sourceTree = "<group>";
+		};
+		1C8B6F312521D9D9000D423B /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */,
+				1CA803F4251F2560003D7708 /* RecordPageViewController.swift */,
+				1CA803F7251F2895003D7708 /* RecordViewController.swift */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 		1CA8036F2519F27B003D7708 /* View */ = {
@@ -321,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
 				1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */,
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
@@ -333,7 +345,7 @@
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
 				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
 				1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */,
-				1CA803F5251F2560003D7708 /* AccountionPageViewController.swift in Sources */,
+				1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */,
 				1CA8037A251B2857003D7708 /* BookService.swift in Sources */,
 				1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */,
 				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,

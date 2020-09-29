@@ -78,7 +78,7 @@ class DBManager: NSObject {
                 print("file copy to: \(self.pathToDatabase)")
             }
         } else {
-            print("Datebase allready exists.")
+//            print("Datebase allready exists.")
             //print("DID-NOT copy db file, file allready exists at path:\(self.pathToDatabase)")
         }
     }
