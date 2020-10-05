@@ -39,6 +39,6 @@ class Book {
             return nil
         }
         
-       return Book(id: Int(dataLists.int(forColumn: BookField.id)), name: name, country: country, coverImageNo: Int(dataLists.int(forColumn: BookField.coverImageNo)), totalAmount: dataLists.double(forColumn: BookField.totalAmount), startDate: startDate, daysInterval: Int(dataLists.int(forColumn: BookField.daysInterval)), createTime: dataLists.double(forColumn: BookField.createTime))
+        return Book(id: Int(dataLists.int(forColumn: BookField.id)), name: name, country: country, coverImageNo: Int(dataLists.int(forColumn: BookField.coverImageNo)), totalAmount: dataLists.double(forColumn: BookField.totalAmount), startDate: startDate, daysInterval: Int(dataLists.int(forColumn: BookField.daysInterval)), createTime: dataLists.double(forColumn: BookField.createdDate))
     }
 }

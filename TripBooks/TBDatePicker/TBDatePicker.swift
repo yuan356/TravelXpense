@@ -11,10 +11,7 @@ protocol TBDatePickerDelegate: AnyObject {
     func changeDate(identifier: String, date: Date)
 }
 
-class TBDatePicker {
-    
-    private let superview: UIView
-    private let datepickeView: TBDatePickerView
+class TBdatePickerViewController: UIViewController {
     
     weak var delegate: TBDatePickerDelegate?
     
@@ -29,44 +26,97 @@ class TBDatePicker {
     
     var buttonIdentifier: String = ""
     
-    init(superview: UIView) {
+    override func viewDidLoad() {
+        self.setView()
+    }
+    
+    func setView() {
+        // bottom view (buttonView + datePicker + safeArea)
+        let bottomView = UIView()
+        bottomView.backgroundColor = .gray
+        self.view.addSubview(bottomView)
         
-        self.superview = superview
+        bottomView.addSubview(datePicker)
+        datePicker.anchor(top: nil, bottom: bottomView.safeAreaLayoutGuide.bottomAnchor, leading: bottomView.leadingAnchor, trailing: bottomView.trailingAnchor)
         
-        self.datepickeView = TBDatePickerView(self.datePicker)
-        self.datepickeView.delegate = self
+        // button view
+        let buttonView = UIView()
+        bottomView.addSubview(buttonView)
+        
+        buttonView.anchor(top: nil, bottom: datePicker.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        buttonView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        bottomView.anchor(top: buttonView.topAnchor, bottom: self.view.bottomAnchor, leading: self.view.safeAreaLayoutGuide.leadingAnchor, trailing: self.view.safeAreaLayoutGuide.trailingAnchor)
+
+        createButton(to: buttonView)
+        
+        // background View
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .gray
+        backgroundView.alpha = 0.7
+        self.view.addSubview(backgroundView)
+        backgroundView.anchor(top: self.view.topAnchor, bottom: buttonView.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        
+        // close button
+        let closeBtn = UIButton()
+        backgroundView.addSubview(closeBtn)
+        closeBtn.fillSuperview()
+        closeBtn.addTarget(self, action: #selector(closeDatePicker), for: .touchUpInside)
+    }
+    
+    @IBAction func closeDatePicker() {
+        close()
+    }
+    
+    @IBAction func setToday() {
+        self.datePicker.setDate(Date(), animated: true)
+    }
+    
+    @IBAction func selectedDone() {
+        self.delegate?.changeDate(identifier: self.buttonIdentifier, date: self.datePicker.date)
+        close()
+    }
+    
+    func close() {
+        UIView.transition(with: self.view, duration: 0.15, options: [.transitionCrossDissolve], animations: {
+                self.view.removeFromSuperview()
+                self.removeFromParent()
+             }, completion: nil)
     }
     
     func getDate() -> Date {
         return self.datePicker.date
     }
-    
+
     func setMinimumDate(date: Date) {
         self.datePicker.minimumDate = date
     }
     
-    // MARK: show & close
-    func show() {
-        UIView.transition(with: self.superview, duration: 0.15, options: [.transitionCrossDissolve], animations: {
-            self.superview.addSubview(self.datepickeView)
-        }, completion: nil)
-    }
-}
+    func createButton(to view: UIView) {
+        let todayBtn = UIButton()
+        todayBtn.setTitle("Today", for: .normal)
+        todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
 
-extension TBDatePicker: TBDatePickerViewDelegate {
-    func removeFromSuperView() {
-        UIView.transition(with: self.superview, duration: 0.15, options: [.transitionCrossDissolve], animations: {
-            self.datepickeView.removeFromSuperview()
-        }, completion: nil)
+        let doneBtn = UIButton()
+        doneBtn.setTitle("Done", for: .normal)
+        doneBtn.addTarget(self, action: #selector(selectedDone), for: .touchUpInside)
+        
+        view.addSubview(todayBtn)
+        view.addSubview(doneBtn)
+        
+        todayBtn.setAutoresizingToFalse()
+        todayBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        todayBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        
+        doneBtn.setAutoresizingToFalse()
+        doneBtn.centerYAnchor.constraint(equalTo: todayBtn.centerYAnchor).isActive = true
+        doneBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
     }
     
-    func setDateToToday() {
-        self.datePicker.setDate( Date(), animated: true)
-    }
-    
-    func selectDateDone() {
-        self.delegate?.changeDate(identifier: self.buttonIdentifier, date: self.datePicker.date)
-        removeFromSuperView()
-    }
-    
+//    func show() {
+//        UIView.transition(with: self.superview, duration: 0.15, options: [.transitionCrossDissolve], animations: {
+//            self.superview.addSubview(self.view)
+//            self.view.fillSuperview()
+//        }, completion: nil)
+//    }
 }

@@ -14,7 +14,7 @@ protocol AccountionPageViewControllerDelegate: AnyObject {
 
 class RecordPageViewController: UIPageViewController {
 
-    var days: [Int] = [1, 2, 3, 4, 5]
+    var days: Int = 0
     
     var currentIndex = 0
     
@@ -30,11 +30,10 @@ class RecordPageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.dataSource = self
         self.delegate = self
         
-        // first viewController
+        // first show viewController
         if let startingVC = contentViewController(at: 0) {
             self.setViewControllers([startingVC], direction: .forward, animated: true, completion: nil)
         }
@@ -45,42 +44,45 @@ class RecordPageViewController: UIPageViewController {
 extension RecordPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! RecordViewController).index
-        index -= 1
-        return contentViewController(at: index)
+        var dayIndex = (viewController as! RecordTableViewController).dayIndex
+        dayIndex -= 1
+        return contentViewController(at: dayIndex)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! RecordViewController).index
-        index += 1
-        return contentViewController(at: index)
+        var dayIndex = (viewController as! RecordTableViewController).dayIndex
+        dayIndex += 1
+        return contentViewController(at: dayIndex)
     }
     
-    func contentViewController(at index: Int) -> RecordViewController? {
-        guard index >= 0 && index < self.days.count else {
+    func contentViewController(at dayIndex: Int) -> RecordTableViewController? {
+        guard dayIndex >= 0 && dayIndex < self.days else {
             return nil
         }
         
         // init new RecordViewController
-        let recordVC = RecordViewController()
-        recordVC.index = index
-        return recordVC
+        let recordTableViewVC = RecordTableViewController()
+        recordTableViewVC.dayIndex = dayIndex
+        return recordTableViewVC
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            if let vc = pageViewController.viewControllers?.first as? RecordViewController {
-                currentIndex = vc.index
-                print(currentIndex)
+            if let vc = pageViewController.viewControllers?.first as? RecordTableViewController {
+                currentIndex = vc.dayIndex
                 self.pageDelegate?.didUpdatePageIndex(currentIndex: currentIndex)
             }
         }
     }
     
-//    func forwardPage() {
-//        self.currentIndex += 1
-//        if let vc = self.contentViewController(at: currentIndex) {
-//            self.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
-//        }
-//    }
+    func updatePage(to index: Int) {
+        guard self.currentIndex != index else {
+            return
+        }
+        let directtion: NavigationDirection = (self.currentIndex < index) ? .forward : .reverse
+        self.currentIndex = index
+        if let vc = self.contentViewController(at: currentIndex) {
+            self.setViewControllers([vc], direction: directtion, animated: true, completion: nil)
+        }
+    }
 }

@@ -19,7 +19,6 @@ class BookService {
     // order by start date
     var orderdBookList = [Book]()
     
-    
     /// 載入所有帳本，並重設book cache & booklist
     func getAllBooksToCache() {
         self.orderdBookList = DBManager.shared.getAllBooks()
@@ -29,10 +28,10 @@ class BookService {
         })
     }
     
-    func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Date, daysInterval: Int, createTime: Double = Date().timeIntervalSince1970,
+    func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDateDouble: Double, daysInterval: Int, createTime: Double = Date().timeIntervalSince1970,
                     completion: @escaping (_ newBook: Book) -> ()) {
         // add new book to DB (if insert succeed, newBook not nil)
-        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDate: startDate, daysInterval: daysInterval) else {
+        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDateDouble: startDateDouble, daysInterval: daysInterval) else {
             return
         }
         

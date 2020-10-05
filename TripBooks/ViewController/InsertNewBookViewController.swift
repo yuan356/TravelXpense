@@ -62,7 +62,7 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
         
 
         if isAdd {
-            BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate, daysInterval: daysInterval) { (newBook) in
+            BookService.shared.addNewBook(bookName: bookName, country: location, startDateDouble: startDate.timeIntervalSince1970, daysInterval: daysInterval) { (newBook) in
                 self.delegate?.updateTable()
                 self.showMsg("新增成功！")
             }
@@ -95,17 +95,23 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func selectDate(_ sender: UIButton) {
-        let datepicker = TBDatePicker(superview: self.view)
+        let datePickerVC = TBdatePickerViewController()
         if let identifier = sender.restorationIdentifier {
-            datepicker.buttonIdentifier = identifier
+            datePickerVC.buttonIdentifier = identifier
             if identifier == "end" {
                 if let startDate = startDate {
-                    datepicker.setMinimumDate(date: startDate)
+                    datePickerVC.setMinimumDate(date: startDate)
                 }
             }
         }
-        datepicker.delegate = self
-        datepicker.show()
+
+        datePickerVC.delegate = self
+        UIView.transition(with: self.view, duration: 0.15, options: [.transitionCrossDissolve], animations: {
+                self.view.addSubview(datePickerVC.view)
+                datePickerVC.view.fillSuperview()
+                self.addChild(datePickerVC)
+            }, completion: nil)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

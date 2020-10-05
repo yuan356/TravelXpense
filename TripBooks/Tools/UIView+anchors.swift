@@ -23,6 +23,16 @@ extension UIView {
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
+    func anchorSize(width: CGFloat = 0, height: CGFloat = 0) {
+        if width != 0 {
+            widthAnchor.constraint(equalToConstant: width).isActive = true
+        }
+        
+        if height != 0 {
+            heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
+    }
+    
     func anchorToSuperViewCenter() {
         translatesAutoresizingMaskIntoConstraints = false
         if let superview = superview {
@@ -64,3 +74,24 @@ extension UIView {
     }
 }
 
+extension NSLayoutConstraint {
+    
+    /// Returns the constraint sender with the passed priority.
+    ///
+    /// - Parameter priority: The priority to be set.
+    /// - Returns: The sended constraint adjusted with the new priority.
+    func usingPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+    
+}
+
+extension UILayoutPriority {
+    
+    /// Creates a priority which is almost required, but not 100%.
+    static var almostRequired: UILayoutPriority {
+        return UILayoutPriority(rawValue: 999)
+    }
+    
+}

@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:TripBooks/Base.lproj/Accounting.storyboard">
-   </FileRef>
-   <FileRef
       location = "group:TripBooks.xcodeproj">
    </FileRef>
    <FileRef

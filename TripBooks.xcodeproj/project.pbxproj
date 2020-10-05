@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1C3F207825188E6B008628C5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207725188E6B008628C5 /* Category.swift */; };
-		1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207A2518940A008628C5 /* SubCategory.swift */; };
 		1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207D2518AD1F008628C5 /* Icons.swift */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
+		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
+		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
+		1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */; };
+		1C8B6F4F252B0BFA000D423B /* RecordDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
@@ -18,12 +21,10 @@
 		1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803722519F2B6003D7708 /* BookTableViewCell.xib */; };
 		1CA8037A251B2857003D7708 /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA80379251B2857003D7708 /* BookService.swift */; };
 		1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */; };
-		1CA803D7251C8D5B003D7708 /* TBDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */; };
 		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
 		1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803ED251EF130003D7708 /* AccountingViewController.xib */; };
 		1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* AccountingViewController.swift */; };
 		1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F4251F2560003D7708 /* RecordPageViewController.swift */; };
-		1CA803F8251F2895003D7708 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F7251F2895003D7708 /* RecordViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
 		1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* BookViewController.swift */; };
@@ -31,7 +32,7 @@
 		1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181FD2512048C00AFD985 /* TripBooks.xcdatamodeld */; };
 		1CD182012512048D00AFD985 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182002512048D00AFD985 /* Assets.xcassets */; };
 		1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182022512048D00AFD985 /* LaunchScreen.storyboard */; };
-		1CD1820D2512050900AFD985 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820C2512050900AFD985 /* Detail.swift */; };
+		1CD1820D2512050900AFD985 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820C2512050900AFD985 /* Record.swift */; };
 		1CD1820F2512139200AFD985 /* Func.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820E2512139200AFD985 /* Func.swift */; };
 		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
@@ -40,9 +41,12 @@
 		00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripBooks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		167ED0DEC892068602740001 /* Pods-TripBooks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.release.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.release.xcconfig"; sourceTree = "<group>"; };
 		1C3F207725188E6B008628C5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		1C3F207A2518940A008628C5 /* SubCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategory.swift; sourceTree = "<group>"; };
 		1C3F207D2518AD1F008628C5 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
+		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
+		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
+		1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailViewController.swift; sourceTree = "<group>"; };
+		1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailCell.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
@@ -50,12 +54,10 @@
 		1CA803722519F2B6003D7708 /* BookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookTableViewCell.xib; sourceTree = "<group>"; };
 		1CA80379251B2857003D7708 /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
 		1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+anchors.swift"; sourceTree = "<group>"; };
-		1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePickerView.swift; sourceTree = "<group>"; };
 		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
 		1CA803ED251EF130003D7708 /* AccountingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountingViewController.xib; sourceTree = "<group>"; };
 		1CA803F1251F2532003D7708 /* AccountingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountingViewController.swift; sourceTree = "<group>"; };
 		1CA803F4251F2560003D7708 /* RecordPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPageViewController.swift; sourceTree = "<group>"; };
-		1CA803F7251F2895003D7708 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD181F62512048C00AFD985 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,7 +67,7 @@
 		1CD182002512048D00AFD985 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1CD182032512048D00AFD985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1CD182052512048D00AFD985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1CD1820C2512050900AFD985 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		1CD1820C2512050900AFD985 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		1CD1820E2512139200AFD985 /* Func.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Func.swift; sourceTree = "<group>"; };
 		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,7 +117,10 @@
 			children = (
 				1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */,
 				1CA803F4251F2560003D7708 /* RecordPageViewController.swift */,
-				1CA803F7251F2895003D7708 /* RecordViewController.swift */,
+				1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */,
+				1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */,
+				1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */,
+				1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -140,7 +145,6 @@
 		1CA803D2251C8D5B003D7708 /* TBDatePicker */ = {
 			isa = PBXGroup;
 			children = (
-				1CA803D4251C8D5B003D7708 /* TBDatePickerView.swift */,
 				1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */,
 			);
 			path = TBDatePicker;
@@ -189,9 +193,8 @@
 		1CD1820B2512049900AFD985 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1CD1820C2512050900AFD985 /* Detail.swift */,
+				1CD1820C2512050900AFD985 /* Record.swift */,
 				1C3F207725188E6B008628C5 /* Category.swift */,
-				1C3F207A2518940A008628C5 /* SubCategory.swift */,
 				1C3F207D2518AD1F008628C5 /* Icons.swift */,
 				1CA8036C2519E25E003D7708 /* Book.swift */,
 			);
@@ -244,7 +247,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = yuan;
 				TargetAttributes = {
 					1CD181F02512048B00AFD985 = {
@@ -332,19 +335,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */,
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
+				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
+				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
+				1C8B6F4F252B0BFA000D423B /* RecordDetailCell.swift in Sources */,
 				1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */,
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
-				1CA803D7251C8D5B003D7708 /* TBDatePickerView.swift in Sources */,
-				1CD1820D2512050900AFD985 /* Detail.swift in Sources */,
+				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
 				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,
 				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
-				1CA803F8251F2895003D7708 /* RecordViewController.swift in Sources */,
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
 				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
-				1C3F207B2518940A008628C5 /* SubCategory.swift in Sources */,
 				1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */,
 				1CA8037A251B2857003D7708 /* BookService.swift in Sources */,
 				1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */,
@@ -404,6 +408,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -428,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -464,6 +469,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -482,7 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

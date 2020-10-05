@@ -11,12 +11,12 @@ import UIKit
 class Category {
     var title: String
     var color: UIColor
-    var icon: UIImage
+    var iconName: String
     
     init(title: String, colorHex: String, iconName: String) {
         self.title = title
         self.color = Category.getUIColorFromHex(Hex: colorHex)
-        self.icon = Category.getIconInBundleByName(iconName: iconName)
+        self.iconName = iconName
     }
     
     static private func getUIColorFromHex(Hex: String) -> UIColor {
@@ -24,8 +24,8 @@ class Category {
         return UIColor.white
     }
     
-    static func getIconInBundleByName(iconName: String) -> UIImage {
-        // ...
-        return UIImage(systemName: iconName) ?? UIImage()
-    }
+//    static func getIconInBundleByName(iconName: String) -> UIImage {
+//        // ...
+//        return UIImage(systemName: iconName) ?? UIImage()
+//    }
 }

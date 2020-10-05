@@ -71,15 +71,18 @@
                                     </constraints>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" backgroundImage="plus.circle" catalog="system"/>
+                                    <connections>
+                                        <action selector="newRecordClicked:" destination="-1" eventType="touchUpInside" id="RrQ-xi-IUd"/>
+                                    </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z54-ig-zau">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z54-ig-zau">
                                     <rect key="frame" x="337" y="10" width="30" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="Z54-ig-zau" secondAttribute="height" multiplier="1:1" id="KQg-3n-Nzs"/>
                                         <constraint firstAttribute="width" constant="30" id="MIN-Oo-2MK"/>
                                     </constraints>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" backgroundImage="home">
+                                    <state key="normal" image="home">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                 </button>
