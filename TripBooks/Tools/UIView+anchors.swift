@@ -23,13 +23,13 @@ extension UIView {
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
-    func anchorSize(width: CGFloat = 0, height: CGFloat = 0) {
-        if width != 0 {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-        
+    func anchorSize(height: CGFloat = 0, width: CGFloat = 0) {
         if height != 0 {
             heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
+        
+        if width != 0 {
+            widthAnchor.constraint(equalToConstant: width).isActive = true
         }
     }
     
@@ -71,6 +71,21 @@ extension UIView {
     
     func setAutoresizingToFalse() {
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func roundedCorners(itemHeight: CGFloat, ratio: CGFloat = 4, shadow: Bool = false) {
+        self.layer.cornerRadius = itemHeight / ratio
+        
+        if shadow {
+            self.getShadow()
+        }
+    }
+    
+    private func getShadow() {
+        self.layer.shadowOffset = CGSize(width: 3, height: 3) // 表示layer的陰影顯示在box.layer右側及下方的距離
+        self.layer.shadowOpacity = 0.7 // layer shadow的透明度
+        self.layer.shadowRadius = 10 // 數值越高則陰影越模糊且分散，數值越低則會較清晰且集中
+        self.layer.shadowColor = UIColor.lightGray.cgColor
     }
 }
 

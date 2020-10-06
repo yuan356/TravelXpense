@@ -29,7 +29,7 @@ enum RecordField {
     static let id = "id"
     static let bookId = "record_book_id"
     static let title = "record_title"
-    static let description = "record_description"
+    static let note = "record_note"
     static let dayNo = "record_dayNo"
     static let amount = "record_amount"
     static let categoryId = "record_category_id"
@@ -97,7 +97,7 @@ class DBManager: NSObject {
                     \(RecordField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(RecordField.bookId) integer NOT NULL,
                     \(RecordField.title) Varchar(100),
-                    \(RecordField.description) Varchar(100),
+                    \(RecordField.note) Varchar(100),
                     \(RecordField.dayNo) integer,
                     \(RecordField.amount) Double DEFAULT 0,
                     \(RecordField.categoryId) integer,

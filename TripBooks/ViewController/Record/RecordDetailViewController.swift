@@ -8,69 +8,244 @@
 
 import UIKit
 
-let headerHeight: CGFloat = 60
-let checkButtonHeight: CGFloat = 30
+// Padding
+fileprivate let paddingInContentView: CGFloat = 15
+fileprivate let paddingInVStack: CGFloat = 15
+
+// Height
+fileprivate let heightForHeader: CGFloat = 50
+fileprivate let heightForCheckButton: CGFloat = 25
+ let heightForDetailCell: CGFloat = 60
+fileprivate let heightForCategory: CGFloat = 110
+
+//  detail
+fileprivate let heightForDetailView: CGFloat = 50
+fileprivate let heightForAmountView: CGFloat = 80
+fileprivate let heightForNoteView: CGFloat = 150
+
+// cornerRadius
+fileprivate let cornerRadius: CGFloat = 8
 
 class RecordDetailViewController: UIViewController {
 
     var record: Record?
     
+//    let recordDetailCell = RecordDetailCell()
+    
     let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .darkGray
-        view.anchorSize(height: headerHeight)
+        view.anchorSize(height: heightForHeader)
         
         let checkButton = UIButton()
         checkButton.setImage(UIImage(named: "check"), for: .normal)
         view.addSubview(checkButton)
         checkButton.anchor(top: view.topAnchor, bottom: nil, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 15))
-        checkButton.anchorSize(height: checkButtonHeight)
+        checkButton.anchorSize(height: heightForCheckButton)
         checkButton.widthAnchor.constraint(equalTo: checkButton.heightAnchor).isActive = true
         checkButton.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
         
         return view
     }()
     
-    let detailTableView: UITableView = {
-        let tableView = UITableView()
-        return tableView
+    let contentView: UIView = {
+        let view = UIView()
+        return view
     }()
     
+    let amountView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#CCE2FF")
+        view.anchorSize(height: heightForAmountView)
+        view.roundedCorners(itemHeight: heightForAmountView)
+        return view
+    }()
+    
+    let amountTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 30)
+        textField.keyboardType = .numberPad
+        textField.textAlignment = .right
+        return textField
+    }()
+    
+    let categoryView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.anchorSize(height: heightForCategory)
+        view.layer.cornerRadius = cornerRadius
+        return view
+    }()
+    
+    let vStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = paddingInVStack
+        stackView.axis = .vertical
+        stackView.anchorSize(height: (heightForDetailView * 3) + heightForNoteView + (paddingInVStack * 3))
+        return stackView
+    }()
+    
+    let titleTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .line
+        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.textAlignment = .right
+        return textField
+    }()
+    
+    let noteTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 18)
+//        textField.anchorSize(height: 150)
+        textField.textAlignment = .right
+        return textField
+    }()
+    
+    let doneButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(hex: "#3F9E64")
+        button.setTitle("DONE", for: .normal)
+        button.tintColor = .white
+        button.anchorSize(height: 50)
+        button.roundedCorners(itemHeight: 30, ratio: 2)
+        return button
+    }()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .white
-        self.view.addSubview(headerView)
-        headerView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        setContentViewAndHeader()
         
-        self.view.addSubview(detailTableView)
-        detailTableView.anchor(top: headerView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
-        detailTableView.dataSource = self
-        detailTableView.delegate = self
+        setAmountTextField()
+        
+        setCategoryView()
+        
+        setVStackView()
+        
+        self.contentView.addSubview(doneButton)
+        doneButton.anchor(top: nil, bottom: self.contentView.safeAreaLayoutGuide.bottomAnchor, leading: self.contentView.leadingAnchor, trailing: self.contentView.trailingAnchor, padding: UIEdgeInsets(top: 0, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        doneButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
     }
     
     @IBAction func saveButtonClicked(_ sender: UIButton) {
         print("saveButtonClicked")
     }
-
-}
-
-
-extension RecordDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return RecordDetailCellRow.value(.LAST)
+    private func setContentViewAndHeader() {
+        self.view.backgroundColor = .darkGray
+        self.view.addSubview(headerView)
+        headerView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        
+        self.view.addSubview(contentView)
+        contentView.anchor(top: headerView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+    }
+
+    private func setAmountTextField() {
+        contentView.addSubview(amountView)
+        amountView.anchor(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
+        
+        amountView.addSubview(amountTextField)
+        amountTextField.fillSuperview(padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let rowType = RecordDetailCellRow.init(rawValue: indexPath.row) else {
-            return UITableViewCell()
+    // MARK: categoryView setting
+    private func setCategoryView() {
+        self.contentView.addSubview(categoryView)
+        categoryView.anchor(top: amountView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+    }
+    
+    // MARK: vStackView setting
+    private func setVStackView() {
+        contentView.addSubview(vStackView)
+        vStackView.anchor(top: categoryView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
+        
+        let titleView = UIView()
+        titleView.backgroundColor = .lightGray
+        titleView.anchorSize(height: heightForDetailView)
+        setDetailView(name: "Title", to: titleView, type: .title)
+        titleView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+
+        let accountView = UIView()
+        accountView.backgroundColor = .lightGray
+        setDetailView(name: "Account", to: accountView, type: .account)
+        accountView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        
+        let dateView = UIView()
+        dateView.backgroundColor = .lightGray
+        setDetailView(name: "Date", to: dateView, type: .date)
+        dateView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        
+        let noteView = UIView()
+        noteView.backgroundColor = .lightGray
+        setDetailView(name: "Note", to: noteView, type: .note)
+        noteView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        
+        vStackView.addArrangedSubview(titleView)
+//        vStackView.addArrangedSubview(getLineView())
+        // ---
+        vStackView.addArrangedSubview(accountView)
+//        vStackView.addArrangedSubview(getLineView())
+        // ---
+        vStackView.addArrangedSubview(dateView)
+//        vStackView.addArrangedSubview(getLineView())
+        // ---
+        vStackView.addArrangedSubview(noteView)
+        
+        accountView.anchorSize(to: titleView)
+        dateView.anchorSize(to: titleView)
+        noteView.anchorSize(height: heightForNoteView)
+    }
+    
+    
+    private func setDetailView(name: String, to view: UIView, type: RecordDetailCellRow) {
+        var constraints = [NSLayoutConstraint]()
+        
+        let nameLabel = UILabel()
+        nameLabel.text = name
+        view.addSubview(nameLabel)
+        nameLabel.setAutoresizingToFalse()
+        constraints.append(nameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+        constraints.append(nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8))
+        
+        
+        switch type {
+        case .amount:
+            break
+        case .title:
+            view.addSubview(titleTextField)
+            titleTextField.delegate = self
+            titleTextField.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8))
+            constraints.append(titleTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 20))
+        case .category:
+            break
+        case .account:
+            break
+        case .note:
+            noteTextField.delegate = self
+            break
+        case .date:
+            break
+        case .LAST:
+            break
         }
         
-        let cell = RecordDetailCell.createCell(type: rowType)
-
-        return cell
+        NSLayoutConstraint.activate(constraints)
+        
     }
     
+    private func getLineView() -> UIView {
+        let lineView = UIView()
+        lineView.anchorSize(height: 1)
+        lineView.backgroundColor = .darkGray
+        return lineView
+    }
     
+}
+
+extension RecordDetailViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+    }
 }

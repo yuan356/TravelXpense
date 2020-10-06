@@ -8,11 +8,11 @@
 
 import UIKit
 
-let cellHeight: CGFloat = 60
-let cellHpadding: CGFloat = 15
-let cellVpadding: CGFloat = 8
+fileprivate let cellHeight: CGFloat = 60
+fileprivate let cellHpadding: CGFloat = 15
+fileprivate let cellVpadding: CGFloat = 8
 
-let iconPaddingInView: CGFloat = 8
+fileprivate let iconPaddingInView: CGFloat = 8
 
 class RecordTableViewCell: UITableViewCell {
 
@@ -28,7 +28,7 @@ class RecordTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .yellow
         view.layer.cornerRadius = itemHeight / 2
-        view.anchorSize(width: 0, height: itemHeight)
+        view.anchorSize(height: itemHeight, width: 0)
         view.widthAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         return view
     }()
@@ -39,7 +39,7 @@ class RecordTableViewCell: UITableViewCell {
         
         let iconViewHeight = cellHeight - (cellVpadding * 2)
         let iconImageViewHeight = iconViewHeight - (iconPaddingInView * 2)
-        iconImageView.anchorSize(width: 0, height: iconImageViewHeight)
+        iconImageView.anchorSize(height: iconImageViewHeight, width: 0)
         iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor).isActive = true
         
         return iconImageView
@@ -51,7 +51,7 @@ class RecordTableViewCell: UITableViewCell {
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.axis = .vertical
-        stackView.anchorSize(width: 0, height: itemHeight)
+        stackView.anchorSize(height: itemHeight, width: 0)
         return stackView
     }()
     
