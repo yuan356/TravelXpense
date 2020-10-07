@@ -15,14 +15,14 @@ class Category {
     
     init(title: String, colorHex: String, iconName: String) {
         self.title = title
-        self.color = Category.getUIColorFromHex(Hex: colorHex)
+        self.color = UIColor(hex: "#" + colorHex) ?? UIColor.white
         self.iconName = iconName
     }
     
-    static private func getUIColorFromHex(Hex: String) -> UIColor {
-        // ...
-        return UIColor.white
-    }
+//    static private func getUIColorFromHex(Hex: String) -> UIColor {
+//        // ...
+//        return UIColor.white
+//    }
     
 //    static func getIconInBundleByName(iconName: String) -> UIImage {
 //        // ...

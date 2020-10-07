@@ -43,5 +43,13 @@ class Func {
         let components = calendar.dateComponents([.day], from: date1, to: date2)
         return components.day
     }
+    
+    static func getDateByOffset(startDate: Date, daysInterval: Int) -> Date? {
+        let calendar = Calendar.current
+        var dateComponent = DateComponents()
+        dateComponent.day = daysInterval
+        let date = calendar.date(byAdding: dateComponent, to: startDate)
+        return date
+    }
 
 }

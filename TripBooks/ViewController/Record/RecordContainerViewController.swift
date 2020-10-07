@@ -16,6 +16,10 @@ fileprivate let infoViewHeight = CGFloat(80)
 fileprivate let collectionViewCellWidth = CGFloat(80)
 fileprivate let collectionViewCellHeight = CGFloat(40)
 
+protocol recordContainerSelectedDayDelegate: AnyObject {
+    func selectedDayChanged(dayIndex: Int)
+}
+
 class RecordContainerViewController: UIViewController {
 
     let pageViewController = RecordPageViewController()
@@ -26,45 +30,65 @@ class RecordContainerViewController: UIViewController {
     
     var book: Book! {
         didSet {
-            days = book.daysInterval + 1
+            totalDays = book.days
         }
     }
     
-    var days: Int = 0
+    var initDayIndex: Int = 0
+    
+    weak var selectedDayDelegate: recordContainerSelectedDayDelegate?
+    
+    var totalDays: Int = 0
+    
+    let infoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray3
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // init book info view (budget)
-        let infoView = UIView()
-        infoView.backgroundColor = .systemGray3
         self.view.addSubview(infoView)
         infoView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: infoViewHeight))
         
         // init days CollectionView
+        self.addDaysCollectionView()
+        
+        // init pageViewController for recordViewController
+        self.addPageViewController()
+        
+    }
+    
+    private func addDaysCollectionView() {
         self.daysCollectionView = initDaysCollectionView()
         self.view.addSubview(daysCollectionView)
         daysCollectionView.anchor(top: infoView.bottomAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: collectionViewHeight))
         daysCollectionView.layoutIfNeeded()
         self.setSlider(daysCollectionView)
+    }
+    
+    private func addPageViewController() {
+        pageViewController.updatePageDelegate = self
+        pageViewController.selectedDayDelegate = self
         
-        // init pageViewController for recordViewController
-        pageViewController.days = self.days
+        pageViewController.totalDays = self.totalDays
+        pageViewController.currentDayIndex = initDayIndex // init day
+        
         self.view.addSubview(pageViewController.view)
         
         self.addChild(pageViewController)
         pageViewController.view.anchor(top: daysCollectionView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
 
         pageViewController.view.setAutoresizingToFalse()
-        pageViewController.pageDelegate = self
-        
     }
 }
 
 // MARK: CollectionView functions
 extension RecordContainerViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.days
+        return self.totalDays
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -118,7 +142,7 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
     }
 }
 
-extension RecordContainerViewController: AccountionPageViewControllerDelegate {
+extension RecordContainerViewController: pageViewControllerUpdatePageDelegate {
     func didUpdatePageIndex(currentIndex: Int) {
         self.moveSlider(daysCollectionView, didSelectItemAt: IndexPath(row: currentIndex, section: 0))
     }
@@ -147,6 +171,12 @@ class RecordDaysCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension RecordContainerViewController: pageViewControllerSelectedDayDelegate {
+    func selectedDayChanged(dayIndex: Int) {
+        self.selectedDayDelegate?.selectedDayChanged(dayIndex: dayIndex)
     }
 }
 

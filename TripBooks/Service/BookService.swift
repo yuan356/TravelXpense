@@ -28,10 +28,10 @@ class BookService {
         })
     }
     
-    func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDateDouble: Double, daysInterval: Int, createTime: Double = Date().timeIntervalSince1970,
+    func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970,
                     completion: @escaping (_ newBook: Book) -> ()) {
         // add new book to DB (if insert succeed, newBook not nil)
-        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDateDouble: startDateDouble, daysInterval: daysInterval) else {
+        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
             return
         }
         
@@ -47,10 +47,10 @@ class BookService {
         completion(newBook)
     }
     
-    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Date, daysInterval: Int, bookId: Int, completion: @escaping (_ targetBook: Book) -> ()) {
+    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, bookId: Int, completion: @escaping (_ targetBook: Book) -> ()) {
         
         // update book in DB (if update succeed, return a not nil book)
-        guard let targetBook = DBManager.shared.updateBook(bookName: bookName, country: country, startDate: startDate, daysInterval: daysInterval, bookId: bookId) else {
+        guard let targetBook = DBManager.shared.updateBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate, bookId: bookId) else {
             return
         }
         

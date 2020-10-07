@@ -73,8 +73,8 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func roundedCorners(itemHeight: CGFloat, ratio: CGFloat = 4, shadow: Bool = false) {
-        self.layer.cornerRadius = itemHeight / ratio
+    func roundedCorners(radius: CGFloat, shadow: Bool = false) {
+        self.layer.cornerRadius = radius
         
         if shadow {
             self.getShadow()

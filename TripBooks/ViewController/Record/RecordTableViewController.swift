@@ -46,11 +46,15 @@ class RecordTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: recordTableViewCellIdentifier, for: indexPath)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: recordTableViewCellIdentifier, for: indexPath) as? RecordTableViewCell {
+            cell.titleLabel.text = "day \(self.dayNo) record"
+            return cell
+        }
+        return UITableViewCell()
         
         // Configure the cell...
 
-        return cell
+        
     }
     
 

@@ -13,8 +13,8 @@
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
 		1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */; };
-		1C8B6F4F252B0BFA000D423B /* RecordDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */; };
 		1C8B6F53252C6A80000D423B /* UIColor+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */; };
+		1C8B6F57252DB044000D423B /* CategoryIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F56252DB042000D423B /* CategoryIcon.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
@@ -47,8 +47,8 @@
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailViewController.swift; sourceTree = "<group>"; };
-		1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailCell.swift; sourceTree = "<group>"; };
 		1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ext.swift"; sourceTree = "<group>"; };
+		1C8B6F56252DB042000D423B /* CategoryIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIcon.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
@@ -123,7 +123,6 @@
 				1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */,
 				1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */,
 				1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */,
-				1C8B6F4E252B0BFA000D423B /* RecordDetailCell.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -133,6 +132,7 @@
 			children = (
 				1CA803712519F2B6003D7708 /* BookTableViewCell.swift */,
 				1CA803722519F2B6003D7708 /* BookTableViewCell.xib */,
+				1C8B6F56252DB042000D423B /* CategoryIcon.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -343,9 +343,9 @@
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
-				1C8B6F4F252B0BFA000D423B /* RecordDetailCell.swift in Sources */,
 				1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */,
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
+				1C8B6F57252DB044000D423B /* CategoryIcon.swift in Sources */,
 				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
 				1C8B6F53252C6A80000D423B /* UIColor+ext.swift in Sources */,
 				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,

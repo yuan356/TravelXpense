@@ -19,6 +19,12 @@ class AccountingViewController: UIViewController {
     
     var book: Book!
     
+    var selectedDay: Date? {
+        didSet {
+            print("selectedDay changed: \(selectedDay!)")
+        }
+    }
+    
     @IBOutlet weak var contentView: UIView!
     
     override func viewDidLoad() {
@@ -35,6 +41,7 @@ class AccountingViewController: UIViewController {
             controller = RecordContainerViewController()
             if let vc = controller as? RecordContainerViewController {
                 vc.book = self.book
+                vc.selectedDayDelegate = self
             }
             
         default:
@@ -65,7 +72,19 @@ class AccountingViewController: UIViewController {
     
     @IBAction func newRecordClicked(_ sender: Any) {
         let controller = RecordDetailViewController()
+        controller.recordDay = self.selectedDay
         present(controller, animated: true, completion: nil)
     }
     
+    @IBAction func homeButtonClicked(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension AccountingViewController: recordContainerSelectedDayDelegate {
+    func selectedDayChanged(dayIndex: Int) {
+        if let date = Func.getDateByOffset(startDate: self.book.startDate, daysInterval: dayIndex) {
+            self.selectedDay = date
+        }
+    }
 }

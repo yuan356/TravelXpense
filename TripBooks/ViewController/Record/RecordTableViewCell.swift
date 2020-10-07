@@ -16,6 +16,8 @@ fileprivate let iconPaddingInView: CGFloat = 8
 
 class RecordTableViewCell: UITableViewCell {
 
+    var dayNo = 0
+    
     let view: UIView = {
         let view = UIView()
         view.backgroundColor = .brown
@@ -57,8 +59,8 @@ class RecordTableViewCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(18)
         label.text = "午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐午餐"
+        label.font = label.font.withSize(18)
         return label
     }()
     
@@ -99,7 +101,7 @@ class RecordTableViewCell: UITableViewCell {
         
         // title
         titleLabel.text = record.title
-        
+
         // detail
         descriptionLabel.text = record.description
         

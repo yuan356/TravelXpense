@@ -45,7 +45,7 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
             bookNameTextField.text = book.name
             startDate = book.startDate
             let calendar = Calendar.current
-            endDate = calendar.date(byAdding: .day, value: book.daysInterval, to: book.startDate)!
+            endDate = calendar.date(byAdding: .day, value: book.days, to: book.startDate)!
             locationTextField.text = book.country
         }
     }
@@ -55,21 +55,20 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
         guard let bookName = bookNameTextField.text,
               let location = locationTextField.text,
               let startDate = startDate,
-              let endDate = endDate,
-              let daysInterval = Func.getDaysInterval(start: startDate, end: endDate) else {
+              let endDate = endDate else {
             return
         }
         
 
         if isAdd {
-            BookService.shared.addNewBook(bookName: bookName, country: location, startDateDouble: startDate.timeIntervalSince1970, daysInterval: daysInterval) { (newBook) in
+            BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (newBook) in
                 self.delegate?.updateTable()
                 self.showMsg("新增成功！")
             }
             
         } else {
             if let bookId = self.book?.id {
-                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate, daysInterval: daysInterval, bookId: bookId) { (book) in
+                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970, bookId: bookId) { (book) in
                     self.delegate?.updateTable()
                     self.showMsg("更新成功！")
                 }

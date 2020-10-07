@@ -37,6 +37,16 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.reloadData()
+        
+        
+        // for test
+//        if self.books.count > 0 {
+//            let vc = AccountingViewController()
+//            vc.book = self.books[0]
+//            vc.modalPresentationStyle = .fullScreen
+//            self.present(vc, animated: true, completion: nil)
+//        }
+        
     }
 
 
@@ -95,12 +105,9 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageNo.text = String(book.coverImageNo ?? 0)
             cell.createTime.text = Func.convertDoubleTimeToDateStr(timeStamp: book.createTime)
             cell.startDateLabel.text = Func.convertDateToDateStr(date: book.startDate)
+            cell.endDateLabel.text = Func.convertDateToDateStr(date: book.endDate)
             cell.totalAmountLabel.text = String(book.totalAmount)
-            cell.daysInterval.text = String(book.daysInterval)
-            
-            let calendar = Calendar.current
-            let endDate = calendar.date(byAdding: .day, value: book.daysInterval, to: book.startDate)!
-            cell.endDateLabel.text = Func.convertDateToDateStr(date: endDate)
+            cell.daysInterval.text = String(book.days)
             
             return cell
         }

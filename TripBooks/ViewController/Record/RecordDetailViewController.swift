@@ -8,9 +8,23 @@
 
 import UIKit
 
+enum RecordDetailCellRow: Int {
+    case amount = 0
+    case title
+    case category
+    case account
+    case date
+    case note
+    case LAST
+    
+    static func value(_ value: RecordDetailCellRow) -> Int {
+        return value.rawValue
+    }
+}
+
 // Padding
-fileprivate let paddingInContentView: CGFloat = 15
-fileprivate let paddingInVStack: CGFloat = 15
+fileprivate let paddingInContentView: CGFloat = 10
+fileprivate let paddingInVStack: CGFloat = 8
 
 // Height
 fileprivate let heightForHeader: CGFloat = 50
@@ -19,16 +33,18 @@ fileprivate let heightForCheckButton: CGFloat = 25
 fileprivate let heightForCategory: CGFloat = 110
 
 //  detail
-fileprivate let heightForDetailView: CGFloat = 50
+fileprivate let heightForDetailView: CGFloat = 45
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
 // cornerRadius
-fileprivate let cornerRadius: CGFloat = 8
+fileprivate let cornerRadius: CGFloat = 10
 
 class RecordDetailViewController: UIViewController {
 
     var record: Record?
+    
+    var recordDay: Date?
     
 //    let recordDetailCell = RecordDetailCell()
     
@@ -57,7 +73,7 @@ class RecordDetailViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(hex: "#CCE2FF")
         view.anchorSize(height: heightForAmountView)
-        view.roundedCorners(itemHeight: heightForAmountView)
+        view.roundedCorners(radius: cornerRadius)
         return view
     }()
     
@@ -83,7 +99,7 @@ class RecordDetailViewController: UIViewController {
         stackView.distribution = .equalSpacing
         stackView.spacing = paddingInVStack
         stackView.axis = .vertical
-        stackView.anchorSize(height: (heightForDetailView * 3) + heightForNoteView + (paddingInVStack * 3))
+        stackView.anchorSize(height: (heightForDetailView * 2) + heightForNoteView + (paddingInVStack * 3))
         return stackView
     }()
     
@@ -95,10 +111,15 @@ class RecordDetailViewController: UIViewController {
         return textField
     }()
     
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        return label
+    }()
+    
     let noteTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 18)
-//        textField.anchorSize(height: 150)
         textField.textAlignment = .right
         return textField
     }()
@@ -109,7 +130,7 @@ class RecordDetailViewController: UIViewController {
         button.setTitle("DONE", for: .normal)
         button.tintColor = .white
         button.anchorSize(height: 50)
-        button.roundedCorners(itemHeight: 30, ratio: 2)
+        button.roundedCorners(radius: cornerRadius)
         return button
     }()
         
@@ -161,40 +182,56 @@ class RecordDetailViewController: UIViewController {
         contentView.addSubview(vStackView)
         vStackView.anchor(top: categoryView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
+        
+        
+        
+        
         let titleView = UIView()
         titleView.backgroundColor = .lightGray
         titleView.anchorSize(height: heightForDetailView)
         setDetailView(name: "Title", to: titleView, type: .title)
-        titleView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        titleView.roundedCorners(radius: cornerRadius)
 
         let accountView = UIView()
         accountView.backgroundColor = .lightGray
         setDetailView(name: "Account", to: accountView, type: .account)
-        accountView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        accountView.roundedCorners(radius: cornerRadius)
+        
+        let hStackView = UIStackView()
+        hStackView.axis = .horizontal
+        hStackView.distribution = .fillEqually
+        hStackView.alignment = .fill
+        hStackView.spacing = 10
+        hStackView.addArrangedSubview(titleView)
+        hStackView.addArrangedSubview(accountView)
+        hStackView.anchorSize(height: heightForDetailView)
         
         let dateView = UIView()
         dateView.backgroundColor = .lightGray
+        dateView.anchorSize(height: heightForDetailView)
         setDetailView(name: "Date", to: dateView, type: .date)
-        dateView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        dateView.roundedCorners(radius: cornerRadius)
         
         let noteView = UIView()
         noteView.backgroundColor = .lightGray
         setDetailView(name: "Note", to: noteView, type: .note)
-        noteView.roundedCorners(itemHeight: heightForDetailView, ratio: 8)
+        noteView.roundedCorners(radius: cornerRadius)
         
-        vStackView.addArrangedSubview(titleView)
+//        vStackView.addArrangedSubview(titleView)
 //        vStackView.addArrangedSubview(getLineView())
         // ---
-        vStackView.addArrangedSubview(accountView)
+//        vStackView.addArrangedSubview(accountView)
 //        vStackView.addArrangedSubview(getLineView())
+        
+        vStackView.addArrangedSubview(hStackView)
         // ---
         vStackView.addArrangedSubview(dateView)
 //        vStackView.addArrangedSubview(getLineView())
         // ---
         vStackView.addArrangedSubview(noteView)
         
-        accountView.anchorSize(to: titleView)
-        dateView.anchorSize(to: titleView)
+//        accountView.anchorSize(to: titleView)
+//        dateView.anchorSize(to: titleView)
         noteView.anchorSize(height: heightForNoteView)
     }
     
@@ -226,6 +263,12 @@ class RecordDetailViewController: UIViewController {
             noteTextField.delegate = self
             break
         case .date:
+            view.addSubview(dateLabel)
+            if let date = self.recordDay {
+                dateLabel.text = Func.convertDateToDateStr(date: date)
+            }
+            dateLabel.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8))
+            constraints.append(dateLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 20))
             break
         case .LAST:
             break

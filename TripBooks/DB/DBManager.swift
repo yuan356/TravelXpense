@@ -19,6 +19,7 @@ enum BookField {
     static let totalAmount = "book_totalAmount"
     static let book_budget = "book_budget"
     static let startDate = "book_startDate"
+    static let endDate = "book_endDate"
     static let daysInterval = "book_daysInterval"
     static let typeId = "book_type_id"
     static let createdDate = "book_createdDate"
@@ -87,6 +88,7 @@ class DBManager: NSObject {
                     \(BookField.totalAmount) Double DEFAULT 0,
                     \(BookField.book_budget) Double DEFAULT 0,
                     \(BookField.startDate) Double,
+                    \(BookField.endDate) Double,
                     \(BookField.daysInterval) integer,
                     \(BookField.typeId) integer,
                     \(BookField.createdDate) Double NOT NULL);
@@ -150,7 +152,7 @@ class DBManager: NSObject {
     ///   - daysInterval: 旅遊天數 (結束-開始)
     ///   - createTime: 新增資料時間
     /// - Returns: 若新增成功回傳新的book，否則為nil
-    func insertNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDateDouble: Double, daysInterval: Int, createTime: Double = Date().timeIntervalSince1970) -> Book? {
+    func insertNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970) -> Book? {
         var newBook: Book? = nil
         if self.openConnection() {
             let insertSQL: String = """
@@ -158,10 +160,10 @@ class DBManager: NSObject {
                         \(BookField.name),
                         \(BookField.country),
                         \(BookField.startDate),
-                        \(BookField.daysInterval),
+                        \(BookField.endDate),
                         \(BookField.createdDate)) VALUES (?, ?, ?, ?, ?)
                         """
-            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookName, country, startDateDouble, daysInterval, createTime]) {
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookName, country, startDate, endDate, createTime]) {
                 print("Failed to insert initial data into the database.")
                 print(database.lastError(), database.lastErrorMessage())
             }
@@ -183,14 +185,14 @@ class DBManager: NSObject {
     ///   - daysInterval: 旅遊天數 (結束-開始)
     ///   - bookId: 帳本編號
     /// - Returns: 若更新成功回傳該book，否則為nil
-    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Date, daysInterval: Int, bookId: Int) -> Book? {
+    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, bookId: Int) -> Book? {
         var book: Book? = nil
         
         if self.openConnection() {
-            let updateSQL: String = "UPDATE \(BookField.BOOK) SET \(BookField.name) = ?, \(BookField.country) = ?, \(BookField.startDate) = ?, \(BookField.daysInterval) = ? WHERE \(BookField.id) = ?"
+            let updateSQL: String = "UPDATE \(BookField.BOOK) SET \(BookField.name) = ?, \(BookField.country) = ?, \(BookField.startDate) = ?, \(BookField.endDate) = ? WHERE \(BookField.id) = ?"
 
             do {
-                try self.database.executeUpdate(updateSQL, values: [bookName, country, startDate, daysInterval, bookId])
+                try self.database.executeUpdate(updateSQL, values: [bookName, country, startDate, endDate, bookId])
                 book = self.getBookById(bookId)
             } catch {
                 print(error.localizedDescription)
