@@ -24,13 +24,16 @@ enum RecordDetailCellRow: Int {
 
 // Padding
 fileprivate let paddingInContentView: CGFloat = 10
-fileprivate let paddingInVStack: CGFloat = 8
+fileprivate let paddingInCategoriesCollectionView: CGFloat = 8
+fileprivate let spacingInVStack: CGFloat = 8
 
 // Height
 fileprivate let heightForHeader: CGFloat = 50
 fileprivate let heightForCheckButton: CGFloat = 25
- let heightForDetailCell: CGFloat = 60
-fileprivate let heightForCategory: CGFloat = 110
+fileprivate let collectionViewCellWidth: CGFloat = 60
+fileprivate let collectionViewCellHeight: CGFloat = 60
+// let heightForDetailCell: CGFloat = 60
+fileprivate let heightForCategoryView: CGFloat = 144
 
 //  detail
 fileprivate let heightForDetailView: CGFloat = 45
@@ -38,7 +41,9 @@ fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
 // cornerRadius
-fileprivate let cornerRadius: CGFloat = 10
+private let cornerRadius: CGFloat = 10
+
+private let categoryCell = "CategoryCell"
 
 class RecordDetailViewController: UIViewController {
 
@@ -46,7 +51,9 @@ class RecordDetailViewController: UIViewController {
     
     var recordDay: Date?
     
-//    let recordDetailCell = RecordDetailCell()
+    var categories: [Category] {
+        return CategoryService.shared.categories
+    }
     
     let headerView: UIView = {
         let view = UIView()
@@ -85,21 +92,23 @@ class RecordDetailViewController: UIViewController {
         return textField
     }()
     
-    let categoryView: UIView = {
+    let categoriesView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
-        view.anchorSize(height: heightForCategory)
+        view.anchorSize(height: heightForCategoryView)
         view.layer.cornerRadius = cornerRadius
         return view
     }()
+    
+    var categoriesCollectionView: UICollectionView!
     
     let vStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-        stackView.spacing = paddingInVStack
+        stackView.spacing = spacingInVStack
         stackView.axis = .vertical
-        stackView.anchorSize(height: (heightForDetailView * 2) + heightForNoteView + (paddingInVStack * 3))
+        stackView.anchorSize(height: (heightForDetailView * 2) + heightForNoteView + (spacingInVStack * 3))
         return stackView
     }()
     
@@ -173,19 +182,42 @@ class RecordDetailViewController: UIViewController {
     
     // MARK: categoryView setting
     private func setCategoryView() {
-        self.contentView.addSubview(categoryView)
-        categoryView.anchor(top: amountView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        self.contentView.addSubview(categoriesView)
+        categoriesView.anchor(top: amountView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        
+        categoriesCollectionView = initCategoriesCollectionView()
+        self.categoriesView.addSubview(categoriesCollectionView)
+        categoriesCollectionView.fillSuperview()
+
+    }
+    
+    private func initCategoriesCollectionView() -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        let pd = paddingInCategoriesCollectionView
+        let width = UIScreen.main.bounds.width - (paddingInContentView + pd) * 2
+        layout.itemSize = CGSize(width: width, height: 120)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = pd * 2
+        layout.sectionInset = UIEdgeInsets(top: pd, left: pd, bottom: pd, right: pd)
+        
+        let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.backgroundColor = .darkGray
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: categoryCell)
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = .red
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        return collectionView
     }
     
     // MARK: vStackView setting
     private func setVStackView() {
         contentView.addSubview(vStackView)
-        vStackView.anchor(top: categoryView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
+        vStackView.anchor(top: categoriesView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
-        
-        
-        
-        
+
         let titleView = UIView()
         titleView.backgroundColor = .lightGray
         titleView.anchorSize(height: heightForDetailView)
@@ -234,7 +266,6 @@ class RecordDetailViewController: UIViewController {
 //        dateView.anchorSize(to: titleView)
         noteView.anchorSize(height: heightForNoteView)
     }
-    
     
     private func setDetailView(name: String, to view: UIView, type: RecordDetailCellRow) {
         var constraints = [NSLayoutConstraint]()
@@ -290,5 +321,24 @@ class RecordDetailViewController: UIViewController {
 extension RecordDetailViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             self.view.endEditing(true)
+    }
+}
+
+
+
+extension RecordDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let num = self.categories.count / 6
+        let remain = self.categories.count % 6
+        return num + (remain == 0 ? 0 : 1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell, for: indexPath) as? CategoriesCollectionViewCell {
+            cell.num = indexPath.row
+//            cell.categories = Array(self.categories[0...1])
+            return cell
+        }
+        return UICollectionViewCell()
     }
 }

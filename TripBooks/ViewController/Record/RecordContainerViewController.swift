@@ -22,23 +22,17 @@ protocol recordContainerSelectedDayDelegate: AnyObject {
 
 class RecordContainerViewController: UIViewController {
 
+    weak var selectedDayDelegate: recordContainerSelectedDayDelegate?
+    
+    var book: Book!
+    
     let pageViewController = RecordPageViewController()
     
     let slider = UIView()
     
     var daysCollectionView: UICollectionView!
     
-    var book: Book! {
-        didSet {
-            totalDays = book.days
-        }
-    }
-    
     var initDayIndex: Int = 0
-    
-    weak var selectedDayDelegate: recordContainerSelectedDayDelegate?
-    
-    var totalDays: Int = 0
     
     let infoView: UIView = {
         let view = UIView()
@@ -73,7 +67,7 @@ class RecordContainerViewController: UIViewController {
         pageViewController.updatePageDelegate = self
         pageViewController.selectedDayDelegate = self
         
-        pageViewController.totalDays = self.totalDays
+        pageViewController.totalDays = self.book.days
         pageViewController.currentDayIndex = initDayIndex // init day
         
         self.view.addSubview(pageViewController.view)
@@ -88,7 +82,7 @@ class RecordContainerViewController: UIViewController {
 // MARK: CollectionView functions
 extension RecordContainerViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.totalDays
+        return self.book.days
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -115,7 +109,6 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
         collectionView.backgroundColor = .darkGray
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(RecordDaysCollectionViewCell.self, forCellWithReuseIdentifier: daysCell)
-
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -148,31 +141,6 @@ extension RecordContainerViewController: pageViewControllerUpdatePageDelegate {
     }
 }
 
-class RecordDaysCollectionViewCell: UICollectionViewCell {
-    
-    var dayNo = 0 {
-        didSet {
-            indexLabel.text = "day \(dayNo)"
-        }
-    }
-    
-    let indexLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .clear
-        self.addSubview(indexLabel)
-        indexLabel.anchorToSuperViewCenter()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 extension RecordContainerViewController: pageViewControllerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {

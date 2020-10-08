@@ -15,6 +15,9 @@
 		1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */; };
 		1C8B6F53252C6A80000D423B /* UIColor+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */; };
 		1C8B6F57252DB044000D423B /* CategoryIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F56252DB042000D423B /* CategoryIcon.swift */; };
+		1C8B6F5A252ED056000D423B /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F59252ED054000D423B /* CategoryService.swift */; };
+		1C8B6F60252EF077000D423B /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F5F252EF077000D423B /* CategoriesCollectionViewCell.swift */; };
+		1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
@@ -49,6 +52,9 @@
 		1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailViewController.swift; sourceTree = "<group>"; };
 		1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ext.swift"; sourceTree = "<group>"; };
 		1C8B6F56252DB042000D423B /* CategoryIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIcon.swift; sourceTree = "<group>"; };
+		1C8B6F59252ED054000D423B /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
+		1C8B6F5F252EF077000D423B /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
+		1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDaysCollectionViewCell.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
@@ -119,10 +125,12 @@
 			isa = PBXGroup;
 			children = (
 				1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */,
+				1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */,
 				1CA803F4251F2560003D7708 /* RecordPageViewController.swift */,
 				1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */,
 				1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */,
 				1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */,
+				1C8B6F5F252EF077000D423B /* CategoriesCollectionViewCell.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -141,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				1CA80379251B2857003D7708 /* BookService.swift */,
+				1C8B6F59252ED054000D423B /* CategoryService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -344,6 +353,7 @@
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
 				1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */,
+				1C8B6F60252EF077000D423B /* CategoriesCollectionViewCell.swift in Sources */,
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
 				1C8B6F57252DB044000D423B /* CategoryIcon.swift in Sources */,
 				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
@@ -353,12 +363,14 @@
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
 				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
+				1C8B6F5A252ED056000D423B /* CategoryService.swift in Sources */,
 				1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */,
 				1CA8037A251B2857003D7708 /* BookService.swift in Sources */,
 				1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */,
 				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,
 				1CD1820F2512139200AFD985 /* Func.swift in Sources */,
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,
+				1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */,
 				1CA803732519F2B6003D7708 /* BookTableViewCell.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
 			);

@@ -31,7 +31,11 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         
         self.tableView.register(UINib(nibName: "BookTableViewCell", bundle: nil), forCellReuseIdentifier: "BookTableViewCell")
         
+        
+        // initialize setting
         BookService.shared.getAllBooksToCache()
+        CategoryService.shared.getAllCategoriesToCache()
+        
         self.books = BookService.shared.orderdBookList
         
         self.tableView.delegate = self

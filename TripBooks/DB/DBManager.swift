@@ -42,8 +42,8 @@ enum CategoryField {
     static let CATEGORY = "CATEGORY"
     static let id = "id"
     static let title = "category_title"
-    static let colorCode = "category_colorCode"
-    static let iconName = "category_iconName"
+    static let colorHex = "category_colorHex"
+    static let iconImageName = "category_iconImageName"
 }
 
 
@@ -110,8 +110,8 @@ class DBManager: NSObject {
                     CREATE TABLE IF NOT EXISTS \(CategoryField.CATEGORY) (
                     \(CategoryField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(CategoryField.title) Varchar(50),
-                    \(CategoryField.colorCode) char(7),
-                    \(CategoryField.iconName) varchar(50));
+                    \(CategoryField.colorHex) char(6),
+                    \(CategoryField.iconImageName) varchar(50));
                 """
                 
                 self.database.executeStatements(createBookTableSQL + createRecordTableSQL + createCategoryTableSQL)
@@ -267,6 +267,91 @@ class DBManager: NSObject {
             database.close()
         }
         return books
+    }
+    
+    
+    // MARK: Category
+    func addNewCategory(title: String, colorCode: String, iconName: String) -> Category? {
+        var newCategory: Category? = nil
+        if self.openConnection() {
+            let insertSQL: String = """
+                        INSERT INTO \(CategoryField.CATEGORY) (
+                        \(CategoryField.title),
+                        \(CategoryField.colorHex),
+                        \(CategoryField.iconImageName)) VALUES (?, ?, ?)
+                        """
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [title, colorCode, iconName]) {
+                print("Failed to insert initial data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+            }
+            
+            let newId = Int(self.database.lastInsertRowId)
+            newCategory = self.getCategoryById(newId)
+            self.database.close()
+        }
+        return newCategory
+    }
+    
+    
+    func updateCategory(id: Int, title: String, colorCode: String, iconName: String) -> Category? {
+        var category: Category? = nil
+        
+        if self.openConnection() {
+            let updateSQL: String = "UPDATE \(CategoryField.CATEGORY) SET \(CategoryField.title) = ?, \(CategoryField.colorHex) = ?, \(CategoryField.iconImageName) = ? WHERE \(CategoryField.id) = ?"
+
+            do {
+                try self.database.executeUpdate(updateSQL, values: [title, colorCode, iconName, id])
+                category = self.getCategoryById(id)
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return category
+    }
+    
+    func getAllCategories() -> [Category] {
+        var categories: [Category] = []
+
+        if self.openConnection() {
+            let querySQL: String = "SELECT * FROM \(CategoryField.CATEGORY) ORDER BY \(CategoryField.id) DESC"
+
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
+
+                var category: Category?
+                while dataLists.next() {
+                    category = Category.getCategoryByFMDBdata(FMDBdatalist: dataLists)
+                    if let category = category {
+                        categories.append(category)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            database.close()
+        }
+        return categories
+    }
+    
+    func getCategoryById(_ id: Int) -> Category? {
+        var category: Category? = nil
+        if self.openConnection() {
+            let getCateSQL = "SELECT * FROM \(CategoryField.CATEGORY) WHERE \(CategoryField.id) = ?"
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(getCateSQL, values: [id])
+                
+                if dataLists.next() {
+                    category = Category.getCategoryByFMDBdata(FMDBdatalist: dataLists)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return category
     }
     
     

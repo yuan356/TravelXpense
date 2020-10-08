@@ -7,25 +7,27 @@
 //
 
 import UIKit
+import FMDB
 
 class Category {
     var title: String
     var color: UIColor
-    var iconName: String
+    var iconImageName: String
     
     init(title: String, colorHex: String, iconName: String) {
         self.title = title
         self.color = UIColor(hex: "#" + colorHex) ?? UIColor.white
-        self.iconName = iconName
+        self.iconImageName = iconName
     }
     
-//    static private func getUIColorFromHex(Hex: String) -> UIColor {
-//        // ...
-//        return UIColor.white
-//    }
-    
-//    static func getIconInBundleByName(iconName: String) -> UIImage {
-//        // ...
-//        return UIImage(systemName: iconName) ?? UIImage()
-//    }
+    static func getCategoryByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Category? {
+        
+        guard let title = dataLists.string(forColumn: CategoryField.title),
+              let colorHex = dataLists.string(forColumn: CategoryField.colorHex),
+              let iconImageName = dataLists.string(forColumn: CategoryField.iconImageName) else {
+            return nil
+        }
+        
+        return Category(title: title, colorHex: colorHex, iconName: iconImageName)
+    }
 }

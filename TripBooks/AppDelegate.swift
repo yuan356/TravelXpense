@@ -10,14 +10,26 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         DBManager.shared.createTable()
+        
+        let isFirstLaunchAppKey: String = "isFirstLaunchApp"
+        
+        let dic = [isFirstLaunchAppKey: true]
+        UserDefaults.standard.register(defaults: dic)
+                
+        let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
+        if isFirstOpenApp {
+            // do some initialize setting.
+            CategoryService.shared.setDefaultCategories()
+            UserDefaults.standard.set(false, forKey: isFirstLaunchAppKey)
+        } else {
+        }
         
         return true
     }

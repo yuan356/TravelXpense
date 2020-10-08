@@ -97,7 +97,7 @@ class RecordTableViewCell: UITableViewCell {
         }
         
         // icon
-        iconImageView.image = UIImage(named: record.category.iconName)
+        iconImageView.image = UIImage(named: record.category.iconImageName)
         
         // title
         titleLabel.text = record.title

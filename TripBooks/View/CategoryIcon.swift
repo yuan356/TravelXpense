@@ -15,7 +15,12 @@ fileprivate let cellVpadding: CGFloat = 8
 fileprivate let iconPaddingInView: CGFloat = 8
 
 class CategoryIcon {
+    
     var category: Category
+    
+    init(category: Category) {
+        self.category = category
+    }
     
     let iconBackgroundView: UIView = {
         let itemHeight = heightForView - (cellVpadding * 2)
@@ -38,16 +43,14 @@ class CategoryIcon {
         return iconImageView
     }()
     
-    init(category: Category) {
-        self.category = category
-    }
+    
     
     func geticonImage() -> UIView {
         iconBackgroundView.addSubview(iconImageView)
         iconImageView.anchorToSuperViewCenter()
         
         iconBackgroundView.backgroundColor = category.color
-        iconImageView.image = UIImage(named: category.iconName)
+        iconImageView.image = UIImage(named: category.iconImageName)
         
         return iconBackgroundView
     }
