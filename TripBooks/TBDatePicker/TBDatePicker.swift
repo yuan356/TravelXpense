@@ -84,6 +84,14 @@ class TBdatePickerViewController: UIViewController {
              }, completion: nil)
     }
     
+    func show(on parent: UIViewController) {
+        UIView.transition(with: parent.view, duration: 0.1, options: [.transitionCrossDissolve], animations: {
+            parent.view.addSubview(self.view)
+            self.view.fillSuperview()
+            parent.addChild(self)
+            }, completion: nil)
+    }
+    
     func setDate(date: Date) {
         self.datePicker.setDate(date, animated: false)
     }

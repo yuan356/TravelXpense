@@ -46,6 +46,14 @@ enum CategoryField {
     static let iconImageName = "category_iconImageName"
 }
 
+enum AccountField {
+    static let ACCOUNT = "ACCOUNT"
+    static let id = "id"
+    static let name = "account_title"
+    static let amount = "account_amount"
+    static let iconImageName = "account_iconImageName"
+}
+
 
 class DBManager: NSObject {
     
@@ -114,7 +122,15 @@ class DBManager: NSObject {
                     \(CategoryField.iconImageName) varchar(50));
                 """
                 
-                self.database.executeStatements(createBookTableSQL + createRecordTableSQL + createCategoryTableSQL)
+                let createAccountTableSQL = """
+                    CREATE TABLE IF NOT EXISTS \(AccountField.ACCOUNT) (
+                    \(AccountField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
+                    \(AccountField.name) Varchar(100),
+                    \(AccountField.amount) Double DEFAULT 0,
+                    \(CategoryField.iconImageName) varchar(50));
+                """
+                
+                self.database.executeStatements(createBookTableSQL + createRecordTableSQL + createCategoryTableSQL + createAccountTableSQL)
                 print("file copy to: \(self.pathToDatabase)")
             }
         } else {

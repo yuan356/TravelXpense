@@ -14,15 +14,17 @@ class Record {
     var description: String
     var category: Category
     var amount: Double
+    var account: Account
     var date: Date
     var accountId: Int
     
-    init(id: Int, title: String, description: String, category: Category, amount: Double, date: Date, accountId: Int) {
+    init(id: Int, title: String, description: String, amount: Double, category: Category, account: Account, date: Date, accountId: Int) {
         self.id = id
         self.title = title
         self.description = description
-        self.category = category
         self.amount = amount
+        self.category = category
+        self.account = account
         self.date = date
         self.accountId = accountId
     }

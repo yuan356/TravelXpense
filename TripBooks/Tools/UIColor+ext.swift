@@ -39,7 +39,7 @@ extension UIColor {
 }
 
 extension UIColor {
-    public convenience init?(hex: String, alpha: CGFloat = 1.0) {
+    public convenience init(hex: String, alpha: CGFloat = 1.0) {
         let hexStr: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         if hexStr.hasPrefix("#") {
@@ -56,7 +56,8 @@ extension UIColor {
                 return
             }
         }
-        return nil
+        self.init(red: 255, green: 255, blue: 255, alpha: alpha)
+        return
     }
 }
 

@@ -20,6 +20,18 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     
     var iconImage = UIView()
     
+    var categoryIsSelected = false {
+        didSet {
+            iconSelectedBackground.isHidden = !categoryIsSelected
+        }
+    }
+    
+    let iconSelectedBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -28,13 +40,22 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
         guard let category = self.category else {
             return
         }
-
         let icon = CategoryIcon(category: category)
         iconImage = icon.geticonImageView()
         self.contentView.addSubview(iconImage)
         iconImage.setAutoresizingToFalse()
         iconImage.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         iconImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        
+        self.contentView.addSubview(iconSelectedBackground)
+        iconSelectedBackground.setAutoresizingToFalse()
+        iconSelectedBackground.centerXAnchor.constraint(equalTo: iconImage.centerXAnchor).isActive = true
+        iconSelectedBackground.centerYAnchor.constraint(equalTo: iconImage.centerYAnchor).isActive = true
+        iconSelectedBackground.widthAnchor.constraint(equalTo: iconImage.widthAnchor, constant: 5).isActive = true
+        iconSelectedBackground.heightAnchor.constraint(equalTo: iconImage.heightAnchor, constant: 5).isActive = true
+        iconSelectedBackground.roundedCorners(radius: (icon.itemHeight + 5) / 2)
+        self.contentView.sendSubviewToBack(iconSelectedBackground)
+        iconSelectedBackground.isHidden = true
         
         iconTitleLabel.font = iconTitleLabel.font.withSize(13)
         iconTitleLabel.textColor = .white

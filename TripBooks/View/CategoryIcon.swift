@@ -18,6 +18,8 @@ class CategoryIcon {
     
     var category: Category
     
+    let itemHeight = heightForView - (cellVpadding * 2)
+    
     init(category: Category) {
         self.category = category
     }
@@ -48,7 +50,7 @@ class CategoryIcon {
         iconImageView.anchorToSuperViewCenter()
 //        iconImageView.tintColor = UIColor.init(hex: "#F5F5F5")
         iconImageView.tintColor = .black
-        let color = UIColor(hex: "#" + category.colorHex) ?? UIColor.white
+        let color = UIColor(hex: "#" + category.colorHex)
         iconBackgroundView.backgroundColor = color
         
         if category.iconImageName != "" {

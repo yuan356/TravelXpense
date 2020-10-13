@@ -38,6 +38,8 @@
 		1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182022512048D00AFD985 /* LaunchScreen.storyboard */; };
 		1CD1820D2512050900AFD985 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820C2512050900AFD985 /* Record.swift */; };
 		1CD1820F2512139200AFD985 /* Func.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820E2512139200AFD985 /* Func.swift */; };
+		1CF560212535791E003EEC66 /* UIButton+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560202535791E003EEC66 /* UIButton+ext.swift */; };
+		1CF5602425358FFF003EEC66 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5602325358FFF003EEC66 /* Account.swift */; };
 		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		1CD182052512048D00AFD985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CD1820C2512050900AFD985 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		1CD1820E2512139200AFD985 /* Func.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Func.swift; sourceTree = "<group>"; };
+		1CF560202535791E003EEC66 /* UIButton+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+ext.swift"; sourceTree = "<group>"; };
+		1CF5602325358FFF003EEC66 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +113,7 @@
 				1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */,
 				1CD1820E2512139200AFD985 /* Func.swift */,
 				1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */,
+				1CF560202535791E003EEC66 /* UIButton+ext.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				1C3F207725188E6B008628C5 /* Category.swift */,
 				1C3F207D2518AD1F008628C5 /* Icons.swift */,
 				1CA8036C2519E25E003D7708 /* Book.swift */,
+				1CF5602325358FFF003EEC66 /* Account.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -357,8 +363,10 @@
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
 				1C8B6F57252DB044000D423B /* CategoryIcon.swift in Sources */,
 				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
+				1CF560212535791E003EEC66 /* UIButton+ext.swift in Sources */,
 				1C8B6F53252C6A80000D423B /* UIColor+ext.swift in Sources */,
 				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,
+				1CF5602425358FFF003EEC66 /* Account.swift in Sources */,
 				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
