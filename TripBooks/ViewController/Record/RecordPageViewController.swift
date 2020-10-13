@@ -24,7 +24,6 @@ class RecordPageViewController: UIPageViewController {
 
     var currentDayIndex : Int = 0 {
         didSet {
-            print("currentDayIndex")
             self.selectedDayDelegate?.selectedDayChanged(dayIndex: currentDayIndex)
         }
     }

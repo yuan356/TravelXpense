@@ -15,28 +15,20 @@ enum RecordDetailCellRow: Int {
     case account
     case date
     case note
-    case LAST
-    
-    static func value(_ value: RecordDetailCellRow) -> Int {
-        return value.rawValue
-    }
 }
 
 // Padding
 fileprivate let paddingInContentView: CGFloat = 10
-fileprivate let paddingInCategoriesCollectionView: CGFloat = 8
 fileprivate let spacingInVStack: CGFloat = 8
+let paddingInCategoriesCollectionView: CGFloat = 5
 
 // Height
 fileprivate let heightForHeader: CGFloat = 50
 fileprivate let heightForCheckButton: CGFloat = 25
-fileprivate let collectionViewCellWidth: CGFloat = 60
-fileprivate let collectionViewCellHeight: CGFloat = 60
-// let heightForDetailCell: CGFloat = 60
-fileprivate let heightForCategoryView: CGFloat = 144
+fileprivate let heightForCategoryView: CGFloat = 164
 
 //  detail
-fileprivate let heightForDetailView: CGFloat = 45
+fileprivate let heightForDetailView: CGFloat = 40
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
@@ -47,14 +39,25 @@ private let categoryCell = "CategoryCell"
 
 class RecordDetailViewController: UIViewController {
 
-    var record: Record?
+    var record: Record? {
+        didSet {
+            if let record = record {
+                self.recordDate = record.date
+            }
+        }
+    }
     
-    var recordDay: Date?
+    var recordDate: Date? {
+        didSet {
+            self.dateLabel.text = Func.convertDateToDateStr(date: recordDate!)
+        }
+    }
     
     var categories: [Category] {
         return CategoryService.shared.categories
     }
     
+    // View
     let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .darkGray
@@ -94,7 +97,6 @@ class RecordDetailViewController: UIViewController {
     
     let categoriesView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
         view.anchorSize(height: heightForCategoryView)
         view.layer.cornerRadius = cornerRadius
         return view
@@ -108,29 +110,40 @@ class RecordDetailViewController: UIViewController {
         stackView.distribution = .equalSpacing
         stackView.spacing = spacingInVStack
         stackView.axis = .vertical
-        stackView.anchorSize(height: (heightForDetailView * 2) + heightForNoteView + (spacingInVStack * 3))
+        stackView.anchorSize(height: (heightForDetailView * 2) + spacingInVStack)
         return stackView
     }()
     
     let titleTextField: UITextField = {
         let textField = UITextField()
-        textField.borderStyle = .line
+        textField.placeholder = "Title"
         textField.font = UIFont.systemFont(ofSize: 18)
-        textField.textAlignment = .right
+        textField.textAlignment = .left
         return textField
     }()
     
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .right
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
         return label
     }()
     
-    let noteTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 18)
-        textField.textAlignment = .right
-        return textField
+    let datePickbutton: UIButton = {
+        let datePickbutton = UIButton()
+        datePickbutton.addTarget(self, action: #selector(selectDate(_:)), for: .touchUpInside)
+        return datePickbutton
+    }()
+    
+    let textViewPlaceholderColor: UIColor = .lightGray
+    
+    let noteTextView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = .clear
+        textView.font = UIFont.systemFont(ofSize: 18)
+        textView.textAlignment = .left
+        textView.text = "Type your notes here..."
+        return textView
     }()
     
     let doneButton: UIButton = {
@@ -142,7 +155,17 @@ class RecordDetailViewController: UIViewController {
         button.roundedCorners(radius: cornerRadius)
         return button
     }()
-        
+    
+    var currentTextField: UITextField?
+    
+    var currentTextView: UITextView?
+    
+    var isKeyboardShown: Bool = false {
+        didSet {
+            datePickbutton.isEnabled = !isKeyboardShown
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -155,8 +178,75 @@ class RecordDetailViewController: UIViewController {
         setVStackView()
         
         self.contentView.addSubview(doneButton)
+        
+        setNoteView()
+        
         doneButton.anchor(top: nil, bottom: self.contentView.safeAreaLayoutGuide.bottomAnchor, leading: self.contentView.leadingAnchor, trailing: self.contentView.trailingAnchor, padding: UIEdgeInsets(top: 0, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
         doneButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        
+        // 鍵盤的生命週期
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(keyboardWillShow),
+                    name: UIResponder.keyboardWillShowNotification,
+                    object: nil)
+                
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(keyboardWillHide),
+                    name: UIResponder.keyboardWillHideNotification,
+                    object: nil)
+
+    }
+    
+    // MARK: keyboardWillShow
+    @objc func keyboardWillShow(notification: NSNotification) {
+        print("keyboardWillShow")
+        guard noteTextView.isFirstResponder && !isKeyboardShown else {
+            return
+        }
+        isKeyboardShown = true
+        
+        // get keyboardSize
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+
+            // if keyboard size is not available for some reason, dont do anything
+            return
+          }
+
+          var shouldMoveViewUp = false
+
+          // if active text field is not nil
+          if let currentTextField = currentTextView {
+
+            let bottomOfTextField = currentTextField.convert(currentTextField.bounds, to: self.view).maxY;
+            
+            let topOfKeyboard = self.view.frame.height - keyboardSize.height
+
+            // if the bottom of Textfield is below the top of keyboard, move up
+            if bottomOfTextField > topOfKeyboard {
+              shouldMoveViewUp = true
+            }
+          }
+
+          if(shouldMoveViewUp) {
+            self.view.frame.origin.y = 0 - keyboardSize.height
+          }
+    }
+  
+        
+    @objc func keyboardWillHide(note: NSNotification) {
+        print("keyboardWillHide")
+        isKeyboardShown = false
+        let keyboardAnimationDetail = note.userInfo as! [String: AnyObject]
+        let duration = TimeInterval(truncating: keyboardAnimationDetail[UIResponder.keyboardAnimationDurationUserInfoKey]! as! NSNumber)
+        
+        UIView.animate(
+            withDuration: duration,
+            animations: { () -> Void in
+                self.view.frame = self.view.frame.offsetBy(dx: 0, dy: -self.view.frame.origin.y)
+            }
+        )
     }
     
     @IBAction func saveButtonClicked(_ sender: UIButton) {
@@ -177,7 +267,7 @@ class RecordDetailViewController: UIViewController {
         amountView.anchor(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
         amountView.addSubview(amountTextField)
-        amountTextField.fillSuperview(padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        amountTextField.fillSuperview(padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
     }
     
     // MARK: categoryView setting
@@ -194,21 +284,22 @@ class RecordDetailViewController: UIViewController {
     private func initCategoriesCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         let pd = paddingInCategoriesCollectionView
-        let width = UIScreen.main.bounds.width - (paddingInContentView + pd) * 2
-        layout.itemSize = CGSize(width: width, height: 120)
+        let heightForCollection = heightForCategoryView - (pd * 2)
+        let height = (heightForCollection - pd) / 2
+        let widthIconView = (UIScreen.main.bounds.width - (pd * 4) - paddingInContentView * 2) / 3
+        layout.itemSize = CGSize(width: widthIconView, height: height)
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = pd * 2
-        layout.sectionInset = UIEdgeInsets(top: pd, left: pd, bottom: pd, right: pd)
+        layout.minimumLineSpacing = pd
+        layout.minimumInteritemSpacing = pd
+        layout.sectionInset = UIEdgeInsets(top: pd, left: pd, bottom: 0, right: pd)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .darkGray
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: categoryCell)
         collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = .red
         collectionView.dataSource = self
         collectionView.delegate = self
-        
         return collectionView
     }
     
@@ -219,124 +310,149 @@ class RecordDetailViewController: UIViewController {
         
 
         let titleView = UIView()
-        titleView.backgroundColor = .lightGray
         titleView.anchorSize(height: heightForDetailView)
         setDetailView(name: "Title", to: titleView, type: .title)
-        titleView.roundedCorners(radius: cornerRadius)
 
         let accountView = UIView()
-        accountView.backgroundColor = .lightGray
         setDetailView(name: "Account", to: accountView, type: .account)
-        accountView.roundedCorners(radius: cornerRadius)
+        
+        let dateView = UIView()
+        dateView.anchorSize(height: heightForDetailView)
+        setDetailView(name: "Date", to: dateView, type: .date)
         
         let hStackView = UIStackView()
         hStackView.axis = .horizontal
         hStackView.distribution = .fillEqually
         hStackView.alignment = .fill
-        hStackView.spacing = 10
-        hStackView.addArrangedSubview(titleView)
+        hStackView.spacing = paddingInContentView
+        hStackView.addArrangedSubview(dateView)
         hStackView.addArrangedSubview(accountView)
         hStackView.anchorSize(height: heightForDetailView)
         
-        let dateView = UIView()
-        dateView.backgroundColor = .lightGray
-        dateView.anchorSize(height: heightForDetailView)
-        setDetailView(name: "Date", to: dateView, type: .date)
-        dateView.roundedCorners(radius: cornerRadius)
-        
-        let noteView = UIView()
-        noteView.backgroundColor = .lightGray
-        setDetailView(name: "Note", to: noteView, type: .note)
-        noteView.roundedCorners(radius: cornerRadius)
-        
-//        vStackView.addArrangedSubview(titleView)
-//        vStackView.addArrangedSubview(getLineView())
-        // ---
-//        vStackView.addArrangedSubview(accountView)
-//        vStackView.addArrangedSubview(getLineView())
-        
+        vStackView.addArrangedSubview(titleView)
         vStackView.addArrangedSubview(hStackView)
-        // ---
-        vStackView.addArrangedSubview(dateView)
-//        vStackView.addArrangedSubview(getLineView())
-        // ---
-        vStackView.addArrangedSubview(noteView)
-        
-//        accountView.anchorSize(to: titleView)
-//        dateView.anchorSize(to: titleView)
-        noteView.anchorSize(height: heightForNoteView)
+    }
+    
+    func setNoteView() {
+        let noteView = UIView()
+//        noteView.backgroundColor = .lightGray
+        setDetailView(name: "Note", to: noteView, type: .note)
+        noteView.roundedCorners()
+        contentView.addSubview(noteView)
+        noteView.addSubview(noteTextView)
+        noteTextView.fillSuperview(padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
+        noteView.anchor(top: vStackView.bottomAnchor, bottom: doneButton.topAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView + 20, right: paddingInContentView))
     }
     
     private func setDetailView(name: String, to view: UIView, type: RecordDetailCellRow) {
-        var constraints = [NSLayoutConstraint]()
         
-        let nameLabel = UILabel()
-        nameLabel.text = name
-        view.addSubview(nameLabel)
-        nameLabel.setAutoresizingToFalse()
-        constraints.append(nameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor))
-        constraints.append(nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8))
+        let lineView = UIView()
+        lineView.backgroundColor = .white
+        lineView.anchorSize(height: 1)
         
+        view.addSubview(lineView)
+        let linePd: CGFloat = 10
+        lineView.anchor(top: nil, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: linePd, bottom: 0, right: linePd))
         
+        let pdInDetail: CGFloat = 8
         switch type {
         case .amount:
             break
         case .title:
             view.addSubview(titleTextField)
             titleTextField.delegate = self
-            titleTextField.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8))
-            constraints.append(titleTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 20))
+            titleTextField.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: pdInDetail, bottom: 0, right: pdInDetail))
         case .category:
             break
         case .account:
             break
         case .note:
-            noteTextField.delegate = self
+            noteTextView.delegate = self
+            noteTextView.textColor = textViewPlaceholderColor
+            currentTextView = noteTextView
             break
         case .date:
             view.addSubview(dateLabel)
-            if let date = self.recordDay {
-                dateLabel.text = Func.convertDateToDateStr(date: date)
-            }
-            dateLabel.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8))
-            constraints.append(dateLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 20))
-            break
-        case .LAST:
+            dateLabel.fillSuperview()
+            
+            view.addSubview(datePickbutton)
+            datePickbutton.anchorSize(to: dateLabel)
             break
         }
-        
-        NSLayoutConstraint.activate(constraints)
-        
     }
     
     private func getLineView() -> UIView {
         let lineView = UIView()
+        lineView.backgroundColor = .white
         lineView.anchorSize(height: 1)
-        lineView.backgroundColor = .darkGray
         return lineView
     }
     
+    @IBAction func selectDate(_ sender: UIButton) {
+        let datePickerVC = TBdatePickerViewController()
+        if let date = self.recordDate {
+            datePickerVC.setDate(date: date)
+        }
+
+        datePickerVC.delegate = self
+        UIView.transition(with: self.view, duration: 0.15, options: [.transitionCrossDissolve], animations: {
+                self.view.addSubview(datePickerVC.view)
+                datePickerVC.view.fillSuperview()
+                self.addChild(datePickerVC)
+            }, completion: nil)
+    }
 }
 
-extension RecordDetailViewController: UITextFieldDelegate {
+extension RecordDetailViewController: TBDatePickerDelegate {
+    func changeDate(identifier: String, date: Date) {
+        self.recordDate = date
+    }
+}
+
+// MARK: UITextFieldDelegate, UITextViewDelegate
+extension RecordDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             self.view.endEditing(true)
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        datePickbutton.isEnabled = false
+        self.currentTextField = textField
+    }
+    
+    // when user click 'done' or dismiss the keyboard
+     func textFieldDidEndEditing(_ textField: UITextField) {
+       self.currentTextField = nil
+     }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        
+        if textView.textColor == textViewPlaceholderColor && textView.isFirstResponder {
+            textView.text = nil
+            textView.textColor = .white
+        }
+    }
+    
+    func textViewDidEndEditing (_ textView: UITextView) {
+        if textView.text.isEmpty || textView.text == "" {
+            textView.textColor = .lightGray
+            textView.text = "Type your notes here..."
+        }
+    }
 }
 
-
-
+// MARK: UICollectionViewDelegate, UICollectionViewDataSource
 extension RecordDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let num = self.categories.count / 6
-        let remain = self.categories.count % 6
-        return num + (remain == 0 ? 0 : 1)
+        return self.categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell, for: indexPath) as? CategoriesCollectionViewCell {
-            cell.num = indexPath.row
-//            cell.categories = Array(self.categories[0...1])
+            if indexPath.row < CategoryService.shared.categories.count {
+                cell.category = CategoryService.shared.categories[indexPath.row]
+            }
             return cell
         }
         return UICollectionViewCell()

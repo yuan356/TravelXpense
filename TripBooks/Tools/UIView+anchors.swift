@@ -19,6 +19,7 @@ extension UIView {
     }
     
     func anchorSize(to view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
@@ -73,7 +74,7 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func roundedCorners(radius: CGFloat, shadow: Bool = false) {
+    func roundedCorners(radius: CGFloat = 10, shadow: Bool = false) {
         self.layer.cornerRadius = radius
         
         if shadow {

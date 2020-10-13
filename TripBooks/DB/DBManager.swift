@@ -315,7 +315,7 @@ class DBManager: NSObject {
         var categories: [Category] = []
 
         if self.openConnection() {
-            let querySQL: String = "SELECT * FROM \(CategoryField.CATEGORY) ORDER BY \(CategoryField.id) DESC"
+            let querySQL: String = "SELECT * FROM \(CategoryField.CATEGORY) ORDER BY \(CategoryField.id)"
 
             do {
                 let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)

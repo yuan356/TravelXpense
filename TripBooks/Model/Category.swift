@@ -11,12 +11,12 @@ import FMDB
 
 class Category {
     var title: String
-    var color: UIColor
+    var colorHex: String
     var iconImageName: String
     
     init(title: String, colorHex: String, iconName: String) {
         self.title = title
-        self.color = UIColor(hex: "#" + colorHex) ?? UIColor.white
+        self.colorHex = colorHex
         self.iconImageName = iconName
     }
     

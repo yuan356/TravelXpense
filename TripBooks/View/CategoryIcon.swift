@@ -43,14 +43,17 @@ class CategoryIcon {
         return iconImageView
     }()
     
-    
-    
-    func geticonImage() -> UIView {
+    func geticonImageView() -> UIView {
         iconBackgroundView.addSubview(iconImageView)
         iconImageView.anchorToSuperViewCenter()
+//        iconImageView.tintColor = UIColor.init(hex: "#F5F5F5")
+        iconImageView.tintColor = .black
+        let color = UIColor(hex: "#" + category.colorHex) ?? UIColor.white
+        iconBackgroundView.backgroundColor = color
         
-        iconBackgroundView.backgroundColor = category.color
-        iconImageView.image = UIImage(named: category.iconImageName)
+        if category.iconImageName != "" {
+            iconImageView.image = UIImage(named: category.iconImageName)
+        }
         
         return iconBackgroundView
     }

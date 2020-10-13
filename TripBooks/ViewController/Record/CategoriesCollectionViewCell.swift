@@ -10,25 +10,48 @@ import UIKit
 
 class CategoriesCollectionViewCell: UICollectionViewCell {
     
-    var categories = [Category]()
-    
-    let title =  UILabel()
-    
-    var num = 0 {
+    var category: Category? {
         didSet {
-            title.text = "\(num)"
+            setIconViews()
         }
     }
     
+    let iconTitleLabel = UILabel()
+    
+    var iconImage = UIView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.addSubview(title)
-        title.anchorToSuperViewCenter()
-        self.backgroundColor = .yellow
     }
+    
+    func setIconViews() {
+        guard let category = self.category else {
+            return
+        }
+
+        let icon = CategoryIcon(category: category)
+        iconImage = icon.geticonImageView()
+        self.contentView.addSubview(iconImage)
+        iconImage.setAutoresizingToFalse()
+        iconImage.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        iconImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        
+        iconTitleLabel.font = iconTitleLabel.font.withSize(13)
+        iconTitleLabel.textColor = .white
+        iconTitleLabel.textAlignment = .center
+        self.contentView.addSubview(iconTitleLabel)
+        iconTitleLabel.text = category.title
+        iconTitleLabel.anchor(top: iconImage.bottomAnchor, bottom: self.contentView.bottomAnchor, leading: self.contentView.leadingAnchor, trailing: self.contentView.trailingAnchor)
+    }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        for subView in self.contentView.subviews {
+            subView.removeFromSuperview()
+        }
     }
 }

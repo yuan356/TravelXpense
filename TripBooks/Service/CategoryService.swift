@@ -24,6 +24,15 @@ class CategoryService {
         self.categories = DBManager.shared.getAllCategories()
     }
     
+    func addNewCategory(title: String, colorCode: String, iconName: String, completion: ((_ newCategory: Category) -> ())? = nil) {
+        guard let category = DBManager.shared.addNewCategory(title: title, colorCode: colorCode, iconName: iconName)
+        else { return }
+        
+        self.categories.append(category)
+        
+        completion?(category)
+    }
+    
     /// First time to launch the app.
     func setDefaultCategories() {
         self.getAllCategoriesToCache()
@@ -33,7 +42,10 @@ class CategoryService {
         }
         
         for cate in defaultCategories {
-            DBManager.shared.addNewCategory(title: cate.title, colorCode: cate.colorCode, iconName: cate.iconName)
+            if let newCate = DBManager.shared.addNewCategory(title: cate.title, colorCode: cate.colorCode, iconName: cate.iconName) {
+                self.categories += [newCate]
+            }
+            
         }
     }
 }

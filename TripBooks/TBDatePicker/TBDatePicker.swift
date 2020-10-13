@@ -84,6 +84,10 @@ class TBdatePickerViewController: UIViewController {
              }, completion: nil)
     }
     
+    func setDate(date: Date) {
+        self.datePicker.setDate(date, animated: false)
+    }
+    
     func getDate() -> Date {
         return self.datePicker.date
     }
@@ -92,7 +96,7 @@ class TBdatePickerViewController: UIViewController {
         self.datePicker.minimumDate = date
     }
     
-    func createButton(to view: UIView) {
+    private func createButton(to view: UIView) {
         let todayBtn = UIButton()
         todayBtn.setTitle("Today", for: .normal)
         todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
@@ -112,11 +116,5 @@ class TBdatePickerViewController: UIViewController {
         doneBtn.centerYAnchor.constraint(equalTo: todayBtn.centerYAnchor).isActive = true
         doneBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
     }
-    
-//    func show() {
-//        UIView.transition(with: self.superview, duration: 0.15, options: [.transitionCrossDissolve], animations: {
-//            self.superview.addSubview(self.view)
-//            self.view.fillSuperview()
-//        }, completion: nil)
-//    }
+
 }

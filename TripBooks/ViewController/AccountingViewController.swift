@@ -21,7 +21,7 @@ class AccountingViewController: UIViewController {
     
     var selectedDay: Date? {
         didSet {
-            print("selectedDay changed: \(selectedDay!)")
+            //print("selectedDay changed: \(selectedDay!)")
         }
     }
     
@@ -72,7 +72,7 @@ class AccountingViewController: UIViewController {
     
     @IBAction func newRecordClicked(_ sender: Any) {
         let controller = RecordDetailViewController()
-        controller.recordDay = self.selectedDay
+        controller.recordDate = self.selectedDay
         present(controller, animated: true, completion: nil)
     }
     

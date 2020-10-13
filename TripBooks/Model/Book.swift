@@ -31,9 +31,6 @@ class Book {
         self.endDate = endDate
         self.createTime = createTime
         if let daysInterval = Func.getDaysInterval(start: startDate, end: endDate) {
-            print(startDate)
-            print(endDate)
-            print(daysInterval)
             self.days = daysInterval + 1
         }
     }
