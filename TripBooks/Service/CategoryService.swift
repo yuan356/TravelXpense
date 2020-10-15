@@ -16,21 +16,39 @@ let defaultCategories = [(title: "Accommodation", colorCode: "2BA193", iconName:
                          (title: "Transport", colorCode: "79AECD", iconName: "train")]
 
 class CategoryService {
+    
     static let shared = CategoryService()
+    
+    private init() {}
         
+    var cache = [Int: Category]()
+    
     var categories = [Category]()
     
     func getAllCategoriesToCache() {
         self.categories = DBManager.shared.getAllCategories()
+        
+        self.cache = self.categories.reduce(into: [:], { (result, category) in
+            result[category.id] = category
+        })
     }
     
     func addNewCategory(title: String, colorCode: String, iconName: String, completion: ((_ newCategory: Category) -> ())? = nil) {
-        guard let category = DBManager.shared.addNewCategory(title: title, colorCode: colorCode, iconName: iconName)
-        else { return }
+        guard let newCategory = DBManager.shared.addNewCategory(title: title, colorCode: colorCode, iconName: iconName) else {
+            return
+        }
         
-        self.categories.append(category)
+        // add category into cache
+        self.cache[newCategory.id] = newCategory
         
-        completion?(category)
+        // add book into category list
+        self.categories.append(newCategory)
+        
+        completion?(newCategory)
+    }
+    
+    func getCategoryFromCache(by id: Int) -> Category? {
+        return self.cache[id]
     }
     
     /// First time to launch the app.

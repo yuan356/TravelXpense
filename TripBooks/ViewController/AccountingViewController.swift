@@ -73,6 +73,7 @@ class AccountingViewController: UIViewController {
     @IBAction func newRecordClicked(_ sender: Any) {
         let controller = RecordDetailViewController()
         controller.recordDate = self.selectedDay
+        controller.book = book
         present(controller, animated: true, completion: nil)
     }
     
@@ -83,7 +84,7 @@ class AccountingViewController: UIViewController {
 
 extension AccountingViewController: recordContainerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {
-        if let date = Func.getDateByOffset(startDate: self.book.startDate, daysInterval: dayIndex) {
+        if let date = TBfunc.getDateByOffset(startDate: self.book.startDate, daysInterval: dayIndex) {
             self.selectedDay = date
         }
     }

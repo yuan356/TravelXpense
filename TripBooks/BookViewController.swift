@@ -35,6 +35,7 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         // initialize setting
         BookService.shared.getAllBooksToCache()
         CategoryService.shared.getAllCategoriesToCache()
+        AccountService.shared.getAllAccountsToCache()
         
         self.books = BookService.shared.orderdBookList
         
@@ -107,9 +108,9 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
             cell.countryLabel.text = book.country
             cell.idLabel.text = String(book.id)
             cell.coverImageNo.text = String(book.coverImageNo ?? 0)
-            cell.createTime.text = Func.convertDoubleTimeToDateStr(timeStamp: book.createTime)
-            cell.startDateLabel.text = Func.convertDateToDateStr(date: book.startDate)
-            cell.endDateLabel.text = Func.convertDateToDateStr(date: book.endDate)
+            cell.createTime.text = TBfunc.convertDoubleTimeToDateStr(timeStamp: book.createDate)
+            cell.startDateLabel.text = TBfunc.convertDateToDateStr(date: book.startDate)
+            cell.endDateLabel.text = TBfunc.convertDateToDateStr(date: book.endDate)
             cell.totalAmountLabel.text = String(book.totalAmount)
             cell.daysInterval.text = String(book.days)
             

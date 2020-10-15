@@ -30,6 +30,7 @@ class BookService {
     
     func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970,
                     completion: @escaping (_ newBook: Book) -> ()) {
+        
         // add new book to DB (if insert succeed, newBook not nil)
         guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
             return

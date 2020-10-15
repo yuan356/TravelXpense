@@ -21,13 +21,13 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
     
     var startDate: Date? {
         didSet {
-            startDateTextField.text = Func.convertDateToDateStr(date: startDate!)
+            startDateTextField.text = TBfunc.convertDateToDateStr(date: startDate!)
         }
     }
     
     var endDate: Date? {
         didSet {
-            endDateTextField.text = Func.convertDateToDateStr(date: endDate!)
+            endDateTextField.text = TBfunc.convertDateToDateStr(date: endDate!)
         }
     }
     

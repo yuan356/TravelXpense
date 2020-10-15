@@ -17,11 +17,11 @@ class Book {
     var totalAmount: Double
     var startDate: Date
     var endDate: Date
-    var createTime: Double
+    var createDate: Double
     var days: Int = 0
     
     init(id: Int, name: String, country: String, coverImageNo: Int?,
-         totalAmount: Double, startDate: Date, endDate: Date, createTime: Double) {
+         totalAmount: Double, startDate: Date, endDate: Date, createDate: Double) {
         self.id = id
         self.name = name
         self.country = country
@@ -29,8 +29,8 @@ class Book {
         self.totalAmount = totalAmount
         self.startDate = startDate
         self.endDate = endDate
-        self.createTime = createTime
-        if let daysInterval = Func.getDaysInterval(start: startDate, end: endDate) {
+        self.createDate = createDate
+        if let daysInterval = TBfunc.getDaysInterval(start: startDate, end: endDate) {
             self.days = daysInterval + 1
         }
     }
@@ -44,6 +44,11 @@ class Book {
             return nil
         }
         
-        return Book(id: Int(dataLists.int(forColumn: BookField.id)), name: name, country: country, coverImageNo: Int(dataLists.int(forColumn: BookField.coverImageNo)), totalAmount: dataLists.double(forColumn: BookField.totalAmount), startDate: startDate, endDate: endDate, createTime: dataLists.double(forColumn: BookField.createdDate))
+        let id = Int(dataLists.int(forColumn: BookField.id))
+        let coverImageNo = Int(dataLists.int(forColumn: BookField.coverImageNo))
+        let totalAmount = dataLists.double(forColumn: BookField.totalAmount)
+        let createDate = dataLists.double(forColumn: BookField.createdDate)
+        
+        return Book(id: id, name: name, country: country, coverImageNo: coverImageNo, totalAmount: totalAmount, startDate: startDate, endDate: endDate, createDate: createDate)
     }
 }

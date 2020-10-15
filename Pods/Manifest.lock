@@ -2,17 +2,25 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - QuickLayout (3.0.0)
+  - SwiftEntryKit (1.2.6):
+    - QuickLayout (= 3.0.0)
 
 DEPENDENCIES:
   - FMDB
+  - SwiftEntryKit (= 1.2.6)
 
 SPEC REPOS:
   trunk:
     - FMDB
+    - QuickLayout
+    - SwiftEntryKit
 
 SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
+  SwiftEntryKit: 96a2fa90b2631bbbfac50d18449e9ca3d0635f13
 
-PODFILE CHECKSUM: 6ca68d310fed27225325e65d741f2d2bc73f8aac
+PODFILE CHECKSUM: ccb98d0d21e08e617c0880cff0e63448297ea2fe
 
 COCOAPODS: 1.9.3

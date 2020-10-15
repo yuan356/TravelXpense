@@ -64,7 +64,7 @@ class RecordTableViewCell: UITableViewCell {
         return label
     }()
     
-    let descriptionLabel: UILabel = {
+    let noteLabel: UILabel = {
         let label = UILabel()
         label.text = "吉野家"
         label.font = label.font.withSize(14)
@@ -103,10 +103,10 @@ class RecordTableViewCell: UITableViewCell {
         titleLabel.text = record.title
 
         // detail
-        descriptionLabel.text = record.description
+        noteLabel.text = record.note
         
         // amount
-        amountLabel.text = Func.convertDoubleToStr(record.amount)
+        amountLabel.text = TBfunc.convertDoubleToStr(record.amount)
     }
     
     func setConstraints() {
@@ -119,7 +119,7 @@ class RecordTableViewCell: UITableViewCell {
         view.fillSuperview()
         
         // icon
-        contentView.addSubview(iconView)
+        view.addSubview(iconView)
         iconView.setAutoresizingToFalse()
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(h)-[iconView]", options: [], metrics: metrics, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(v)-[iconView]", options: [], metrics: metrics, views: views)
@@ -128,15 +128,15 @@ class RecordTableViewCell: UITableViewCell {
         iconImageView.anchorToSuperViewCenter()
         
         // info
-        contentView.addSubview(infoStackView)
+        view.addSubview(infoStackView)
         infoStackView.setAutoresizingToFalse()
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:[iconView]-(h)-[infoStackView]", options: [], metrics: metrics, views: views)
         infoStackView.centerYAnchor.constraint(equalTo: iconView.centerYAnchor).isActive = true
         infoStackView.addArrangedSubview(titleLabel)
-        infoStackView.addArrangedSubview(descriptionLabel)
+        infoStackView.addArrangedSubview(noteLabel)
         
         // amount
-        contentView.addSubview(amountLabel)
+        view.addSubview(amountLabel)
         amountLabel.setAutoresizingToFalse()
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:[amountLabel]-(h)-|", options: [], metrics: metrics, views: views)
         amountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: infoStackView.trailingAnchor, constant: cellHpadding).isActive = true

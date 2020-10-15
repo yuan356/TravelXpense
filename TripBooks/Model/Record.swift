@@ -7,29 +7,45 @@
 //
 
 import UIKit
+import FMDB
 
 class Record {
     var id: Int
-    var title: String
-    var description: String
-    var category: Category
     var amount: Double
-    var account: Account
+    var title: String
+    var note: String
     var date: Date
-    var accountId: Int
+    var category: Category
+    var account: Account
+    var createTime: Double
     
-    init(id: Int, title: String, description: String, amount: Double, category: Category, account: Account, date: Date, accountId: Int) {
+    init(id: Int, amount: Double, title: String, note: String, date: Date, category: Category, account: Account, createTime: Double) {
         self.id = id
-        self.title = title
-        self.description = description
         self.amount = amount
+        self.title = title
+        self.note = note
+        self.date = date
         self.category = category
         self.account = account
-        self.date = date
-        self.accountId = accountId
+        self.createTime = createTime
     }
     
-//    static func getRecordByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Record? {
+    static func getRecordByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Record? {
         
-//    }
+        let id = Int(dataLists.int(forColumn: RecordField.id))
+        let amount = dataLists.double(forColumn: RecordField.amount)
+        let categoryId = Int(dataLists.int(forColumn: RecordField.categoryId))
+        let accountId = Int(dataLists.int(forColumn: RecordField.accountId))
+        let createTime = dataLists.double(forColumn: RecordField.createdDate)
+        
+        guard let title = dataLists.string(forColumn: RecordField.title),
+              let note = dataLists.string(forColumn: RecordField.note),
+              let date = dataLists.date(forColumn: RecordField.date),
+              let category = CategoryService.shared.getCategoryFromCache(by: categoryId),
+              let account = AccountService.shared.getAccountFromCache(by: accountId) else {
+            return nil
+        }
+        
+        return Record(id: id, amount: amount, title: title, note: note, date: date, category: category, account: account, createTime: createTime)
+    }
 }

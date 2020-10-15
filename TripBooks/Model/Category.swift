@@ -10,11 +10,13 @@ import UIKit
 import FMDB
 
 class Category {
+    var id: Int
     var title: String
     var colorHex: String
     var iconImageName: String
     
-    init(title: String, colorHex: String, iconName: String) {
+    init(id: Int, title: String, colorHex: String, iconName: String) {
+        self.id = id
         self.title = title
         self.colorHex = colorHex
         self.iconImageName = iconName
@@ -28,6 +30,8 @@ class Category {
             return nil
         }
         
-        return Category(title: title, colorHex: colorHex, iconName: iconImageName)
+        let id = Int(dataLists.int(forColumn: CategoryField.id))
+        
+        return Category(id: id, title: title, colorHex: colorHex, iconName: iconImageName)
     }
 }

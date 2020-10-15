@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
-
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -27,9 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if isFirstOpenApp {
             // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
+            AccountService.shared.setDefaultAccounts()
             UserDefaults.standard.set(false, forKey: isFirstLaunchAppKey)
-        } else {
         }
+        // TODO:mode
+        
+        UserDefaults.standard.set(DisplayMode.dark.rawValue, forKey: displayModeKey)
         
         return true
     }

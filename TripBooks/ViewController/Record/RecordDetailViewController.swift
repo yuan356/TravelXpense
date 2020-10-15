@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum RecordDetailCellRow: Int {
+fileprivate enum RecordDetailCellRow: Int {
     case amount = 0
     case title
     case category
@@ -17,13 +17,17 @@ enum RecordDetailCellRow: Int {
     case note
 }
 
+fileprivate enum pickerType: String {
+    case date
+    case account
+}
+
 // Padding
 fileprivate let paddingInContentView: CGFloat = 10
 fileprivate let spacingInVStack: CGFloat = 8
 let paddingInCategoriesCollectionView: CGFloat = 5
 
 // Height
-fileprivate let heightForHeader: CGFloat = 50
 fileprivate let heightForCheckButton: CGFloat = 25
 fileprivate let heightForCategoryView: CGFloat = 164
 
@@ -32,7 +36,7 @@ fileprivate let heightForDetailView: CGFloat = 40
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
-fileprivate let textViewPlaceholderColor: UIColor = .lightGray
+fileprivate let textViewPlaceholderColor = TBColor.gary
 
 // cornerRadius
 private let cornerRadius: CGFloat = 10
@@ -40,6 +44,8 @@ private let cornerRadius: CGFloat = 10
 private let categoryCell = "CategoryCell"
 
 class RecordDetailViewController: UIViewController {
+    
+    var book: Book!
     
     // MARK: parameter for record(save, edit)
     var record: Record? = nil {
@@ -54,11 +60,17 @@ class RecordDetailViewController: UIViewController {
     
     var recordDate: Date? {
         didSet {
-            self.dateLabel.text = Func.convertDateToDateStr(date: recordDate!)
+            self.dateLabel.text = TBfunc.convertDateToDateStr(date: recordDate!)
         }
     }
     
     var recoredCategory: Category?
+    
+    var recordAccount: Account? {
+        didSet {
+            accountLabel.text = recordAccount?.name
+        }
+    }
     
     var currentCategoryCell: CategoriesCollectionViewCell? = nil
     
@@ -70,14 +82,10 @@ class RecordDetailViewController: UIViewController {
     let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .darkGray
-        view.anchorSize(height: heightForHeader)
         
-        let checkButton = UIButton()
-        checkButton.setImage(UIImage(named: "check"), for: .normal)
+        let checkButton = TBButton.check.getButton()
         view.addSubview(checkButton)
-        checkButton.anchor(top: view.topAnchor, bottom: nil, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 15))
-        checkButton.anchorSize(height: heightForCheckButton)
-        checkButton.widthAnchor.constraint(equalTo: checkButton.heightAnchor).isActive = true
+        checkButton.anchorButtonToHeader(position: .right)
         checkButton.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
         
         return view
@@ -98,7 +106,8 @@ class RecordDetailViewController: UIViewController {
     
     let amountTextField: UITextField = {
         let textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 30)
+        textField.font = MainFont.regular.with(fontSize: .large)
+//        textField.font = UIFont.systemFont(ofSize: 30)
         textField.keyboardType = .numberPad
         textField.textAlignment = .right
         return textField
@@ -126,7 +135,7 @@ class RecordDetailViewController: UIViewController {
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
-        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.font = MainFont.regular.with(fontSize: .medium)
         textField.textAlignment = .left
         return textField
     }()
@@ -137,12 +146,26 @@ class RecordDetailViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+        
+    let datePickButton: UIButton = {
+        let button = UIButton()
+        button.restorationIdentifier = pickerType.date.rawValue
+        button.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+        return button
+    }()
     
-    /// open datepicker
-    let datePickbutton: UIButton = {
-        let datePickbutton = UIButton()
-        datePickbutton.addTarget(self, action: #selector(selectDate(_:)), for: .touchUpInside)
-        return datePickbutton
+    let accountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let accountPickButton: UIButton = {
+        let button = UIButton()
+        button.restorationIdentifier = pickerType.account.rawValue
+        button.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+        return button
     }()
     
     let noteTextView: UITextView = {
@@ -156,11 +179,11 @@ class RecordDetailViewController: UIViewController {
     
     let doneButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#3F9E64")
+        button.backgroundColor = TBColor.shamrockGreen.light
         button.setTitle("DONE", for: .normal)
         button.tintColor = .white
         button.setTitleColor(.lightGray, for: .highlighted)
-        button.setBackgroundColor(color: UIColor(hex: "#3A925C"), forState: .highlighted)
+        button.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
         button.anchorSize(height: 50)
         button.roundedCorners(radius: cornerRadius)
         return button
@@ -172,7 +195,8 @@ class RecordDetailViewController: UIViewController {
     
     var isKeyboardShown: Bool = false {
         didSet {
-            datePickbutton.isEnabled = !isKeyboardShown
+            datePickButton.isEnabled = !isKeyboardShown
+            accountPickButton.isEnabled = !isKeyboardShown
         }
     }
     
@@ -272,28 +296,12 @@ class RecordDetailViewController: UIViewController {
 //        self.view.frame.origin.y = 0
     }
     
-    // MARK: SAVE
-    @IBAction func saveButtonClicked(_ sender: UIButton) {
-        print("saveButtonClicked")
-        
-        print("""
-            title: \(String(describing: titleTextField.text))
-            date: \(String(describing: recordDate))
-            category: \(String(describing: recoredCategory?.title))
-            note: \(String(describing: noteTextView.text))
-            """)
-    }
-    
-    private func checkInput() -> Bool {
-        var result = true
-        return result
-    }
-    
+    // MARK: - Detail View Setting
     /// add contentView & HeaderView to self.view
     private func setContentViewAndHeader() {
         self.view.backgroundColor = .darkGray
         self.view.addSubview(headerView)
-        headerView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        headerView.anchorViewOnTop()
         
         self.view.addSubview(contentView)
         contentView.anchor(top: headerView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
@@ -308,7 +316,7 @@ class RecordDetailViewController: UIViewController {
         amountTextField.fillSuperview(padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
     }
     
-    // MARK: categoryView setting
+    // MARK: categoryView
     /// add categoriesView to contentView & setting
     private func setCategoryView() {
         self.contentView.addSubview(categoriesView)
@@ -342,12 +350,12 @@ class RecordDetailViewController: UIViewController {
         return collectionView
     }
     
-    // MARK: vStackView setting
+    // MARK: vStackView
     /// add vStackView to contentView & setting
     private func setVStackView() {
         contentView.addSubview(vStackView)
         vStackView.anchor(top: categoriesView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
-        
+
         let titleView = UIView()
         titleView.anchorSize(height: heightForDetailView)
         setDetailView(name: "Title", to: titleView, type: .title)
@@ -404,6 +412,11 @@ class RecordDetailViewController: UIViewController {
         case .category:
             break
         case .account:
+            view.addSubview(accountLabel)
+            accountLabel.fillSuperview()
+            view.addSubview(accountPickButton)
+            accountPickButton.anchorToSuperViewCenter()
+            accountPickButton.anchorSize(to: accountLabel)
             break
         case .note:
             noteTextView.delegate = self
@@ -413,9 +426,9 @@ class RecordDetailViewController: UIViewController {
         case .date:
             view.addSubview(dateLabel)
             dateLabel.fillSuperview()
-            
-            view.addSubview(datePickbutton)
-            datePickbutton.anchorSize(to: dateLabel)
+            view.addSubview(datePickButton)
+            datePickButton.anchorToSuperViewCenter()
+            datePickButton.anchorSize(to: dateLabel)
             break
         }
     }
@@ -434,24 +447,113 @@ class RecordDetailViewController: UIViewController {
         return lineView
     }
     
+    // MARK: - Button clicked event
     /// open a datepicker
-    @IBAction func selectDate(_ sender: UIButton) {
-        let datePickerVC = TBdatePickerViewController()
-        if let date = self.recordDate {
-            datePickerVC.setDate(date: date)
+    @IBAction func openPicker(_ sender: UIButton) {
+        if let identifier = sender.restorationIdentifier {
+            switch pickerType.init(rawValue: identifier) {
+            case .date:
+                let datePickerVC = TBdatePickerViewController()
+                if let date = self.recordDate {
+                    datePickerVC.setDate(date: date)
+                }
+                datePickerVC.delegate = self
+                datePickerVC.show(on: self)
+            case .account:
+                TBNotifyCenter.showAccountPicker { (result, account) in
+                    if result == Result.success, let acc = account {
+                        self.recordAccount = acc
+                    }
+                }
+            case .none:
+                break
+            }
+        }
+    }
+    
+    @IBAction func saveButtonClicked(_ sender: UIButton) {
+        print("saveButtonClicked")
+        let checkResult = checkInput()
+        guard checkResult == nil else {
+            TBNotifyCenter.showCenterAlert(message: checkResult!)
+            return
+        }
+        
+        guard let amountText = amountTextField.text?.trimmingCharacters(in: .whitespaces),
+              let amount = Double(amountText),
+              let category = self.recoredCategory,
+              let date = self.recordDate,
+              let account = self.recordAccount else {
+            return
+        }
+        
+        let title: String? = titleTextField.text?.trimmingCharacters(in: .whitespaces)
+        let note: String? = noteTextView.text.trimmingCharacters(in: .whitespaces)
+        
+//        print("""
+//            amount: \(amount)
+//            title: \(title)
+//            date: \(date)
+//            category: \(category.title)
+//            note: \(note)
+//            """)
+        
+        RecordSevice.shared.addNewBook(title: title, amount: amount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id) { (newRecord) in
+            print("NEW: \(newRecord.amount)")
+        }
+        
+        
+        
+    }
+    
+    private func checkInput() -> String? {
+        
+        // amount
+        guard let amountText = amountTextField.text?.trimmingCharacters(in: .whitespaces),
+              amountText != ""  else {
+            return "amountTextField text is empty."
         }
 
-        datePickerVC.delegate = self
-        datePickerVC.show(on: self)
+        // TODO: check number in calculator
+//        guard amountText.isNumber, let amount = Double(amountText) else {
+//            return "amountTextField wrong format."
+//        }
+        
+        // category
+        if self.recoredCategory == nil {
+            return "recordCategory didnt set."
+        }
+        
+        // date
+        if self.recordDate == nil {
+            return "recordDate didnt set."
+        }
+        
+        // account
+        if self.recordAccount == nil {
+            return "recordAccount didnt set."
+        }
+        
+        return nil
     }
+    
+    
 }
 
+// MARK: - Extension
 // MARK: TBDatePickerDelegate
 extension RecordDetailViewController: TBDatePickerDelegate {
     func changeDate(identifier: String, date: Date) {
-//        self.recordDate = date
-        self.record?.date = date
+        self.recordDate = date
     }
+}
+
+extension RecordDetailViewController: CalculatorDelegate {
+    func changeTransactionType() {
+        print("changeTransactionType")
+    }
+    
+    
 }
 
 // MARK: UITextFieldDelegate, UITextViewDelegate
@@ -461,7 +563,7 @@ extension RecordDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        datePickbutton.isEnabled = false
+        datePickButton.isEnabled = false
         self.currentTextField = textField
     }
     

@@ -40,7 +40,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
         guard let category = self.category else {
             return
         }
-        let icon = CategoryIcon(category: category)
+        let icon = IconView(category: category)
         iconImage = icon.geticonImageView()
         self.contentView.addSubview(iconImage)
         iconImage.setAutoresizingToFalse()

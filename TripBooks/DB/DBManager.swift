@@ -29,10 +29,11 @@ enum RecordField {
     static let RECORD = "RECORD"
     static let id = "id"
     static let bookId = "record_book_id"
+    static let amount = "record_amount"
     static let title = "record_title"
     static let note = "record_note"
+    static let date = "record_date"
     static let dayNo = "record_dayNo"
-    static let amount = "record_amount"
     static let categoryId = "record_category_id"
     static let accountId = "record_account_id"
     static let createdDate = "record_createdDate"
@@ -49,7 +50,7 @@ enum CategoryField {
 enum AccountField {
     static let ACCOUNT = "ACCOUNT"
     static let id = "id"
-    static let name = "account_title"
+    static let name = "account_name"
     static let amount = "account_amount"
     static let iconImageName = "account_iconImageName"
 }
@@ -76,7 +77,7 @@ class DBManager: NSObject {
         print("deinit: \(self)")
     }
     
-    // MARK: Create Database
+    // MARK: - Create Database
     /// 生成 .sqlite 檔案並創建表格，只有在 .sqlite 不存在時才會建立
     func createTable() {
         let fileManager: FileManager = FileManager.default
@@ -106,10 +107,11 @@ class DBManager: NSObject {
                     CREATE TABLE IF NOT EXISTS \(RecordField.RECORD) (
                     \(RecordField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(RecordField.bookId) integer NOT NULL,
+                    \(RecordField.amount) Double DEFAULT 0,
                     \(RecordField.title) Varchar(100),
                     \(RecordField.note) Varchar(100),
+                    \(RecordField.date) Double,
                     \(RecordField.dayNo) integer,
-                    \(RecordField.amount) Double DEFAULT 0,
                     \(RecordField.categoryId) integer,
                     \(RecordField.accountId) integer,
                     \(RecordField.createdDate) Double NOT NULL);
@@ -127,7 +129,7 @@ class DBManager: NSObject {
                     \(AccountField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(AccountField.name) Varchar(100),
                     \(AccountField.amount) Double DEFAULT 0,
-                    \(CategoryField.iconImageName) varchar(50));
+                    \(AccountField.iconImageName) varchar(50));
                 """
                 
                 self.database.executeStatements(createBookTableSQL + createRecordTableSQL + createCategoryTableSQL + createAccountTableSQL)
@@ -157,7 +159,7 @@ class DBManager: NSObject {
         return isOpen
     }
     
-    // MARK: BOOK TABLE
+    // MARK: - BOOK TABLE
     
     /// 新增一筆新的book
     /// - Parameters:
@@ -285,8 +287,79 @@ class DBManager: NSObject {
         return books
     }
     
+    // MARK: - RECORD
+    func addNewRecord(title: String, amount: Double, note: String, date: Double, bookId: Int, categoryId: Int, accountId: Int, createTime: Double = Date().timeIntervalSince1970) -> Record? {
+        print(amount)
+        var newRecord: Record? = nil
+        if self.openConnection() {
+            let insertSQL: String = """
+                        INSERT INTO \(RecordField.RECORD) (
+                        \(RecordField.bookId),
+                        \(RecordField.amount),
+                        \(RecordField.title),
+                        \(RecordField.note),
+                        \(RecordField.date),
+                        \(RecordField.categoryId),
+                        \(RecordField.accountId),
+                        \(RecordField.createdDate)) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookId, amount, title, note, date, categoryId, accountId, createTime]) {
+                print("Failed to insert initial data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+            }
+            
+            let newId = Int(self.database.lastInsertRowId)
+            newRecord = self.getRecordById(newId)
+            self.database.close()
+        }
+        return newRecord
+    }
     
-    // MARK: Category
+    func getAllRecords() -> [Record] {
+        var records: [Record] = []
+
+        if self.openConnection() {
+            let querySQL: String = "SELECT * FROM \(RecordField.RECORD) ORDER BY \(RecordField.date) DESC"
+
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
+
+                var record: Record?
+                while dataLists.next() {
+                    record = Record.getRecordByFMDBdata(FMDBdatalist: dataLists)
+                    if let record = record {
+                        records.append(record)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            database.close()
+        }
+        return records
+    }
+    
+    func getRecordById(_ recordId: Int) -> Record? {
+        var record: Record? = nil
+        if self.openConnection() {
+            let getBookSQL = "SELECT * FROM \(RecordField.RECORD) WHERE \(RecordField.id) = ?"
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(getBookSQL, values: [recordId])
+                
+                if dataLists.next() {
+                    record = Record.getRecordByFMDBdata(FMDBdatalist: dataLists)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return record
+    }
+    
+    
+    // MARK: - CATEGORY
     func addNewCategory(title: String, colorCode: String, iconName: String) -> Category? {
         var newCategory: Category? = nil
         if self.openConnection() {
@@ -307,7 +380,6 @@ class DBManager: NSObject {
         }
         return newCategory
     }
-    
     
     func updateCategory(id: Int, title: String, colorCode: String, iconName: String) -> Category? {
         var category: Category? = nil
@@ -371,80 +443,89 @@ class DBManager: NSObject {
     }
     
     
-    // MARK: Record table
-//    func insertNewRecord(withDepartmentChineseName departmentChineseName: String, departmentEnglishName: String) {
-//
-//        if self.openConnection() {
-//            let insertSQL: String = "INSERT INTO DEPARTMENT (DEPARTMENT_ID, DEPT_CH_NM, DEPT_EN_NM) VALUES((SELECT IFNULL(MAX(DEPARTMENT_ID), 0) + 1 FROM DEPARTMENT), ?, ?)"
-//
-//            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [departmentChineseName]) {
-//                print("Failed to insert initial data into the database.")
-//                print(database.lastError(), database.lastErrorMessage())
-//            }
-//
-//            self.database.close()
-//        }
-//    }
-//
-//        /// 更新部門資料
-//        ///
-//        /// - Parameters:
-//        ///   - departmentId: 部門ID
-//        ///   - departmentEnglistName: 部門中文名稱
-//        ///   - departmentChineseName: 部門英文名稱
-//        func updateData(withDepartmentId departmentId: Int, departmentChineseName: String, departmentEnglistName: String) {
-//            if self.openConnection() {
-//                let updateSQL: String = "UPDATE DEPARTMENT SET DEPT_CH_NM = ?, DEPT_EN_NM = ? WHERE DEPARTMENT_ID = ?"
-//
-//                do {
-//                    try self.database.executeUpdate(updateSQL, values: [departmentChineseName, departmentEnglistName, departmentId])
-//                } catch {
-//                    print(error.localizedDescription)
-//                }
-//
-//                self.database.close()
-//            }
-//        }
+    // MARK: - ACCOUNT
+    func addNewAccount(name: String, amount: Double = 0, iconName: String) -> Account? {
+        var newAccount: Account? = nil
+        if self.openConnection() {
+            let insertSQL: String = """
+                        INSERT INTO \(AccountField.ACCOUNT) (
+                        \(AccountField.name),
+                        \(AccountField.amount),
+                        \(AccountField.iconImageName)) VALUES (?, ?, ?)
+                        """
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [name, amount, iconName]) {
+                print("Failed to insert initial data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+            }
+            
+            let newId = Int(self.database.lastInsertRowId)
+            newAccount = self.getAccountById(newId)
+            self.database.close()
+        }
+        return newAccount
+    }
+    
+    func updateAccount(id: Int, name: String, amount: Double, iconName: String) -> Account? {
+        var account: Account? = nil
         
-//    /// 取得部門的所有資料
-//    ///
-//    /// - Returns: 部門資料
-//    func queryData() -> [Department] {
-//        var departmentDatas: [Department] = [Department]()
-//
-//        if self.openConnection() {
-//            let querySQL: String = "SELECT * FROM DEPARTMENT"
-//
-//            do {
-//                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
-//
-//                while dataLists.next() {
-//                    let department: Department = Department(departmentId: Int(dataLists.int(forColumn: "DEPARTMENT_ID")), departmentChNm: dataLists.string(forColumn: "DEPT_CH_NM")!, departmentEnNm: dataLists.string(forColumn: "DEPT_EN_NM")!)
-//                    departmentDatas.append(department)
-//                }
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//        return departmentDatas
-//    }
-        
-//    /// 刪除部門資料
-//    ///
-//    /// - Parameter departmentId: 部門ID
-//    func deleteData(withDepartmentId departmentId: Int) {
-//        if self.openConnection() {
-//            let deleteSQL: String = "DELETE FROM DEPARTMENT WHERE DEPARTMENT_ID = ?"
-//
-//            do {
-//                try self.database.executeUpdate(deleteSQL, values: [departmentId])
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//
-//            self.database.close()
-//        }
-//    }
+        if self.openConnection() {
+            let updateSQL: String = "UPDATE \(AccountField.ACCOUNT) SET \(AccountField.name) = ?, \(AccountField.amount) = ?, \(AccountField.iconImageName) = ? WHERE \(AccountField.id) = ?"
 
+            do {
+                try self.database.executeUpdate(updateSQL, values: [name, amount, iconName, id])
+                account = self.getAccountById(id)
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return account
+    }
+    
+    func getAllAccounts() -> [Account] {
+        var accounts: [Account] = []
+
+        if self.openConnection() {
+            let querySQL: String = "SELECT * FROM \(AccountField.ACCOUNT) ORDER BY \(AccountField.id)"
+
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
+
+                var account: Account?
+                while dataLists.next() {
+                    account = Account.getAccountByFMDBdata(FMDBdatalist: dataLists)
+                    if let account = account {
+                        accounts.append(account)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            database.close()
+        }
+        return accounts
+    }
+    
+    func getAccountById(_ id: Int) -> Account? {
+        var account: Account? = nil
+        if self.openConnection() {
+            let getCateSQL = "SELECT * FROM \(AccountField.ACCOUNT) WHERE \(AccountField.id) = ?"
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(getCateSQL, values: [id])
+                
+                if dataLists.next() {
+                    account = Account.getAccountByFMDBdata(FMDBdatalist: dataLists)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return account
+    }
+    
+    
+    
 }
