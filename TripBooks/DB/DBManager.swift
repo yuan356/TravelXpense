@@ -20,7 +20,6 @@ enum BookField {
     static let book_budget = "book_budget"
     static let startDate = "book_startDate"
     static let endDate = "book_endDate"
-    static let daysInterval = "book_daysInterval"
     static let typeId = "book_type_id"
     static let createdDate = "book_createdDate"
 }
@@ -43,6 +42,7 @@ enum CategoryField {
     static let CATEGORY = "CATEGORY"
     static let id = "id"
     static let title = "category_title"
+    static let isExpense = "category_isExpense"
     static let colorHex = "category_colorHex"
     static let iconImageName = "category_iconImageName"
 }
@@ -98,7 +98,6 @@ class DBManager: NSObject {
                     \(BookField.book_budget) Double DEFAULT 0,
                     \(BookField.startDate) Double,
                     \(BookField.endDate) Double,
-                    \(BookField.daysInterval) integer,
                     \(BookField.typeId) integer,
                     \(BookField.createdDate) Double NOT NULL);
                 """
@@ -108,8 +107,8 @@ class DBManager: NSObject {
                     \(RecordField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(RecordField.bookId) integer NOT NULL,
                     \(RecordField.amount) Double DEFAULT 0,
-                    \(RecordField.title) Varchar(100),
-                    \(RecordField.note) Varchar(100),
+                    \(RecordField.title) Varchar(150),
+                    \(RecordField.note) Varchar(550),
                     \(RecordField.date) Double,
                     \(RecordField.dayNo) integer,
                     \(RecordField.categoryId) integer,
@@ -120,6 +119,7 @@ class DBManager: NSObject {
                     CREATE TABLE IF NOT EXISTS \(CategoryField.CATEGORY) (
                     \(CategoryField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
                     \(CategoryField.title) Varchar(50),
+                    \(CategoryField.isExpense) Boolean DEFAULT 1,
                     \(CategoryField.colorHex) char(6),
                     \(CategoryField.iconImageName) varchar(50));
                 """
@@ -289,7 +289,6 @@ class DBManager: NSObject {
     
     // MARK: - RECORD
     func addNewRecord(title: String, amount: Double, note: String, date: Double, bookId: Int, categoryId: Int, accountId: Int, createTime: Double = Date().timeIntervalSince1970) -> Record? {
-        print(amount)
         var newRecord: Record? = nil
         if self.openConnection() {
             let insertSQL: String = """
@@ -315,6 +314,24 @@ class DBManager: NSObject {
         return newRecord
     }
     
+    func updateRecord(id: Int, title: String, amount: Double, note: String, date: Double, categoryId: Int, accountId: Int, createTime: Double = Date().timeIntervalSince1970) -> Record? {
+        var record: Record? = nil
+        
+        if self.openConnection() {
+            let updateSQL: String = "UPDATE \(RecordField.RECORD) SET \(RecordField.amount) = ?, \(RecordField.title) = ?, \(RecordField.note) = ?, \(RecordField.date) = ?, \(RecordField.categoryId) = ?, \(RecordField.accountId) = ? WHERE \(RecordField.id) = ?"
+
+            do {
+                try self.database.executeUpdate(updateSQL, values: [amount, title, note, date, categoryId, accountId, id])
+                record = self.getRecordById(id)
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return record
+    }
+    
     func getAllRecords() -> [Record] {
         var records: [Record] = []
 
@@ -323,6 +340,33 @@ class DBManager: NSObject {
 
             do {
                 let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
+
+                var record: Record?
+                while dataLists.next() {
+                    record = Record.getRecordByFMDBdata(FMDBdatalist: dataLists)
+                    if let record = record {
+                        records.append(record)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            database.close()
+        }
+        return records
+    }
+    
+    /// 回傳指定帳本(book)內所有紀錄(record), createdDate (DESC)
+    /// - Parameter bookId: 帳本id
+    /// - Returns: [record]
+    func getAllRecordsFromBook(_ bookId: Int) -> [Record] {
+        var records: [Record] = []
+
+        if self.openConnection() {
+            let querySQL: String = "SELECT * FROM \(RecordField.RECORD) WHERE \(RecordField.bookId) = ?  ORDER BY \(RecordField.createdDate) DESC"
+
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: [bookId])
 
                 var record: Record?
                 while dataLists.next() {

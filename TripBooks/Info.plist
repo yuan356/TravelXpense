@@ -24,6 +24,13 @@
 	<array>
 		<string>jf-openhuninn-1.1.ttf</string>
 		<string>NotoSansTC-Regular.otf</string>
+		<string>NotoSansTC-Bold.otf</string>
+		<string>NotoSansTC-Light.otf</string>
+		<string>NotoSansTC-Medium.otf</string>
+		<string>NotoSansTC-Thin.otf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-Light.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

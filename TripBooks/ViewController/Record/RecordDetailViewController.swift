@@ -8,16 +8,16 @@
 
 import UIKit
 
-fileprivate enum RecordDetailCellRow: Int {
-    case amount = 0
+fileprivate enum RecordDetailCellRow {
+    case amount
     case title
-    case category
     case account
     case date
     case note
 }
 
-fileprivate enum pickerType: String {
+fileprivate enum ToolType: String {
+    case amount
     case date
     case account
 }
@@ -43,26 +43,49 @@ private let cornerRadius: CGFloat = 10
 
 private let categoryCell = "CategoryCell"
 
+/**
+    Insert / update record
+    # (Insert) Necessary setting when init:
+        1. book
+        2. recordDate
+        3.originalDate
+    # (Update) Necessary setting when init:
+        1. book
+        2. target record
+ */
 class RecordDetailViewController: UIViewController {
     
+    // MARK: Necessary setting when init
     var book: Book!
     
     // MARK: parameter for record(save, edit)
     var record: Record? = nil {
         didSet {
             if let record = record {
+                // start calculate at positive number
+                var initValue = record.amount
+                initValue.turnToPositive()
+                self.recordAmount = initValue
+                self.amountLabel.text = TBFunc.convertDoubleToStr(recordAmount, moneyFormat: false)
+                self.titleTextField.text = record.title
                 self.recordDate = record.date
+                self.originalDate = record.date
                 self.recoredCategory = record.category
-                
+                self.recordAccount = record.account
+                if record.note != "" {
+                    noteTextView.text = record.note
+                }
             }
         }
     }
     
     var recordDate: Date? {
         didSet {
-            self.dateLabel.text = TBfunc.convertDateToDateStr(date: recordDate!)
+            self.dateLabel.text = TBFunc.convertDateToDateStr(date: recordDate!)
         }
     }
+    
+    var originalDate: Date!
     
     var recoredCategory: Category?
     
@@ -72,10 +95,19 @@ class RecordDetailViewController: UIViewController {
         }
     }
     
+    var recordAmount: Double = 0
+    
     var currentCategoryCell: CategoriesCollectionViewCell? = nil
     
     var categories: [Category] {
         return CategoryService.shared.categories
+    }
+    
+    // TODO: transactionIsExpense
+    var transactionIsExpense: Bool = true {
+        didSet {
+            
+        }
     }
     
     // View
@@ -104,13 +136,13 @@ class RecordDetailViewController: UIViewController {
         return view
     }()
     
-    let amountTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = MainFont.regular.with(fontSize: .large)
-//        textField.font = UIFont.systemFont(ofSize: 30)
-        textField.keyboardType = .numberPad
-        textField.textAlignment = .right
-        return textField
+    let amountLabel: UILabel = {
+        let label = UILabel()
+        label.font = MainFontNumeral.regular.with(fontSize: 40)
+        label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
+        return label
     }()
     
     let categoriesView: UIView = {
@@ -149,8 +181,8 @@ class RecordDetailViewController: UIViewController {
         
     let datePickButton: UIButton = {
         let button = UIButton()
-        button.restorationIdentifier = pickerType.date.rawValue
-        button.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+        button.restorationIdentifier = ToolType.date.rawValue
+        button.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -163,8 +195,8 @@ class RecordDetailViewController: UIViewController {
     
     let accountPickButton: UIButton = {
         let button = UIButton()
-        button.restorationIdentifier = pickerType.account.rawValue
-        button.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+        button.restorationIdentifier = ToolType.account.rawValue
+        button.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -183,6 +215,7 @@ class RecordDetailViewController: UIViewController {
         button.setTitle("DONE", for: .normal)
         button.tintColor = .white
         button.setTitleColor(.lightGray, for: .highlighted)
+        button.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
         button.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
         button.anchorSize(height: 50)
         button.roundedCorners(radius: cornerRadius)
@@ -204,12 +237,13 @@ class RecordDetailViewController: UIViewController {
         sender.backgroundColor = .white
     }
 
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setContentViewAndHeader()
         
-        setAmountTextField()
+        setAmountView()
         
         setCategoryView()
         
@@ -220,8 +254,6 @@ class RecordDetailViewController: UIViewController {
         setNoteView()
         
         setDoneButton()
-        
-        
         
         // 鍵盤的生命週期
         NotificationCenter.default.addObserver(
@@ -235,8 +267,16 @@ class RecordDetailViewController: UIViewController {
                     selector: #selector(keyboardWillHide),
                     name: UIResponder.keyboardWillHideNotification,
                     object: nil)
-
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        TBNotify.showCalculator(on: self)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        TBNotify.dismiss(name: CalculatorAttributes)
+    }
+    
     
     // MARK: Keyboard Observer
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -255,33 +295,29 @@ class RecordDetailViewController: UIViewController {
           var shouldMoveViewUp = false
         
           // if active text field is not nil
-          if noteTextView.isFirstResponder, let activeItem = currentTextView {
+          if noteTextView.isFirstResponder {
+            let bottomOfTextField = noteTextView.convert(noteTextView.bounds, to: self.view).maxY;
+            let topOfKeyboard = self.view.frame.height - keyboardSize.height
 
-              let bottomOfTextField = activeItem.convert(activeItem.bounds, to: self.view).maxY;
-            
-              let topOfKeyboard = self.view.frame.height - keyboardSize.height
-
-            // if the bottom of Textfield is below the top of keyboard, move up
-              if bottomOfTextField > topOfKeyboard {
-                shouldMoveViewUp = true
-              }
+          // if the bottom of Textfield is below the top of keyboard, move up
+            if bottomOfTextField > topOfKeyboard {
+               shouldMoveViewUp = true
+            }
           } else if let activeItem = currentTextField {
-
               let bottomOfTextField = activeItem.convert(activeItem.bounds, to: self.view).maxY;
-            
               let topOfKeyboard = self.view.frame.height - keyboardSize.height
 
             // if the bottom of Textfield is below the top of keyboard, move up
               if bottomOfTextField > topOfKeyboard {
-                shouldMoveViewUp = true
+                 shouldMoveViewUp = true
               }
           }
-
-          if(shouldMoveViewUp) {
-              self.view.frame.origin.y = 0 - keyboardSize.height
+        
+          if (shouldMoveViewUp) {
+             self.view.frame.origin.y = 0 - keyboardSize.height
           }
     }
-  
+    
     @objc func keyboardWillHide(note: NSNotification) {
         isKeyboardShown = false
         let keyboardAnimationDetail = note.userInfo as! [String: AnyObject]
@@ -295,7 +331,7 @@ class RecordDetailViewController: UIViewController {
         )
 //        self.view.frame.origin.y = 0
     }
-    
+
     // MARK: - Detail View Setting
     /// add contentView & HeaderView to self.view
     private func setContentViewAndHeader() {
@@ -308,19 +344,25 @@ class RecordDetailViewController: UIViewController {
     }
 
     /// add amountVuew & amountTextField to contentView
-    private func setAmountTextField() {
+    private func setAmountView() {
         contentView.addSubview(amountView)
         amountView.anchor(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
-        amountView.addSubview(amountTextField)
-        amountTextField.fillSuperview(padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        amountView.addSubview(amountLabel)
+        amountLabel.fillSuperview(padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        
+        let calculatorButton = UIButton()
+        calculatorButton.restorationIdentifier = ToolType.amount.rawValue
+        calculatorButton.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
+        amountView.addSubview(calculatorButton)
+        calculatorButton.fillSuperview()
     }
     
     // MARK: categoryView
     /// add categoriesView to contentView & setting
     private func setCategoryView() {
         self.contentView.addSubview(categoriesView)
-        categoriesView.anchor(top: amountView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
+        categoriesView.anchor(top: amountView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView + 2, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
         categoriesCollectionView = initCategoriesCollectionView()
         self.categoriesView.addSubview(categoriesCollectionView)
@@ -364,7 +406,6 @@ class RecordDetailViewController: UIViewController {
         setDetailView(name: "Account", to: accountView, type: .account)
         
         let dateView = UIView()
-        dateView.anchorSize(height: heightForDetailView)
         setDetailView(name: "Date", to: dateView, type: .date)
         
         let hStackView = UIStackView()
@@ -389,7 +430,8 @@ class RecordDetailViewController: UIViewController {
         noteView.addSubview(noteTextView)
         noteTextView.fillSuperview(padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
     }
-    
+        
+    // MARK: setDetailView
     /// 各 detail 的細節設定(加入lineView)
     private func setDetailView(name: String, to view: UIView, type: RecordDetailCellRow) {
         
@@ -409,8 +451,6 @@ class RecordDetailViewController: UIViewController {
             view.addSubview(titleTextField)
             titleTextField.delegate = self
             titleTextField.anchor(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: pdInDetail, bottom: 0, right: pdInDetail))
-        case .category:
-            break
         case .account:
             view.addSubview(accountLabel)
             accountLabel.fillSuperview()
@@ -420,7 +460,12 @@ class RecordDetailViewController: UIViewController {
             break
         case .note:
             noteTextView.delegate = self
-            noteTextView.textColor = textViewPlaceholderColor
+            if record?.note != "" {
+                noteTextView.textColor = .white
+            } else {
+                noteTextView.textColor = textViewPlaceholderColor
+            }
+                
             currentTextView = noteTextView
             break
         case .date:
@@ -449,75 +494,102 @@ class RecordDetailViewController: UIViewController {
     
     // MARK: - Button clicked event
     /// open a datepicker
-    @IBAction func openPicker(_ sender: UIButton) {
+    @IBAction func openTools(_ sender: UIButton) {
         if let identifier = sender.restorationIdentifier {
-            switch pickerType.init(rawValue: identifier) {
+            switch ToolType.init(rawValue: identifier) {
+            case .amount:
+                TBNotify.showCalculator(on: self)
             case .date:
                 let datePickerVC = TBdatePickerViewController()
                 if let date = self.recordDate {
                     datePickerVC.setDate(date: date)
                 }
+                datePickerVC.setMinimumDate(book.startDate)
+                datePickerVC.setMaximumDate(book.endDate)
                 datePickerVC.delegate = self
                 datePickerVC.show(on: self)
             case .account:
-                TBNotifyCenter.showAccountPicker { (result, account) in
+                TBNotify.showAccountPicker(currentAccount: recordAccount, completion: { (result, account) in
                     if result == Result.success, let acc = account {
                         self.recordAccount = acc
                     }
-                }
+                })
             case .none:
                 break
             }
         }
     }
     
+    // MARK: Save
     @IBAction func saveButtonClicked(_ sender: UIButton) {
         print("saveButtonClicked")
+        
         let checkResult = checkInput()
         guard checkResult == nil else {
-            TBNotifyCenter.showCenterAlert(message: checkResult!)
+            TBNotify.showCenterAlert(message: checkResult!)
             return
         }
         
-        guard let amountText = amountTextField.text?.trimmingCharacters(in: .whitespaces),
+        guard let category = self.recoredCategory,
+              let amountText = amountLabel.text,
               let amount = Double(amountText),
-              let category = self.recoredCategory,
               let date = self.recordDate,
               let account = self.recordAccount else {
             return
         }
-        
+        print(amountText)
+        recordAmount = amount
+        if transactionIsExpense {
+            recordAmount.turnToNegative()
+        } else {
+            recordAmount.turnToPositive()
+        }
         let title: String? = titleTextField.text?.trimmingCharacters(in: .whitespaces)
-        let note: String? = noteTextView.text.trimmingCharacters(in: .whitespaces)
+        var note: String? = noteTextView.text.trimmingCharacters(in: .whitespaces)
         
-//        print("""
-//            amount: \(amount)
-//            title: \(title)
-//            date: \(date)
-//            category: \(category.title)
-//            note: \(note)
-//            """)
-        
-        RecordSevice.shared.addNewBook(title: title, amount: amount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id) { (newRecord) in
-            print("NEW: \(newRecord.amount)")
+        if noteTextView.textColor == textViewPlaceholderColor {
+            note = ""
         }
         
+        var needToReloadTable = false
+        if let record = self.record { // update
+            RecordSevice.shared.updateRecord(id: record.id, title: title, amount: recordAmount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id)
+            
+            needToReloadTable = true
+        } else { // insert
+            RecordSevice.shared.addNewRecord(title: title, amount: recordAmount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id)
+            
+            needToReloadTable = TBFunc.compareDateOnly(date1: date, date2: self.originalDate)
+        }
         
+        // didn't change the date, current record table need to update.
+        // notify the recordTable observer
+        if needToReloadTable {
+            Observed.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
+        }
+        
+        dismiss(animated: true, completion: nil)
         
     }
     
     private func checkInput() -> String? {
         
         // amount
-        guard let amountText = amountTextField.text?.trimmingCharacters(in: .whitespaces),
+        guard let amountText = amountLabel.text?.trimmingCharacters(in: .whitespaces),
               amountText != ""  else {
             return "amountTextField text is empty."
         }
-
-        // TODO: check number in calculator
-//        guard amountText.isNumber, let amount = Double(amountText) else {
-//            return "amountTextField wrong format."
-//        }
+        
+        guard let _ = Double(amountText) else {
+            return "amountTextField worng format."
+        }
+        
+        // title
+        if let title = titleTextField.text {
+            if title.count > 100 {
+                return "titleTextField length greater then 100."
+            }
+        }
         
         // category
         if self.recoredCategory == nil {
@@ -534,10 +606,15 @@ class RecordDetailViewController: UIViewController {
             return "recordAccount didnt set."
         }
         
+        // note
+        if let note = noteTextView.text {
+            if note.count > 500 {
+                return "noteTextView length greater then 500."
+            }
+        }
+        
         return nil
     }
-    
-    
 }
 
 // MARK: - Extension
@@ -549,11 +626,13 @@ extension RecordDetailViewController: TBDatePickerDelegate {
 }
 
 extension RecordDetailViewController: CalculatorDelegate {
-    func changeTransactionType() {
-        print("changeTransactionType")
+    func changeTransactionType(type: TransactionType) {
+        print("change to : \(type)")
     }
     
-    
+    func changeAmountValue(amount: String) {
+        amountLabel.text = amount
+    }
 }
 
 // MARK: UITextFieldDelegate, UITextViewDelegate

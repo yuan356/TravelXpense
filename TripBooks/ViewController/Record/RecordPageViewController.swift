@@ -19,8 +19,8 @@ protocol pageViewControllerSelectedDayDelegate: AnyObject {
 }
 
 class RecordPageViewController: UIPageViewController {
-
-    var totalDays: Int = 0
+    
+    var book: Book!
 
     var currentDayIndex : Int = 0 {
         didSet {
@@ -44,7 +44,7 @@ class RecordPageViewController: UIPageViewController {
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
-        
+        self.view.backgroundColor = TBColor.background.dark
         // first show viewController
         if let startingVC = contentViewController(at: currentDayIndex) {
             self.setViewControllers([startingVC], direction: .forward, animated: true, completion: nil)
@@ -69,12 +69,13 @@ extension RecordPageViewController: UIPageViewControllerDataSource, UIPageViewCo
     }
     
     func contentViewController(at dayIndex: Int) -> RecordTableViewController? {
-        guard dayIndex >= 0 && dayIndex < self.totalDays else {
+        guard dayIndex >= 0 && dayIndex < book.days else {
             return nil
         }
         
         // init new RecordViewController
         let recordTableViewVC = RecordTableViewController()
+        recordTableViewVC.book = self.book
         recordTableViewVC.dayIndex = dayIndex
         return recordTableViewVC
     }

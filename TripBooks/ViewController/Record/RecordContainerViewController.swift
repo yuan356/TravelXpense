@@ -52,8 +52,8 @@ class RecordContainerViewController: UIViewController {
         
         // init pageViewController for recordViewController
         self.addPageViewController()
-        
     }
+    
     
     private func addDaysCollectionView() {
         self.daysCollectionView = initDaysCollectionView()
@@ -66,9 +66,9 @@ class RecordContainerViewController: UIViewController {
     private func addPageViewController() {
         pageViewController.updatePageDelegate = self
         pageViewController.selectedDayDelegate = self
-        
-        pageViewController.totalDays = self.book.days
-        pageViewController.currentDayIndex = initDayIndex // init day
+        pageViewController.book = book
+        // TODO: init day (if today in the range of book, set the day)
+        pageViewController.currentDayIndex = initDayIndex
         
         self.view.addSubview(pageViewController.view)
         

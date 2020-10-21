@@ -46,6 +46,9 @@ class IconView {
         return iconImageView
     }()
     
+    
+    /// return Icon ImageView(size: 45)
+    /// - Returns: UIView
     func geticonImageView() -> UIView {
         iconBackgroundView.addSubview(iconImageView)
         iconImageView.anchorToSuperViewCenter()

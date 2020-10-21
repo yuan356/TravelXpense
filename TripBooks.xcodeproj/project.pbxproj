@@ -27,7 +27,7 @@
 		1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */; };
 		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
 		1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803ED251EF130003D7708 /* AccountingViewController.xib */; };
-		1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* AccountingViewController.swift */; };
+		1CA803F2251F2532003D7708 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* BookDetailViewController.swift */; };
 		1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F4251F2560003D7708 /* RecordPageViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
@@ -37,10 +37,10 @@
 		1CD182012512048D00AFD985 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182002512048D00AFD985 /* Assets.xcassets */; };
 		1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182022512048D00AFD985 /* LaunchScreen.storyboard */; };
 		1CD1820D2512050900AFD985 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820C2512050900AFD985 /* Record.swift */; };
-		1CD1820F2512139200AFD985 /* TBfunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820E2512139200AFD985 /* TBfunc.swift */; };
+		1CD1820F2512139200AFD985 /* TBFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1820E2512139200AFD985 /* TBFunc.swift */; };
 		1CF560212535791E003EEC66 /* UIButton+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560202535791E003EEC66 /* UIButton+ext.swift */; };
 		1CF5602425358FFF003EEC66 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5602325358FFF003EEC66 /* Account.swift */; };
-		1CF56030253595A5003EEC66 /* TBNotifyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5602F253595A5003EEC66 /* TBNotifyCenter.swift */; };
+		1CF56030253595A5003EEC66 /* TBNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5602F253595A5003EEC66 /* TBNotify.swift */; };
 		1CF560342535A284003EEC66 /* TBColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560332535A284003EEC66 /* TBColor.swift */; };
 		1CF5603F2535AC51003EEC66 /* AccountPickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5603E2535AC51003EEC66 /* AccountPickerTableViewCell.swift */; };
 		1CF560422535B318003EEC66 /* AccountPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560412535B318003EEC66 /* AccountPickerViewController.swift */; };
@@ -56,10 +56,15 @@
 		1CF5609125384E91003EEC66 /* NotoSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */; };
 		1CF5609225384E91003EEC66 /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */; };
 		1CF5609325384E91003EEC66 /* NotoSansTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */; };
-		1CF5609425384E91003EEC66 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608D25384E90003EEC66 /* OFL.txt */; };
 		1CF5609525384E91003EEC66 /* NotoSansTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */; };
-		1CF5609625384E91003EEC66 /* NotoSansTC-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608F25384E90003EEC66 /* NotoSansTC-Black.otf */; };
 		1CF5609725384E91003EEC66 /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */; };
+		1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609B253949B3003EEC66 /* Rubik-Light.ttf */; };
+		1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609C253949B3003EEC66 /* Rubik-Regular.ttf */; };
+		1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF560A425394AA3003EEC66 /* Rubik-Medium.ttf */; };
+		1CF560BB253D7F67003EEC66 /* TBNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */; };
+		1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BE253ED521003EEC66 /* TBFeedback.swift */; };
+		1CF560C2254012FB003EEC66 /* Double+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C1254012FA003EEC66 /* Double+ext.swift */; };
+		1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookSettingViewController.swift */; };
 		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
 
@@ -86,7 +91,7 @@
 		1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+anchors.swift"; sourceTree = "<group>"; };
 		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
 		1CA803ED251EF130003D7708 /* AccountingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountingViewController.xib; sourceTree = "<group>"; };
-		1CA803F1251F2532003D7708 /* AccountingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountingViewController.swift; sourceTree = "<group>"; };
+		1CA803F1251F2532003D7708 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		1CA803F4251F2560003D7708 /* RecordPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPageViewController.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,10 +103,10 @@
 		1CD182032512048D00AFD985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1CD182052512048D00AFD985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CD1820C2512050900AFD985 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
-		1CD1820E2512139200AFD985 /* TBfunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBfunc.swift; sourceTree = "<group>"; };
+		1CD1820E2512139200AFD985 /* TBFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBFunc.swift; sourceTree = "<group>"; };
 		1CF560202535791E003EEC66 /* UIButton+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+ext.swift"; sourceTree = "<group>"; };
 		1CF5602325358FFF003EEC66 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		1CF5602F253595A5003EEC66 /* TBNotifyCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBNotifyCenter.swift; sourceTree = "<group>"; };
+		1CF5602F253595A5003EEC66 /* TBNotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBNotify.swift; sourceTree = "<group>"; };
 		1CF560332535A284003EEC66 /* TBColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBColor.swift; sourceTree = "<group>"; };
 		1CF5603E2535AC51003EEC66 /* AccountPickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPickerTableViewCell.swift; sourceTree = "<group>"; };
 		1CF560412535B318003EEC66 /* AccountPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPickerViewController.swift; sourceTree = "<group>"; };
@@ -117,10 +122,15 @@
 		1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
 		1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.otf"; sourceTree = "<group>"; };
 		1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.otf"; sourceTree = "<group>"; };
-		1CF5608D25384E90003EEC66 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Light.otf"; sourceTree = "<group>"; };
-		1CF5608F25384E90003EEC66 /* NotoSansTC-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Black.otf"; sourceTree = "<group>"; };
 		1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
+		1CF5609B253949B3003EEC66 /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
+		1CF5609C253949B3003EEC66 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		1CF560A425394AA3003EEC66 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
+		1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBNotificationCenter.swift; sourceTree = "<group>"; };
+		1CF560BE253ED521003EEC66 /* TBFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBFeedback.swift; sourceTree = "<group>"; };
+		1CF560C1254012FA003EEC66 /* Double+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ext.swift"; sourceTree = "<group>"; };
+		1CF560C425403662003EEC66 /* BookSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSettingViewController.swift; sourceTree = "<group>"; };
 		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,27 +149,28 @@
 		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1CF560B7253D5968003EEC66 /* Book */,
 				1C8B6F312521D9D9000D423B /* Record */,
-				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
-				1CA803ED251EF130003D7708 /* AccountingViewController.xib */,
-				1CA803F1251F2532003D7708 /* AccountingViewController.swift */,
+				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
 				1CF560412535B318003EEC66 /* AccountPickerViewController.swift */,
 				1CF5603E2535AC51003EEC66 /* AccountPickerTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		1C6C50CB2519AA0900F5EC43 /* Tools */ = {
+		1C6C50CB2519AA0900F5EC43 /* Asist */ = {
 			isa = PBXGroup;
 			children = (
-				1CD1820E2512139200AFD985 /* TBfunc.swift */,
+				1CD1820E2512139200AFD985 /* TBFunc.swift */,
 				1CF560332535A284003EEC66 /* TBColor.swift */,
 				1CF560442535B793003EEC66 /* NavigationIcon.swift */,
 				1CF5604B2536A272003EEC66 /* MainFont.swift */,
 				1CF5604E2536B9E5003EEC66 /* TBButton.swift */,
-				1CF5602F253595A5003EEC66 /* TBNotifyCenter.swift */,
+				1CF5602F253595A5003EEC66 /* TBNotify.swift */,
+				1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */,
+				1CF560BE253ED521003EEC66 /* TBFeedback.swift */,
 			);
-			path = Tools;
+			path = Asist;
 			sourceTree = "<group>";
 		};
 		1C6C50CF2519ABB300F5EC43 /* DB */ = {
@@ -180,7 +191,6 @@
 				1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */,
 				1C8B6F4B252AFE3E000D423B /* RecordDetailViewController.swift */,
 				1C8B6F5F252EF077000D423B /* CategoriesCollectionViewCell.swift */,
-				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -241,7 +251,7 @@
 				1CA80378251B2845003D7708 /* Service */,
 				1CA8036F2519F27B003D7708 /* View */,
 				1C6C50CF2519ABB300F5EC43 /* DB */,
-				1C6C50CB2519AA0900F5EC43 /* Tools */,
+				1C6C50CB2519AA0900F5EC43 /* Asist */,
 				1C6C50C72519A9E200F5EC43 /* ViewController */,
 				1CD1820B2512049900AFD985 /* Model */,
 				1CD181F42512048B00AFD985 /* AppDelegate.swift */,
@@ -275,6 +285,7 @@
 				1C8B6F52252C6A7F000D423B /* UIColor+ext.swift */,
 				1CF560202535791E003EEC66 /* UIButton+ext.swift */,
 				1CF5605B25380C3E003EEC66 /* String+ext.swift */,
+				1CF560C1254012FA003EEC66 /* Double+ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -290,17 +301,53 @@
 		1CF5606525384260003EEC66 /* font */ = {
 			isa = PBXGroup;
 			children = (
-				1CF560672538427C003EEC66 /* jf-openhuninn-1.1.ttf */,
-				1CF560662538427B003EEC66 /* license.txt */,
-				1CF5608F25384E90003EEC66 /* NotoSansTC-Black.otf */,
-				1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */,
+				1CF560A525394BC3003EEC66 /* Jfopen */,
+				1CF560A1253949D0003EEC66 /* NotoSansTC */,
+				1CF5609D253949B7003EEC66 /* Rubik */,
+			);
+			path = font;
+			sourceTree = "<group>";
+		};
+		1CF5609D253949B7003EEC66 /* Rubik */ = {
+			isa = PBXGroup;
+			children = (
+				1CF5609B253949B3003EEC66 /* Rubik-Light.ttf */,
+				1CF5609C253949B3003EEC66 /* Rubik-Regular.ttf */,
+				1CF560A425394AA3003EEC66 /* Rubik-Medium.ttf */,
+			);
+			path = Rubik;
+			sourceTree = "<group>";
+		};
+		1CF560A1253949D0003EEC66 /* NotoSansTC */ = {
+			isa = PBXGroup;
+			children = (
+				1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */,
 				1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */,
 				1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */,
 				1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */,
-				1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */,
-				1CF5608D25384E90003EEC66 /* OFL.txt */,
+				1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */,
 			);
-			path = font;
+			path = NotoSansTC;
+			sourceTree = "<group>";
+		};
+		1CF560A525394BC3003EEC66 /* Jfopen */ = {
+			isa = PBXGroup;
+			children = (
+				1CF560672538427C003EEC66 /* jf-openhuninn-1.1.ttf */,
+				1CF560662538427B003EEC66 /* license.txt */,
+			);
+			path = Jfopen;
+			sourceTree = "<group>";
+		};
+		1CF560B7253D5968003EEC66 /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
+				1CA803ED251EF130003D7708 /* AccountingViewController.xib */,
+				1CA803F1251F2532003D7708 /* BookDetailViewController.swift */,
+				1CF560C425403662003EEC66 /* BookSettingViewController.swift */,
+			);
+			path = Book;
 			sourceTree = "<group>";
 		};
 		61631689A378B42A74B3D4E8 /* Pods */ = {
@@ -381,16 +428,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CF5609125384E91003EEC66 /* NotoSansTC-Regular.otf in Resources */,
+				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
 				1CF560682538427C003EEC66 /* license.txt in Resources */,
-				1CF5609425384E91003EEC66 /* OFL.txt in Resources */,
 				1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */,
+				1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */,
 				1CF5609225384E91003EEC66 /* NotoSansTC-Bold.otf in Resources */,
 				1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
 				1CF5609325384E91003EEC66 /* NotoSansTC-Medium.otf in Resources */,
+				1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
 				1CF560692538427C003EEC66 /* jf-openhuninn-1.1.ttf in Resources */,
-				1CF5609625384E91003EEC66 /* NotoSansTC-Black.otf in Resources */,
 				1CF5609725384E91003EEC66 /* NotoSansTC-Thin.otf in Resources */,
 				1CD181FC2512048C00AFD985 /* Main.storyboard in Resources */,
 				1CF5609525384E91003EEC66 /* NotoSansTC-Light.otf in Resources */,
@@ -451,15 +499,17 @@
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBButton.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
+				1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+ext.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
-				1CA803F2251F2532003D7708 /* AccountingViewController.swift in Sources */,
-				1CF56030253595A5003EEC66 /* TBNotifyCenter.swift in Sources */,
+				1CA803F2251F2532003D7708 /* BookDetailViewController.swift in Sources */,
+				1CF56030253595A5003EEC66 /* TBNotify.swift in Sources */,
 				1CF5606225383C65003EEC66 /* CalculatorViewController.swift in Sources */,
 				1CF560522536D3B1003EEC66 /* AccountService.swift in Sources */,
 				1C8B6F60252EF077000D423B /* CategoriesCollectionViewCell.swift in Sources */,
 				1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */,
+				1CF560BB253D7F67003EEC66 /* TBNotificationCenter.swift in Sources */,
 				1C8B6F57252DB044000D423B /* IconView.swift in Sources */,
 				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
 				1CF5605F25381DFE003EEC66 /* RecordSevice.swift in Sources */,
@@ -469,6 +519,7 @@
 				1CF5602425358FFF003EEC66 /* Account.swift in Sources */,
 				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
+				1CF560C2254012FB003EEC66 /* Double+ext.swift in Sources */,
 				1CF5603F2535AC51003EEC66 /* AccountPickerTableViewCell.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
 				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
@@ -480,10 +531,11 @@
 				1CF560342535A284003EEC66 /* TBColor.swift in Sources */,
 				1CF5604C2536A272003EEC66 /* MainFont.swift in Sources */,
 				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,
-				1CD1820F2512139200AFD985 /* TBfunc.swift in Sources */,
+				1CD1820F2512139200AFD985 /* TBFunc.swift in Sources */,
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,
 				1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */,
 				1CA803732519F2B6003D7708 /* BookTableViewCell.swift in Sources */,
+				1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

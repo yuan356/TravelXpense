@@ -88,7 +88,10 @@ class BookService {
                 break
             }
         }
-        
         completion()
+    }
+    
+    func getBookFromCache(bookId: Int) -> Book? {
+        return self.cache[bookId]
     }
 }

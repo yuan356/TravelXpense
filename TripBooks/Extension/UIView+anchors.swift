@@ -17,6 +17,11 @@ enum HeaderButtonPosition {
     case left
 }
 
+enum RoundedType {
+    case top
+    case bottom
+}
+
 extension UIView {
     
     func fillSuperview(padding: UIEdgeInsets) {
@@ -134,11 +139,20 @@ extension UIView {
     }
     
     /// default radius = 10
-    func roundedCorners(radius: CGFloat = 10, shadow: Bool = false) {
+    func roundedCorners(radius: CGFloat = 10, shadow: Bool = false, roundedType: RoundedType? = nil) {
         self.layer.cornerRadius = radius
         
         if shadow {
             self.getShadow()
+        }
+        
+        if let roundedType = roundedType {
+            switch roundedType {
+            case .top:
+                self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            case .bottom:
+                self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            }
         }
     }
     

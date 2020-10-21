@@ -11,6 +11,7 @@ import FMDB
 
 class Record {
     var id: Int
+    var bookId: Int
     var amount: Double
     var title: String
     var note: String
@@ -19,8 +20,9 @@ class Record {
     var account: Account
     var createTime: Double
     
-    init(id: Int, amount: Double, title: String, note: String, date: Date, category: Category, account: Account, createTime: Double) {
+    init(id: Int, bookId: Int, amount: Double, title: String, note: String, date: Date, category: Category, account: Account, createTime: Double) {
         self.id = id
+        self.bookId = bookId
         self.amount = amount
         self.title = title
         self.note = note
@@ -33,6 +35,7 @@ class Record {
     static func getRecordByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Record? {
         
         let id = Int(dataLists.int(forColumn: RecordField.id))
+        let bookId = Int(dataLists.int(forColumn: RecordField.bookId))
         let amount = dataLists.double(forColumn: RecordField.amount)
         let categoryId = Int(dataLists.int(forColumn: RecordField.categoryId))
         let accountId = Int(dataLists.int(forColumn: RecordField.accountId))
@@ -46,6 +49,6 @@ class Record {
             return nil
         }
         
-        return Record(id: id, amount: amount, title: title, note: note, date: date, category: category, account: account, createTime: createTime)
+        return Record(id: id, bookId: bookId, amount: amount, title: title, note: note, date: date, category: category, account: account, createTime: createTime)
     }
 }

@@ -32,7 +32,7 @@ class AccountPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.background()
+        self.view.backgroundColor = TBColor.background.dark
         self.view.roundedCorners()
         accountTableView = UITableView()
         accountTableView.register(AccountPickerTableViewCell.self, forCellReuseIdentifier: String(describing: AccountPickerTableViewCell.self))
@@ -47,7 +47,7 @@ class AccountPickerViewController: UIViewController {
         self.view.addSubview(accountTableView)
         
         headerView.anchorViewOnTop()
-//        setHeaderButton()
+        setHeaderButton()
         
         if isForPicker {
             setButtonView()
@@ -80,9 +80,7 @@ class AccountPickerViewController: UIViewController {
 
     @IBAction func cancelClicked(_ sender: UIButton) {
         print("close")
-        if SwiftEntryKit.isCurrentlyDisplaying(entryNamed: "AccountPickerAttributes") {
-            SwiftEntryKit.dismiss(.specific(entryName: "AccountPickerAttributes"))
-        }
+        TBNotify.dismiss(name: AccountPickerAttributes)
     }
 }
 

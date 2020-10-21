@@ -100,8 +100,12 @@ class TBdatePickerViewController: UIViewController {
         return self.datePicker.date
     }
 
-    func setMinimumDate(date: Date) {
+    func setMinimumDate(_ date: Date) {
         self.datePicker.minimumDate = date
+    }
+    
+    func setMaximumDate(_ date: Date) {
+        self.datePicker.maximumDate = date
     }
     
     private func createButton(to view: UIView) {

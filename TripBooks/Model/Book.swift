@@ -13,6 +13,7 @@ class Book {
     var id: Int
     var name: String
     var country: String
+    var currency: String
     var coverImageNo: Int?
     var totalAmount: Double
     var startDate: Date
@@ -20,17 +21,18 @@ class Book {
     var createDate: Double
     var days: Int = 0
     
-    init(id: Int, name: String, country: String, coverImageNo: Int?,
+    init(id: Int, name: String, country: String, currency: String, coverImageNo: Int?,
          totalAmount: Double, startDate: Date, endDate: Date, createDate: Double) {
         self.id = id
         self.name = name
         self.country = country
+        self.currency = currency
         self.coverImageNo = coverImageNo ?? nil
         self.totalAmount = totalAmount
         self.startDate = startDate
         self.endDate = endDate
         self.createDate = createDate
-        if let daysInterval = TBfunc.getDaysInterval(start: startDate, end: endDate) {
+        if let daysInterval = TBFunc.getDaysInterval(start: startDate, end: endDate) {
             self.days = daysInterval + 1
         }
     }
@@ -39,6 +41,7 @@ class Book {
         
         guard let name = dataLists.string(forColumn: BookField.name),
               let country = dataLists.string(forColumn: BookField.country),
+              let currency = dataLists.string(forColumn: BookField.currency) ?? "",
               let startDate = dataLists.date(forColumn: BookField.startDate),
               let endDate = dataLists.date(forColumn: BookField.endDate) else {
             return nil
@@ -49,6 +52,6 @@ class Book {
         let totalAmount = dataLists.double(forColumn: BookField.totalAmount)
         let createDate = dataLists.double(forColumn: BookField.createdDate)
         
-        return Book(id: id, name: name, country: country, coverImageNo: coverImageNo, totalAmount: totalAmount, startDate: startDate, endDate: endDate, createDate: createDate)
+        return Book(id: id, name: name, country: country, currency: currency, coverImageNo: coverImageNo, totalAmount: totalAmount, startDate: startDate, endDate: endDate, createDate: createDate)
     }
 }

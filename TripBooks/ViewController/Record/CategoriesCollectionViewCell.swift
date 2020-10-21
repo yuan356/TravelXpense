@@ -57,7 +57,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
         self.contentView.sendSubviewToBack(iconSelectedBackground)
         iconSelectedBackground.isHidden = true
         
-        iconTitleLabel.font = iconTitleLabel.font.withSize(13)
+        iconTitleLabel.font = MainFont.regular.with(fontSize: .small)
         iconTitleLabel.textColor = .white
         iconTitleLabel.textAlignment = .center
         self.contentView.addSubview(iconTitleLabel)

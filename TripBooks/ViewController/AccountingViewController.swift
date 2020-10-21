@@ -13,26 +13,26 @@ enum AccountingPage: String {
     case Chart
 }
 
-class AccountingViewController: UIViewController {
+class BookDetailViewController: UIViewController {
 
     var currentRootViewController: UIViewController?
     
     var book: Book!
     
-    var selectedDay: Date? {
-        didSet {
-            //print("selectedDay changed: \(selectedDay!)")
-        }
-    }
+    var selectedDay: Date?
     
     @IBOutlet weak var contentView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        // load all records in book
+        RecordSevice.shared.getAllRecordsFromCertainBook(bookId: book.id)
+        
+        // defalut page
         switchPage(page: .Record)
     }
-    
+
     func switchPage(page: AccountingPage) {
         var controller: UIViewController?
         let identifier: String = page.rawValue
@@ -82,9 +82,9 @@ class AccountingViewController: UIViewController {
     }
 }
 
-extension AccountingViewController: recordContainerSelectedDayDelegate {
+extension BookDetailViewController: recordContainerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {
-        if let date = TBfunc.getDateByOffset(startDate: self.book.startDate, daysInterval: dayIndex) {
+        if let date = TBFunc.getDateByOffset(startDate: self.book.startDate, daysInterval: dayIndex) {
             self.selectedDay = date
         }
     }

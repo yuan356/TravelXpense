@@ -31,6 +31,7 @@ class AccountPickerTableViewCell: UITableViewCell {
     
     let amountLabel: UILabel = {
         let amountLabel = UILabel()
+        
         amountLabel.textAlignment = .right
         return amountLabel
     }()
@@ -52,10 +53,10 @@ class AccountPickerTableViewCell: UITableViewCell {
         
         nameLabel.setAutoresizingToFalse()
         nameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: amountLabel.leadingAnchor, constant: -10).isActive = true
+        nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: amountLabel.leadingAnchor, constant: -15).isActive = true
         
         amountLabel.setAutoresizingToFalse()
-        amountLabel.anchorSuperViewTrailing(padding: 10)
+        amountLabel.anchorSuperViewTrailing(padding: 15)
         amountLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
@@ -79,8 +80,9 @@ class AccountPickerTableViewCell: UITableViewCell {
         iconImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         nameLabel.text = acc.name
-        
-        amountLabel.text = TBfunc.convertDoubleToStr(acc.amount)
+        nameLabel.text = "aAAAASDASDDFSFDSDF"
+        amountLabel.text = TBFunc.convertDoubleToStr(acc.amount)
+        amountLabel.text = "9999999999999"
     }
 
 }

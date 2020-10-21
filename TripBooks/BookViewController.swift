@@ -31,7 +31,6 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         
         self.tableView.register(UINib(nibName: "BookTableViewCell", bundle: nil), forCellReuseIdentifier: "BookTableViewCell")
         
-        
         // initialize setting
         BookService.shared.getAllBooksToCache()
         CategoryService.shared.getAllCategoriesToCache()
@@ -42,16 +41,6 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.reloadData()
-        
-        
-        // for test
-//        if self.books.count > 0 {
-//            let vc = AccountingViewController()
-//            vc.book = self.books[0]
-//            vc.modalPresentationStyle = .fullScreen
-//            self.present(vc, animated: true, completion: nil)
-//        }
-        
     }
 
 
@@ -108,9 +97,9 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
             cell.countryLabel.text = book.country
             cell.idLabel.text = String(book.id)
             cell.coverImageNo.text = String(book.coverImageNo ?? 0)
-            cell.createTime.text = TBfunc.convertDoubleTimeToDateStr(timeStamp: book.createDate)
-            cell.startDateLabel.text = TBfunc.convertDateToDateStr(date: book.startDate)
-            cell.endDateLabel.text = TBfunc.convertDateToDateStr(date: book.endDate)
+            cell.createTime.text = TBFunc.convertDoubleTimeToDateStr(timeStamp: book.createDate)
+            cell.startDateLabel.text = TBFunc.convertDateToDateStr(date: book.startDate)
+            cell.endDateLabel.text = TBFunc.convertDateToDateStr(date: book.endDate)
             cell.totalAmountLabel.text = String(book.totalAmount)
             cell.daysInterval.text = String(book.days)
             
