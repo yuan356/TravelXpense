@@ -48,10 +48,16 @@ class BookService {
         completion(newBook)
     }
     
-    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, bookId: Int, completion: @escaping (_ targetBook: Book) -> ()) {
+    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject) {
+        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, field: field, value: value) else {
+            return
+        }
+    }
+    
+    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {
         
         // update book in DB (if update succeed, return a not nil book)
-        guard let targetBook = DBManager.shared.updateBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate, bookId: bookId) else {
+        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
             return
         }
         

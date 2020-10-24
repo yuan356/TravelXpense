@@ -23,11 +23,12 @@ enum Font {
             return UIFont(name: "NotoSansTC-\(rawValue)", size: fontSize.rawValue)
                 ?? UIFont.systemFont(ofSize: fontSize.rawValue)
         }
-        
+
         func with(fontSize: CGFloat) -> UIFont {
             return UIFont(name: "NotoSansTC-\(rawValue)", size: fontSize)
                 ?? UIFont.systemFont(ofSize: fontSize)
         }
+        
     }
     enum Rubik: String {
         case light = "Light"

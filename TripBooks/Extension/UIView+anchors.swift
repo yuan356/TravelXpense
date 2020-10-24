@@ -74,6 +74,14 @@ extension UIView {
         }
     }
     
+    func anchorCenterY(to view: UIView) {
+        centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    func anchorCenterX(to view: UIView) {
+        centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
     /// default padding = 15,  height = 25, multiplier = 1
     func anchorButtonToHeader(position: HeaderButtonPosition, padding: CGFloat = 15, height: CGFloat = heightForHeaderButton, multiplier: CGFloat = 1) {
         var leading: NSLayoutXAxisAnchor? = nil

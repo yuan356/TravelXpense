@@ -10,7 +10,7 @@ import UIKit
 
 extension Double {
     mutating func turnToPositive() {
-        self *= (self > 0) ? 1 : -1
+        self *= (self >= 0) ? 1 : -1
     }
     
     mutating func turnToNegative() {

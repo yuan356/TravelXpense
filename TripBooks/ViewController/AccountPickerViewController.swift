@@ -11,17 +11,17 @@ import SwiftEntryKit
 
 let heightButtonBar: CGFloat = 60
 
+// color
+fileprivate let backgroundColor = TBColor.darkGary
+
+
 class AccountPickerViewController: UIViewController {
     
-    let headerView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    lazy var headerView = UIView()
+    lazy var buttonView = UIView()
     
     var isForPicker = false
-    
-    let buttonView = UIView()
-    
+
     var accounts: [Account] {
         return AccountService.shared.accounts
     }
@@ -32,13 +32,14 @@ class AccountPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.background.dark
+        self.view.backgroundColor = backgroundColor
         self.view.roundedCorners()
+        
         accountTableView = UITableView()
         accountTableView.register(AccountPickerTableViewCell.self, forCellReuseIdentifier: String(describing: AccountPickerTableViewCell.self))
         accountTableView.delegate = self
         accountTableView.dataSource = self
-        accountTableView.backgroundColor = UIColor.lightGray
+        accountTableView.backgroundColor = .clear
         setAutoLayout()
     }
     

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C3ACD2C254163990030ACBA /* Declarative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD2B254163990030ACBA /* Declarative.swift */; };
+		1C3ACD312542AB0B0030ACBA /* IsoCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD2F2542AB0B0030ACBA /* IsoCountries.swift */; };
+		1C3ACD322542AB0B0030ACBA /* IsoCountryCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD302542AB0B0030ACBA /* IsoCountryCodes.swift */; };
+		1C3ACD352542B5D70030ACBA /* LocalePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */; };
+		1C3ACD382542C6130030ACBA /* IsoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD372542C6130030ACBA /* IsoService.swift */; };
+		1C3ACD3B2542CD740030ACBA /* LocalePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */; };
+		1C3ACD6325431DD40030ACBA /* GenericTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD6225431DD40030ACBA /* GenericTableViewController.swift */; };
 		1C3F207825188E6B008628C5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207725188E6B008628C5 /* Category.swift */; };
 		1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207D2518AD1F008628C5 /* Icons.swift */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
@@ -71,6 +78,13 @@
 /* Begin PBXFileReference section */
 		00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripBooks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		167ED0DEC892068602740001 /* Pods-TripBooks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.release.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.release.xcconfig"; sourceTree = "<group>"; };
+		1C3ACD2B254163990030ACBA /* Declarative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
+		1C3ACD2F2542AB0B0030ACBA /* IsoCountries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsoCountries.swift; sourceTree = "<group>"; };
+		1C3ACD302542AB0B0030ACBA /* IsoCountryCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsoCountryCodes.swift; sourceTree = "<group>"; };
+		1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalePickerViewController.swift; sourceTree = "<group>"; };
+		1C3ACD372542C6130030ACBA /* IsoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoService.swift; sourceTree = "<group>"; };
+		1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalePickerTableViewCell.swift; sourceTree = "<group>"; };
+		1C3ACD6225431DD40030ACBA /* GenericTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTableViewController.swift; sourceTree = "<group>"; };
 		1C3F207725188E6B008628C5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		1C3F207D2518AD1F008628C5 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +168,8 @@
 				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
 				1CF560412535B318003EEC66 /* AccountPickerViewController.swift */,
 				1CF5603E2535AC51003EEC66 /* AccountPickerTableViewCell.swift */,
+				1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */,
+				1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -212,6 +228,7 @@
 				1C8B6F59252ED054000D423B /* CategoryService.swift */,
 				1CF560512536D3B1003EEC66 /* AccountService.swift */,
 				1CF5605E25381DFE003EEC66 /* RecordSevice.swift */,
+				1C3ACD372542C6130030ACBA /* IsoService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -286,6 +303,8 @@
 				1CF560202535791E003EEC66 /* UIButton+ext.swift */,
 				1CF5605B25380C3E003EEC66 /* String+ext.swift */,
 				1CF560C1254012FA003EEC66 /* Double+ext.swift */,
+				1C3ACD2B254163990030ACBA /* Declarative.swift */,
+				1C3ACD6225431DD40030ACBA /* GenericTableViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -293,6 +312,8 @@
 		1CF5606425384256003EEC66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1C3ACD2F2542AB0B0030ACBA /* IsoCountries.swift */,
+				1C3ACD302542AB0B0030ACBA /* IsoCountryCodes.swift */,
 				1CF5606525384260003EEC66 /* font */,
 			);
 			path = Resources;
@@ -494,12 +515,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C3ACD6325431DD40030ACBA /* GenericTableViewController.swift in Sources */,
 				1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */,
+				1C3ACD322542AB0B0030ACBA /* IsoCountryCodes.swift in Sources */,
 				1CF560422535B318003EEC66 /* AccountPickerViewController.swift in Sources */,
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBButton.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
 				1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */,
+				1C3ACD3B2542CD740030ACBA /* LocalePickerTableViewCell.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+ext.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
@@ -518,6 +542,7 @@
 				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,
 				1CF5602425358FFF003EEC66 /* Account.swift in Sources */,
 				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
+				1C3ACD312542AB0B0030ACBA /* IsoCountries.swift in Sources */,
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
 				1CF560C2254012FB003EEC66 /* Double+ext.swift in Sources */,
 				1CF5603F2535AC51003EEC66 /* AccountPickerTableViewCell.swift in Sources */,
@@ -529,7 +554,10 @@
 				1CF560452535B793003EEC66 /* NavigationIcon.swift in Sources */,
 				1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */,
 				1CF560342535A284003EEC66 /* TBColor.swift in Sources */,
+				1C3ACD352542B5D70030ACBA /* LocalePickerViewController.swift in Sources */,
 				1CF5604C2536A272003EEC66 /* MainFont.swift in Sources */,
+				1C3ACD382542C6130030ACBA /* IsoService.swift in Sources */,
+				1C3ACD2C254163990030ACBA /* Declarative.swift in Sources */,
 				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,
 				1CD1820F2512139200AFD985 /* TBFunc.swift in Sources */,
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,

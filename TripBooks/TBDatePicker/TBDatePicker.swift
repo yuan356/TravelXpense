@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TBDatePickerDelegate: AnyObject {
-    func changeDate(identifier: String, date: Date)
+    func changeDate(buttonIdentifier: String, date: Date)
 }
 
 class TBdatePickerViewController: UIViewController {
@@ -73,7 +73,7 @@ class TBdatePickerViewController: UIViewController {
     }
     
     @IBAction func selectedDone() {
-        self.delegate?.changeDate(identifier: self.buttonIdentifier, date: self.datePicker.date)
+        self.delegate?.changeDate(buttonIdentifier: self.buttonIdentifier, date: self.datePicker.date)
         close()
     }
     

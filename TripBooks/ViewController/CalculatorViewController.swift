@@ -9,8 +9,11 @@
 import UIKit
 
 protocol CalculatorDelegate: AnyObject {
+    func changeAmountValue(amountStr: String)
+    /// for record detail edit
     func changeTransactionType(type: TransactionType)
-    func changeAmountValue(amount: String)
+    /// for book budget setting
+    func finishCalculate()
 }
 
 enum OperationType: String {
@@ -31,9 +34,30 @@ fileprivate let clearBtnId = "clear"
 fileprivate let pointBtnId = "point"
 fileprivate let okayBtnId = "okay"
 
+let heightForBudgetView: CGFloat = 80
+
 class CalculatorViewController: UIViewController {
 
     weak var delegate: CalculatorDelegate?
+    
+    var currencyCode = ""
+    
+    // for budget
+    var isForBudget = false
+
+    lazy var budgetView = UIView {
+        $0.anchorSize(height: heightForBudgetView)
+        $0.roundedCorners()
+        $0.layer.borderColor = TBColor.darkGary.cgColor
+        $0.layer.borderWidth = 1
+    }
+    
+    lazy var budgetLabel = UILabel {
+        $0.font = MainFontNumeral.regular.with(fontSize: 40)
+        $0.textAlignment = .right
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.8
+    }
     
     private var buttonHeight: CGFloat = 0
     
@@ -48,7 +72,10 @@ class CalculatorViewController: UIViewController {
     private var amountText: String = "" {
         didSet {
             amountText = checkAmountTextLength(amountText)
-            self.delegate?.changeAmountValue(amount: amountText)
+            if isForBudget {
+                budgetLabel.text = amountText
+            }
+            self.delegate?.changeAmountValue(amountStr: amountText)
         }
     }
     
@@ -92,9 +119,14 @@ class CalculatorViewController: UIViewController {
     
     private var havePoint = false // 是否已有小數點
     
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.delegate?.finishCalculate()
     }
     
     @IBAction func numberTapped(_ sender: UIButton) {
@@ -128,7 +160,6 @@ class CalculatorViewController: UIViewController {
 
         let number = Double(amountText) ?? 0
         numberOnScreen = checkAmountLimited(number)
-    
     }
     
     @IBAction func tapOperation(_ sender: UIButton) {
@@ -174,7 +205,13 @@ class CalculatorViewController: UIViewController {
         TBFeedback.notificationOccur(.success)
         if sender.title(for: .normal) == "OK" { // finish
             numberOnScreen = checkAmountLimited(numberOnScreen)
-            amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
+            if isForBudget && numberOnScreen < 0 { // 預算不得為負
+                TBNotify.systemNotice(on: self, message: "Budget should greater than 0.")
+                numberOnScreen.turnToPositive()
+                amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
+                return
+            }
+            setAmountResult()
             TBNotify.dismiss(name: CalculatorAttributes)
             return
         }
@@ -192,12 +229,18 @@ class CalculatorViewController: UIViewController {
                 numberOnScreen = 0
             }
             
-            numberOnScreen = checkAmountLimited(numberOnScreen)
-            amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
+            setAmountResult()
         }
         
         performingMath = false
         resetNumber = true
+    }
+    
+    private func setAmountResult() {
+        // 1. check limited
+        numberOnScreen = checkAmountLimited(numberOnScreen)
+        // 2. set amount text
+        amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
     }
     
     private func setViews() {
@@ -263,12 +306,28 @@ class CalculatorViewController: UIViewController {
         mainvStackView.addArrangedSubview(hStackView_5)
         
         
+        
         self.view.addSubview(mainvStackView)
-        mainvStackView.fillSuperview()
+        if isForBudget {
+            let padding: CGFloat = 10
+            self.view.addSubview(budgetView)
+            budgetView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
+            budgetView.addSubview(budgetLabel)
+            budgetLabel.fillSuperview(padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
+            numberOnScreen = checkAmountLimited(numberOnScreen)
+            amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
+            
+            mainvStackView.anchor(top: budgetView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+            
+        } else {
+            mainvStackView.fillSuperview()
+        }
+       
     }
     
     var buttonView = [String: UIView]()
     
+    // MARK: setButton
     private func setButton() {
         let btnColor: UIColor = .white
         let btnColorHighLighted: UIColor = .darkGray
@@ -302,6 +361,11 @@ class CalculatorViewController: UIViewController {
         typeBtn.restorationIdentifier = typeBtnId
         typeBtn.addTarget(self, action: #selector(changeTransactionTapped(_:)), for: .touchUpInside)
         buttons[typeBtnId] = typeBtn
+        
+        if isForBudget {
+            typeBtn.setTitle(currencyCode, for: .normal)
+            typeBtn.isEnabled = false
+        }
         
         let clearBtn = UIButton()
         let clearBtnTitle = "C"

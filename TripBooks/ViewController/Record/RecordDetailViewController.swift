@@ -36,7 +36,7 @@ fileprivate let heightForDetailView: CGFloat = 40
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
-fileprivate let textViewPlaceholderColor = TBColor.gary
+fileprivate let textViewPlaceholderColor = TBColor.lightGary
 
 // cornerRadius
 private let cornerRadius: CGFloat = 10
@@ -237,10 +237,10 @@ class RecordDetailViewController: UIViewController {
         sender.backgroundColor = .white
     }
 
+
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setContentViewAndHeader()
         
         setAmountView()
@@ -270,7 +270,8 @@ class RecordDetailViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        TBNotify.showCalculator(on: self)
+        print("detail viewDidAppear")
+        TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -460,7 +461,7 @@ class RecordDetailViewController: UIViewController {
             break
         case .note:
             noteTextView.delegate = self
-            if record?.note != "" {
+            if let record = record, record.note != "" {
                 noteTextView.textColor = .white
             } else {
                 noteTextView.textColor = textViewPlaceholderColor
@@ -492,13 +493,13 @@ class RecordDetailViewController: UIViewController {
         return lineView
     }
     
-    // MARK: - Button clicked event
+    // MARK: - open tools
     /// open a datepicker
     @IBAction func openTools(_ sender: UIButton) {
         if let identifier = sender.restorationIdentifier {
             switch ToolType.init(rawValue: identifier) {
             case .amount:
-                TBNotify.showCalculator(on: self)
+                TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency)
             case .date:
                 let datePickerVC = TBdatePickerViewController()
                 if let date = self.recordDate {
@@ -509,11 +510,16 @@ class RecordDetailViewController: UIViewController {
                 datePickerVC.delegate = self
                 datePickerVC.show(on: self)
             case .account:
-                TBNotify.showAccountPicker(currentAccount: recordAccount, completion: { (result, account) in
-                    if result == Result.success, let acc = account {
+//                TBNotify.showAccountPicker(currentAccount: recordAccount, completion: { (result, account) in
+//                    if result == PickerResult.success, let acc = account {
+//                        self.recordAccount = acc
+//                    }
+//                })
+                TBNotify.showPicker(type: .account, currentObject: recordAccount) { (result, account) in
+                    if result == PickerResult.success, let acc = account as? Account {
                         self.recordAccount = acc
                     }
-                })
+                }
             case .none:
                 break
             }
@@ -587,7 +593,7 @@ class RecordDetailViewController: UIViewController {
         // title
         if let title = titleTextField.text {
             if title.count > 100 {
-                return "titleTextField length greater then 100."
+                return "titleTextField should less than 100."
             }
         }
         
@@ -620,18 +626,22 @@ class RecordDetailViewController: UIViewController {
 // MARK: - Extension
 // MARK: TBDatePickerDelegate
 extension RecordDetailViewController: TBDatePickerDelegate {
-    func changeDate(identifier: String, date: Date) {
+    func changeDate(buttonIdentifier: String, date: Date) {
         self.recordDate = date
     }
 }
 
 extension RecordDetailViewController: CalculatorDelegate {
+    func finishCalculate() {
+        
+    }
+    
     func changeTransactionType(type: TransactionType) {
         print("change to : \(type)")
     }
     
-    func changeAmountValue(amount: String) {
-        amountLabel.text = amount
+    func changeAmountValue(amountStr: String) {
+        amountLabel.text = amountStr
     }
 }
 
@@ -663,6 +673,23 @@ extension RecordDetailViewController: UITextFieldDelegate, UITextViewDelegate {
             textView.textColor = .lightGray
             textView.text = "Type your notes here..."
         }
+    }
+    
+//     輸入字數限制 textField
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 100
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+    }
+    
+    // 輸入字數限制 textView
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let maxLength = 500
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.count
+        return numberOfChars <= maxLength
     }
 }
 

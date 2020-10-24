@@ -14,6 +14,9 @@ fileprivate let cellVpadding: CGFloat = 8
 
 fileprivate let iconPaddingInView: CGFloat = 8
 
+fileprivate let cellColor = TBColor.darkGary
+fileprivate let cellHighlightedColor = TBColor.lightGary
+
 class RecordTableViewCell: UITableViewCell {
 
     var record: Record? {
@@ -25,7 +28,7 @@ class RecordTableViewCell: UITableViewCell {
     
     let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = TBColor.darkGary
+        view.backgroundColor = cellColor
         view.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
         return view
     }()
@@ -164,5 +167,13 @@ class RecordTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        if highlighted {
+            self.backView.backgroundColor = cellHighlightedColor
+        } else {
+            self.backView.backgroundColor = cellColor
+        }
     }
 }

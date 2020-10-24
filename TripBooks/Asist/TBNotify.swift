@@ -14,9 +14,15 @@ enum NoticeType {
     case accountPicker
 }
 
-enum Result {
+enum PickerResult {
     case success
     case failed
+}
+
+enum PickerType {
+    case account
+    case country
+    case currency
 }
 
 let AccountPickerAttributes = "AccountPickerAttributes"
@@ -168,7 +174,7 @@ struct TBNotify {
         
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: closeButton,
-            separatorColor: EKColor.init(TBColor.gary),
+            separatorColor: EKColor.init(TBColor.lightGary),
             expandAnimatedly: true
         )
         let buttonBarView = EKButtonBarView(with: buttonsBarContent)
@@ -185,7 +191,7 @@ struct TBNotify {
         SwiftEntryKit.display(entry: view, using: attributes)
     }
     
-    static func showCalculator(on parentController: UIViewController) {
+    static func showCalculator(on parentController: UIViewController, originalAmount: Double = 0, currencyCode: String, isForBudget: Bool = false) {
         guard !SwiftEntryKit.isCurrentlyDisplaying(entryNamed: CalculatorAttributes) else {
             return
         }
@@ -196,26 +202,33 @@ struct TBNotify {
         attributes.displayDuration = .infinity
         attributes.entryInteraction = .absorbTouches
         attributes.screenInteraction = .dismiss
-        let heightRatio: CGFloat = 0.5
-        let height = EKAttributes.PositionConstraints.Edge.ratio(value: heightRatio)
-        attributes.positionConstraints.size.height = height
-        attributes.entryBackground = .color(color: EKColor.init(TBColor.gary))
-        let calculatorVC = CalculatorViewController()
-        if let vc = parentController as? RecordDetailViewController {
-            // start calculate at positive number
-            var originValue = vc.recordAmount
-            originValue.turnToPositive()
-            calculatorVC.numberOnScreen = originValue
-            calculatorVC.delegate = parentController as? CalculatorDelegate
+        var heightRatio: CGFloat = 0.5
+        if isForBudget {
+            heightRatio = 0.62
         }
+        let height = EKAttributes.PositionConstraints.Edge.ratio(value: heightRatio)
+   
+        attributes.positionConstraints.size.height = height
+        attributes.entryBackground = .color(color: EKColor.init(TBColor.lightGary))
+        
+        let calculatorVC = CalculatorViewController()
+        var amount = originalAmount
+        amount.turnToPositive()
+        calculatorVC.numberOnScreen = amount
+        calculatorVC.isForBudget = isForBudget
+        calculatorVC.currencyCode = currencyCode
+        calculatorVC.delegate = parentController as? CalculatorDelegate
         calculatorVC.viewRatio = heightRatio
         SwiftEntryKit.display(entry: calculatorVC, using: attributes)        
     }
         
-    static func showAccountPicker(currentAccount: Account? = nil, completion: @escaping ((_ result: Result, _ Account: Account?) -> ())) {
-        let accountPickerVC = AccountPickerViewController()
-        accountPickerVC.currentAccount = currentAccount
-        accountPickerVC.isForPicker = true
+    // MARK: showPicker
+    static func showPicker(type: PickerType, currentObject: Any? = nil, completion: @escaping ((_ result: PickerResult, _ value: Any?) -> ())) {
+        
+        var viewController: UIViewController!
+        
+        var okAction = {}
+        
         var attributes = centerFloatAttributes
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
@@ -238,7 +251,7 @@ struct TBNotify {
             backgroundColor: .clear,
             highlightedBackgroundColor: EKColor.standardBackground.with(alpha: 0.2)) {
                 SwiftEntryKit.dismiss()
-                completion(Result.failed, nil)
+                completion(PickerResult.failed, nil)
             }
         
         let okButtonLabelStyle = EKProperty.LabelStyle(
@@ -253,27 +266,76 @@ struct TBNotify {
             label: okButtonLabel,
             backgroundColor: .clear,
             highlightedBackgroundColor: EKColor.init(TBColor.darkGary)) {
-            if let acc = accountPickerVC.currentAccount {
-                SwiftEntryKit.dismiss()
-                completion(Result.success, acc)
-            } else {
-                systemNotice(on: accountPickerVC, message: "You didn't select a account!")
-            }
-            
+            okAction()
         }
         
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: closeButton, okButton,
-            separatorColor: EKColor(TBColor.darkGary),
+            separatorColor: EKColor(TBColor.lightGary),
             horizontalDistributionThreshold: 2,
             expandAnimatedly: true
         )
 
         let buttonBarView = EKButtonBarView(with: buttonsBarContent)
         buttonBarView.roundedForButtonBarView()
-        accountPickerVC.buttonView.addSubview(buttonBarView)
-        buttonBarView.fillSuperview()
-        SwiftEntryKit.display(entry: accountPickerVC, using: attributes)
+        
+        
+        switch type {
+        case .account:
+            viewController = AccountPickerViewController()
+            guard let vc = viewController as? AccountPickerViewController else {
+                return
+            }
+            if let acc = currentObject as? Account {
+                vc.currentAccount = acc
+            }
+            vc.isForPicker = true
+            
+            // okAction
+            okAction = {
+                if let acc = vc.currentAccount {
+                    SwiftEntryKit.dismiss()
+                    completion(PickerResult.success, acc)
+                } else {
+                    systemNotice(on: viewController, message: "You didn't select a account!")
+                }
+            }
+            
+            // add button to vc
+            vc.buttonView.addSubview(buttonBarView)
+            buttonBarView.fillSuperview()
+        case .country:
+            viewController = LocalePickerViewController<CountryCell, Country>()
+            guard let vc = viewController as? LocalePickerViewController<CountryCell, Country> else {
+                return
+            }
+            
+            // okAction
+            okAction = {
+                if let country = vc.currentItem as? Country {
+                    SwiftEntryKit.dismiss()
+                    completion(PickerResult.success, country)
+                } else {
+                    systemNotice(on: viewController, message: "You didn't select a country!")
+                }
+            }
+            
+            vc.pickerType = type
+            // add button to vc
+            vc.buttonView.addSubview(buttonBarView)
+            buttonBarView.fillSuperview()
+        case .currency:
+            viewController = LocalePickerViewController<CurrencyCell, Currency>()
+            guard let vc = viewController as? LocalePickerViewController<CurrencyCell, Currency> else {
+                return
+            }
+            vc.pickerType = type
+            // add button to vc
+            vc.buttonView.addSubview(buttonBarView)
+            buttonBarView.fillSuperview()
+        }
+        
+        SwiftEntryKit.display(entry: viewController, using: attributes)
     }
 
     static func dismiss(name: String? = nil) {
@@ -286,7 +348,11 @@ struct TBNotify {
         }
     }
     
-    static private func systemNotice(on controller: UIViewController, message: String) {
+    static func isEntryDisplaying(entryName name: String) -> Bool {
+        return SwiftEntryKit.isCurrentlyDisplaying(entryNamed: name)
+    }
+    
+    static func systemNotice(on controller: UIViewController, message: String) {
         let alertController = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
         let okayAction = UIAlertAction.init(title: "Okay", style: .cancel, handler: nil)
         alertController.addAction(okayAction)

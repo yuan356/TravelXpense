@@ -17,11 +17,21 @@ enum BookField {
     static let currency = "book_currency"
     static let coverImageNo = "book_coverImageNo"
     static let totalAmount = "book_totalAmount"
-    static let book_budget = "book_budget"
+    static let budget = "book_budget"
     static let startDate = "book_startDate"
     static let endDate = "book_endDate"
     static let typeId = "book_type_id"
     static let createdDate = "book_createdDate"
+}
+
+enum BookFieldForUpdate {
+    case name
+    case country
+    case currency
+    case coverImageNo
+    case budget
+    case startDate
+    case endDate
 }
 
 enum RecordField {
@@ -95,10 +105,10 @@ class DBManager: NSObject {
                     \(BookField.currency) char(3),
                     \(BookField.coverImageNo) integer,
                     \(BookField.totalAmount) Double DEFAULT 0,
-                    \(BookField.book_budget) Double DEFAULT 0,
+                    \(BookField.budget) Double DEFAULT 0,
                     \(BookField.startDate) Double,
                     \(BookField.endDate) Double,
-                    \(BookField.typeId) integer,
+                    \(BookField.typeId) integer DEFAULT 0,
                     \(BookField.createdDate) Double NOT NULL);
                 """
                 
@@ -159,7 +169,7 @@ class DBManager: NSObject {
         return isOpen
     }
     
-    // MARK: - BOOK TABLE
+    // MARK: - BOOK
     
     /// 新增一筆新的book
     /// - Parameters:
@@ -203,14 +213,49 @@ class DBManager: NSObject {
     ///   - daysInterval: 旅遊天數 (結束-開始)
     ///   - bookId: 帳本編號
     /// - Returns: 若更新成功回傳該book，否則為nil
-    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, bookId: Int) -> Book? {
+    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double) -> Book? {
         var book: Book? = nil
         
         if self.openConnection() {
+            
             let updateSQL: String = "UPDATE \(BookField.BOOK) SET \(BookField.name) = ?, \(BookField.country) = ?, \(BookField.startDate) = ?, \(BookField.endDate) = ? WHERE \(BookField.id) = ?"
 
             do {
-                try self.database.executeUpdate(updateSQL, values: [bookName, country, startDate, endDate, bookId])
+                try self.database.executeUpdate(updateSQL, values: [bookName, country, startDate, endDate])
+                book = self.getBookById(bookId)
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        
+        return book
+    }
+    
+    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject) -> Book? {
+        var book: Book? = nil
+        var updateSQL = "UPDATE \(BookField.BOOK) SET "
+        switch field {
+        case .name:
+            updateSQL += "\(BookField.name) = ?"
+        case .country:
+            updateSQL += "\(BookField.country) = ?"
+        case .currency:
+            updateSQL += "\(BookField.currency) = ?"
+        case .coverImageNo:
+            updateSQL += "\(BookField.coverImageNo) = ?"
+        case .budget:
+            updateSQL += "\(BookField.budget) = ?"
+        case .startDate:
+            updateSQL += "\(BookField.startDate) = ?"
+        case .endDate:
+            updateSQL += "\(BookField.endDate) = ?"
+        }
+        
+        updateSQL += " WHERE \(BookField.id) = ?"
+        if self.openConnection() {
+            do {
+                try self.database.executeUpdate(updateSQL, values: [value, bookId])
                 book = self.getBookById(bookId)
             } catch {
                 print(error.localizedDescription)

@@ -16,19 +16,21 @@ class Book {
     var currency: String
     var coverImageNo: Int?
     var totalAmount: Double
+    var budget: Double
     var startDate: Date
     var endDate: Date
     var createDate: Double
     var days: Int = 0
     
     init(id: Int, name: String, country: String, currency: String, coverImageNo: Int?,
-         totalAmount: Double, startDate: Date, endDate: Date, createDate: Double) {
+         totalAmount: Double, budget: Double, startDate: Date, endDate: Date, createDate: Double) {
         self.id = id
         self.name = name
         self.country = country
         self.currency = currency
         self.coverImageNo = coverImageNo ?? nil
         self.totalAmount = totalAmount
+        self.budget = budget
         self.startDate = startDate
         self.endDate = endDate
         self.createDate = createDate
@@ -50,8 +52,13 @@ class Book {
         let id = Int(dataLists.int(forColumn: BookField.id))
         let coverImageNo = Int(dataLists.int(forColumn: BookField.coverImageNo))
         let totalAmount = dataLists.double(forColumn: BookField.totalAmount)
+        let budget = dataLists.double(forColumn: BookField.budget)
         let createDate = dataLists.double(forColumn: BookField.createdDate)
         
-        return Book(id: id, name: name, country: country, currency: currency, coverImageNo: coverImageNo, totalAmount: totalAmount, startDate: startDate, endDate: endDate, createDate: createDate)
+        return Book(id: id, name: name, country: country, currency: currency, coverImageNo: coverImageNo, totalAmount: totalAmount, budget: budget,  startDate: startDate, endDate: endDate, createDate: createDate)
+    }
+
+    func updateData(field: BookFieldForUpdate, value: NSObject) {
+        BookService.shared.updateBook(bookId: self.id, field: field, value: value)
     }
 }

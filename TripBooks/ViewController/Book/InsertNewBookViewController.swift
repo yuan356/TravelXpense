@@ -67,10 +67,10 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             if let bookId = self.book?.id {
-                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970, bookId: bookId) { (book) in
-                    self.delegate?.updateTable()
-                    self.showMsg("更新成功！")
-                }
+//                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970, bookId: bookId) { (book) in
+//                    self.delegate?.updateTable()
+//                    self.showMsg("更新成功！")
+//                }
             }
         }
         
@@ -119,8 +119,8 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
 }
 
 extension InsertNewBookViewController: TBDatePickerDelegate {
-    func changeDate(identifier: String, date: Date) {
-        if identifier == "start" {
+    func changeDate(buttonIdentifier: String, date: Date) {
+        if buttonIdentifier == "start" {
             startDate = date
         } else {
             endDate = date

@@ -22,17 +22,19 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var observer: Observer!
     
+    lazy var clearView = UIView {
+        $0.backgroundColor = .clear
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let padding: CGFloat = 20
-        self.view.backgroundColor = .clear
         self.view.addSubview(tableView)
         tableView.fillSuperview(padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: recordTableViewCellIdentifier)
-
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -43,25 +45,25 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
         observer = Observer.init(notification: .recordTableUpdate, infoKey: .defalut)
         observer.delegate = self
         
-        setupLongPressGesture()
+//        setupLongPressGesture()
     }
-    
-    func setupLongPressGesture() {
-        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
-        longPressGesture.minimumPressDuration = 1.0 // 1 second press
-        longPressGesture.delegate = self
-        self.tableView.addGestureRecognizer(longPressGesture)
-    }
-    
-    @IBAction func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
-        if gestureRecognizer.state == .began {
-            let touchPoint = gestureRecognizer.location(in: self.tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                print(indexPath.row)
-                
-            }
-        }
-    }
+//
+//    func setupLongPressGesture() {
+//        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+//        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+//        longPressGesture.delegate = self
+//        self.tableView.addGestureRecognizer(longPressGesture)
+//    }
+//
+//    @IBAction func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
+//        if gestureRecognizer.state == .began {
+//            let touchPoint = gestureRecognizer.location(in: self.tableView)
+//            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+//                print(indexPath.row)
+//
+//            }
+//        }
+//    }
 }
 
 extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -75,11 +77,13 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.records.count
     }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: recordTableViewCellIdentifier, for: indexPath) as? RecordTableViewCell {
             cell.record = records[indexPath.row]
-            cell.selectionStyle = UITableViewCell.SelectionStyle.none
+            // because if set selectionStyle to .none, controller display would have bug, so set selectedBackgroundView to clear view.
+            cell.selectedBackgroundView = clearView
             if indexPath.row == 0 {
                 cell.roundedType = .top // 1. these two order can't change!
                 cell.rounded = true // 2.
@@ -95,6 +99,8 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
         }
         return UITableViewCell()
     }
+    
+    
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

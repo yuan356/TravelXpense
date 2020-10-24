@@ -63,7 +63,7 @@ class IconView {
                 iconImageView.image = UIImage(named: category.iconImageName)
             }
         } else if let iconImageName = self.iconImageName, iconImageName != "" {
-            iconBackgroundView.backgroundColor  = TBColor.gary
+            iconBackgroundView.backgroundColor  = TBColor.lightGary
             iconImageView.image = UIImage(named: iconImageName)
         }
         

@@ -12,11 +12,9 @@ fileprivate let cellHeight: CGFloat = 60
 
 class AccountPickerTableViewCell: UITableViewCell {
 
-    let view: UIView = {
-        let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
-        return view
-    }()
+    lazy var view = UIView {
+        $0.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
+    }
     
     var account: Account? {
         didSet {
@@ -24,25 +22,18 @@ class AccountPickerTableViewCell: UITableViewCell {
         }
     }
     
-    let nameLabel: UILabel = {
-        let nameLabel = UILabel()
-        return nameLabel
-    }()
+    lazy var nameLabel = UILabel()
     
-    let amountLabel: UILabel = {
-        let amountLabel = UILabel()
-        
-        amountLabel.textAlignment = .right
-        return amountLabel
-    }()
+    lazy var amountLabel = UILabel {
+        $0.textAlignment = .right
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setAutoLayout()
+        setViews()
     }
     
-    private func setAutoLayout() {
+    private func setViews() {
         self.backgroundColor = .clear
         // background view
         contentView.addSubview(view)
@@ -80,9 +71,6 @@ class AccountPickerTableViewCell: UITableViewCell {
         iconImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         nameLabel.text = acc.name
-        nameLabel.text = "aAAAASDASDDFSFDSDF"
         amountLabel.text = TBFunc.convertDoubleToStr(acc.amount)
-        amountLabel.text = "9999999999999"
     }
-
 }

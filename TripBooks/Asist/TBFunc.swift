@@ -45,7 +45,7 @@ class TBFunc {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         
-        let code = currencyCode == nil ? "USD" : currencyCode
+        let code = (currencyCode == "" || currencyCode == nil) ? "USD" : currencyCode
         
         var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
         locComps[NSLocale.Key.currencyCode.rawValue] = code

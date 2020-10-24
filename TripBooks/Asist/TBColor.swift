@@ -17,7 +17,7 @@ enum DisplayMode: String {
 let displayModeKey = "displayModeKey"
 
 struct TBColor {
-    static let gary = UIColor.lightGray
+    static let lightGary = UIColor.lightGray
     static let darkGary = UIColor.darkGray
     struct shamrockGreen {
         static let light = UIColor(hex: "#3F9E64")
