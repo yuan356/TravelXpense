@@ -309,7 +309,7 @@ struct TBNotify {
             guard let vc = viewController as? LocalePickerViewController<CountryCell, Country> else {
                 return
             }
-            
+            vc.currentItem = currentObject
             // okAction
             okAction = {
                 if let country = vc.currentItem as? Country {
@@ -328,6 +328,16 @@ struct TBNotify {
             viewController = LocalePickerViewController<CurrencyCell, Currency>()
             guard let vc = viewController as? LocalePickerViewController<CurrencyCell, Currency> else {
                 return
+            }
+            vc.currentItem = currentObject
+            // okAction
+            okAction = {
+                if let currency = vc.currentItem as? Currency {
+                    SwiftEntryKit.dismiss()
+                    completion(PickerResult.success, currency)
+                } else {
+                    systemNotice(on: viewController, message: "You didn't select a currency!")
+                }
             }
             vc.pickerType = type
             // add button to vc

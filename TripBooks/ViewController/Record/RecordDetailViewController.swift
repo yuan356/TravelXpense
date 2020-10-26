@@ -38,6 +38,8 @@ fileprivate let heightForNoteView: CGFloat = 150
 
 fileprivate let textViewPlaceholderColor = TBColor.lightGary
 
+fileprivate let textFont = MainFont.regular.with(fontSize: .medium)
+
 // cornerRadius
 private let cornerRadius: CGFloat = 10
 
@@ -111,116 +113,88 @@ class RecordDetailViewController: UIViewController {
     }
     
     // View
-    let headerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .darkGray
-        
+    lazy var headerView = UIView {
+        $0.backgroundColor = .darkGray
         let checkButton = TBButton.check.getButton()
-        view.addSubview(checkButton)
+        $0.addSubview(checkButton)
         checkButton.anchorButtonToHeader(position: .right)
         checkButton.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
-        
-        return view
-    }()
+    }
     
-    let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    lazy var contentView = UIView()
     
-    let amountView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#CCE2FF")
-        view.anchorSize(height: heightForAmountView)
-        view.roundedCorners(radius: cornerRadius)
-        return view
-    }()
+    lazy var amountView = UIView {
+        $0.backgroundColor = UIColor(hex: "#CCE2FF")
+        $0.anchorSize(height: heightForAmountView)
+        $0.roundedCorners(radius: cornerRadius)
+    }
     
-    let amountLabel: UILabel = {
-        let label = UILabel()
-        label.font = MainFontNumeral.regular.with(fontSize: 40)
-        label.textAlignment = .right
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
-        return label
-    }()
+    lazy var amountLabel = UILabel {
+        $0.font = MainFontNumeral.regular.with(fontSize: 40)
+        $0.textAlignment = .right
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.8
+    }
     
-    let categoriesView: UIView = {
-        let view = UIView()
-        view.anchorSize(height: heightForCategoryView)
-        view.layer.cornerRadius = cornerRadius
-        return view
-    }()
+    lazy var categoriesView = UIView {
+        $0.anchorSize(height: heightForCategoryView)
+        $0.layer.cornerRadius = cornerRadius
+    }
     
     var categoriesCollectionView: UICollectionView!
     
-    let vStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.spacing = spacingInVStack
-        stackView.axis = .vertical
-        stackView.anchorSize(height: (heightForDetailView * 2) + spacingInVStack)
-        return stackView
-    }()
+    lazy var vStackView = UIStackView {
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+        $0.spacing = spacingInVStack
+        $0.axis = .vertical
+        $0.anchorSize(height: (heightForDetailView * 2) + spacingInVStack)
+    }
     
-    let titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
-        textField.font = MainFont.regular.with(fontSize: .medium)
-        textField.textAlignment = .left
-        return textField
-    }()
+    lazy var titleTextField = UITextField {
+        $0.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
+        $0.font = textFont
+        $0.textAlignment = .left
+    }
     
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
+    lazy var dateLabel = UILabel {
+        $0.font = MainFontNumeral.regular.with(fontSize: .medium)
+        $0.textAlignment = .center
+    }
         
-    let datePickButton: UIButton = {
-        let button = UIButton()
-        button.restorationIdentifier = ToolType.date.rawValue
-        button.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
-        return button
-    }()
+    lazy var datePickButton = UIButton {
+        $0.restorationIdentifier = ToolType.date.rawValue
+        $0.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
+    }
     
-    let accountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
+    lazy var accountLabel = UILabel {
+        $0.font = textFont
+        $0.textAlignment = .center
+    }
     
-    let accountPickButton: UIButton = {
-        let button = UIButton()
-        button.restorationIdentifier = ToolType.account.rawValue
-        button.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
-        return button
-    }()
+    lazy var accountPickButton = UIButton {
+        $0.restorationIdentifier = ToolType.account.rawValue
+        $0.addTarget(self, action: #selector(openTools(_:)), for: .touchUpInside)
+    }
     
-    let noteTextView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .clear
-        textView.font = UIFont.systemFont(ofSize: 18)
-        textView.textAlignment = .left
-        textView.text = "Type your notes here..."
-        return textView
-    }()
+    lazy var noteTextView = UITextView {
+        $0.backgroundColor = .clear
+        $0.font = MainFont.regular.with(fontSize: 18)
+        $0.textAlignment = .left
+        $0.text = "Type your notes here..."
+    }
     
-    let doneButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = TBColor.shamrockGreen.light
-        button.setTitle("DONE", for: .normal)
-        button.tintColor = .white
-        button.setTitleColor(.lightGray, for: .highlighted)
-        button.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
-        button.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
-        button.anchorSize(height: 50)
-        button.roundedCorners(radius: cornerRadius)
-        return button
-    }()
+    lazy var doneButton = UIButton {
+        $0.backgroundColor = TBColor.shamrockGreen.light
+        $0.setTitle("DONE", for: .normal)
+        $0.titleLabel?.font = textFont
+        $0.tintColor = .white
+        $0.setTitleColor(.lightGray, for: .highlighted)
+        $0.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
+        $0.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
+        $0.anchorSize(height: 50)
+        $0.roundedCorners(radius: cornerRadius)
+    }
     
     var currentTextField: UITextField?
     
@@ -270,8 +244,7 @@ class RecordDetailViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("detail viewDidAppear")
-        TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency)
+        TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -499,7 +472,7 @@ class RecordDetailViewController: UIViewController {
         if let identifier = sender.restorationIdentifier {
             switch ToolType.init(rawValue: identifier) {
             case .amount:
-                TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency)
+                TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
             case .date:
                 let datePickerVC = TBdatePickerViewController()
                 if let date = self.recordDate {
@@ -543,7 +516,7 @@ class RecordDetailViewController: UIViewController {
               let account = self.recordAccount else {
             return
         }
-        print(amountText)
+
         recordAmount = amount
         if transactionIsExpense {
             recordAmount.turnToNegative()

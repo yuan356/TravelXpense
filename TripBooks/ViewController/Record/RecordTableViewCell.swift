@@ -64,6 +64,8 @@ class RecordTableViewCell: UITableViewCell {
         return label
     }()
     
+    let lineView = UIView()
+    
     var category: Category?
     
     var rounded = false {
@@ -82,7 +84,6 @@ class RecordTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
-        
         backView.roundedCorners(radius: 0)
     }
     
@@ -133,7 +134,6 @@ class RecordTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
         
         // separator line
-        let lineView = UIView()
         lineView.backgroundColor = .lightGray
         backView.addSubview(lineView)
         lineView.setAutoresizingToFalse()
@@ -156,9 +156,8 @@ class RecordTableViewCell: UITableViewCell {
         
         // amount
         var amountText: String = ""
-        if let book = BookService.shared.getBookFromCache(bookId: record.bookId),
-           book.currency != "" {
-            amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true, currencyCode: book.currency)
+        if let book = BookService.shared.getBookFromCache(bookId: record.bookId) {
+            amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true, currencyCode: book.currency.code)
         } else {
             amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true)
         }

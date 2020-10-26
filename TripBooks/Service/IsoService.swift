@@ -8,28 +8,17 @@
 
 import UIKit
 
-struct Country {
-    var name: String
-    var code: String
-}
-
-struct Currency {
-    var code: String
-}
-
 class IsoService {
 
     static let shared = IsoService()
     
-    private init() {
-        getAllCountriesList()
+    private init() {}
+    
+    var allCountries: [IsoCountryInfo] {
+        return IsoCountries.allCountries
     }
     
-    var countriesList: [Country] = []
-    
-    private func getAllCountriesList() {
-        countriesList = IsoCountries.allCountries.reduce(into: [Country]()) { (result, info) in
-            result.append(Country(name: info.name, code: info.alpha2))
-        }
+    static func getCountryNameByCode(code: String) -> String {
+        return IsoCountryCodes.find(key: code)?.name ?? ""
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import SwiftEntryKit
 
-let heightButtonBar: CGFloat = 60
+fileprivate let heightButtonBar: CGFloat = 60
 
 // color
 fileprivate let backgroundColor = TBColor.darkGary

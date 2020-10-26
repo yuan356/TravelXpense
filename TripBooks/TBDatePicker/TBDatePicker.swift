@@ -11,6 +11,8 @@ protocol TBDatePickerDelegate: AnyObject {
     func changeDate(buttonIdentifier: String, date: Date)
 }
 
+fileprivate let textFont = MainFont.regular.with(fontSize: 18)
+
 class TBdatePickerViewController: UIViewController {
     
     weak var delegate: TBDatePickerDelegate?
@@ -111,10 +113,12 @@ class TBdatePickerViewController: UIViewController {
     private func createButton(to view: UIView) {
         let todayBtn = UIButton()
         todayBtn.setTitle("Today", for: .normal)
+        todayBtn.titleLabel?.font = textFont
         todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
 
         let doneBtn = UIButton()
         doneBtn.setTitle("Done", for: .normal)
+        doneBtn.titleLabel?.font = textFont
         doneBtn.addTarget(self, action: #selector(selectedDone), for: .touchUpInside)
         
         view.addSubview(todayBtn)

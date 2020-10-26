@@ -84,16 +84,20 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
             cell.record = records[indexPath.row]
             // because if set selectionStyle to .none, controller display would have bug, so set selectedBackgroundView to clear view.
             cell.selectedBackgroundView = clearView
+            
+            cell.rounded = false
+            cell.lineView.isHidden = false
             if indexPath.row == 0 {
-                cell.roundedType = .top // 1. these two order can't change!
+                if indexPath.row == self.records.count - 1 {
+                    cell.lineView.isHidden = true
+                } else {
+                    cell.roundedType = .top // 1. these two order can't change!
+                }
                 cell.rounded = true // 2.
-                
             } else if indexPath.row == self.records.count - 1 {
                 cell.roundedType = .bottom // 1. these two order can't change!
+                cell.lineView.isHidden = true
                 cell.rounded = true // 2.
-            }
-            else {
-                cell.rounded = false
             }
             return cell
         }

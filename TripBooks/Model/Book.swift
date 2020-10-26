@@ -12,9 +12,9 @@ import FMDB
 class Book {
     var id: Int
     var name: String
-    var country: String
-    var currency: String
-    var coverImageNo: Int?
+    var country: Country
+    var currency: Currency
+    var imageUrl: String?
     var totalAmount: Double
     var budget: Double
     var startDate: Date
@@ -22,13 +22,13 @@ class Book {
     var createDate: Double
     var days: Int = 0
     
-    init(id: Int, name: String, country: String, currency: String, coverImageNo: Int?,
+    init(id: Int, name: String, country: Country, currency: Currency, imageUrl: String?,
          totalAmount: Double, budget: Double, startDate: Date, endDate: Date, createDate: Double) {
         self.id = id
         self.name = name
         self.country = country
         self.currency = currency
-        self.coverImageNo = coverImageNo ?? nil
+        self.imageUrl = imageUrl ?? ""
         self.totalAmount = totalAmount
         self.budget = budget
         self.startDate = startDate
@@ -41,21 +41,24 @@ class Book {
     
     static func getBookByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Book? {
         
-        guard let name = dataLists.string(forColumn: BookField.name),
-              let country = dataLists.string(forColumn: BookField.country),
-              let currency = dataLists.string(forColumn: BookField.currency) ?? "",
+        guard let name = dataLists.string(forColumn: BookField.name) ?? "",
+              let countryCode = dataLists.string(forColumn: BookField.country) ?? "",
+              let currencyCode = dataLists.string(forColumn: BookField.currency) ?? "",
+              let imageUrl = dataLists.string(forColumn: BookField.imageUrl) ?? "",
               let startDate = dataLists.date(forColumn: BookField.startDate),
               let endDate = dataLists.date(forColumn: BookField.endDate) else {
             return nil
         }
         
         let id = Int(dataLists.int(forColumn: BookField.id))
-        let coverImageNo = Int(dataLists.int(forColumn: BookField.coverImageNo))
+//        let coverImageNo = Int(dataLists.int(forColumn: BookField.imageUrl))
         let totalAmount = dataLists.double(forColumn: BookField.totalAmount)
         let budget = dataLists.double(forColumn: BookField.budget)
         let createDate = dataLists.double(forColumn: BookField.createdDate)
+        let country = Country(code: countryCode)
+        let currency = Currency(code: currencyCode)
         
-        return Book(id: id, name: name, country: country, currency: currency, coverImageNo: coverImageNo, totalAmount: totalAmount, budget: budget,  startDate: startDate, endDate: endDate, createDate: createDate)
+        return Book(id: id, name: name, country: country, currency: currency, imageUrl: imageUrl, totalAmount: totalAmount, budget: budget,  startDate: startDate, endDate: endDate, createDate: createDate)
     }
 
     func updateData(field: BookFieldForUpdate, value: NSObject) {

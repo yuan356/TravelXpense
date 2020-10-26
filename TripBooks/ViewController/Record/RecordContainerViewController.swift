@@ -8,8 +8,6 @@
 
 import UIKit
 
-fileprivate let daysCell = "daysCell"
-
 fileprivate let collectionViewHeight = CGFloat(80)
 
 fileprivate let infoViewHeight = CGFloat(80)
@@ -34,15 +32,16 @@ class RecordContainerViewController: UIViewController {
     
     var initDayIndex: Int = 0
     
-    let infoView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray3
-        return view
-    }()
+    lazy var infoView = UIView {
+        $0.backgroundColor = .systemGray3
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // load all records in book
+        RecordSevice.shared.getAllRecordsFromCertainBook(bookId: book.id)
+
         // init book info view (budget)
         self.view.addSubview(infoView)
         infoView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: infoViewHeight))
@@ -86,7 +85,7 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: daysCell, for: indexPath) as? RecordDaysCollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self), for: indexPath) as? RecordDaysCollectionViewCell {
             cell.dayNo = indexPath.row + 1
             return cell
         }
@@ -108,7 +107,7 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .darkGray
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(RecordDaysCollectionViewCell.self, forCellWithReuseIdentifier: daysCell)
+        collectionView.register(RecordDaysCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self))
         collectionView.dataSource = self
         collectionView.delegate = self
         

@@ -12,7 +12,6 @@
 		1C3ACD322542AB0B0030ACBA /* IsoCountryCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD302542AB0B0030ACBA /* IsoCountryCodes.swift */; };
 		1C3ACD352542B5D70030ACBA /* LocalePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */; };
 		1C3ACD382542C6130030ACBA /* IsoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD372542C6130030ACBA /* IsoService.swift */; };
-		1C3ACD3B2542CD740030ACBA /* LocalePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */; };
 		1C3ACD6325431DD40030ACBA /* GenericTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACD6225431DD40030ACBA /* GenericTableViewController.swift */; };
 		1C3F207825188E6B008628C5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207725188E6B008628C5 /* Category.swift */; };
 		1C3F207E2518AD1F008628C5 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3F207D2518AD1F008628C5 /* Icons.swift */; };
@@ -34,8 +33,17 @@
 		1CA803D6251C8D5B003D7708 /* UIView+anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */; };
 		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
 		1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803ED251EF130003D7708 /* AccountingViewController.xib */; };
-		1CA803F2251F2532003D7708 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* BookDetailViewController.swift */; };
+		1CA803F2251F2532003D7708 /* AccountingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F1251F2532003D7708 /* AccountingDetailViewController.swift */; };
 		1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803F4251F2560003D7708 /* RecordPageViewController.swift */; };
+		1CBCD5C625454FFC00FB6C12 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD5C525454FFC00FB6C12 /* Locale.swift */; };
+		1CBCD5C92546856600FB6C12 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD5C82546856600FB6C12 /* ImageService.swift */; };
+		1CBCD5D12546AA2200FB6C12 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CBCD5CF2546A8A300FB6C12 /* Roboto-Regular.ttf */; };
+		1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CBCD5D62546AB8800FB6C12 /* Roboto-Bold.ttf */; };
+		1CBCD5DA2546AB9D00FB6C12 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CBCD5D42546AB8800FB6C12 /* Roboto-Light.ttf */; };
+		1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CBCD5D52546AB8800FB6C12 /* Roboto-Medium.ttf */; };
+		1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CBCD5D72546AB8800FB6C12 /* Roboto-Thin.ttf */; };
+		1CBCD5E92546B1E800FB6C12 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD5E82546B1E800FB6C12 /* BookDetailViewController.swift */; };
+		1CBCD5ED2546BC0A00FB6C12 /* TBtabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD5EC2546BC0A00FB6C12 /* TBtabViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
 		1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* BookViewController.swift */; };
@@ -58,13 +66,6 @@
 		1CF5605C25380C3E003EEC66 /* String+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5605B25380C3E003EEC66 /* String+ext.swift */; };
 		1CF5605F25381DFE003EEC66 /* RecordSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5605E25381DFE003EEC66 /* RecordSevice.swift */; };
 		1CF5606225383C65003EEC66 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF5606125383C65003EEC66 /* CalculatorViewController.swift */; };
-		1CF560682538427C003EEC66 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1CF560662538427B003EEC66 /* license.txt */; };
-		1CF560692538427C003EEC66 /* jf-openhuninn-1.1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF560672538427C003EEC66 /* jf-openhuninn-1.1.ttf */; };
-		1CF5609125384E91003EEC66 /* NotoSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */; };
-		1CF5609225384E91003EEC66 /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */; };
-		1CF5609325384E91003EEC66 /* NotoSansTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */; };
-		1CF5609525384E91003EEC66 /* NotoSansTC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */; };
-		1CF5609725384E91003EEC66 /* NotoSansTC-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */; };
 		1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609B253949B3003EEC66 /* Rubik-Light.ttf */; };
 		1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF5609C253949B3003EEC66 /* Rubik-Regular.ttf */; };
 		1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF560A425394AA3003EEC66 /* Rubik-Medium.ttf */; };
@@ -83,7 +84,6 @@
 		1C3ACD302542AB0B0030ACBA /* IsoCountryCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsoCountryCodes.swift; sourceTree = "<group>"; };
 		1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalePickerViewController.swift; sourceTree = "<group>"; };
 		1C3ACD372542C6130030ACBA /* IsoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoService.swift; sourceTree = "<group>"; };
-		1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalePickerTableViewCell.swift; sourceTree = "<group>"; };
 		1C3ACD6225431DD40030ACBA /* GenericTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTableViewController.swift; sourceTree = "<group>"; };
 		1C3F207725188E6B008628C5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		1C3F207D2518AD1F008628C5 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
@@ -105,8 +105,17 @@
 		1CA803D3251C8D5B003D7708 /* UIView+anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+anchors.swift"; sourceTree = "<group>"; };
 		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
 		1CA803ED251EF130003D7708 /* AccountingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountingViewController.xib; sourceTree = "<group>"; };
-		1CA803F1251F2532003D7708 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
+		1CA803F1251F2532003D7708 /* AccountingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountingDetailViewController.swift; sourceTree = "<group>"; };
 		1CA803F4251F2560003D7708 /* RecordPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPageViewController.swift; sourceTree = "<group>"; };
+		1CBCD5C525454FFC00FB6C12 /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
+		1CBCD5C82546856600FB6C12 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		1CBCD5CF2546A8A300FB6C12 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		1CBCD5D42546AB8800FB6C12 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		1CBCD5D52546AB8800FB6C12 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		1CBCD5D62546AB8800FB6C12 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		1CBCD5D72546AB8800FB6C12 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		1CBCD5E82546B1E800FB6C12 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
+		1CBCD5EC2546BC0A00FB6C12 /* TBtabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBtabViewController.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD181F62512048C00AFD985 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,13 +140,6 @@
 		1CF5605B25380C3E003EEC66 /* String+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ext.swift"; sourceTree = "<group>"; };
 		1CF5605E25381DFE003EEC66 /* RecordSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSevice.swift; sourceTree = "<group>"; };
 		1CF5606125383C65003EEC66 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
-		1CF560662538427B003EEC66 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
-		1CF560672538427C003EEC66 /* jf-openhuninn-1.1.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "jf-openhuninn-1.1.ttf"; sourceTree = "<group>"; };
-		1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
-		1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.otf"; sourceTree = "<group>"; };
-		1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.otf"; sourceTree = "<group>"; };
-		1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Light.otf"; sourceTree = "<group>"; };
-		1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Thin.otf"; sourceTree = "<group>"; };
 		1CF5609B253949B3003EEC66 /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		1CF5609C253949B3003EEC66 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		1CF560A425394AA3003EEC66 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
@@ -169,7 +171,6 @@
 				1CF560412535B318003EEC66 /* AccountPickerViewController.swift */,
 				1CF5603E2535AC51003EEC66 /* AccountPickerTableViewCell.swift */,
 				1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */,
-				1C3ACD3A2542CD730030ACBA /* LocalePickerTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -229,6 +230,7 @@
 				1CF560512536D3B1003EEC66 /* AccountService.swift */,
 				1CF5605E25381DFE003EEC66 /* RecordSevice.swift */,
 				1C3ACD372542C6130030ACBA /* IsoService.swift */,
+				1CBCD5C82546856600FB6C12 /* ImageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -239,6 +241,18 @@
 				1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */,
 			);
 			path = TBDatePicker;
+			sourceTree = "<group>";
+		};
+		1CBCD5E12546AE0300FB6C12 /* Roboto */ = {
+			isa = PBXGroup;
+			children = (
+				1CBCD5CF2546A8A300FB6C12 /* Roboto-Regular.ttf */,
+				1CBCD5D62546AB8800FB6C12 /* Roboto-Bold.ttf */,
+				1CBCD5D42546AB8800FB6C12 /* Roboto-Light.ttf */,
+				1CBCD5D52546AB8800FB6C12 /* Roboto-Medium.ttf */,
+				1CBCD5D72546AB8800FB6C12 /* Roboto-Thin.ttf */,
+			);
+			path = Roboto;
 			sourceTree = "<group>";
 		};
 		1CD181E82512048B00AFD985 = {
@@ -273,7 +287,6 @@
 				1CD1820B2512049900AFD985 /* Model */,
 				1CD181F42512048B00AFD985 /* AppDelegate.swift */,
 				1CD181F62512048C00AFD985 /* SceneDelegate.swift */,
-				1CD181F82512048C00AFD985 /* BookViewController.swift */,
 				1CD181FA2512048C00AFD985 /* Main.storyboard */,
 				1CD182022512048D00AFD985 /* LaunchScreen.storyboard */,
 				1CD182002512048D00AFD985 /* Assets.xcassets */,
@@ -291,6 +304,7 @@
 				1C3F207D2518AD1F008628C5 /* Icons.swift */,
 				1CA8036C2519E25E003D7708 /* Book.swift */,
 				1CF5602325358FFF003EEC66 /* Account.swift */,
+				1CBCD5C525454FFC00FB6C12 /* Locale.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -322,8 +336,7 @@
 		1CF5606525384260003EEC66 /* font */ = {
 			isa = PBXGroup;
 			children = (
-				1CF560A525394BC3003EEC66 /* Jfopen */,
-				1CF560A1253949D0003EEC66 /* NotoSansTC */,
+				1CBCD5E12546AE0300FB6C12 /* Roboto */,
 				1CF5609D253949B7003EEC66 /* Rubik */,
 			);
 			path = font;
@@ -339,34 +352,16 @@
 			path = Rubik;
 			sourceTree = "<group>";
 		};
-		1CF560A1253949D0003EEC66 /* NotoSansTC */ = {
-			isa = PBXGroup;
-			children = (
-				1CF5609025384E91003EEC66 /* NotoSansTC-Thin.otf */,
-				1CF5608E25384E90003EEC66 /* NotoSansTC-Light.otf */,
-				1CF5608C25384E90003EEC66 /* NotoSansTC-Medium.otf */,
-				1CF5608A25384E8F003EEC66 /* NotoSansTC-Regular.otf */,
-				1CF5608B25384E8F003EEC66 /* NotoSansTC-Bold.otf */,
-			);
-			path = NotoSansTC;
-			sourceTree = "<group>";
-		};
-		1CF560A525394BC3003EEC66 /* Jfopen */ = {
-			isa = PBXGroup;
-			children = (
-				1CF560672538427C003EEC66 /* jf-openhuninn-1.1.ttf */,
-				1CF560662538427B003EEC66 /* license.txt */,
-			);
-			path = Jfopen;
-			sourceTree = "<group>";
-		};
 		1CF560B7253D5968003EEC66 /* Book */ = {
 			isa = PBXGroup;
 			children = (
 				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
+				1CD181F82512048C00AFD985 /* BookViewController.swift */,
 				1CA803ED251EF130003D7708 /* AccountingViewController.xib */,
-				1CA803F1251F2532003D7708 /* BookDetailViewController.swift */,
+				1CA803F1251F2532003D7708 /* AccountingDetailViewController.swift */,
 				1CF560C425403662003EEC66 /* BookSettingViewController.swift */,
+				1CBCD5E82546B1E800FB6C12 /* BookDetailViewController.swift */,
+				1CBCD5EC2546BC0A00FB6C12 /* TBtabViewController.swift */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -448,21 +443,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CF5609125384E91003EEC66 /* NotoSansTC-Regular.otf in Resources */,
 				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
-				1CF560682538427C003EEC66 /* license.txt in Resources */,
+				1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */,
+				1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */,
 				1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */,
 				1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */,
-				1CF5609225384E91003EEC66 /* NotoSansTC-Bold.otf in Resources */,
+				1CBCD5DA2546AB9D00FB6C12 /* Roboto-Light.ttf in Resources */,
+				1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */,
 				1CA803EF251EF130003D7708 /* AccountingViewController.xib in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
-				1CF5609325384E91003EEC66 /* NotoSansTC-Medium.otf in Resources */,
+				1CBCD5D12546AA2200FB6C12 /* Roboto-Regular.ttf in Resources */,
 				1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
-				1CF560692538427C003EEC66 /* jf-openhuninn-1.1.ttf in Resources */,
-				1CF5609725384E91003EEC66 /* NotoSansTC-Thin.otf in Resources */,
 				1CD181FC2512048C00AFD985 /* Main.storyboard in Resources */,
-				1CF5609525384E91003EEC66 /* NotoSansTC-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,14 +513,15 @@
 				1C3ACD322542AB0B0030ACBA /* IsoCountryCodes.swift in Sources */,
 				1CF560422535B318003EEC66 /* AccountPickerViewController.swift in Sources */,
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
+				1CBCD5C625454FFC00FB6C12 /* Locale.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBButton.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
 				1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */,
-				1C3ACD3B2542CD740030ACBA /* LocalePickerTableViewCell.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+ext.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
-				1CA803F2251F2532003D7708 /* BookDetailViewController.swift in Sources */,
+				1CBCD5C92546856600FB6C12 /* ImageService.swift in Sources */,
+				1CA803F2251F2532003D7708 /* AccountingDetailViewController.swift in Sources */,
 				1CF56030253595A5003EEC66 /* TBNotify.swift in Sources */,
 				1CF5606225383C65003EEC66 /* CalculatorViewController.swift in Sources */,
 				1CF560522536D3B1003EEC66 /* AccountService.swift in Sources */,
@@ -556,6 +550,7 @@
 				1CF560342535A284003EEC66 /* TBColor.swift in Sources */,
 				1C3ACD352542B5D70030ACBA /* LocalePickerViewController.swift in Sources */,
 				1CF5604C2536A272003EEC66 /* MainFont.swift in Sources */,
+				1CBCD5E92546B1E800FB6C12 /* BookDetailViewController.swift in Sources */,
 				1C3ACD382542C6130030ACBA /* IsoService.swift in Sources */,
 				1C3ACD2C254163990030ACBA /* Declarative.swift in Sources */,
 				1CA803242519AD35003D7708 /* DBManager.swift in Sources */,
@@ -565,6 +560,7 @@
 				1CA803732519F2B6003D7708 /* BookTableViewCell.swift in Sources */,
 				1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
+				1CBCD5ED2546BC0A00FB6C12 /* TBtabViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

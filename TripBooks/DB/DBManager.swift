@@ -15,7 +15,7 @@ enum BookField {
     static let name = "book_name"
     static let country = "book_countryCode"
     static let currency = "book_currency"
-    static let coverImageNo = "book_coverImageNo"
+    static let imageUrl = "book_imageUrl"
     static let totalAmount = "book_totalAmount"
     static let budget = "book_budget"
     static let startDate = "book_startDate"
@@ -103,7 +103,7 @@ class DBManager: NSObject {
                     \(BookField.name) Varchar(100),
                     \(BookField.country) char(2),
                     \(BookField.currency) char(3),
-                    \(BookField.coverImageNo) integer,
+                    \(BookField.imageUrl) Varchar(1000),
                     \(BookField.totalAmount) Double DEFAULT 0,
                     \(BookField.budget) Double DEFAULT 0,
                     \(BookField.startDate) Double,
@@ -243,7 +243,7 @@ class DBManager: NSObject {
         case .currency:
             updateSQL += "\(BookField.currency) = ?"
         case .coverImageNo:
-            updateSQL += "\(BookField.coverImageNo) = ?"
+            updateSQL += "\(BookField.imageUrl) = ?"
         case .budget:
             updateSQL += "\(BookField.budget) = ?"
         case .startDate:

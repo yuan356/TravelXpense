@@ -46,7 +46,7 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
             startDate = book.startDate
             let calendar = Calendar.current
             endDate = calendar.date(byAdding: .day, value: book.days, to: book.startDate)!
-            locationTextField.text = book.country
+//            locationTextField.text = book.country
         }
     }
     
@@ -66,12 +66,12 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
             }
             
         } else {
-            if let bookId = self.book?.id {
+//            if let bookId = self.book?.id {
 //                BookService.shared.updateBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970, bookId: bookId) { (book) in
 //                    self.delegate?.updateTable()
 //                    self.showMsg("更新成功！")
 //                }
-            }
+//            }
         }
         
     }

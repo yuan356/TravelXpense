@@ -20,15 +20,18 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>You need to grant the app access to your camera in order to take photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You need to grant the app access to your photo library so you can pick your favorite restaurant photo.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>jf-openhuninn-1.1.ttf</string>
-		<string>NotoSansTC-Regular.otf</string>
-		<string>NotoSansTC-Bold.otf</string>
-		<string>NotoSansTC-Light.otf</string>
-		<string>NotoSansTC-Medium.otf</string>
-		<string>NotoSansTC-Thin.otf</string>
 		<string>Rubik-Regular.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Thin.ttf</string>
 		<string>Rubik-Medium.ttf</string>
 		<string>Rubik-Light.ttf</string>
 	</array>

@@ -34,7 +34,7 @@ fileprivate let clearBtnId = "clear"
 fileprivate let pointBtnId = "point"
 fileprivate let okayBtnId = "okay"
 
-let heightForBudgetView: CGFloat = 80
+fileprivate let heightForBudgetView: CGFloat = 80
 
 class CalculatorViewController: UIViewController {
 

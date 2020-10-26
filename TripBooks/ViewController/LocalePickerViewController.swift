@@ -20,14 +20,11 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     
     lazy var searchBar: UISearchBar = UISearchBar()
     
-    var countriesList = [Country]()
-    var currencyList = [Currency]()
-    
     var searchResultList = [Any]()
     
     var tableView: UITableView!
     
-    var pickerType: PickerType? = nil
+    var pickerType: PickerType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +38,25 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
-        countriesList = IsoService.shared.countriesList
-        searchResultList = countriesList
-        print(searchResultList.count)
+        if pickerType == .country {
+            searchResultList = getAllCountriesList()
+        } else if pickerType == .currency {
+            searchResultList = getAllCurrencyList()
+        }
+    }
+    
+    private func getAllCountriesList() -> [Any] {
+        let list = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
+            result.append(Country(code: info.alpha2))
+        }
+        return list
+    }
+    
+    private func getAllCurrencyList() -> [Any] {
+        let list = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
+            result.append(Currency(code: info.currency))
+        }
+        return list
     }
     
     private func setViews() {
@@ -53,15 +66,11 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         self.view.addSubview(headerView)
         headerView.anchorViewOnTop()
         setHeaderButton()
-
-        if pickerType != nil {
-            setButtonView()
-        }
+        setButtonView()
         
         self.view.addSubview(tableView)
-        let tableViewBottom: NSLayoutYAxisAnchor = (pickerType != nil) ? buttonView.topAnchor : self.view.bottomAnchor
         
-        tableView.anchor(top: headerView.bottomAnchor, bottom: tableViewBottom, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
+        tableView.anchor(top: headerView.bottomAnchor, bottom: buttonView.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
     }
     
     private func setHeaderButton() {
@@ -105,12 +114,22 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         searchBar.resignFirstResponder()
     }
     
-    private func search(by name: String) {
-        let result = countriesList.reduce(into: [Country]()) { (result, country) in
-            if country.name.contains(name) {
-                result.append(country)
+    private func search(by str: String) {
+        var result = [Any]()
+        if pickerType == .country {
+            result = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
+                if info.name.localizedCaseInsensitiveContains(str) || info.alpha3.localizedCaseInsensitiveContains(str) {
+                    result.append(Country(code: info.alpha2))
+                }
+            }
+        } else if pickerType == .currency {
+            result = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
+                if info.name.localizedCaseInsensitiveContains(str) || info.alpha3.localizedCaseInsensitiveContains(str) || info.currency.localizedCaseInsensitiveContains(str) {
+                    result.append(Currency(code: info.currency))
+                }
             }
         }
+       
         searchResultList = result
         tableView.reloadData()
     }
@@ -132,12 +151,20 @@ class CountryCell: GenericCell<Country> {
             textLabel?.text = item.name
         }
     }
+    
+    override func setupViews() {
+        self.backgroundColor = .clear
+    }
 }
 
 class CurrencyCell: GenericCell<Currency> {
     override var item: Currency! {
         didSet {
-            textLabel?.text = item.code
+            textLabel?.text = String(item.code)
         }
+    }
+    
+    override func setupViews() {
+        self.backgroundColor = .clear
     }
 }

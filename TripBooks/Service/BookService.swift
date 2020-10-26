@@ -14,6 +14,8 @@ class BookService {
     
     private init() {}
     
+    var currentOpenBook: Book!
+    
     var cache = [Int: Book]()
     
     // order by start date
@@ -48,22 +50,14 @@ class BookService {
         completion(newBook)
     }
     
-    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject) {
+    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject, completion: ((_ targetBook: Book) -> ())? = nil) {
         guard let targetBook = DBManager.shared.updateBook(bookId: bookId, field: field, value: value) else {
-            return
-        }
-    }
-    
-    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {
-        
-        // update book in DB (if update succeed, return a not nil book)
-        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
             return
         }
         
         // update book in cache
         self.cache[targetBook.id] = targetBook
-        
+
         // update book in booklist
         var needToSort = false
         for (index, book) in self.orderdBookList.enumerated() {
@@ -77,9 +71,36 @@ class BookService {
         if needToSort {
             self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         }
-        
-        completion(targetBook)
+        BookService.shared.currentOpenBook = targetBook
+        completion?(targetBook)
     }
+    
+//    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {
+//        
+//        // update book in DB (if update succeed, return a not nil book)
+//        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
+//            return
+//        }
+//        
+//        // update book in cache
+//        self.cache[targetBook.id] = targetBook
+//        
+//        // update book in booklist
+//        var needToSort = false
+//        for (index, book) in self.orderdBookList.enumerated() {
+//            if book.id == targetBook.id {
+//                needToSort = book.startDate != targetBook.startDate
+//                self.orderdBookList[index] = targetBook
+//                break
+//            }
+//        }
+//        
+//        if needToSort {
+//            self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
+//        }
+//        
+//        completion(targetBook)
+//    }
     
     func deleteBook(bookId: Int, completion: @escaping () -> ()) {
         DBManager.shared.deleteBook(bookId: bookId)

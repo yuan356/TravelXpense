@@ -20,12 +20,12 @@ enum Font {
         case thin = "Thin"
         
         func with(fontSize: FontSize) -> UIFont {
-            return UIFont(name: "NotoSansTC-\(rawValue)", size: fontSize.rawValue)
+            return UIFont(name: "Roboto-\(rawValue)", size: fontSize.rawValue)
                 ?? UIFont.systemFont(ofSize: fontSize.rawValue)
         }
 
         func with(fontSize: CGFloat) -> UIFont {
-            return UIFont(name: "NotoSansTC-\(rawValue)", size: fontSize)
+            return UIFont(name: "Roboto-\(rawValue)", size: fontSize)
                 ?? UIFont.systemFont(ofSize: fontSize)
         }
         
