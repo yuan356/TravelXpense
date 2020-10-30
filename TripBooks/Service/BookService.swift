@@ -47,32 +47,49 @@ class BookService {
         // sort the booklist
         self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         
+        // add a default account for book
+        AccountService.shared.setDefaultAccounts(bookId: newBook.id)
+        
         completion(newBook)
     }
     
-    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject, completion: ((_ targetBook: Book) -> ())? = nil) {
-        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, field: field, value: value) else {
+    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject, completion: ((_ newBook: Book) -> ())? = nil) {
+        guard let newBook = DBManager.shared.updateBook(bookId: bookId, field: field, value: value) else {
             return
         }
         
         // update book in cache
-        self.cache[targetBook.id] = targetBook
-
-        // update book in booklist
-        var needToSort = false
-        for (index, book) in self.orderdBookList.enumerated() {
-            if book.id == targetBook.id {
-                needToSort = book.startDate != targetBook.startDate
-                self.orderdBookList[index] = targetBook
-                break
-            }
+        guard let oldBook = cache[bookId] else {
+            return
         }
         
-        if needToSort {
+        let needReorder = oldBook.startDate != newBook.startDate
+        
+        switch field {
+        case .name:
+            oldBook.name = newBook.name
+        case .country:
+            oldBook.country = newBook.country
+        case .currency:
+            oldBook.currency = newBook.currency
+        case .startDate:
+            oldBook.startDate = newBook.startDate
+            if let daysInterval = TBFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
+                oldBook.days = daysInterval + 1
+            }
+        case .endDate:
+            oldBook.endDate = newBook.endDate
+            if let daysInterval = TBFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
+                oldBook.days = daysInterval + 1
+            }
+        }
+
+        // update order
+        if needReorder {
             self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         }
-        BookService.shared.currentOpenBook = targetBook
-        completion?(targetBook)
+        BookService.shared.currentOpenBook = newBook
+        completion?(newBook)
     }
     
 //    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {

@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct CategoryAmount {
+    var category: Category
+    var amount: Double
+}
+
 class RecordSevice {
     
     static let shared = RecordSevice()
@@ -22,18 +27,13 @@ class RecordSevice {
      */
     var recordCache = [Int: Record]()
     
-    /** key: bookId, value: [record] order by day
+    /**  key: bookId, value: [record] order by day
      
     將該Book中records依照日期依序行程array，以book id為key，做成dictionary。
      */
     var bookDaysRecordCache: [Int: [[Record]]] = [:]
     
-    var dict: [Int: [[Int]]] = [0: [[1],[2]]]
-    
-    
-    var tmpList: [Record] = []
     /**
-    
      1.  從DB載入該Book所有Record，放入recordCache。
      2. 將records依日期組成array，放入bookDaysRecordCache。
      */
@@ -88,6 +88,7 @@ class RecordSevice {
         }
         
         // update record from cache
+        
         if TBFunc.compareDateOnly(date1: oridate, date2: newRecord.date) {
             // in the same bookDayRecord
             if let rd = self.recordCache[newRecord.id] {
@@ -102,8 +103,8 @@ class RecordSevice {
         } else {
             removeFromDaysRecordCache(bookId: bookId, originalDate: oridate, record: newRecord)
             insertIntoDaysRecordCache(bookId: bookId, record: newRecord)
+            self.recordCache[newRecord.id] = newRecord
         }
-        
         completion?(newRecord)
     }
     
@@ -128,35 +129,42 @@ class RecordSevice {
             }
         }
     }
-    /*
     
-    
-    func updateBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, bookId: Int, completion: @escaping (_ targetBook: Book) -> ()) {
+    func orderByAmount(accountId: Int, isExpense: Bool) -> [CategoryAmount] {
+        var categoryDict: [Int: Double] = [:]
         
-        // update book in DB (if update succeed, return a not nil book)
-        guard let targetBook = DBManager.shared.updateBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate, bookId: bookId) else {
-            return
+        for cate in CategoryService.shared.categories {
+            categoryDict[cate.id] = 0
         }
-        
-        // update book in cache
-        self.cache[targetBook.id] = targetBook
-        
-        // update book in booklist
-        var needToSort = false
-        for (index, book) in self.orderdBookList.enumerated() {
-            if book.id == targetBook.id {
-                needToSort = book.startDate != targetBook.startDate
-                self.orderdBookList[index] = targetBook
-                break
+        for record in recordCache.values {
+            if record.account.id == accountId, record.category.isExpense == isExpense {
+                categoryDict[record.category.id]? += record.amount
+            }
+        }
+     
+        let sortedByValueDictionary = categoryDict.sorted { first, second in
+            return first.1 < second.1 // 由小到大排序
+        }
+        let result = sortedByValueDictionary.reduce(into: [CategoryAmount]()) { (result, dict) in
+            if let cate = CategoryService.shared.getCategoryFromCache(by: dict.key) {
+                result.append(CategoryAmount(category: cate, amount: dict.value))
             }
         }
         
-        if needToSort {
-            self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
-        }
-        
-        completion(targetBook)
+        return result
     }
+    
+    func getTotalAmount(accountId: Int) -> Double {
+        var total: Double = 0.0
+        for record in recordCache.values {
+            if record.account.id == accountId {
+                total += record.amount
+            }
+        }
+        return total
+    }
+    
+    /*
     
     func deleteBook(bookId: Int, completion: @escaping () -> ()) {
         DBManager.shared.deleteBook(bookId: bookId)

@@ -45,20 +45,6 @@ class CalculatorViewController: UIViewController {
     // for budget
     var isForBudget = false
 
-    lazy var budgetView = UIView {
-        $0.anchorSize(height: heightForBudgetView)
-        $0.roundedCorners()
-        $0.layer.borderColor = TBColor.darkGary.cgColor
-        $0.layer.borderWidth = 1
-    }
-    
-    lazy var budgetLabel = UILabel {
-        $0.font = MainFontNumeral.regular.with(fontSize: 40)
-        $0.textAlignment = .right
-        $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.8
-    }
-    
     private var buttonHeight: CGFloat = 0
     
     var viewRatio: CGFloat! {
@@ -72,9 +58,6 @@ class CalculatorViewController: UIViewController {
     private var amountText: String = "" {
         didSet {
             amountText = checkAmountTextLength(amountText)
-            if isForBudget {
-                budgetLabel.text = amountText
-            }
             self.delegate?.changeAmountValue(amountStr: amountText)
         }
     }
@@ -243,6 +226,7 @@ class CalculatorViewController: UIViewController {
         amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
     }
     
+    // MARK: setViews
     private func setViews() {
         
         setButton()
@@ -305,24 +289,8 @@ class CalculatorViewController: UIViewController {
         mainvStackView.addArrangedSubview(hStackView_4)
         mainvStackView.addArrangedSubview(hStackView_5)
         
-        
-        
         self.view.addSubview(mainvStackView)
-        if isForBudget {
-            let padding: CGFloat = 10
-            self.view.addSubview(budgetView)
-            budgetView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
-            budgetView.addSubview(budgetLabel)
-            budgetLabel.fillSuperview(padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
-            numberOnScreen = checkAmountLimited(numberOnScreen)
-            amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
-            
-            mainvStackView.anchor(top: budgetView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
-            
-        } else {
-            mainvStackView.fillSuperview()
-        }
-       
+        mainvStackView.fillSuperview()
     }
     
     var buttonView = [String: UIView]()

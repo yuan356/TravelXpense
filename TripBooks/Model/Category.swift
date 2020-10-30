@@ -12,12 +12,14 @@ import FMDB
 class Category {
     var id: Int
     var title: String
+    var isExpense: Bool
     var colorHex: String
     var iconImageName: String
     
-    init(id: Int, title: String, colorHex: String, iconName: String) {
+    init(id: Int, title: String, isExpense: Bool, colorHex: String, iconName: String) {
         self.id = id
         self.title = title
+        self.isExpense = isExpense
         self.colorHex = colorHex
         self.iconImageName = iconName
     }
@@ -30,8 +32,9 @@ class Category {
             return nil
         }
         
+        let isExpense = dataLists.bool(forColumn: CategoryField.id)
         let id = Int(dataLists.int(forColumn: CategoryField.id))
         
-        return Category(id: id, title: title, colorHex: colorHex, iconName: iconImageName)
+        return Category(id: id, title: title, isExpense: isExpense, colorHex: colorHex, iconName: iconImageName)
     }
 }

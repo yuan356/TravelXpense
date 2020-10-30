@@ -23,7 +23,10 @@ class AccountPickerViewController: UIViewController {
     var isForPicker = false
 
     var accounts: [Account] {
-        return AccountService.shared.accounts
+        if let book = BookService.shared.currentOpenBook{
+            return AccountService.shared.getAccountsList(bookId: book.id)
+        }
+        return []
     }
     
     var currentAccount: Account?
@@ -32,11 +35,9 @@ class AccountPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = backgroundColor
-        self.view.roundedCorners()
         
         accountTableView = UITableView()
-        accountTableView.register(AccountPickerTableViewCell.self, forCellReuseIdentifier: String(describing: AccountPickerTableViewCell.self))
+        accountTableView.register(AccountCell.self, forCellReuseIdentifier: String(describing: AccountCell.self))
         accountTableView.delegate = self
         accountTableView.dataSource = self
         accountTableView.backgroundColor = .clear
@@ -52,6 +53,8 @@ class AccountPickerViewController: UIViewController {
         
         if isForPicker {
             setButtonView()
+        } else {
+            self.view.backgroundColor = backgroundColor
         }
         let accountTableViewBottom: NSLayoutYAxisAnchor = isForPicker ? buttonView.topAnchor : self.view.bottomAnchor
         
@@ -91,8 +94,8 @@ extension AccountPickerViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = self.accountTableView.dequeueReusableCell(withIdentifier: String(describing: AccountPickerTableViewCell.self), for: indexPath) as? AccountPickerTableViewCell {
-            cell.account = self.accounts[indexPath.row]
+        if let cell = self.accountTableView.dequeueReusableCell(withIdentifier: String(describing: AccountCell.self), for: indexPath) as? AccountCell {
+            cell.item = self.accounts[indexPath.row]
             return cell
         }
         return UITableViewCell()
@@ -100,5 +103,25 @@ extension AccountPickerViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currentAccount = self.accounts[indexPath.row]
+        if !isForPicker {
+            let vc = AccountDetailViewController()
+            vc.account = currentAccount
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+class AccountCell: GenericInfoCell<Account> {
+    override var item: Account! {
+        didSet {
+            
+            titleLabel.text = item.name
+            amountLabel.text = TBFunc.convertDoubleToStr(item.amount)
+        }
+    }
+    
+    override func setIconImage() {
+        iconImageName = item.iconImageName
+        super.setIconImage()
     }
 }

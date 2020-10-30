@@ -14,14 +14,14 @@ enum DisplayMode: String {
     case dark
 }
 
-let displayModeKey = "displayModeKey"
+
 
 struct TBColor {
     static let lightGary = UIColor.lightGray
     static let darkGary = UIColor.darkGray
     struct shamrockGreen {
-        static let light = UIColor(hex: "#3F9E64")
-        static let dark = UIColor(hex: "#3A925C")
+        static let light = UIColor(hex: "3F9E64")
+        static let dark = UIColor(hex: "3A925C")
     }
     
 //    static func background() -> UIColor {
@@ -39,6 +39,6 @@ struct TBColor {
 //    }
     
     struct background {
-        static let dark = UIColor(hex: "#141414")
+        static let dark = UIColor(hex: "141414")
     }
 }

@@ -8,4 +8,5 @@ target 'TripBooks' do
   # Pods for TripBooks
   pod 'FMDB'
   pod 'SwiftEntryKit', '1.2.6'
+  pod 'Charts'
 end

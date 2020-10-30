@@ -15,7 +15,8 @@ enum TBButton: String {
     case home = "home"
     case menu = "menu"
     case settings = "settings"
-    case chart = "bar-chart"
+    case chart = "chart"
+    case more = "more"
     
     func getButton() -> UIButton {
         let button = UIButton()

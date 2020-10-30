@@ -8,8 +8,7 @@
 
 import UIKit
 
-// color
-fileprivate let backgroundColor = TBColor.darkGary
+
 
 class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
@@ -60,8 +59,6 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     }
     
     private func setViews() {
-        self.view.backgroundColor = backgroundColor
-        self.view.roundedCorners()
         
         self.view.addSubview(headerView)
         headerView.anchorViewOnTop()

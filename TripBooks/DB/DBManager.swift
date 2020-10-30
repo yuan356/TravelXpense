@@ -17,7 +17,6 @@ enum BookField {
     static let currency = "book_currency"
     static let imageUrl = "book_imageUrl"
     static let totalAmount = "book_totalAmount"
-    static let budget = "book_budget"
     static let startDate = "book_startDate"
     static let endDate = "book_endDate"
     static let typeId = "book_type_id"
@@ -28,8 +27,6 @@ enum BookFieldForUpdate {
     case name
     case country
     case currency
-    case coverImageNo
-    case budget
     case startDate
     case endDate
 }
@@ -42,7 +39,6 @@ enum RecordField {
     static let title = "record_title"
     static let note = "record_note"
     static let date = "record_date"
-    static let dayNo = "record_dayNo"
     static let categoryId = "record_category_id"
     static let accountId = "record_account_id"
     static let createdDate = "record_createdDate"
@@ -60,6 +56,8 @@ enum CategoryField {
 enum AccountField {
     static let ACCOUNT = "ACCOUNT"
     static let id = "id"
+    static let bookId = "account_book_id"
+    static let budget = "account_budget"
     static let name = "account_name"
     static let amount = "account_amount"
     static let iconImageName = "account_iconImageName"
@@ -105,7 +103,6 @@ class DBManager: NSObject {
                     \(BookField.currency) char(3),
                     \(BookField.imageUrl) Varchar(1000),
                     \(BookField.totalAmount) Double DEFAULT 0,
-                    \(BookField.budget) Double DEFAULT 0,
                     \(BookField.startDate) Double,
                     \(BookField.endDate) Double,
                     \(BookField.typeId) integer DEFAULT 0,
@@ -120,7 +117,6 @@ class DBManager: NSObject {
                     \(RecordField.title) Varchar(150),
                     \(RecordField.note) Varchar(550),
                     \(RecordField.date) Double,
-                    \(RecordField.dayNo) integer,
                     \(RecordField.categoryId) integer,
                     \(RecordField.accountId) integer,
                     \(RecordField.createdDate) Double NOT NULL);
@@ -128,7 +124,7 @@ class DBManager: NSObject {
                 let createCategoryTableSQL = """
                     CREATE TABLE IF NOT EXISTS \(CategoryField.CATEGORY) (
                     \(CategoryField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
-                    \(CategoryField.title) Varchar(50),
+                    \(CategoryField.title) Varchar(150),
                     \(CategoryField.isExpense) Boolean DEFAULT 1,
                     \(CategoryField.colorHex) char(6),
                     \(CategoryField.iconImageName) varchar(50));
@@ -137,7 +133,9 @@ class DBManager: NSObject {
                 let createAccountTableSQL = """
                     CREATE TABLE IF NOT EXISTS \(AccountField.ACCOUNT) (
                     \(AccountField.id) integer NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0,
-                    \(AccountField.name) Varchar(100),
+                    \(AccountField.bookId) integer NOT NULL,
+                    \(AccountField.name) Varchar(150),
+                    \(AccountField.budget) Double DEFAULT 0,
                     \(AccountField.amount) Double DEFAULT 0,
                     \(AccountField.iconImageName) varchar(50));
                 """
@@ -242,10 +240,6 @@ class DBManager: NSObject {
             updateSQL += "\(BookField.country) = ?"
         case .currency:
             updateSQL += "\(BookField.currency) = ?"
-        case .coverImageNo:
-            updateSQL += "\(BookField.imageUrl) = ?"
-        case .budget:
-            updateSQL += "\(BookField.budget) = ?"
         case .startDate:
             updateSQL += "\(BookField.startDate) = ?"
         case .endDate:
@@ -533,16 +527,18 @@ class DBManager: NSObject {
     
     
     // MARK: - ACCOUNT
-    func addNewAccount(name: String, amount: Double = 0, iconName: String) -> Account? {
+    func addNewAccount(bookId: Int, name: String, budget: Double = 0, amount: Double = 0, iconName: String) -> Account? {
         var newAccount: Account? = nil
         if self.openConnection() {
             let insertSQL: String = """
                         INSERT INTO \(AccountField.ACCOUNT) (
+                        \(AccountField.bookId),
                         \(AccountField.name),
+                        \(AccountField.budget),
                         \(AccountField.amount),
-                        \(AccountField.iconImageName)) VALUES (?, ?, ?)
+                        \(AccountField.iconImageName)) VALUES (?, ?, ?, ?, ?)
                         """
-            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [name, amount, iconName]) {
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookId, name, budget, amount, iconName]) {
                 print("Failed to insert initial data into the database.")
                 print(database.lastError(), database.lastErrorMessage())
             }
@@ -572,14 +568,14 @@ class DBManager: NSObject {
         return account
     }
     
-    func getAllAccounts() -> [Account] {
+    func getAllAccountsFromBook(bookId: Int) -> [Account] {
         var accounts: [Account] = []
 
         if self.openConnection() {
-            let querySQL: String = "SELECT * FROM \(AccountField.ACCOUNT) ORDER BY \(AccountField.id)"
+            let querySQL: String = "SELECT * FROM \(AccountField.ACCOUNT) WHERE \(AccountField.bookId) = ? ORDER BY \(AccountField.id)"
 
             do {
-                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
+                let dataLists: FMResultSet = try database.executeQuery(querySQL, values: [bookId])
 
                 var account: Account?
                 while dataLists.next() {

@@ -10,7 +10,6 @@ import UIKit
 
 fileprivate let cellHeight: CGFloat = 60
 fileprivate let cellHpadding: CGFloat = 15
-fileprivate let cellVpadding: CGFloat = 8
 
 fileprivate let iconPaddingInView: CGFloat = 8
 
@@ -26,43 +25,31 @@ class RecordTableViewCell: UITableViewCell {
         }
     }
     
-    let backView: UIView = {
-        let view = UIView()
-        view.backgroundColor = cellColor
-        view.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
-        return view
-    }()
+    lazy var backView = UIView {
+        $0.backgroundColor = cellColor
+        $0.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
+    }
     
-    let infoStackView: UIStackView = {
-        // 目前不需要設定高度，以stackView內Label為依據，自己長。
-//        let itemHeight = cellHeight - (cellVpadding * 2) - 1 // 1 for separator line
-        let stackView = UIStackView()
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        stackView.axis = .vertical
-//        stackView.anchorSize(height: itemHeight)
-        return stackView
-    }()
+    lazy var infoStackView = UIStackView {
+        // 不需要設定高度，以stackView內Label為依據，自己長。
+        $0.alignment = .leading
+        $0.distribution = .fillEqually
+        $0.axis = .vertical
+    }
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = MainFont.regular.with(fontSize: 17)
-        return label
-    }()
+    lazy var titleLabel = UILabel {
+        $0.font = MainFont.regular.with(fontSize: 17)
+    }
     
-    let noteLabel: UILabel = {
-        let label = UILabel()
-        label.font = MainFont.regular.with(fontSize: 11)
-        return label
-    }()
+    lazy var noteLabel = UILabel {
+        $0.font = MainFont.regular.with(fontSize: 11)
+    }
     
-    let amountLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .right
-        label.font = MainFontNumeral.medium.with(fontSize: .medium)
-        return label
-    }()
+    lazy var amountLabel = UILabel {
+        $0.textColor = .white
+        $0.textAlignment = .right
+        $0.font = MainFontNumeral.medium.with(fontSize: .medium)
+    }
     
     let lineView = UIView()
     
@@ -96,8 +83,8 @@ class RecordTableViewCell: UITableViewCell {
             return
         }
         
-        let icon = IconView(category: category)
-        let iconImageView = icon.geticonImageView()
+        let icon = IconView(imageName: category.iconImageName, colorHex: category.colorHex)
+        let iconImageView = icon
         backView.addSubview(iconImageView)
         iconImageView.setAutoresizingToFalse()
         iconImageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor).isActive = true
@@ -127,7 +114,7 @@ class RecordTableViewCell: UITableViewCell {
         var constraints = [NSLayoutConstraint]()
         
         let views = ["icon": iconImageView, "infoSV": infoStackView,"titile": titleLabel, "amount": amountLabel]
-        let metrics = ["h": cellHpadding, "v": cellVpadding] // padding
+        let metrics = ["h": cellHpadding] // padding
         
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(h)-[icon]-(h)-[infoSV]-(>=h)-[amount]-(h)-|", options: [], metrics: metrics, views: views)
         

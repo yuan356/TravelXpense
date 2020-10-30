@@ -202,10 +202,7 @@ struct TBNotify {
         attributes.displayDuration = .infinity
         attributes.entryInteraction = .absorbTouches
         attributes.screenInteraction = .dismiss
-        var heightRatio: CGFloat = 0.5
-        if isForBudget {
-            heightRatio = 0.62
-        }
+        var heightRatio: CGFloat = 0.45
         let height = EKAttributes.PositionConstraints.Edge.ratio(value: heightRatio)
    
         attributes.positionConstraints.size.height = height
@@ -222,6 +219,18 @@ struct TBNotify {
         SwiftEntryKit.display(entry: calculatorVC, using: attributes)        
     }
         
+    static func showViewController(viewController: UIViewController) {
+        var attributes = centerFloatAttributes
+        attributes.hapticFeedbackType = .none
+        attributes.name = AccountPickerAttributes
+        attributes.roundCorners = .all(radius: 10)
+        attributes.entryBackground = .color(color: EKColor(TBColor.darkGary))
+        let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
+        let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
+        attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
+        SwiftEntryKit.display(entry: viewController, using: attributes)
+    }
+    
     // MARK: showPicker
     static func showPicker(type: PickerType, currentObject: Any? = nil, completion: @escaping ((_ result: PickerResult, _ value: Any?) -> ())) {
         
@@ -232,6 +241,8 @@ struct TBNotify {
         var attributes = centerFloatAttributes
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
+        attributes.roundCorners = .all(radius: 10)
+        attributes.entryBackground = .color(color: EKColor(TBColor.darkGary))
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)

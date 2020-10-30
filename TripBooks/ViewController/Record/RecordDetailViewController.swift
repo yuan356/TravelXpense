@@ -25,7 +25,7 @@ fileprivate enum ToolType: String {
 // Padding
 fileprivate let paddingInContentView: CGFloat = 10
 fileprivate let spacingInVStack: CGFloat = 8
-let paddingInCategoriesCollectionView: CGFloat = 5
+fileprivate let paddingInCategoriesCollectionView: CGFloat = 5
 
 // Height
 fileprivate let heightForCheckButton: CGFloat = 25
@@ -53,7 +53,7 @@ private let categoryCell = "CategoryCell"
         3.originalDate
     # (Update) Necessary setting when init:
         1. book
-        2. target record
+        2. record
  */
 class RecordDetailViewController: UIViewController {
     
@@ -99,7 +99,7 @@ class RecordDetailViewController: UIViewController {
     
     var recordAmount: Double = 0
     
-    var currentCategoryCell: CategoriesCollectionViewCell? = nil
+    var currentCategoryCell: IconsCollectionViewCell<Category>? = nil
     
     var categories: [Category] {
         return CategoryService.shared.categories
@@ -124,8 +124,8 @@ class RecordDetailViewController: UIViewController {
     lazy var contentView = UIView()
     
     lazy var amountView = UIView {
-        $0.backgroundColor = UIColor(hex: "#CCE2FF")
-        $0.anchorSize(height: heightForAmountView)
+        $0.backgroundColor = UIColor(hex: "CCE2FF")
+        $0.anchorSize(h: heightForAmountView)
         $0.roundedCorners(radius: cornerRadius)
     }
     
@@ -137,7 +137,7 @@ class RecordDetailViewController: UIViewController {
     }
     
     lazy var categoriesView = UIView {
-        $0.anchorSize(height: heightForCategoryView)
+        $0.anchorSize(h: heightForCategoryView)
         $0.layer.cornerRadius = cornerRadius
     }
     
@@ -148,7 +148,7 @@ class RecordDetailViewController: UIViewController {
         $0.distribution = .equalSpacing
         $0.spacing = spacingInVStack
         $0.axis = .vertical
-        $0.anchorSize(height: (heightForDetailView * 2) + spacingInVStack)
+        $0.anchorSize(h: (heightForDetailView * 2) + spacingInVStack)
     }
     
     lazy var titleTextField = UITextField {
@@ -192,7 +192,7 @@ class RecordDetailViewController: UIViewController {
         $0.setTitleColor(.lightGray, for: .highlighted)
         $0.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
         $0.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
-        $0.anchorSize(height: 50)
+        $0.anchorSize(h: 50)
         $0.roundedCorners(radius: cornerRadius)
     }
     
@@ -359,7 +359,7 @@ class RecordDetailViewController: UIViewController {
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .darkGray
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: categoryCell)
+        collectionView.register(IconsCollectionViewCell<Category>.self, forCellWithReuseIdentifier: categoryCell)
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -373,7 +373,7 @@ class RecordDetailViewController: UIViewController {
         vStackView.anchor(top: categoriesView.bottomAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
 
         let titleView = UIView()
-        titleView.anchorSize(height: heightForDetailView)
+        titleView.anchorSize(h: heightForDetailView)
         setDetailView(name: "Title", to: titleView, type: .title)
 
         let accountView = UIView()
@@ -389,7 +389,7 @@ class RecordDetailViewController: UIViewController {
         hStackView.spacing = paddingInContentView
         hStackView.addArrangedSubview(dateView)
         hStackView.addArrangedSubview(accountView)
-        hStackView.anchorSize(height: heightForDetailView)
+        hStackView.anchorSize(h: heightForDetailView)
         
         vStackView.addArrangedSubview(titleView)
         vStackView.addArrangedSubview(hStackView)
@@ -411,7 +411,7 @@ class RecordDetailViewController: UIViewController {
         
         let lineView = UIView()
         lineView.backgroundColor = .white
-        lineView.anchorSize(height: 1)
+        lineView.anchorSize(h: 1)
         
         view.addSubview(lineView)
         let linePd: CGFloat = 10
@@ -462,7 +462,7 @@ class RecordDetailViewController: UIViewController {
     private func getLineView() -> UIView {
         let lineView = UIView()
         lineView.backgroundColor = .white
-        lineView.anchorSize(height: 1)
+        lineView.anchorSize(h: 1)
         return lineView
     }
     
@@ -483,11 +483,6 @@ class RecordDetailViewController: UIViewController {
                 datePickerVC.delegate = self
                 datePickerVC.show(on: self)
             case .account:
-//                TBNotify.showAccountPicker(currentAccount: recordAccount, completion: { (result, account) in
-//                    if result == PickerResult.success, let acc = account {
-//                        self.recordAccount = acc
-//                    }
-//                })
                 TBNotify.showPicker(type: .account, currentObject: recordAccount) { (result, account) in
                     if result == PickerResult.success, let acc = account as? Account {
                         self.recordAccount = acc
@@ -605,9 +600,7 @@ extension RecordDetailViewController: TBDatePickerDelegate {
 }
 
 extension RecordDetailViewController: CalculatorDelegate {
-    func finishCalculate() {
-        
-    }
+    func finishCalculate() {}
     
     func changeTransactionType(type: TransactionType) {
         print("change to : \(type)")
@@ -674,9 +667,11 @@ extension RecordDetailViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell, for: indexPath) as? CategoriesCollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell, for: indexPath) as? IconsCollectionViewCell<Category> {
             if indexPath.row < CategoryService.shared.categories.count {
-                cell.category = CategoryService.shared.categories[indexPath.row]
+                let cate = CategoryService.shared.categories[indexPath.row]
+                cell.setupIconViews(imageName: cate.iconImageName, title: cate.title, colorHex: cate.colorHex)
+                cell.item = cate
             }
             return cell
         }
@@ -685,22 +680,21 @@ extension RecordDetailViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let cell = collectionView.cellForItem(at: indexPath) as? CategoriesCollectionViewCell {
+        if let cell = collectionView.cellForItem(at: indexPath) as? IconsCollectionViewCell<Category> {
             
             // 若已有選擇的category，且不為同個cell，移除選擇。
             if let currentCell = currentCategoryCell, currentCategoryCell != cell {
-                currentCell.categoryIsSelected = false
+                currentCell.itemIsSelected = false
             }
             
-            cell.categoryIsSelected = !cell.categoryIsSelected
-            if cell.categoryIsSelected { // selected category
+            cell.itemIsSelected = !cell.itemIsSelected
+            if cell.itemIsSelected { // selected category
                 currentCategoryCell = cell
-                recoredCategory = cell.category
+                recoredCategory = cell.item
             } else { // remove selected
                 currentCategoryCell = nil
                 recoredCategory = nil
             }
         }
-        
     }
 }

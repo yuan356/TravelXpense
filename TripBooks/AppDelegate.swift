@@ -9,6 +9,11 @@
 import UIKit
 import CoreData
 
+enum UserDefaultsKey: String {
+    case isFirstLaunchApp
+    case displayMode
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,21 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DBManager.shared.createTable()
         
-        let isFirstLaunchAppKey: String = "isFirstLaunchApp"
+        let isFirstLaunchAppKey = UserDefaultsKey.isFirstLaunchApp.rawValue
         
         let dic = [isFirstLaunchAppKey: true]
         UserDefaults.standard.register(defaults: dic)
                 
         let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
         if isFirstOpenApp {
-            // do some initialize setting.
+//            // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
-            AccountService.shared.setDefaultAccounts()
             UserDefaults.standard.set(false, forKey: isFirstLaunchAppKey)
+        } else {
+            // Every time open the app.
+            CategoryService.shared.getAllCategoriesToCache()
         }
         // TODO:mode
-        
-        UserDefaults.standard.set(DisplayMode.dark.rawValue, forKey: displayModeKey)
         
         return true
     }

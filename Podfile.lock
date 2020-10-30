@@ -1,4 +1,7 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -7,20 +10,23 @@ PODS:
     - QuickLayout (= 3.0.0)
 
 DEPENDENCIES:
+  - Charts
   - FMDB
   - SwiftEntryKit (= 1.2.6)
 
 SPEC REPOS:
   trunk:
+    - Charts
     - FMDB
     - QuickLayout
     - SwiftEntryKit
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   SwiftEntryKit: 96a2fa90b2631bbbfac50d18449e9ca3d0635f13
 
-PODFILE CHECKSUM: ccb98d0d21e08e617c0880cff0e63448297ea2fe
+PODFILE CHECKSUM: bc4f35e16d8073e820b1f04730874a54a94ef28c
 
 COCOAPODS: 1.9.3

@@ -9,39 +9,77 @@
 import UIKit
 
 let defaultAccount = (name: "Cash", iconName: "coins")
-
+let UserDefaultsdefaultAccountId = "defaultAccountId"
 class AccountService {
     
     static let shared = AccountService()
         
     private init() {}
+    var cache: [Int: Account] = [:]
+    /// key: bookId, value: [accountId : account]
+//    var accountsCache: [Int:[Int:Account]] = [:]
     
-    var cache = [Int: Account]()
-    
-    var accounts = [Account]()
-    
-    func getAllAccountsToCache() {
-        self.accounts = DBManager.shared.getAllAccounts()
+    func getAccountsList(bookId: Int) -> [Account] {
+//        var list = [Account]()
+//        if let accCache = accountsCache[bookId] {
+//            let orderd = accCache.sorted { first, second in
+//                return first.0 < second.0
+//            }
+//
+//            list = orderd.reduce(into: [Account]()) { (result, dict) in
+//                result.append(dict.value)
+//            }
+//        }
+//        return list
+        var list = [Account]()
+        let orderd = cache.sorted { first, second in
+            return first.0 < second.0
+        }
+
+        list = orderd.reduce(into: [Account]()) { (result, dict) in
+            result.append(dict.value)
+        }
         
-        self.cache = self.accounts.reduce(into: [:], { (result, account) in
-            result[account.id] = account
-        })
+        return list
     }
     
-    func getAccountFromCache(by id: Int) -> Account? {
+    /// when *BookContainer* open, get all accounts from DB, and **reset the cahce**.
+    func getAllAccountsFromBook(bookId: Int) {
+        let accounts = DBManager.shared.getAllAccountsFromBook(bookId: bookId)
+        
+        let cache = accounts.reduce(into: [:], { (result, acc) in
+            result[acc.id] = acc
+        })
+        
+        self.cache = cache
+    }
+    
+    
+    func getAccountFromCache(accountId id: Int) -> Account? {
         return self.cache[id]
     }
     
-    /// First time to launch the app.
-    func setDefaultAccounts() {
-        self.getAllAccountsToCache()
+    /// add a default account for book
+    func setDefaultAccounts(bookId: Int) {
+        self.getAllAccountsFromBook(bookId: bookId)
         
-        guard self.accounts.count == 0 else {
+        guard self.cache.count == 0 else {
             return
         }
         
-        if let newAcc = DBManager.shared.addNewAccount(name: defaultAccount.name, iconName: defaultAccount.iconName) {
-            self.accounts.append(newAcc)
+        let _ = DBManager.shared.addNewAccount(bookId: bookId, name: defaultAccount.name, iconName: defaultAccount.iconName)
+    }
+    
+    func getDefaultAccount(bookId: Int) -> Account? {
+        let accList = getAccountsList(bookId: bookId)
+        if accList.count > 0 {
+            return accList[0]
+        } else { // no account exist - 理論上不會發生 (限制每個book必須要有一個account)
+            return nil
         }
+    }
+    
+    func deleteAccount() {
+        
     }
 }

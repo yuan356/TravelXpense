@@ -11,13 +11,17 @@ import FMDB
 
 class Account {
     var id: Int
+    var bookId: Int
     var name: String
+    var budget: Double
     var amount: Double
     var iconImageName: String
     
-    init(id: Int, name: String, amount: Double, iconImageName: String) {
+    init(id: Int, bookId: Int, name: String, budget: Double, amount: Double, iconImageName: String) {
         self.id = id
+        self.bookId = bookId
         self.name = name
+        self.budget = budget
         self.amount = amount
         self.iconImageName = iconImageName
     }
@@ -29,9 +33,11 @@ class Account {
             return nil
         }
         
-        let id = Int(dataLists.int(forColumn: BookField.id))
+        let id = Int(dataLists.int(forColumn: AccountField.id))
+        let bookId = Int(dataLists.int(forColumn: AccountField.bookId))
+        let budget = dataLists.double(forColumn: AccountField.budget)
         let amount = dataLists.double(forColumn: AccountField.amount)
         
-        return Account(id: id, name: name, amount: amount, iconImageName: iconImageName)
+        return Account(id: id, bookId: bookId, name: name, budget: budget, amount: amount, iconImageName: iconImageName)
     }
 }

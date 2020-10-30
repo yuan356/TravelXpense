@@ -8,7 +8,8 @@
 
 import UIKit
 
-let recordTableViewCellIdentifier = "RecordTableViewCell"
+fileprivate let tableViewPadding: CGFloat = 15
+
 
 class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
 
@@ -29,14 +30,15 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let padding: CGFloat = 20
+        
         self.view.addSubview(tableView)
-        tableView.fillSuperview(padding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
+        tableView.fillSuperview(padding: UIEdgeInsets(top: tableViewPadding, left: tableViewPadding, bottom: tableViewPadding, right: tableViewPadding))
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: recordTableViewCellIdentifier)
+        tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: String(describing: RecordTableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.showsVerticalScrollIndicator = false
         
         if let bookDayRecord = RecordSevice.shared.bookDaysRecordCache[self.book.id] {
             records = bookDayRecord[dayIndex]
@@ -80,7 +82,7 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: recordTableViewCellIdentifier, for: indexPath) as? RecordTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RecordTableViewCell.self), for: indexPath) as? RecordTableViewCell {
             cell.record = records[indexPath.row]
             // because if set selectionStyle to .none, controller display would have bug, so set selectedBackgroundView to clear view.
             cell.selectedBackgroundView = clearView
@@ -129,6 +131,5 @@ extension RecordTableViewController: ObserverProtocol {
             records = bookDayRecord[dayIndex]
             self.tableView.reloadData()
         }
-    }
-    
+    }    
 }

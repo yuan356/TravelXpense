@@ -23,12 +23,14 @@ class CategoryService {
         
     var cache = [Int: Category]()
     
-    var categories = [Category]()
+    var categories: [Category] {
+        return getCategoryList()
+    }
     
     func getAllCategoriesToCache() {
-        self.categories = DBManager.shared.getAllCategories()
+        let categories = DBManager.shared.getAllCategories()
         
-        self.cache = self.categories.reduce(into: [:], { (result, category) in
+        self.cache = categories.reduce(into: [:], { (result, category) in
             result[category.id] = category
         })
     }
@@ -40,10 +42,7 @@ class CategoryService {
         
         // add category into cache
         self.cache[newCategory.id] = newCategory
-        
-        // add book into category list
-        self.categories.append(newCategory)
-        
+
         completion?(newCategory)
     }
     
@@ -61,9 +60,21 @@ class CategoryService {
         
         for cate in defaultCategories {
             if let newCate = DBManager.shared.addNewCategory(title: cate.title, colorCode: cate.colorCode, iconName: cate.iconName) {
-                self.categories += [newCate]
+                self.cache[newCate.id] = newCate
             }
-            
         }
+        // get data to chahe
+        self.getAllCategoriesToCache()
+    }
+    
+    private func getCategoryList() -> [Category] {
+        let orderd = cache.sorted { first, second in
+            return first.0 < second.0
+        }
+        
+        let list = orderd.reduce(into: [Category]()) { (result, dict) in
+            result.append(dict.value)
+        }
+        return list
     }
 }

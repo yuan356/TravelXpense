@@ -8,9 +8,9 @@
 
 import UIKit
 
-fileprivate let collectionViewHeight = CGFloat(80)
+fileprivate let collectionViewHeight = CGFloat(60)
 
-fileprivate let infoViewHeight = CGFloat(80)
+fileprivate let infoViewHeight = CGFloat(120)
 fileprivate let collectionViewCellWidth = CGFloat(80)
 fileprivate let collectionViewCellHeight = CGFloat(40)
 
@@ -32,8 +32,10 @@ class RecordContainerViewController: UIViewController {
     
     var initDayIndex: Int = 0
     
-    lazy var infoView = UIView {
-        $0.backgroundColor = .systemGray3
+    lazy var infoView = UIView()
+
+    lazy var infoViewController = BookBudgetViewController {
+        $0.book = book
     }
     
     override func viewDidLoad() {
@@ -45,6 +47,9 @@ class RecordContainerViewController: UIViewController {
         // init book info view (budget)
         self.view.addSubview(infoView)
         infoView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: infoViewHeight))
+        
+        infoView.addSubview(infoViewController.view)
+        infoViewController.view.fillSuperview()
         
         // init days CollectionView
         self.addDaysCollectionView()

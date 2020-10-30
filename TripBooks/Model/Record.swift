@@ -45,7 +45,7 @@ class Record {
               let note = dataLists.string(forColumn: RecordField.note),
               let date = dataLists.date(forColumn: RecordField.date),
               let category = CategoryService.shared.getCategoryFromCache(by: categoryId),
-              let account = AccountService.shared.getAccountFromCache(by: accountId) else {
+              let account = AccountService.shared.getAccountFromCache(accountId: accountId) else {
             return nil
         }
         

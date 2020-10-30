@@ -33,8 +33,6 @@ class BookViewController: UIViewController, EditNewBookDelegate {
         
         // initialize setting
         BookService.shared.getAllBooksToCache()
-        CategoryService.shared.getAllCategoriesToCache()
-        AccountService.shared.getAllAccountsToCache()
         
         self.books = BookService.shared.orderdBookList
         
@@ -73,7 +71,7 @@ extension BookViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let vc = AccountingViewController()
-        let vc = BookDetailViewController()
+        let vc = BookContainerViewController()
         BookService.shared.currentOpenBook = self.books[indexPath.row]
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
