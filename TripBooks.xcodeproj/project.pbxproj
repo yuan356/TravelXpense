@@ -75,7 +75,7 @@
 		1CF560BB253D7F67003EEC66 /* TBNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */; };
 		1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BE253ED521003EEC66 /* TBFeedback.swift */; };
 		1CF560C2254012FB003EEC66 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C1254012FA003EEC66 /* Double+Ext.swift */; };
-		1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookSettingViewController.swift */; };
+		1CF560C525403662003EEC66 /* BookAttributesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookAttributesViewController.swift */; };
 		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
 
@@ -152,7 +152,7 @@
 		1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBNotificationCenter.swift; sourceTree = "<group>"; };
 		1CF560BE253ED521003EEC66 /* TBFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBFeedback.swift; sourceTree = "<group>"; };
 		1CF560C1254012FA003EEC66 /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
-		1CF560C425403662003EEC66 /* BookSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSettingViewController.swift; sourceTree = "<group>"; };
+		1CF560C425403662003EEC66 /* BookAttributesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAttributesViewController.swift; sourceTree = "<group>"; };
 		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,12 +173,10 @@
 			children = (
 				1CF560B7253D5968003EEC66 /* Book */,
 				1C8B6F312521D9D9000D423B /* Record */,
-				1CBCD6692549190800FB6C12 /* Info */,
+				1CBCD6692549190800FB6C12 /* Attributes */,
 				1CBCD6642549188400FB6C12 /* Chart */,
-				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
-				1CF560412535B318003EEC66 /* AccountPickerViewController.swift */,
-				1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */,
-				1CBCD678254AB8C500FB6C12 /* AccountDetailViewController.swift */,
+				1CCBBBA9254DB840002C47A1 /* Account */,
+				1CCBBBAA254DB85D002C47A1 /* Others */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -276,12 +274,30 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
-		1CBCD6692549190800FB6C12 /* Info */ = {
+		1CBCD6692549190800FB6C12 /* Attributes */ = {
 			isa = PBXGroup;
 			children = (
-				1CF560C425403662003EEC66 /* BookSettingViewController.swift */,
+				1CF560C425403662003EEC66 /* BookAttributesViewController.swift */,
 			);
-			path = Info;
+			path = Attributes;
+			sourceTree = "<group>";
+		};
+		1CCBBBA9254DB840002C47A1 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				1CF560412535B318003EEC66 /* AccountPickerViewController.swift */,
+				1CBCD678254AB8C500FB6C12 /* AccountDetailViewController.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		1CCBBBAA254DB85D002C47A1 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
+				1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */,
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 		1CD181E82512048B00AFD985 = {
@@ -540,7 +556,7 @@
 				1CBCD5C625454FFC00FB6C12 /* Locale.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBButton.swift in Sources */,
 				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
-				1CF560C525403662003EEC66 /* BookSettingViewController.swift in Sources */,
+				1CF560C525403662003EEC66 /* BookAttributesViewController.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+IsNumber.swift in Sources */,
 				1CBCD67425496A6D00FB6C12 /* BookBudgetViewController.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,

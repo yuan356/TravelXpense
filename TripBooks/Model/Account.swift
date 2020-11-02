@@ -14,7 +14,7 @@ class Account {
     var bookId: Int
     var name: String
     var budget: Double
-    var amount: Double
+    var amount: Double = 0.0
     var iconImageName: String
     
     init(id: Int, bookId: Int, name: String, budget: Double, amount: Double, iconImageName: String) {
@@ -22,7 +22,7 @@ class Account {
         self.bookId = bookId
         self.name = name
         self.budget = budget
-        self.amount = amount
+//        self.amount = amount
         self.iconImageName = iconImageName
     }
     
@@ -39,5 +39,20 @@ class Account {
         let amount = dataLists.double(forColumn: AccountField.amount)
         
         return Account(id: id, bookId: bookId, name: name, budget: budget, amount: amount, iconImageName: iconImageName)
+    }
+        
+    /// name, budget, iconName
+    func update(data: (String, Double, String)) {
+        AccountService.shared.updateAccount(accountId: self.id, value: (data.0, data.1, data.2))
+    }
+    
+    func calculateAmount() {
+        var total: Double = 0.0
+        for record in RecordSevice.shared.recordCache.values {
+            if record.account.id == self.id {
+                total += record.amount
+            }
+        }
+        self.amount = total
     }
 }

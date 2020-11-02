@@ -8,8 +8,9 @@
 
 import UIKit
 
+fileprivate let nameMaxLength = 100
 
-fileprivate let backgroundColor = TBColor.darkGary
+fileprivate let backgroundColor = TBColor.gray.dark
 
 // height / width
 fileprivate let heightForStackItem: CGFloat = 50
@@ -22,13 +23,18 @@ fileprivate let paddingInVStack: CGFloat = 8
 // font
 fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
 fileprivate let numberFont: UIFont = MainFontNumeral.medium.with(fontSize: .medium)
-fileprivate let textColor: UIColor = TBColor.lightGary
+fileprivate let textColor: UIColor = TBColor.gray.light
+
+fileprivate enum EditRow {
+    case name
+    case budget
+    case icon
+}
 
 class AccountDetailViewController: UIViewController {
 
-    var account: Account! {
+    var account: Account? {
         didSet {
-            print("setAccountInfo")
             setAccountInfo()
         }
     }
@@ -37,11 +43,7 @@ class AccountDetailViewController: UIViewController {
     var accountIconName: String? {
         didSet {
             if let name = accountIconName {
-//                let icon = IconView(imageName: name)
-                if let icon = iconView as? IconView {
-                    icon.changeImage(imageName: name)
-                }
-                
+                iconView.changeImage(imageName: name)
             }
         }
     }
@@ -62,19 +64,6 @@ class AccountDetailViewController: UIViewController {
         $0.axis = .vertical
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("viewDidLoad")
-        self.view.backgroundColor = backgroundColor
-        setViews()
-    }
-    
-    private func setViews() {
-        setVStackView()
-        setCategoryView()
-    }
-    
-    
     lazy var nameTextField = UITextField {
         $0.tintColor = .systemBlue
         $0.textAlignment = .right
@@ -86,11 +75,12 @@ class AccountDetailViewController: UIViewController {
         $0.textAlignment = .right
         $0.font = numberFont
         $0.textColor = textColor
+        $0.text = TBFunc.convertDoubleToStr(0, currencyCode: currencyCode)
     }
     
     var budget: Double! = 0.0 {
         didSet {
-            budgetLabel.text = TBFunc.convertDoubleToStr(budget!, moneyFormat: true, currencyCode: currencyCode)
+            budgetLabel.text = TBFunc.convertDoubleToStr(budget!, currencyCode: currencyCode)
         }
     }
     
@@ -102,15 +92,62 @@ class AccountDetailViewController: UIViewController {
         $0.anchorSize(h: heightForCategoryView)
         $0.roundedCorners()
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = TBColor.lightGary.cgColor
+        $0.layer.borderColor = TBColor.gray.light.cgColor
+    }
+    
+    var keyboardShown = false {
+        didSet {
+            budgetButton.isEnabled = !keyboardShown
+        }
     }
     
     var categoriesCollectionView: UICollectionView!
 
     lazy var iconView = IconView()
     
+    lazy var saveButton = UIButton {
+        $0.setTitle("Save", for: .normal)
+        $0.titleLabel?.font = MainFont.regular.with(fontSize: 18)
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
+        $0.anchorSize(h: 30, w: 55)
+        $0.roundedCorners()
+        $0.backgroundColor = TBColor.background.dark
+        $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
+    }
+    
+    lazy var deleteButton = UIButton {
+        $0.setTitle("Delete", for: .normal)
+        $0.roundedCorners()
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
+        $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
+        $0.anchorSize(h: 50)
+        $0.setTitleColor(.white, for: .normal)
+        $0.isHidden = true
+        $0.backgroundColor = TBColor.delete.normal
+        $0.setBackgroundColor(color: TBColor.delete.highlighted, forState: .highlighted)
+    }
+    
+    // MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = backgroundColor
+        setViews()
+    }
+    
+    private func setViews() {
+        let saveBarItem = UIBarButtonItem(customView: saveButton)
+        navigationItem.rightBarButtonItem = saveBarItem
+        setVStackView()
+        setCategoryView()
+        
+        self.view.addSubview(deleteButton)
+        deleteButton.anchor(top: categoriesCollectionView.bottomAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 15, bottom: 0, right: 15))
+    }
+    
     private func setVStackView() {
         var views = [UIView]()
+        nameTextField.delegate = self
         views.append(EditInfoView(viewheight: heightForStackItem, title: "Name", object: nameTextField))
         views.append(EditInfoView(viewheight: heightForStackItem, title: "Budget", object: budgetLabel, withButton: budgetButton))
         
@@ -140,7 +177,7 @@ class AccountDetailViewController: UIViewController {
         categoriesCollectionView.fillSuperview()
         
         view.addSubview(categoriesView)
-        categoriesView.anchor(top: vStackView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 8, bottom: 0, right: 8))
+        categoriesView.anchor(top: vStackView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 15, bottom: 0, right:15))
     }
     
     private func initCategoriesCollectionView() -> UICollectionView {
@@ -162,15 +199,91 @@ class AccountDetailViewController: UIViewController {
         return collectionView
     }
     
+    // MARK: Save
+    @IBAction func saveButtonClicked() {
+        guard let name = nameTextField.text,
+              name.count <= nameMaxLength else {
+            return
+        }
+        
+        guard let iconName = accountIconName else {
+            TBNotify.showCenterAlert(message: "Didn't choose a icon.")
+            return
+        }
+
+        if let acc = self.account { // update
+            acc.update(data: (name, budget, iconName))
+        } else { // insert
+            if let book = BookService.shared.currentOpenBook {
+                AccountService.shared.insertNewAccount(bookId: book.id, name: name, budget: budget, iconName: iconName)
+            }
+        }
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: delete
+    @IBAction func deleteButtonClicked() {
+        guard let acc = self.account else {
+            return
+        }
+        
+        // at least one account
+        if AccountService.shared.cache.count == 1 {
+            TBNotify.showCenterAlert(message: "You need at least one account.")
+            return
+        }
+        
+        TBNotify.showCenterAlert(message: "Are you sure you want to delete this account?", note: "All the records of this account will be delete!", confirm: true) {
+            AccountService.shared.deleteAccount(accountId: acc.id)
+            self.navigationController?.popViewController(animated: true)
+            TBFeedback.notificationOccur(.warning)
+            TBNotify.dismiss()
+        }
+
+    }
+    
     private func setAccountInfo() {
-        nameTextField.text = account.name
-        budget = account.budget
-        accountIconName = account.iconImageName
+        guard let acc = self.account else {
+            return
+        }
+        nameTextField.text = acc.name
+        budget = acc.budget
+        accountIconName = acc.iconImageName
+        deleteButton.isHidden = false
     }
     
     @IBAction func openBudgetCalculator() {
-        print("openBudgetCalculator")
         TBNotify.showCalculator(on: self, originalAmount: budget, currencyCode: currencyCode)
+    }
+}
+ 
+// MARK: extension
+extension AccountDetailViewController: UITextFieldDelegate {
+    // 輸入字數限制
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= nameMaxLength
+    }
+    
+    // update name text
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        keyboardShown = false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        keyboardShown = true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -211,10 +324,6 @@ extension AccountDetailViewController: UICollectionViewDelegate, UICollectionVie
 
 // MARK: CalculatorDelegate
 extension AccountDetailViewController: CalculatorDelegate {
-    func finishCalculate() { // update book budget
-//        saveData(field: .budget, value: self.bookBudget)
-    }
-    
     func changeTransactionType(type: TransactionType) {}
     
     func changeAmountValue(amountStr: String) {

@@ -39,7 +39,6 @@ class RecordSevice {
      */
     func getAllRecordsFromCertainBook(bookId: Int) {
         let records = DBManager.shared.getAllRecordsFromBook(bookId)
-        
         // add record to cache by key(recordId)
         self.recordCache = records.reduce(into: [:], { (result, record) in
             result[record.id] = record
@@ -61,53 +60,81 @@ class RecordSevice {
         bookDaysRecordCache[bookId] = recordsList
     }
     
+    // MARK: addNewRecord
     func addNewRecord(title: String?, amount: Double, note: String?, date: Double, bookId: Int, categoryId: Int, accountId: Int, completion: ((_ newRecord: Record) -> ())? = nil) {
  
         // add new book to DB (if insert succeed, newBook not nil)
         guard let newRecord = DBManager.shared.addNewRecord(title: title ?? "", amount: amount, note: note ?? "", date: date, bookId: bookId, categoryId: categoryId, accountId: accountId) else {
             return
         }
+        
         // add record into cache
         self.recordCache[newRecord.id] = newRecord
         insertIntoDaysRecordCache(bookId: bookId, record: newRecord)
         
+        // update account amount
+        AccountService.shared.updateAmount(accountId: accountId, value: amount)
         completion?(newRecord)
     }
     
+    // MARK: updateRecord
     func updateRecord(id: Int, title: String?, amount: Double, note: String?, date: Double, bookId: Int, categoryId: Int, accountId: Int, completion: ((_ newRecord: Record) -> ())? = nil) {
         
-        let originalDate = self.recordCache[id]?.date
+        guard let oldRecord = self.recordCache[id] else {
+            return
+        }
         
         // update record (if update succeed, return a record not nil)
         guard let newRecord = DBManager.shared.updateRecord(id: id, title: title ?? "", amount: amount, note: note ?? "", date: date, categoryId: categoryId, accountId: accountId) else {
             return
         }
         
-        guard let oridate = originalDate else {
-            return
-        }
-        
         // update record from cache
-        
-        if TBFunc.compareDateOnly(date1: oridate, date2: newRecord.date) {
-            // in the same bookDayRecord
-            if let rd = self.recordCache[newRecord.id] {
-                rd.amount = newRecord.amount
-                rd.title = newRecord.title
-                rd.note = newRecord.note
-                rd.date = newRecord.date
-                rd.category = newRecord.category
-                rd.account = newRecord.account
-                rd.createTime = newRecord.createTime
-            }
-        } else {
-            removeFromDaysRecordCache(bookId: bookId, originalDate: oridate, record: newRecord)
+        if !TBFunc.compareDateOnly(date1: oldRecord.date, date2: newRecord.date) {
+            // not in the same bookDayRecord
+            removeFromDaysRecordCache(bookId: bookId, originalDate: oldRecord.date, record: newRecord)
             insertIntoDaysRecordCache(bookId: bookId, record: newRecord)
-            self.recordCache[newRecord.id] = newRecord
         }
+        
+        // changed account
+        if oldRecord.account.id != newRecord.account.id {
+            AccountService.shared.updateAmount(accountId: oldRecord.account.id, value: -oldRecord.amount)
+            AccountService.shared.updateAmount(accountId: newRecord.account.id, value: newRecord.amount)
+        } else {
+            // update account amount
+            let offset = newRecord.amount - oldRecord.amount
+            AccountService.shared.updateAmount(accountId: accountId, value: offset)
+        }
+        
+        // update record in cache
+        oldRecord.amount = newRecord.amount
+        oldRecord.title = newRecord.title
+        oldRecord.note = newRecord.note
+        oldRecord.date = newRecord.date
+        oldRecord.category = newRecord.category
+        oldRecord.account = newRecord.account
+        oldRecord.createTime = newRecord.createTime
+
         completion?(newRecord)
     }
     
+    func deleteRecordsOfAccounts(accountId: Int) {
+        DBManager.shared.deleteRecordsOfAccount(accountId: accountId)
+    }
+    
+    func deleteRecord(recordId: Int) {
+        guard let oldRecord = recordCache[recordId] else {
+            return
+        }
+        DBManager.shared.deleteRecord(recordId: recordId)
+        
+        
+        AccountService.shared.updateAmount(accountId: oldRecord.account.id, value: -oldRecord.amount)
+        removeFromDaysRecordCache(bookId: oldRecord.bookId, originalDate: oldRecord.date, record: oldRecord)
+        recordCache[recordId] = nil
+    }
+    
+    // MARK: RecordCache
     private func insertIntoDaysRecordCache(bookId: Int, record: Record) {
         if let book = BookService.shared.getBookFromCache(bookId: bookId),
            let index = TBFunc.getDaysInterval(start: book.startDate, end: record.date),
@@ -130,6 +157,7 @@ class RecordSevice {
         }
     }
     
+    // MARK: orderByAmount
     func orderByAmount(accountId: Int, isExpense: Bool) -> [CategoryAmount] {
         var categoryDict: [Int: Double] = [:]
         
@@ -152,16 +180,6 @@ class RecordSevice {
         }
         
         return result
-    }
-    
-    func getTotalAmount(accountId: Int) -> Double {
-        var total: Double = 0.0
-        for record in recordCache.values {
-            if record.account.id == accountId {
-                total += record.amount
-            }
-        }
-        return total
     }
     
     /*

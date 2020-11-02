@@ -53,7 +53,7 @@ class BookService {
         completion(newBook)
     }
     
-    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject, completion: ((_ newBook: Book) -> ())? = nil) {
+    func updateBook(bookId: Int, field: BookFieldForUpdate, value: NSObject) {
         guard let newBook = DBManager.shared.updateBook(bookId: bookId, field: field, value: value) else {
             return
         }
@@ -88,8 +88,6 @@ class BookService {
         if needReorder {
             self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         }
-        BookService.shared.currentOpenBook = newBook
-        completion?(newBook)
     }
     
 //    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {

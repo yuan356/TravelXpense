@@ -63,7 +63,6 @@ enum AccountField {
     static let iconImageName = "account_iconImageName"
 }
 
-
 class DBManager: NSObject {
     
     static let shared = DBManager()
@@ -371,6 +370,32 @@ class DBManager: NSObject {
         return record
     }
     
+    func deleteRecord(recordId: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.id) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [recordId])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
+    }
+    
+    func deleteRecordsOfAccount(accountId: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.accountId) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [accountId])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
+    }
+    
     func getAllRecords() -> [Record] {
         var records: [Record] = []
 
@@ -527,7 +552,7 @@ class DBManager: NSObject {
     
     
     // MARK: - ACCOUNT
-    func addNewAccount(bookId: Int, name: String, budget: Double = 0, amount: Double = 0, iconName: String) -> Account? {
+    func addNewAccount(bookId: Int, name: String, budget: Double = 0, iconName: String) -> Account? {
         var newAccount: Account? = nil
         if self.openConnection() {
             let insertSQL: String = """
@@ -535,10 +560,9 @@ class DBManager: NSObject {
                         \(AccountField.bookId),
                         \(AccountField.name),
                         \(AccountField.budget),
-                        \(AccountField.amount),
-                        \(AccountField.iconImageName)) VALUES (?, ?, ?, ?, ?)
+                        \(AccountField.iconImageName)) VALUES (?, ?, ?, ?)
                         """
-            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookId, name, budget, amount, iconName]) {
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookId, name, budget, iconName]) {
                 print("Failed to insert initial data into the database.")
                 print(database.lastError(), database.lastErrorMessage())
             }
@@ -550,15 +574,20 @@ class DBManager: NSObject {
         return newAccount
     }
     
-    func updateAccount(id: Int, name: String, amount: Double, iconName: String) -> Account? {
+    
+    func updateAccount(accountId: Int, name: String, budget: Double, iconName: String) -> Account? {
         var account: Account? = nil
-        
+        let updateSQL = """
+                UPDATE \(AccountField.ACCOUNT) SET
+                \(AccountField.name) = ?,
+                \(AccountField.budget) = ?,
+                \(AccountField.iconImageName) = ?
+                WHERE \(AccountField.id) = ?
+                """
         if self.openConnection() {
-            let updateSQL: String = "UPDATE \(AccountField.ACCOUNT) SET \(AccountField.name) = ?, \(AccountField.amount) = ?, \(AccountField.iconImageName) = ? WHERE \(AccountField.id) = ?"
-
             do {
-                try self.database.executeUpdate(updateSQL, values: [name, amount, iconName, id])
-                account = self.getAccountById(id)
+                try self.database.executeUpdate(updateSQL, values: [name, budget, iconName, accountId])
+                account = self.getAccountById(accountId)
             } catch {
                 print(error.localizedDescription)
             }
@@ -566,6 +595,19 @@ class DBManager: NSObject {
         }
         
         return account
+    }
+    
+    func deleteAccount(accountId: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(AccountField.ACCOUNT) WHERE \(AccountField.id) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [accountId])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
     }
     
     func getAllAccountsFromBook(bookId: Int) -> [Account] {

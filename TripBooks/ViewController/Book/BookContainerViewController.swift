@@ -75,7 +75,7 @@ class BookContainerViewController: UIViewController {
         addViewControllerToContainerView(containerView: tabBarContainerView, controller: tabViewController)
         tabViewController.delegate = self
         
-        // get all accounts to chche
+        // get all accounts to cache
         AccountService.shared.getAllAccountsFromBook(bookId: currentBook.id)
         
         // init page
@@ -168,7 +168,7 @@ extension BookContainerViewController: TBTabViewControllerDelegate {
                 vc.selectedDayDelegate = self
                 controller = vc
             case .bookinfo:
-                let vc = BookSettingViewController()
+                let vc = BookAttributesViewController()
                 vc.book = self.currentBook
                 controller = UINavigationController(rootViewController: vc)
             }
@@ -186,11 +186,13 @@ extension BookContainerViewController: TBTabViewControllerDelegate {
             self.addChild(controller)
             addViewControllerToContainerView(containerView: self.contentView, controller: controller)
             self.currentRootViewController = controller
-        } else if let controller = controller,
+        }
+        else if let controller = controller, // Add new record
                   controller.restorationIdentifier == TabBarPage.record.rawValue {
             let vc = RecordDetailViewController()
             vc.recordDate = self.selectedDay
             vc.originalDate = self.selectedDay
+            vc.recordAccount = AccountService.shared.getDefaultAccount(bookId: currentBook.id)
             vc.book = currentBook
             present(vc, animated: true, completion: nil)
         }

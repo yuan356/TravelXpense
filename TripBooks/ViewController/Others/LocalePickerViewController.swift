@@ -81,7 +81,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             textfield.returnKeyType = .default
-            textfield.backgroundColor = TBColor.lightGary
+            textfield.backgroundColor = TBColor.gray.medium
         }
         headerView.addSubview(searchBar)
         searchBar.fillSuperview()
@@ -98,6 +98,9 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: T.self), for: indexPath) as? T {
+            let selectBackView = UIView()
+            selectBackView.backgroundColor = TBColor.gray.cellSelected
+            cell.selectedBackgroundView = selectBackView
             cell.item = searchResultList[indexPath.row] as? U
             return cell
         }
@@ -145,6 +148,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
 class CountryCell: GenericCell<Country> {
     override var item: Country! {
         didSet {
+            textLabel?.textColor = .white
             textLabel?.text = item.name
         }
     }
@@ -157,6 +161,7 @@ class CountryCell: GenericCell<Country> {
 class CurrencyCell: GenericCell<Currency> {
     override var item: Currency! {
         didSet {
+            textLabel?.textColor = .white
             textLabel?.text = String(item.code)
         }
     }

@@ -10,6 +10,11 @@ import UIKit
 
 class Icons {
     static let accounts: [String]
-        = ["coins", "check-bill", "credit-card",
-        "notes", "piggy-bank", "piggy-bank-2", "rich"]
+        = ["coins",
+           "check-bill",
+           "credit-card",
+           "notes",
+           "piggy-bank",
+           "piggy-bank-2",
+           "rich"]
 }

@@ -82,8 +82,8 @@ struct TBNotify {
     
     static var centerFloatAttributes: EKAttributes = {
         var attributes = EKAttributes.centerFloat
-        let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.65)
-        let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.25)
+        let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.7)
+        let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.27)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
         attributes.windowLevel = .alerts
         attributes.displayDuration = .infinity
@@ -93,6 +93,7 @@ struct TBNotify {
         attributes.scroll = .disabled
         attributes.entranceAnimation = alertEntranceAnimation
         attributes.exitAnimation = alertExitAnimation
+        attributes.hapticFeedbackType = .none
         
         attributes.shadow = .active(
             with: .init(
@@ -140,29 +141,71 @@ struct TBNotify {
 //        }
 //    }
     
-
-    static func showCenterAlert(message: String) {
-        let attributes = centerFloatAttributes
+    // MARK: showCenterAlert
+    static func showCenterAlert(message: String, title: String = "", note: String = "", confirm: Bool = false, okAction: (()->())? = nil ) {
+        var attributes = centerFloatAttributes
+        let backColor = #colorLiteral(red: 0.2193589807, green: 0.219402343, blue: 0.219353199, alpha: 0.6472870291)
+        attributes.screenBackground = .color(color: EKColor.init(backColor))
         let view = UIView()
         view.roundedCorners()
-        view.backgroundColor = TBColor.darkGary
+        view.backgroundColor = TBColor.gray.dark
+        
+        let titleFont = MainFont.medium.with(fontSize: 20)
+        let textFont = MainFont.regular.with(fontSize: 17)
+        let noteFont = MainFont.regular.with(fontSize: 15)
+        let btnFont = MainFont.regular.with(fontSize: .medium)
         
         let MessageView = UIView()
-        let messageLabel = UILabel()
-        messageLabel.textAlignment = .center
-        messageLabel.textColor = .white
-        messageLabel.numberOfLines = 0
-        messageLabel.text = message
-        MessageView.addSubview(messageLabel)
-        messageLabel.fillSuperview(padding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+
+        let messageLabel = UILabel {
+            $0.textAlignment = .center
+            $0.textColor = .white
+            $0.numberOfLines = 0
+            $0.font = textFont
+            $0.text = message
+        }
+        
+        let vStack = UIStackView()
+        vStack.distribution = .fill
+        vStack.axis = .vertical
+        if title != "" {
+            let titleLabel = UILabel {
+                $0.textAlignment = .center
+                $0.textColor = .white
+                $0.font = titleFont
+                $0.text = title
+                $0.anchorSize(h: 30)
+            }
+            vStack.addArrangedSubview(titleLabel)
+        }
+        vStack.addArrangedSubview(messageLabel)
+        if note != "" {
+            let noteLabel = UILabel {
+                $0.textAlignment = .center
+                $0.textColor = TBColor.orange.light
+                $0.numberOfLines = 0
+                $0.font = noteFont
+                $0.text = note
+                $0.anchorSize(h: 50)
+            }
+            vStack.addArrangedSubview(noteLabel)
+        }
+
+        
+        MessageView.addSubview(vStack)
+        vStack.fillSuperview(padding: UIEdgeInsets(top: 10, left: 8, bottom: 8, right: 10))
+        
+        let closeText = confirm ? "Cancel": "Okay"
+        let closeTextColor = confirm ?
+            EKColor.init(TBColor.orange.light) : EKColor.white
         
         let closeButtonLabelStyle = EKProperty.LabelStyle(
-            font: MainFont.regular.with(fontSize: .medium),
-            color: .standardContent
+            font: btnFont,
+            color: closeTextColor
         )
         
         let closeButtonLabel = EKProperty.LabelContent(
-            text: "Okay",
+            text: closeText,
             style: closeButtonLabelStyle
         )
         let closeButton = EKProperty.ButtonContent(
@@ -172,11 +215,38 @@ struct TBNotify {
                 SwiftEntryKit.dismiss()
             }
         
-        let buttonsBarContent = EKProperty.ButtonBarContent(
-            with: closeButton,
-            separatorColor: EKColor.init(TBColor.lightGary),
-            expandAnimatedly: true
+        let okButtonLabelStyle = EKProperty.LabelStyle(
+            font: btnFont,
+            color: .white
         )
+        let okButtonLabel = EKProperty.LabelContent(
+            text: "Okay",
+            style: okButtonLabelStyle
+        )
+        
+        let okButton = EKProperty.ButtonContent(
+            label: okButtonLabel,
+            backgroundColor: .clear,
+            highlightedBackgroundColor: EKColor.standardBackground.with(alpha: 0.2)) {
+            okAction?()
+        }
+        
+        
+        var buttonsBarContent: EKProperty.ButtonBarContent
+        if confirm {
+            buttonsBarContent = EKProperty.ButtonBarContent(
+                with: closeButton, okButton,
+                separatorColor: EKColor.init(TBColor.gray.light),
+                expandAnimatedly: true
+            )
+        } else {
+            buttonsBarContent = EKProperty.ButtonBarContent(
+                with: closeButton,
+                separatorColor: EKColor.init(TBColor.gray.light),
+                expandAnimatedly: true
+            )
+        }
+        
         let buttonBarView = EKButtonBarView(with: buttonsBarContent)
         
         view.addSubview(MessageView)
@@ -191,6 +261,7 @@ struct TBNotify {
         SwiftEntryKit.display(entry: view, using: attributes)
     }
     
+    // MARK: showCalculator
     static func showCalculator(on parentController: UIViewController, originalAmount: Double = 0, currencyCode: String, isForBudget: Bool = false) {
         guard !SwiftEntryKit.isCurrentlyDisplaying(entryNamed: CalculatorAttributes) else {
             return
@@ -202,11 +273,11 @@ struct TBNotify {
         attributes.displayDuration = .infinity
         attributes.entryInteraction = .absorbTouches
         attributes.screenInteraction = .dismiss
-        var heightRatio: CGFloat = 0.45
+        let heightRatio: CGFloat = 0.45
         let height = EKAttributes.PositionConstraints.Edge.ratio(value: heightRatio)
    
         attributes.positionConstraints.size.height = height
-        attributes.entryBackground = .color(color: EKColor.init(TBColor.lightGary))
+        attributes.entryBackground = .color(color: EKColor.init(TBColor.gray.medium))
         
         let calculatorVC = CalculatorViewController()
         var amount = originalAmount
@@ -224,7 +295,7 @@ struct TBNotify {
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
         attributes.roundCorners = .all(radius: 10)
-        attributes.entryBackground = .color(color: EKColor(TBColor.darkGary))
+        attributes.entryBackground = .color(color: EKColor(TBColor.gray.dark))
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
@@ -242,7 +313,7 @@ struct TBNotify {
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
         attributes.roundCorners = .all(radius: 10)
-        attributes.entryBackground = .color(color: EKColor(TBColor.darkGary))
+        attributes.entryBackground = .color(color: EKColor(TBColor.gray.dark))
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
@@ -251,7 +322,7 @@ struct TBNotify {
         
         let closeButtonLabelStyle = EKProperty.LabelStyle(
             font: mediumFont,
-            color: .standardContent
+            color: .white
         )
         let closeButtonLabel = EKProperty.LabelContent(
             text: "Cancel",
@@ -267,7 +338,7 @@ struct TBNotify {
         
         let okButtonLabelStyle = EKProperty.LabelStyle(
             font: mediumFont,
-            color: EKColor.black
+            color: .white
         )
         let okButtonLabel = EKProperty.LabelContent(
             text: "Okay",
@@ -276,13 +347,13 @@ struct TBNotify {
         let okButton = EKProperty.ButtonContent(
             label: okButtonLabel,
             backgroundColor: .clear,
-            highlightedBackgroundColor: EKColor.init(TBColor.darkGary)) {
+            highlightedBackgroundColor: EKColor.standardBackground.with(alpha: 0.2)) {
             okAction()
         }
         
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: closeButton, okButton,
-            separatorColor: EKColor(TBColor.lightGary),
+            separatorColor: EKColor(TBColor.gray.light),
             horizontalDistributionThreshold: 2,
             expandAnimatedly: true
         )

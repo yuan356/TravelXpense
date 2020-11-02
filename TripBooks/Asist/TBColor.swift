@@ -17,11 +17,33 @@ enum DisplayMode: String {
 
 
 struct TBColor {
-    static let lightGary = UIColor.lightGray
-    static let darkGary = UIColor.darkGray
+    struct gray {
+        static let dark = UIColor.darkGray
+        static let medium = UIColor(hex: "ADADAD")
+        static let light = UIColor(hex: "D6D6D6")
+        static let cellSelected = UIColor(hex: "8F8F8F")
+    }
+   
     struct shamrockGreen {
         static let light = UIColor(hex: "3F9E64")
         static let dark = UIColor(hex: "3A925C")
+    }
+    static let beauBlue = UIColor(hex: "CCE2FF")
+    
+    struct background {
+        static let dark = UIColor(hex: "292929")
+    }
+    
+    static let tabBar = UIColor(hex: "141414")
+    
+    struct delete {
+        static let normal = UIColor(hex: "E45C3A")
+        static let highlighted = UIColor(hex: "C53D1B")
+    }
+
+    struct orange {
+        static let light = UIColor(hex: "E9795D")
+        static let dark = UIColor(hex: "E24D28")
     }
     
 //    static func background() -> UIColor {
@@ -38,7 +60,5 @@ struct TBColor {
 //        return color
 //    }
     
-    struct background {
-        static let dark = UIColor(hex: "141414")
-    }
+    
 }

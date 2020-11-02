@@ -11,7 +11,7 @@ import UIKit
 fileprivate let tableViewPadding: CGFloat = 15
 
 
-class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
+class RecordTableViewController: UIViewController {
 
     var book: Book!
     
@@ -20,6 +20,21 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
     var dayIndex = 0
     
     var records: [Record] = []
+    
+    var currentCell: RecordTableViewCell? {
+        didSet {
+            if currentCell != nil {
+                currentCell?.updateDeleteWidthContraint()
+            }
+        }
+        willSet {
+            if currentCell != nil {
+                currentCell?.updateDeleteWidthContraint(reset: true)
+            }
+        }
+    }
+    
+    var onLongPress = false
     
     var observer: Observer!
     
@@ -30,9 +45,8 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         self.view.addSubview(tableView)
-        tableView.fillSuperview(padding: UIEdgeInsets(top: tableViewPadding, left: tableViewPadding, bottom: tableViewPadding, right: tableViewPadding))
+        tableView.fillSuperview(padding: UIEdgeInsets(top: tableViewPadding, left: tableViewPadding, bottom: 8, right: tableViewPadding))
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: String(describing: RecordTableViewCell.self))
@@ -47,25 +61,53 @@ class RecordTableViewController: UIViewController, UIGestureRecognizerDelegate {
         observer = Observer.init(notification: .recordTableUpdate, infoKey: .defalut)
         observer.delegate = self
         
-//        setupLongPressGesture()
+        setupLongPressGesture()
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
+        
     }
-//
-//    func setupLongPressGesture() {
-//        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
-//        longPressGesture.minimumPressDuration = 1.0 // 1 second press
-//        longPressGesture.delegate = self
-//        self.tableView.addGestureRecognizer(longPressGesture)
-//    }
-//
-//    @IBAction func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
-//        if gestureRecognizer.state == .began {
-//            let touchPoint = gestureRecognizer.location(in: self.tableView)
-//            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-//                print(indexPath.row)
-//
-//            }
-//        }
-//    }
+
+    func setupLongPressGesture() {
+        let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+        longPressGesture.minimumPressDuration = 0.6
+        longPressGesture.delegate = self
+        self.tableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @IBAction func tap(_ gesture: UITapGestureRecognizer) {
+        currentCell = nil
+        onLongPress = false
+    }
+
+    @IBAction func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: self.tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint),
+               let cell = tableView.cellForRow(at: indexPath) as? RecordTableViewCell {
+                currentCell = cell
+                onLongPress = true
+            }
+        }
+    }
+}
+
+
+extension RecordTableViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        if gestureRecognizer is UITapGestureRecognizer {
+            if onLongPress {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return true
+        }
+    }
 }
 
 extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -86,28 +128,25 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
             cell.record = records[indexPath.row]
             // because if set selectionStyle to .none, controller display would have bug, so set selectedBackgroundView to clear view.
             cell.selectedBackgroundView = clearView
-            
             cell.rounded = false
             cell.lineView.isHidden = false
             if indexPath.row == 0 {
-                if indexPath.row == self.records.count - 1 {
+                if indexPath.row == self.records.count - 1 { // only one cell
                     cell.lineView.isHidden = true
+                    cell.roundedType = .all
                 } else {
                     cell.roundedType = .top // 1. these two order can't change!
                 }
                 cell.rounded = true // 2.
             } else if indexPath.row == self.records.count - 1 {
                 cell.roundedType = .bottom // 1. these two order can't change!
-                cell.lineView.isHidden = true
                 cell.rounded = true // 2.
+                cell.lineView.isHidden = true
             }
             return cell
         }
         return UITableViewCell()
     }
-    
-    
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = RecordDetailViewController()
@@ -115,21 +154,17 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
         controller.record = self.records[indexPath.row]
         present(controller, animated: true, completion: nil)
     }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-        }
-    }
 }
-
-
 
 extension RecordTableViewController: ObserverProtocol {
     func handleNotification(infoValue: Any?) {
         if let bookDayRecord = RecordSevice.shared.bookDaysRecordCache[self.book.id] {
             records = bookDayRecord[dayIndex]
             self.tableView.reloadData()
+            if onLongPress {
+                currentCell = nil
+                onLongPress = false
+            }
         }
-    }    
+    }
 }

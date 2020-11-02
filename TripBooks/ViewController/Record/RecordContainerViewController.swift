@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let collectionViewHeight = CGFloat(60)
+fileprivate let collectionViewHeight = CGFloat(75)
 
 fileprivate let infoViewHeight = CGFloat(120)
 fileprivate let collectionViewCellWidth = CGFloat(80)
@@ -43,7 +43,9 @@ class RecordContainerViewController: UIViewController {
         
         // load all records in book
         RecordSevice.shared.getAllRecordsFromCertainBook(bookId: book.id)
-
+        
+        AccountService.shared.calculateAmountInBook(bookId: book.id)
+        
         // init book info view (budget)
         self.view.addSubview(infoView)
         infoView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: infoViewHeight))
@@ -81,27 +83,6 @@ class RecordContainerViewController: UIViewController {
 
         pageViewController.view.setAutoresizingToFalse()
     }
-}
-
-// MARK: CollectionView functions
-extension RecordContainerViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.book.days
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self), for: indexPath) as? RecordDaysCollectionViewCell {
-            cell.dayNo = indexPath.row + 1
-            return cell
-        }
-        
-        return UICollectionViewCell()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.pageViewController.updatePage(to: indexPath.row)
-        self.moveSlider(collectionView, didSelectItemAt: indexPath)
-    }
     
     private func initDaysCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
@@ -118,11 +99,35 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
         
         return collectionView
     }
+}
+
+// MARK: CollectionView functions
+extension RecordContainerViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.book.days
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self), for: indexPath) as? RecordDaysCollectionViewCell {
+            cell.startDate = book.startDate
+            cell.dayIndex = indexPath.row
+            return cell
+        }
+        
+        return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.pageViewController.updatePage(to: indexPath.row)
+        self.moveSlider(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    
     
     // MARK: Slider
     private func setSlider(_ collectionView: UICollectionView) {
         self.slider.frame.size = CGSize(width: collectionViewCellWidth, height: 3)
-        self.slider.backgroundColor = .white
+        self.slider.backgroundColor = TBColor.shamrockGreen.light
         self.slider.center.y = collectionView.bounds.maxY - 10
         collectionView.addSubview(self.slider)
         self.moveSlider(collectionView, didSelectItemAt: IndexPath(row: 0, section: 0))

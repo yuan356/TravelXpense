@@ -36,10 +36,10 @@ fileprivate let heightForDetailView: CGFloat = 40
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
-fileprivate let textViewPlaceholderColor = TBColor.lightGary
+fileprivate let textViewPlaceholderColor = TBColor.gray.light
 
 fileprivate let textFont = MainFont.regular.with(fontSize: .medium)
-
+fileprivate let inputTextColor: UIColor = .white
 // cornerRadius
 private let cornerRadius: CGFloat = 10
 
@@ -99,7 +99,7 @@ class RecordDetailViewController: UIViewController {
     
     var recordAmount: Double = 0
     
-    var currentCategoryCell: IconsCollectionViewCell<Category>? = nil
+    var currentCategoryCell: IconsCollectionViewCell<Category>?
     
     var categories: [Category] {
         return CategoryService.shared.categories
@@ -116,6 +116,7 @@ class RecordDetailViewController: UIViewController {
     lazy var headerView = UIView {
         $0.backgroundColor = .darkGray
         let checkButton = TBButton.check.getButton()
+        checkButton.tintColor = .white
         $0.addSubview(checkButton)
         checkButton.anchorButtonToHeader(position: .right)
         checkButton.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
@@ -124,13 +125,14 @@ class RecordDetailViewController: UIViewController {
     lazy var contentView = UIView()
     
     lazy var amountView = UIView {
-        $0.backgroundColor = UIColor(hex: "CCE2FF")
+        $0.backgroundColor = TBColor.beauBlue
         $0.anchorSize(h: heightForAmountView)
         $0.roundedCorners(radius: cornerRadius)
     }
     
     lazy var amountLabel = UILabel {
         $0.font = MainFontNumeral.regular.with(fontSize: 40)
+        $0.text = "0"
         $0.textAlignment = .right
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.8
@@ -154,11 +156,13 @@ class RecordDetailViewController: UIViewController {
     lazy var titleTextField = UITextField {
         $0.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
         $0.font = textFont
+        $0.textColor = inputTextColor
         $0.textAlignment = .left
     }
     
     lazy var dateLabel = UILabel {
         $0.font = MainFontNumeral.regular.with(fontSize: .medium)
+        $0.textColor = inputTextColor
         $0.textAlignment = .center
     }
         
@@ -169,6 +173,7 @@ class RecordDetailViewController: UIViewController {
     
     lazy var accountLabel = UILabel {
         $0.font = textFont
+        $0.textColor = inputTextColor
         $0.textAlignment = .center
     }
     
@@ -187,7 +192,7 @@ class RecordDetailViewController: UIViewController {
     lazy var doneButton = UIButton {
         $0.backgroundColor = TBColor.shamrockGreen.light
         $0.setTitle("DONE", for: .normal)
-        $0.titleLabel?.font = textFont
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.tintColor = .white
         $0.setTitleColor(.lightGray, for: .highlighted)
         $0.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
@@ -309,7 +314,7 @@ class RecordDetailViewController: UIViewController {
     // MARK: - Detail View Setting
     /// add contentView & HeaderView to self.view
     private func setContentViewAndHeader() {
-        self.view.backgroundColor = .darkGray
+        self.view.backgroundColor = TBColor.gray.dark
         self.view.addSubview(headerView)
         headerView.anchorViewOnTop()
         
@@ -539,9 +544,10 @@ class RecordDetailViewController: UIViewController {
         // didn't change the date, current record table need to update.
         // notify the recordTable observer
         if needToReloadTable {
-            Observed.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
+            TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
         }
         
+        TBFeedback.notificationOccur(.success)
         dismiss(animated: true, completion: nil)
         
     }
@@ -600,8 +606,6 @@ extension RecordDetailViewController: TBDatePickerDelegate {
 }
 
 extension RecordDetailViewController: CalculatorDelegate {
-    func finishCalculate() {}
-    
     func changeTransactionType(type: TransactionType) {
         print("change to : \(type)")
     }
@@ -636,9 +640,14 @@ extension RecordDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     
     func textViewDidEndEditing (_ textView: UITextView) {
         if textView.text.isEmpty || textView.text == "" {
-            textView.textColor = .lightGray
+            textView.textColor = textViewPlaceholderColor
             textView.text = "Type your notes here..."
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 //     輸入字數限制 textField
@@ -672,6 +681,10 @@ extension RecordDetailViewController: UICollectionViewDelegate, UICollectionView
                 let cate = CategoryService.shared.categories[indexPath.row]
                 cell.setupIconViews(imageName: cate.iconImageName, title: cate.title, colorHex: cate.colorHex)
                 cell.item = cate
+                if cate.id == recoredCategory?.id {
+                    cell.itemIsSelected = true
+                    currentCategoryCell = cell
+                }
             }
             return cell
         }

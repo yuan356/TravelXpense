@@ -10,18 +10,17 @@ import UIKit
 
 fileprivate let cellHeight: CGFloat = 60
 fileprivate let cellHpadding: CGFloat = 15
-
+fileprivate let trashCanHeight: CGFloat = 26
 fileprivate let iconPaddingInView: CGFloat = 8
 
-fileprivate let cellColor = TBColor.darkGary
-fileprivate let cellHighlightedColor = TBColor.lightGary
+fileprivate let cellColor = TBColor.gray.dark
+fileprivate let cellHighlightedColor = TBColor.gray.cellSelected
 
 class RecordTableViewCell: UITableViewCell {
 
     var record: Record? {
         didSet {
             setRecordInfo()
-            setViews()
         }
     }
     
@@ -29,6 +28,8 @@ class RecordTableViewCell: UITableViewCell {
         $0.backgroundColor = cellColor
         $0.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
     }
+    
+    lazy var iconImageView = IconView(imageName: "")
     
     lazy var infoStackView = UIStackView {
         // 不需要設定高度，以stackView內Label為依據，自己長。
@@ -38,11 +39,13 @@ class RecordTableViewCell: UITableViewCell {
     }
     
     lazy var titleLabel = UILabel {
+        $0.textColor = .white
         $0.font = MainFont.regular.with(fontSize: 17)
     }
     
     lazy var noteLabel = UILabel {
-        $0.font = MainFont.regular.with(fontSize: 11)
+        $0.textColor = TBColor.gray.light
+        $0.font = MainFont.regular.with(fontSize:13)
     }
     
     lazy var amountLabel = UILabel {
@@ -50,6 +53,16 @@ class RecordTableViewCell: UITableViewCell {
         $0.textAlignment = .right
         $0.font = MainFontNumeral.medium.with(fontSize: .medium)
     }
+    
+    lazy var deleteView = UIView()
+    
+    lazy var deleteBtn: UIButton = {
+        let btn = TBButton.trash.getButton()
+        btn.anchorSize(h: trashCanHeight)
+        btn.tintColor = TBColor.orange.light
+        btn.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
+        return btn
+    }()
     
     let lineView = UIView()
     
@@ -67,11 +80,13 @@ class RecordTableViewCell: UITableViewCell {
     
     var roundedType: RoundedType?
     
+    var deleteViewWidthConstraint: NSLayoutConstraint!
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
-        backView.roundedCorners(radius: 0)
+        setViews()
     }
     
     private func setViews() {
@@ -79,12 +94,6 @@ class RecordTableViewCell: UITableViewCell {
         contentView.addSubview(backView)
         backView.fillSuperview()
         
-        guard let category = self.category else {
-            return
-        }
-        
-        let icon = IconView(imageName: category.iconImageName, colorHex: category.colorHex)
-        let iconImageView = icon
         backView.addSubview(iconImageView)
         iconImageView.setAutoresizingToFalse()
         iconImageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor).isActive = true
@@ -94,12 +103,6 @@ class RecordTableViewCell: UITableViewCell {
         infoStackView.setAutoresizingToFalse()
 
         infoStackView.addArrangedSubview(titleLabel)
-        if noteLabel.text != "" {
-            infoStackView.addArrangedSubview(noteLabel)
-        } else {
-            infoStackView.removeArrangedSubview(noteLabel)
-        }
-
         infoStackView.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor).isActive = true
         
         // amount
@@ -111,12 +114,22 @@ class RecordTableViewCell: UITableViewCell {
         noteLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         amountLabel.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor).isActive = true
         
+        // delete view
+        deleteView.addSubview(deleteBtn)
+        deleteBtn.fillSuperview()
+        
+        backView.addSubview(deleteView)
+        deleteView.setAutoresizingToFalse()
+        deleteView.centerYAnchor.constraint(equalTo: iconImageView.centerYAnchor).isActive = true
+        deleteViewWidthConstraint = deleteView.widthAnchor.constraint(equalToConstant: 0)
+        deleteViewWidthConstraint.isActive = true
+        
         var constraints = [NSLayoutConstraint]()
         
-        let views = ["icon": iconImageView, "infoSV": infoStackView,"titile": titleLabel, "amount": amountLabel]
+        let views = ["icon": iconImageView, "infoSV": infoStackView,"titile": titleLabel, "amount": amountLabel, "del": deleteView]
         let metrics = ["h": cellHpadding] // padding
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(h)-[icon]-(h)-[infoSV]-(>=h)-[amount]-(h)-|", options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(h)-[icon]-(h)-[infoSV]-(>=h)-[amount]-(h)-[del]-|", options: [], metrics: metrics, views: views)
         
         NSLayoutConstraint.activate(constraints)
         
@@ -127,6 +140,16 @@ class RecordTableViewCell: UITableViewCell {
         lineView.anchor(top: nil, bottom: backView.bottomAnchor, leading: infoStackView.leadingAnchor, trailing: amountLabel.trailingAnchor, size: CGSize(width: 0, height: 1))
     }
     
+    func updateDeleteWidthContraint(reset: Bool = false) {
+        deleteViewWidthConstraint.constant = reset ? 0 : trashCanHeight
+        
+        UIView.animate(withDuration: 0.25) {
+            self.contentView.layoutIfNeeded()
+        }
+        
+    }
+    
+    // MARK: setRecordInfo
     private func setRecordInfo() {
         guard let record = self.record else {
             return
@@ -135,10 +158,25 @@ class RecordTableViewCell: UITableViewCell {
         // category
         category = record.category
         
+        guard let category = self.category else {
+            return
+        }
+        
+        iconImageView.changeImage(imageName: category.iconImageName, colorHex: category.colorHex)
+        
+        backView.addSubview(iconImageView)
+        iconImageView.setAutoresizingToFalse()
+        iconImageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor).isActive = true
+        
         // title
         titleLabel.text = (record.title == "") ? record.category.title : record.title
         
         // detail
+        if record.note != "" {
+            infoStackView.addArrangedSubview(noteLabel)
+        } else {
+            infoStackView.removeArrangedSubview(noteLabel)
+        }
         noteLabel.text = record.note
         
         // amount
@@ -149,6 +187,16 @@ class RecordTableViewCell: UITableViewCell {
             amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true)
         }
         amountLabel.text = amountText
+    }
+    
+    @IBAction func deleteButtonClicked() {
+        TBNotify.showCenterAlert(message: "Are you sure you want to delete this record?", confirm: true) {
+            if let rd = self.record {
+                RecordSevice.shared.deleteRecord(recordId: rd.id)
+                TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
+                TBNotify.dismiss()
+            }
+        }
     }
 
     required init?(coder: NSCoder) {

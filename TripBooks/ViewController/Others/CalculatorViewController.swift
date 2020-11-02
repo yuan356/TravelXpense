@@ -12,8 +12,6 @@ protocol CalculatorDelegate: AnyObject {
     func changeAmountValue(amountStr: String)
     /// for record detail edit
     func changeTransactionType(type: TransactionType)
-    /// for book budget setting
-    func finishCalculate()
 }
 
 enum OperationType: String {
@@ -66,7 +64,7 @@ class CalculatorViewController: UIViewController {
         didSet {
             if currentOperationBtn != nil {
                 UIView.animate(withDuration: 0.2) {
-                    self.currentOperationBtn?.backgroundColor = TBColor.darkGary
+                    self.currentOperationBtn?.backgroundColor = TBColor.gray.dark
                 }
             }
         }
@@ -106,10 +104,6 @@ class CalculatorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.delegate?.finishCalculate()
     }
     
     @IBAction func numberTapped(_ sender: UIButton) {
@@ -185,7 +179,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func doneBtnTapped(_ sender: UIButton) {
-        TBFeedback.notificationOccur(.success)
+        TBFeedback.notificationOccur(.warning)
         if sender.title(for: .normal) == "OK" { // finish
             numberOnScreen = checkAmountLimited(numberOnScreen)
             if isForBudget && numberOnScreen < 0 { // 預算不得為負
@@ -309,7 +303,8 @@ class CalculatorViewController: UIViewController {
             let numStr = "\(i)"
             numBtn.setTitle(numStr, for: .normal)
             numBtn.titleLabel?.font = numberFont
-            numBtn.setBackgroundColor(color: .darkGray, forState: .highlighted)
+            numBtn.setTitleColor(.white, for: .highlighted)
+            numBtn.setBackgroundColor(color: btnColorHighLighted, forState: .highlighted)
             buttons[numStr] = numBtn
             numBtn.restorationIdentifier = numStr
             numBtn.addTarget(self, action: #selector(numberTapped(_:)), for: .touchUpInside)
@@ -351,9 +346,12 @@ class CalculatorViewController: UIViewController {
         okayBtn.addTarget(self, action: #selector(doneBtnTapped(_:)), for: .touchUpInside)
         buttons[okayBtnId] = okayBtn
         
-        for btn in buttons.values {
+        for (key, btn) in buttons {
             btn.setTitleColor(btnColor, for: .normal)
-            btn.setTitleColor(btnColorHighLighted, for: .highlighted)
+            if !key.isNumber {
+                btn.setTitleColor(btnColorHighLighted, for: .highlighted)
+            }
+            
         }
         
         // operation

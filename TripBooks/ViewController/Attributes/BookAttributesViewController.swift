@@ -30,8 +30,8 @@ fileprivate let inputTextFont: UIFont = MainFont.regular.with(fontSize: 18)
 fileprivate let inputTextNumberFont = MainFontNumeral.regular.with(fontSize: .medium)
 
 // Color
-fileprivate let backgroundColor = TBColor.darkGary
-fileprivate let inputTextColor: UIColor = TBColor.lightGary
+fileprivate let backgroundColor = TBColor.gray.dark
+fileprivate let inputTextColor: UIColor = TBColor.gray.light
 
 fileprivate enum buttonType: String {
     case country
@@ -43,7 +43,7 @@ fileprivate enum buttonType: String {
 
 fileprivate let nameMaxLength = 100
 
-class BookSettingViewController: UIViewController {
+class BookAttributesViewController: UIViewController {
 
     // MARK: Book Parameters
     var book: Book! {
@@ -114,8 +114,8 @@ class BookSettingViewController: UIViewController {
         $0.setTitle("Change cover", for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .small)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = TBColor.darkGary
-        $0.setBackgroundColor(color: TBColor.lightGary, forState: .highlighted)
+        $0.backgroundColor = TBColor.gray.dark
+        $0.setBackgroundColor(color: TBColor.gray.light, forState: .highlighted)
         $0.roundedCorners(radius: 5, shadow: true)
     }
     
@@ -181,6 +181,13 @@ class BookSettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = backgroundColor
+        let emptyImage = UIImage()
+        self.navigationController?.navigationBar.setBackgroundImage(emptyImage, for: .default)
+        self.navigationController?.navigationBar.shadowImage = emptyImage
+       
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationItem.backButtonTitle = ""
+        
         setViews()
     }
     
@@ -252,6 +259,11 @@ class BookSettingViewController: UIViewController {
             addInputObjects(to: view, object: endDateLabel)
             addToolsButton(btnType: .endDate, to: view)
         case .account:
+            let arrowView = UIImageView()
+            arrowView.image = UIImage(named: TBButton.arrowRight.rawValue)
+            arrowView.anchorSize(h: 16, w: 16)
+            arrowView.tintColor = .white
+            addInputObjects(to: view, object: arrowView)
             addToolsButton(btnType: .account, to: view)
         }
     }
@@ -344,7 +356,6 @@ class BookSettingViewController: UIViewController {
     
     // MARK: openImagePicker
     @IBAction func openImagePicker() {
-        print("openImagePicker")
         let photoSourceRequestController = UIAlertController(title: "", message: " Choose your image source", preferredStyle: .actionSheet)
         
         let cameraAction = UIAlertAction(title: "Camera", style: .default, handler : { (action) in
@@ -414,7 +425,7 @@ class BookSettingViewController: UIViewController {
 
 // MARK: - extension
 // MARK: TBDatePickerDelegate
-extension BookSettingViewController: TBDatePickerDelegate {
+extension BookAttributesViewController: TBDatePickerDelegate {
     func changeDate(buttonIdentifier: String, date: Date) {
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
@@ -429,7 +440,7 @@ extension BookSettingViewController: TBDatePickerDelegate {
 }
 
 // MARK: UITextFieldDelegate
-extension BookSettingViewController: UITextFieldDelegate {
+extension BookAttributesViewController: UITextFieldDelegate {
     // update name text
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text {
@@ -461,7 +472,7 @@ extension BookSettingViewController: UITextFieldDelegate {
 }
 
 // MARK: ImagePicker
-extension BookSettingViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension BookAttributesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         dismiss(animated: true) {

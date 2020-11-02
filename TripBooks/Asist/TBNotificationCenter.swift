@@ -10,10 +10,12 @@ import UIKit
 
 extension Notification.Name {
     static let recordTableUpdate = Notification.Name("recordTableUpdate")
+    static let accountAmountUpdate = Notification.Name("accountAmountUpdate")
 }
 
 enum InfoKey: String {
     case defalut
+    case accountAmount
 }
 
 protocol ObserverProtocol: AnyObject {
@@ -34,11 +36,11 @@ class Observer {
         subscribe()
     }
     
-    func subscribe() {
+    private func subscribe() {
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification(_:)), name: notificationName, object: nil)
     }
     
-    func unsubscribe() {
+    private func unsubscribe() {
         NotificationCenter.default.removeObserver(self, name: notificationName, object: nil)
     }
     
@@ -55,7 +57,7 @@ class Observer {
     }
 }
 
-class Observed {
+class TBObserved {
     static func notifyObservers(notificationName: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
         var userInfo: [AnyHashable : Any]?
         

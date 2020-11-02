@@ -10,27 +10,19 @@ import UIKit
 
 let defaultAccount = (name: "Cash", iconName: "coins")
 let UserDefaultsdefaultAccountId = "defaultAccountId"
+
 class AccountService {
-    
+
     static let shared = AccountService()
-        
+    
+    var observer: Observer!
+    
     private init() {}
+    
     var cache: [Int: Account] = [:]
-    /// key: bookId, value: [accountId : account]
-//    var accountsCache: [Int:[Int:Account]] = [:]
     
     func getAccountsList(bookId: Int) -> [Account] {
-//        var list = [Account]()
-//        if let accCache = accountsCache[bookId] {
-//            let orderd = accCache.sorted { first, second in
-//                return first.0 < second.0
-//            }
-//
-//            list = orderd.reduce(into: [Account]()) { (result, dict) in
-//                result.append(dict.value)
-//            }
-//        }
-//        return list
+
         var list = [Account]()
         let orderd = cache.sorted { first, second in
             return first.0 < second.0
@@ -52,6 +44,11 @@ class AccountService {
         })
         
         self.cache = cache
+        
+        if cache.count == 0 { // 理論上不會發生
+            setDefaultAccounts(bookId: bookId)
+        }
+        
     }
     
     
@@ -59,15 +56,47 @@ class AccountService {
         return self.cache[id]
     }
     
+    // MARK: Insert
+    func insertNewAccount(bookId: Int, name: String, budget: Double, iconName: String) {
+        guard let newAcc = DBManager.shared.addNewAccount(bookId: bookId, name: name, budget: budget, iconName: iconName) else {
+            return
+        }
+        
+        // add new account to cache
+        cache[newAcc.id] = newAcc
+    }
+    
+    // MARK: Update
+    func updateAccount(accountId: Int, value: (String, Double, String)) {
+        guard let newAcc = DBManager.shared.updateAccount(accountId: accountId, name: value.0, budget: value.1, iconName: value.2) else {
+            return
+        }
+        // update account in cache
+        guard let oldAcc = cache[accountId] else {
+            return
+        }
+        
+        oldAcc.name = newAcc.name
+        oldAcc.budget = newAcc.budget
+        oldAcc.iconImageName = newAcc.iconImageName
+    }
+    
+    func deleteAccount(accountId: Int) {
+        DBManager.shared.deleteAccount(accountId: accountId)
+        RecordSevice.shared.deleteRecordsOfAccounts(accountId: accountId)
+        cache[accountId] = nil
+    }
+    
+    // MARK: Default account
     /// add a default account for book
     func setDefaultAccounts(bookId: Int) {
-        self.getAllAccountsFromBook(bookId: bookId)
-        
         guard self.cache.count == 0 else {
             return
         }
         
-        let _ = DBManager.shared.addNewAccount(bookId: bookId, name: defaultAccount.name, iconName: defaultAccount.iconName)
+        if let acc = DBManager.shared.addNewAccount(bookId: bookId, name: defaultAccount.name, iconName: defaultAccount.iconName) {
+            self.cache[acc.id] = acc
+        }
     }
     
     func getDefaultAccount(bookId: Int) -> Account? {
@@ -79,7 +108,17 @@ class AccountService {
         }
     }
     
-    func deleteAccount() {
-        
+    func updateAmount(accountId: Int, value: Double) {
+        if let acc = getAccountFromCache(accountId: accountId) {
+            acc.amount += value
+            TBObserved.notifyObservers(notificationName: .accountAmountUpdate, infoKey: .accountAmount, infoValue: acc)
+        }
     }
+    
+    func calculateAmountInBook(bookId: Int) {
+        for acc in cache.values {
+            acc.calculateAmount()
+        }
+    }
+
 }

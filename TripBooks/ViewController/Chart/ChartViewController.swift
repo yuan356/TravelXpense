@@ -9,7 +9,7 @@
 import UIKit
 
 
-fileprivate let backgroundColor = TBColor.darkGary
+fileprivate let backgroundColor = TBColor.gray.dark
 
 class ChartViewController: UIViewController {
 

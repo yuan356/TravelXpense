@@ -14,12 +14,12 @@ protocol TBTabViewControllerDelegate: AnyObject {
 
 // Don't change, it've been calculated.
 let heightForTabBarButton: CGFloat = 30
-let heightForTabBtnSelected: CGFloat = 42
-let heightForTabBtnBackView: CGFloat = 52 // same as HeightForTabBarView
-let HeightForTabBarView: CGFloat = 52
+let heightForTabBtnSelected: CGFloat = 43
+let heightForTabBtnBackView: CGFloat = 55 // same as HeightForTabBarView
+let HeightForTabBarView: CGFloat = 55
 let moveUpOffset: CGFloat = 12
 
-let tabBarColor: UIColor = TBColor.background.dark
+let tabBarColor: UIColor = TBColor.tabBar
 
 struct ViewControllerPage {
  

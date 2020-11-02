@@ -10,23 +10,43 @@ import UIKit
 
 class RecordDaysCollectionViewCell: UICollectionViewCell {
     
-    var dayNo = 0 {
+    var startDate: Date!
+    
+    var dayIndex: Int! {
         didSet {
-            indexLabel.text = "day \(dayNo)"
+            dayLabel.text = "day \(dayIndex + 1)"
+            if let date = TBFunc.getDateByOffset(startDate: startDate, daysInterval: dayIndex) {
+                dateLabel.text = TBFunc.convertDateToDateStr(date: date)
+
+            }
         }
     }
+
+    lazy var dayLabel = UILabel {
+        $0.textAlignment = .center
+        $0.font = MainFontNumeral.regular.with(fontSize: 18)
+        $0.textColor = .white
+    }
     
-    let indexLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        return label
-    }()
+    lazy var dateLabel = UILabel {
+        $0.textAlignment = .center
+        $0.font = MainFontNumeral.regular.with(fontSize: .small)
+        $0.textColor = TBColor.gray.light
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        self.addSubview(indexLabel)
-        indexLabel.anchorToSuperViewCenter()
+        
+        let vStack = UIStackView()
+        vStack.axis = .vertical
+        vStack.distribution = .fillEqually
+        vStack.spacing = 5
+        vStack.addArrangedSubview(dayLabel)
+        vStack.addArrangedSubview(dateLabel)
+        
+        self.addSubview(vStack)
+        vStack.fillSuperview()
     }
     
     required init?(coder: NSCoder) {
