@@ -10,7 +10,7 @@ import UIKit
 
 fileprivate let collectionViewHeight = CGFloat(75)
 
-fileprivate let infoViewHeight = CGFloat(120)
+fileprivate let infoViewHeight = CGFloat(90)
 fileprivate let collectionViewCellWidth = CGFloat(80)
 fileprivate let collectionViewCellHeight = CGFloat(40)
 
@@ -45,7 +45,7 @@ class RecordContainerViewController: UIViewController {
         RecordSevice.shared.getAllRecordsFromCertainBook(bookId: book.id)
         
         AccountService.shared.calculateAmountInBook(bookId: book.id)
-        
+
         // init book info view (budget)
         self.view.addSubview(infoView)
         infoView.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, size: CGSize(width: 0, height: infoViewHeight))
@@ -91,7 +91,7 @@ class RecordContainerViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.backgroundColor = .darkGray
+        collectionView.backgroundColor = TBColor.system.blue.medium
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(RecordDaysCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self))
         collectionView.dataSource = self
@@ -127,7 +127,7 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
     // MARK: Slider
     private func setSlider(_ collectionView: UICollectionView) {
         self.slider.frame.size = CGSize(width: collectionViewCellWidth, height: 3)
-        self.slider.backgroundColor = TBColor.shamrockGreen.light
+        self.slider.backgroundColor = TBColor.system.veronese
         self.slider.center.y = collectionView.bounds.maxY - 10
         collectionView.addSubview(self.slider)
         self.moveSlider(collectionView, didSelectItemAt: IndexPath(row: 0, section: 0))

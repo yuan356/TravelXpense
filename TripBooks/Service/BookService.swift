@@ -28,6 +28,7 @@ class BookService {
         self.cache = self.orderdBookList.reduce(into: [:], { (result, book) in
             result[book.id] = book
         })
+        
     }
     
     func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970,
@@ -48,7 +49,7 @@ class BookService {
         self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         
         // add a default account for book
-        AccountService.shared.setDefaultAccounts(bookId: newBook.id)
+        AccountService.shared.insertDefaultAccounts(bookId: newBook.id)
         
         completion(newBook)
     }
@@ -61,6 +62,17 @@ class BookService {
         // update book in cache
         guard let oldBook = cache[bookId] else {
             return
+        }
+        
+        let startDateCompare = TBFunc.compareDate(date: newBook.startDate, target: oldBook.startDate)
+        let endDateCompare = TBFunc.compareDate(date: newBook.endDate, target: oldBook.endDate)
+        if startDateCompare == .orderedDescending {
+            // delete records that date is less than newBook.startDate
+            RecordSevice.shared.deleteRecordsOfDate(date: newBook.startDate, less: true)
+        }
+        if endDateCompare == .orderedAscending {
+            // delete records that date is greater than newBook.endDate
+            RecordSevice.shared.deleteRecordsOfDate(date: newBook.endDate, less: false)
         }
         
         let needReorder = oldBook.startDate != newBook.startDate
@@ -89,6 +101,8 @@ class BookService {
             self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
         }
     }
+    
+    
     
 //    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {
 //        

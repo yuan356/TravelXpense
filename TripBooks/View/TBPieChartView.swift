@@ -25,9 +25,8 @@ class TBPieChartView: PieChartView {
         self.legend.textColor = UIColor.white
         self.animate(yAxisDuration: 0.6)
         self.extraTopOffset = 8
-        self.extraBottomOffset = 5
+        self.extraBottomOffset = 8
         self.legend.enabled = false
-//        self.backgroundColor = .brown
         self.usePercentValuesEnabled = true
     }
     
@@ -35,6 +34,13 @@ class TBPieChartView: PieChartView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func changeCenterText(text: String) {
+        let myAttribute = [ NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white ]
+        let myAttrString = NSAttributedString(string: text, attributes: myAttribute)
+        self.centerAttributedText = myAttrString
+    }
+    
+    var dataSet = PieChartDataSet()
     
     func setData(datalist: [CategoryAmount]) {
         var entryColors = [NSUIColor]()
@@ -46,7 +52,8 @@ class TBPieChartView: PieChartView {
                 entryColors.append(UIColor(hex: data.category.colorHex))
             }
         })
-        let dataSet = PieChartDataSet(entries: dataEntries)
+        
+        dataSet = PieChartDataSet(entries: dataEntries)
         dataSet.valueLinePart1OffsetPercentage = 0.7
         dataSet.yValuePosition = .outsideSlice
         dataSet.valueLineColor = UIColor.white

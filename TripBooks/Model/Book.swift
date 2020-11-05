@@ -20,6 +20,7 @@ class Book {
     var endDate: Date
     var createDate: Double
     var days: Int = 0
+//    var coverImageView = UIImageView()
     
     init(id: Int, name: String, country: Country, currency: Currency, imageUrl: String?,
          totalAmount: Double, startDate: Date, endDate: Date, createDate: Double) {

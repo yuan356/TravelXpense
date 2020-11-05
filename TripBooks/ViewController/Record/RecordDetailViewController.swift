@@ -115,7 +115,7 @@ class RecordDetailViewController: UIViewController {
     // View
     lazy var headerView = UIView {
         $0.backgroundColor = .darkGray
-        let checkButton = TBButton.check.getButton()
+        let checkButton = TBNavigationIcon.check.getButton()
         checkButton.tintColor = .white
         $0.addSubview(checkButton)
         checkButton.anchorButtonToHeader(position: .right)

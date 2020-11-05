@@ -11,6 +11,7 @@ import CoreData
 
 enum UserDefaultsKey: String {
     case isFirstLaunchApp
+    case defaultAccountDict
     case displayMode
 }
 
@@ -27,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
         if isFirstOpenApp {
-//            // do some initialize setting.
+            // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
             UserDefaults.standard.set(false, forKey: isFirstLaunchAppKey)
         } else {
@@ -35,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             CategoryService.shared.getAllCategoriesToCache()
         }
         // TODO:mode
-        
         return true
     }
 

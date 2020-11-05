@@ -168,10 +168,10 @@ extension UIView {
     }
     
     private func getShadow() {
-        self.layer.shadowOffset = CGSize(width: 3, height: 3) // 表示layer的陰影顯示在box.layer右側及下方的距離
+        self.layer.shadowOffset = CGSize(width: 2, height: 2) // 表示layer的陰影顯示在box.layer右側及下方的距離
         self.layer.shadowOpacity = 0.7 // layer shadow的透明度
-        self.layer.shadowRadius = 10 // 數值越高則陰影越模糊且分散，數值越低則會較清晰且集中
-        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowRadius = 7 // 數值越高則陰影越模糊且分散，數值越低則會較清晰且集中
+        self.layer.shadowColor = UIColor.darkGray.cgColor
     }
 }
 

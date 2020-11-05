@@ -44,7 +44,6 @@ class RecordPageViewController: UIPageViewController {
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
-        self.view.backgroundColor = TBColor.background.dark
         // first show viewController
         if let startingVC = contentViewController(at: currentDayIndex) {
             self.setViewControllers([startingVC], direction: .forward, animated: true, completion: nil)

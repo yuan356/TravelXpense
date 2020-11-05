@@ -12,7 +12,6 @@ import UIKit
 fileprivate let heightForBookNameHeader: CGFloat = 60
 
 // color
-fileprivate let headerViewColor: UIColor = TBColor.shamrockGreen.light
 
 enum TabBarPage: String {
     case chart
@@ -51,29 +50,52 @@ class BookContainerViewController: UIViewController {
         ViewControllerPage(type: .bookinfo)
     ])
     
-    lazy var contentView = UIView()
+    lazy var contentView = UIView {
+        $0.backgroundColor = .clear
+    }
     
     lazy var homeButton: UIButton = {
-        let btn = TBButton.home.getButton()
+        let btn = TBNavigationIcon.home.getButton()
         btn.anchorSize(h: 30, w: 30)
         btn.tintColor = .white
         btn.addTarget(self, action: #selector(homeBtnClicked), for: .touchUpInside)
         return btn
     }()
     
+    lazy var bookNameLabel = UILabel {
+        $0.font = MainFont.medium.with(fontSize: 22)
+        $0.text = currentBook.name
+        $0.textColor = .white
+        $0.textAlignment = .center
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.7
+    }
+    
     lazy var headerView = UIView {
         $0.anchorSize(h: heightForBookNameHeader)
-        $0.backgroundColor = headerViewColor
         $0.addSubview(homeButton)
+        $0.roundedCorners(radius: 20, roundedType: .bottom)
         homeButton.anchor(top: $0.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: $0.leadingAnchor, trailing: nil, padding: UIEdgeInsets(top: 15, left: 20, bottom: 0, right: 0))
+        
+        $0.addSubview(bookNameLabel)
+        bookNameLabel.setAutoresizingToFalse()
+        bookNameLabel.anchorCenterY(to: $0)
+        bookNameLabel.anchorCenterX(to: $0)
+        bookNameLabel.leadingAnchor.constraint(equalTo: homeButton.trailingAnchor, constant: 15).isActive = true
     }
+    
+    var observer: TBObserver!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = TBColor.system.background.dark
         setViews()
         
         addViewControllerToContainerView(containerView: tabBarContainerView, controller: tabViewController)
         tabViewController.delegate = self
+        
+        observer = TBObserver.init(notification: .bookNameUpdate, infoKey: .bookName)
+        observer.delegate = self
         
         // get all accounts to cache
         AccountService.shared.getAllAccountsFromBook(bookId: currentBook.id)
@@ -96,6 +118,7 @@ class BookContainerViewController: UIViewController {
     private func setViews() {
         tabBarViewSetting()
         
+        // tabBarContainerView
         self.view.addSubview(tabBarContainerView)
         tabBarContainerView.anchor(top: nil, bottom: self.view.safeAreaLayoutGuide.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
@@ -105,12 +128,12 @@ class BookContainerViewController: UIViewController {
         self.view.addSubview(bottomSafeAreaView)
         bottomSafeAreaView.anchor(top: tabBarContainerView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
+        // headerView
         self.view.addSubview(headerView)
         headerView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
         let topSafeAreaView = UIView()
         self.view.addSubview(topSafeAreaView)
-        topSafeAreaView.backgroundColor = headerViewColor
         topSafeAreaView.anchor(top: self.view.topAnchor, bottom: headerView.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
         self.view.addSubview(contentView)
@@ -143,6 +166,13 @@ class BookContainerViewController: UIViewController {
     }
 }
 
+extension BookContainerViewController: ObserverProtocol {
+    func handleNotification(infoValue: Any?) {
+        if let bookName = infoValue as? String {
+            self.bookNameLabel.text = bookName
+        }
+    }
+}
 extension BookContainerViewController: recordContainerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {
         if let date = TBFunc.getDateByOffset(startDate: self.currentBook.startDate, daysInterval: dayIndex) {

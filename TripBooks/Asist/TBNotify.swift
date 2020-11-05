@@ -94,7 +94,7 @@ struct TBNotify {
         attributes.entranceAnimation = alertEntranceAnimation
         attributes.exitAnimation = alertExitAnimation
         attributes.hapticFeedbackType = .none
-        
+        attributes.screenBackground = .color(color: EKColor.init(TBColor.blurBackground))
         attributes.shadow = .active(
             with: .init(
                 color: .black,
@@ -143,12 +143,10 @@ struct TBNotify {
     
     // MARK: showCenterAlert
     static func showCenterAlert(message: String, title: String = "", note: String = "", confirm: Bool = false, okAction: (()->())? = nil ) {
-        var attributes = centerFloatAttributes
-        let backColor = #colorLiteral(red: 0.2193589807, green: 0.219402343, blue: 0.219353199, alpha: 0.6472870291)
-        attributes.screenBackground = .color(color: EKColor.init(backColor))
+        let attributes = centerFloatAttributes
         let view = UIView()
         view.roundedCorners()
-        view.backgroundColor = TBColor.gray.dark
+        view.backgroundColor = TBColor.system.blue.medium
         
         let titleFont = MainFont.medium.with(fontSize: 20)
         let textFont = MainFont.regular.with(fontSize: 17)
@@ -174,7 +172,6 @@ struct TBNotify {
                 $0.textColor = .white
                 $0.font = titleFont
                 $0.text = title
-                $0.anchorSize(h: 30)
             }
             vStack.addArrangedSubview(titleLabel)
         }
@@ -186,14 +183,13 @@ struct TBNotify {
                 $0.numberOfLines = 0
                 $0.font = noteFont
                 $0.text = note
-                $0.anchorSize(h: 50)
             }
             vStack.addArrangedSubview(noteLabel)
         }
 
         
         MessageView.addSubview(vStack)
-        vStack.fillSuperview(padding: UIEdgeInsets(top: 10, left: 8, bottom: 8, right: 10))
+        vStack.fillSuperview(padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
         let closeText = confirm ? "Cancel": "Okay"
         let closeTextColor = confirm ?
@@ -303,7 +299,7 @@ struct TBNotify {
     }
     
     // MARK: showPicker
-    static func showPicker(type: PickerType, currentObject: Any? = nil, completion: @escaping ((_ result: PickerResult, _ value: Any?) -> ())) {
+    static func showPicker(type: PickerType, currentObject: Any? = nil, allAccount: Bool = false, completion: @escaping ((_ result: PickerResult, _ value: Any?) -> ())) {
         
         var viewController: UIViewController!
         
@@ -313,7 +309,7 @@ struct TBNotify {
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
         attributes.roundCorners = .all(radius: 10)
-        attributes.entryBackground = .color(color: EKColor(TBColor.gray.dark))
+        attributes.entryBackground = .color(color: EKColor(TBColor.system.picker))
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
@@ -353,7 +349,7 @@ struct TBNotify {
         
         let buttonsBarContent = EKProperty.ButtonBarContent(
             with: closeButton, okButton,
-            separatorColor: EKColor(TBColor.gray.light),
+            separatorColor: EKColor(TBColor.gray.medium),
             horizontalDistributionThreshold: 2,
             expandAnimatedly: true
         )
@@ -369,6 +365,7 @@ struct TBNotify {
                 return
             }
             if let acc = currentObject as? Account {
+                vc.allAccount = allAccount // order can't change
                 vc.currentAccount = acc
             }
             vc.isForPicker = true

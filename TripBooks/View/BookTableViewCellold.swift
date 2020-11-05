@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookTableViewCell: UITableViewCell {
+class BookTableViewCellold: UITableViewCell {
 
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!

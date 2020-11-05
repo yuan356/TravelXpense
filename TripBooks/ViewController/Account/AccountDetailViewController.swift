@@ -10,11 +10,11 @@ import UIKit
 
 fileprivate let nameMaxLength = 100
 
-fileprivate let backgroundColor = TBColor.gray.dark
+fileprivate let backgroundColor = TBColor.system.background.dark
 
 // height / width
-fileprivate let heightForStackItem: CGFloat = 50
-fileprivate let heightForCategoryView: CGFloat = 180
+fileprivate let heightForStackItem: CGFloat = 45
+fileprivate let heightForCategoryView: CGFloat = 130
 
 // padding
 fileprivate let spacingInVStack: CGFloat = 8
@@ -92,7 +92,15 @@ class AccountDetailViewController: UIViewController {
         $0.anchorSize(h: heightForCategoryView)
         $0.roundedCorners()
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = TBColor.gray.light.cgColor
+        $0.layer.borderColor = TBColor.gray.medium.cgColor
+    }
+    
+    lazy var defaultSwitch = UISwitch {
+        $0.tintColor = .red
+        $0.backgroundColor = TBColor.gray.medium
+        $0.layer.cornerRadius = $0.frame.height / 2
+        $0.onTintColor = TBColor.system.veronese
+
     }
     
     var keyboardShown = false {
@@ -107,12 +115,12 @@ class AccountDetailViewController: UIViewController {
     
     lazy var saveButton = UIButton {
         $0.setTitle("Save", for: .normal)
-        $0.titleLabel?.font = MainFont.regular.with(fontSize: 18)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: 18)
         $0.setTitleColor(.white, for: .normal)
         $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
         $0.anchorSize(h: 30, w: 55)
         $0.roundedCorners()
-        $0.backgroundColor = TBColor.background.dark
+        $0.backgroundColor = TBColor.system.blue.medium
         $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
@@ -145,11 +153,13 @@ class AccountDetailViewController: UIViewController {
         deleteButton.anchor(top: categoriesCollectionView.bottomAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 15, bottom: 0, right: 15))
     }
     
+    // MARK: setVStackView
     private func setVStackView() {
         var views = [UIView]()
         nameTextField.delegate = self
         views.append(EditInfoView(viewheight: heightForStackItem, title: "Name", object: nameTextField))
         views.append(EditInfoView(viewheight: heightForStackItem, title: "Budget", object: budgetLabel, withButton: budgetButton))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: "Default", object: defaultSwitch))
         
         let iconBackView = UIView()
         iconBackView.addSubview(iconView)
@@ -183,14 +193,15 @@ class AccountDetailViewController: UIViewController {
     private func initCategoriesCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
 
-        layout.itemSize = CGSize(width: 50, height: 50)
+        let height = (heightForCategoryView - 20 - 5) / 2
+        layout.itemSize = CGSize(width: 50, height: height)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.backgroundColor = .darkGray
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(IconsCollectionViewCell<String>.self, forCellWithReuseIdentifier: String(describing: IconsCollectionViewCell<String>.self))
         collectionView.isPagingEnabled = true
@@ -213,10 +224,22 @@ class AccountDetailViewController: UIViewController {
 
         if let acc = self.account { // update
             acc.update(data: (name, budget, iconName))
+            if acc.isDefault != defaultSwitch.isOn { // need to change
+                if defaultSwitch.isOn {
+                    AccountService.shared.setDefaultAccount(bookId: acc.bookId, accountId: acc.id)
+                } else {
+                    AccountService.shared.resetDefaultAccount(bookId: acc.bookId, accountId: acc.id)
+                }
+            }
         } else { // insert
             if let book = BookService.shared.currentOpenBook {
-                AccountService.shared.insertNewAccount(bookId: book.id, name: name, budget: budget, iconName: iconName)
+                AccountService.shared.insertNewAccount(bookId: book.id, name: name, budget: budget, iconName: iconName) { (newAcc) in
+                    if self.defaultSwitch.isOn {
+                        AccountService.shared.setDefaultAccount(bookId: newAcc.bookId, accountId: newAcc.id)
+                    }
+                }
             }
+            
         }
         
         self.navigationController?.popViewController(animated: true)
@@ -240,7 +263,6 @@ class AccountDetailViewController: UIViewController {
             TBFeedback.notificationOccur(.warning)
             TBNotify.dismiss()
         }
-
     }
     
     private func setAccountInfo() {
@@ -249,6 +271,7 @@ class AccountDetailViewController: UIViewController {
         }
         nameTextField.text = acc.name
         budget = acc.budget
+        defaultSwitch.setOn(acc.isDefault, animated: false)
         accountIconName = acc.iconImageName
         deleteButton.isHidden = false
     }
@@ -297,6 +320,7 @@ extension AccountDetailViewController: UICollectionViewDelegate, UICollectionVie
             let iconName = Icons.accounts[indexPath.row]
             cell.item = iconName
             cell.setupIconViews(imageName: iconName)
+            cell.selectedColor = TBColor.system.veronese
             return cell
         }
         return UICollectionViewCell()

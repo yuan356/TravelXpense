@@ -21,7 +21,7 @@ fileprivate enum SettingCellRow {
 fileprivate let paddingInContentView: CGFloat = 10
 fileprivate let paddingInVStack: CGFloat = 8
 fileprivate let spacingInVStack: CGFloat = 8
-fileprivate let heightForStackItem: CGFloat = 50
+fileprivate let heightForStackItem: CGFloat = 45
 fileprivate let widthForInputObject: CGFloat = 225
 
 // Font
@@ -62,7 +62,7 @@ class BookAttributesViewController: UIViewController {
         }
     }
     
-    var bookStartDate: Date? {
+    var bookStartDate: Date! {
         didSet {
             if let date = bookStartDate {
                 startDateLabel.text = TBFunc.convertDateToDateStr(date: date)
@@ -70,7 +70,7 @@ class BookAttributesViewController: UIViewController {
         }
     }
     
-    var bookEndDate: Date? {
+    var bookEndDate: Date! {
         didSet {
             if let date = bookEndDate {
                 endDateLabel.text = TBFunc.convertDateToDateStr(date: date)
@@ -114,8 +114,8 @@ class BookAttributesViewController: UIViewController {
         $0.setTitle("Change cover", for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .small)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = TBColor.gray.dark
-        $0.setBackgroundColor(color: TBColor.gray.light, forState: .highlighted)
+        $0.backgroundColor = TBColor.system.blue.medium
+        $0.setBackgroundColor(color: TBColor.gray.medium, forState: .highlighted)
         $0.roundedCorners(radius: 5, shadow: true)
     }
     
@@ -180,7 +180,6 @@ class BookAttributesViewController: UIViewController {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = backgroundColor
         let emptyImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(emptyImage, for: .default)
         self.navigationController?.navigationBar.shadowImage = emptyImage
@@ -260,7 +259,7 @@ class BookAttributesViewController: UIViewController {
             addToolsButton(btnType: .endDate, to: view)
         case .account:
             let arrowView = UIImageView()
-            arrowView.image = UIImage(named: TBButton.arrowRight.rawValue)
+            arrowView.image = UIImage(named: TBNavigationIcon.arrowRight.rawValue)
             arrowView.anchorSize(h: 16, w: 16)
             arrowView.tintColor = .white
             addInputObjects(to: view, object: arrowView)
@@ -417,6 +416,10 @@ class BookAttributesViewController: UIViewController {
         if errorMsg == "",
            let value = updateValue as? NSObject {
             book.updateData(field: field, value: value)
+            
+            if field == .name {
+                TBObserved.notifyObservers(notificationName: .bookNameUpdate, infoKey: .bookName, infoValue: value)
+            }
         } else {
             TBNotify.showCenterAlert(message: errorMsg)
         }
@@ -427,13 +430,50 @@ class BookAttributesViewController: UIViewController {
 // MARK: TBDatePickerDelegate
 extension BookAttributesViewController: TBDatePickerDelegate {
     func changeDate(buttonIdentifier: String, date: Date) {
+        
+        let alertTitle = "Are you sure you want to change the travel date?"
+        let alertNote = "New travel date range is less than original one that will cause records missing."
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
-                bookStartDate = date
-                saveData(field: .startDate, value: date)
+//                print("origin: ", bookStartDate)
+//                print("new: ", date)
+                
+                guard TBFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
+                    TBNotify.showCenterAlert(message: "Start date should less than end date.")
+                    return
+                }
+                
+                if date > bookStartDate {
+                    TBNotify.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
+                        self.bookStartDate = date
+                        self.saveData(field: .startDate, value: date)
+                        TBNotify.dismiss()
+                    }
+                } else {
+                    bookStartDate = date
+                    saveData(field: .startDate, value: date)
+                }
+                
             } else if type == .endDate {
-                bookEndDate = date
-                saveData(field: .endDate, value: date)
+                
+                guard TBFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
+                    TBNotify.showCenterAlert(message: "End date should greater than start date.")
+                    return
+                }
+                
+                if date < bookEndDate {
+                    TBNotify.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
+                        self.bookEndDate = date
+                        self.saveData(field: .endDate, value: date)
+                        TBNotify.dismiss()
+                    }
+                } else {
+                    self.bookEndDate = date
+                    self.saveData(field: .endDate, value: date)
+                }
+                
+                
+                
             }
         }
     }

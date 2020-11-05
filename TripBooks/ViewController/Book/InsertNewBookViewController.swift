@@ -109,7 +109,6 @@ class InsertNewBookViewController: UIViewController, UITextFieldDelegate {
                 datePickerVC.view.fillSuperview()
                 self.addChild(datePickerVC)
             }, completion: nil)
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

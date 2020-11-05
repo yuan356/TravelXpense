@@ -32,18 +32,18 @@ class BookBudgetViewController: UIViewController {
     lazy var balanceLabel = UILabel()
     
     lazy var budgetLabel = UILabel {
+        $0.textColor = .white
         $0.textAlignment = .right
-        $0.font = MainFontNumeral.medium.with(fontSize: 35)
+        $0.font = MainFontNumeral.medium.with(fontSize: 28)
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.5
     }
     
     lazy var progressView = ProgressBarView()
 
-    var observer = Observer(notification: .accountAmountUpdate, infoKey: .accountAmount)
+    var observer = TBObserver(notification: .accountAmountUpdate, infoKey: .accountAmount)
     
     override func viewDidLoad() {
-        self.view.backgroundColor = TBColor.gray.medium
         setView()
         
         currentAccount = AccountService.shared.getDefaultAccount(bookId: book.id)
@@ -80,8 +80,7 @@ class BookBudgetViewController: UIViewController {
         budgetLabel.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 20, bottom: 0, right: 20))
         
         self.view.addSubview(progressView)
-        progressView.progressColor = TBColor.beauBlue
-        progressView.backgroundColor = .darkGray
+        progressView.backgroundColor = TBColor.gray.medium
         progressView.anchor(top: budgetLabel.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20))
     }
 }

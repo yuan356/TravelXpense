@@ -101,4 +101,14 @@ class TBFunc {
         let result = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return result == .orderedSame
     }
+    
+    /**
+      * a < b then return NSOrderedAscending.
+     * a > b   then return NSOrderedDescending.
+     * a == b  then return NSOrderedSame.
+     */
+    static func compareDate(date date1: Date, target date2: Date) -> ComparisonResult {
+        let result = Calendar.current.compare(date1, to: date2, toGranularity: .day)
+        return result
+    }
 }

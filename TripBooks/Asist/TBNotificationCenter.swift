@@ -11,10 +11,12 @@ import UIKit
 extension Notification.Name {
     static let recordTableUpdate = Notification.Name("recordTableUpdate")
     static let accountAmountUpdate = Notification.Name("accountAmountUpdate")
+    static let bookNameUpdate = Notification.Name("bookNameUpdate")
 }
 
 enum InfoKey: String {
     case defalut
+    case bookName
     case accountAmount
 }
 
@@ -22,7 +24,7 @@ protocol ObserverProtocol: AnyObject {
     func handleNotification(infoValue: Any?)
 }
 
-class Observer {
+class TBObserver {
     
     let infoKey: String?
     

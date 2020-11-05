@@ -25,6 +25,10 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     
     var pickerType: PickerType!
     
+    lazy var selectedView = UIView {
+        $0.backgroundColor = TBColor.system.blue.light
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTableView()
@@ -98,9 +102,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: T.self), for: indexPath) as? T {
-            let selectBackView = UIView()
-            selectBackView.backgroundColor = TBColor.gray.cellSelected
-            cell.selectedBackgroundView = selectBackView
+            cell.selectedBackgroundView = selectedView
             cell.item = searchResultList[indexPath.row] as? U
             return cell
         }

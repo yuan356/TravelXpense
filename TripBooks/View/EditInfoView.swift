@@ -34,7 +34,10 @@ class EditInfoView: UIView {
         titleLabel.anchorCenterY(to: self)
 
         self.addSubview(object)
-        object.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
+        if !(object is UISwitch) {
+            object.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
+        }
+        
         object.anchorSuperViewTrailing(padding: paddingInVStack)
         object.anchorCenterY(to: self)
         

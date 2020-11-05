@@ -24,7 +24,7 @@ class RecordDaysCollectionViewCell: UICollectionViewCell {
 
     lazy var dayLabel = UILabel {
         $0.textAlignment = .center
-        $0.font = MainFontNumeral.regular.with(fontSize: 18)
+        $0.font = MainFontNumeral.medium.with(fontSize: 18)
         $0.textColor = .white
     }
     

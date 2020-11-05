@@ -22,6 +22,12 @@ class IconsCollectionViewCell<U>: UICollectionViewCell {
         }
     }
     
+    var selectedColor: UIColor? {
+        didSet {
+            iconSelectedBackground.backgroundColor = selectedColor
+        }
+    }
+    
     lazy var iconSelectedBackground = UIView {
         $0.backgroundColor = .white
     }
@@ -33,7 +39,6 @@ class IconsCollectionViewCell<U>: UICollectionViewCell {
     func setupIconViews(imageName: String, title: String? = nil, colorHex: String? = nil) {
 
         let icon = IconView(imageName: imageName, colorHex: colorHex)
-//        iconImage = icon.geticonImageView()
         iconImage = icon
         self.contentView.addSubview(iconImage)
         iconImage.setAutoresizingToFalse()
@@ -58,7 +63,6 @@ class IconsCollectionViewCell<U>: UICollectionViewCell {
             iconTitleLabel.text = title
             iconTitleLabel.anchor(top: iconImage.bottomAnchor, bottom: self.contentView.bottomAnchor, leading: self.contentView.leadingAnchor, trailing: self.contentView.trailingAnchor)
         }
-        
     }
 
     

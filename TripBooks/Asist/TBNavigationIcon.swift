@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum TBButton: String {
+enum TBNavigationIcon: String {
     case check = "check"
     case cancel = "cancel"
     case plus = "plus"
@@ -20,6 +20,7 @@ enum TBButton: String {
     case arrowLeft = "arrow-left"
     case arrowRight = "arrow-right"
     case trash = "trash"
+    case downArrow = "down-sketched-arrow"
     
     func getButton() -> UIButton {
         let button = UIButton()

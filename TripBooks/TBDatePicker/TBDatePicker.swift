@@ -11,7 +11,7 @@ protocol TBDatePickerDelegate: AnyObject {
     func changeDate(buttonIdentifier: String, date: Date)
 }
 
-fileprivate let textFont = MainFont.regular.with(fontSize: 18)
+fileprivate let textFont = MainFont.medium.with(fontSize: 18)
 
 class TBdatePickerViewController: UIViewController {
     
@@ -21,8 +21,14 @@ class TBdatePickerViewController: UIViewController {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         if #available(iOS 14, *) {
-            datePicker.preferredDatePickerStyle = .inline
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.tintColor = .white
+        } else {
+            datePicker.setValue(UIColor.white, forKeyPath: "textColor")
         }
+        
+        
+        
         return datePicker
     }()
     
@@ -35,7 +41,7 @@ class TBdatePickerViewController: UIViewController {
     func setView() {
         // bottom view (buttonView + datePicker + safeArea)
         let bottomView = UIView()
-        bottomView.backgroundColor = .gray
+        bottomView.backgroundColor = TBColor.system.picker
         self.view.addSubview(bottomView)
         
         bottomView.addSubview(datePicker)
@@ -54,8 +60,7 @@ class TBdatePickerViewController: UIViewController {
         
         // background View
         let backgroundView = UIView()
-        backgroundView.backgroundColor = .gray
-        backgroundView.alpha = 0.7
+        backgroundView.backgroundColor = TBColor.blurBackground
         self.view.addSubview(backgroundView)
         backgroundView.anchor(top: self.view.topAnchor, bottom: buttonView.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
@@ -75,6 +80,11 @@ class TBdatePickerViewController: UIViewController {
     }
     
     @IBAction func selectedDone() {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat =  "HH:mm"
+//        let time = dateFormatter.date(from: "00:00")
+//        datePicker.date = time!
+//        
         self.delegate?.changeDate(buttonIdentifier: self.buttonIdentifier, date: self.datePicker.date)
         close()
     }
@@ -112,12 +122,16 @@ class TBdatePickerViewController: UIViewController {
     
     private func createButton(to view: UIView) {
         let todayBtn = UIButton()
-        todayBtn.setTitle("Today", for: .normal)
+        todayBtn.roundedCorners()
+        todayBtn.setTitle(" Today ", for: .normal)
+        todayBtn.backgroundColor = TBColor.system.blue.medium
         todayBtn.titleLabel?.font = textFont
         todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
 
         let doneBtn = UIButton()
-        doneBtn.setTitle("Done", for: .normal)
+        doneBtn.roundedCorners()
+        doneBtn.setTitle(" Done ", for: .normal)
+        doneBtn.backgroundColor = TBColor.system.blue.medium
         doneBtn.titleLabel?.font = textFont
         doneBtn.addTarget(self, action: #selector(selectedDone), for: .touchUpInside)
         

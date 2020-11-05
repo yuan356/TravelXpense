@@ -13,8 +13,8 @@ fileprivate let cellHpadding: CGFloat = 15
 fileprivate let trashCanHeight: CGFloat = 26
 fileprivate let iconPaddingInView: CGFloat = 8
 
-fileprivate let cellColor = TBColor.gray.dark
-fileprivate let cellHighlightedColor = TBColor.gray.cellSelected
+fileprivate let cellColor = TBColor.system.blue.medium
+fileprivate let cellHighlightedColor = TBColor.system.blue.light
 
 class RecordTableViewCell: UITableViewCell {
 
@@ -57,7 +57,7 @@ class RecordTableViewCell: UITableViewCell {
     lazy var deleteView = UIView()
     
     lazy var deleteBtn: UIButton = {
-        let btn = TBButton.trash.getButton()
+        let btn = TBNavigationIcon.trash.getButton()
         btn.anchorSize(h: trashCanHeight)
         btn.tintColor = TBColor.orange.light
         btn.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
@@ -134,7 +134,7 @@ class RecordTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
         
         // separator line
-        lineView.backgroundColor = .lightGray
+        lineView.backgroundColor = TBColor.gray.medium
         backView.addSubview(lineView)
         lineView.setAutoresizingToFalse()
         lineView.anchor(top: nil, bottom: backView.bottomAnchor, leading: infoStackView.leadingAnchor, trailing: amountLabel.trailingAnchor, size: CGSize(width: 0, height: 1))
@@ -192,7 +192,7 @@ class RecordTableViewCell: UITableViewCell {
     @IBAction func deleteButtonClicked() {
         TBNotify.showCenterAlert(message: "Are you sure you want to delete this record?", confirm: true) {
             if let rd = self.record {
-                RecordSevice.shared.deleteRecord(recordId: rd.id)
+                RecordSevice.shared.deleteRecordById(recordId: rd.id)
                 TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
                 TBNotify.dismiss()
             }

@@ -16,6 +16,7 @@ class Account {
     var budget: Double
     var amount: Double = 0.0
     var iconImageName: String
+    var isDefault: Bool = false
     
     init(id: Int, bookId: Int, name: String, budget: Double, amount: Double, iconImageName: String) {
         self.id = id

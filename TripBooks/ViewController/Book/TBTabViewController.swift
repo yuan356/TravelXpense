@@ -13,18 +13,20 @@ protocol TBTabViewControllerDelegate: AnyObject {
 }
 
 // Don't change, it've been calculated.
-let heightForTabBarButton: CGFloat = 30
-let heightForTabBtnSelected: CGFloat = 43
+let heightForTabBarButton: CGFloat = 35
+let heightForTabBtnSelected: CGFloat = 44
 let heightForTabBtnBackView: CGFloat = 55 // same as HeightForTabBarView
 let HeightForTabBarView: CGFloat = 55
 let moveUpOffset: CGFloat = 12
 
-let tabBarColor: UIColor = TBColor.tabBar
+let tabBarColor: UIColor = TBColor.system.blue.medium
+
+fileprivate let btnColor: UIColor = TBColor.system.veronese
 
 struct ViewControllerPage {
  
     var pageType: TabBarPage
-    var buttonImage: TBButton
+    var buttonImage: TBNavigationIcon
     
     init(type: TabBarPage) {
         self.pageType = type
@@ -97,6 +99,7 @@ class TBTabViewController: UIViewController {
         button.restorationIdentifier = page.pageType.rawValue
         button.tintColor = .white
         button.anchorSize(h: heightForTabBarButton)
+        button.imageEdgeInsets = .init(top: 2, left: 2, bottom: 2, right: 2)
         button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
         button.addTarget(self, action: #selector(TBTabViewController.tabClicked(_:)), for: .touchUpInside)
         
@@ -153,7 +156,7 @@ class TBTabViewController: UIViewController {
     }
     
     private func selectButtonAnimation(_ button: UIButton) {
-        button.superview?.backgroundColor = TBColor.shamrockGreen.dark
+        button.superview?.backgroundColor = btnColor
         UIView.animate(withDuration: 0.08) {
             button.superview?.superview?.transform = .identity
         }

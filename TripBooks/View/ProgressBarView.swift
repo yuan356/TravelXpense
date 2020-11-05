@@ -9,9 +9,7 @@
 import UIKit
 
 class ProgressBarView: UIView {
-    
-    var progressColor: UIColor?
-    
+        
     var progress: CGFloat = 0 {
         didSet {
             setNeedsDisplay()
@@ -36,10 +34,6 @@ class ProgressBarView: UIView {
         
         let progressRect = CGRect(origin: CGPoint(x: rect.width, y: 0), size: CGSize(width: rect.width * -progress, height: rect.height))
         progressLayer.frame = progressRect
-        if let progressColor = progressColor {
-            progressLayer.backgroundColor = progressColor.cgColor
-        } else {
-            progressLayer.backgroundColor = UIColor.systemPink.cgColor
-        }
+        progressLayer.backgroundColor = TBColor.system.veronese.cgColor
     }
 }

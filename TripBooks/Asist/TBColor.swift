@@ -17,6 +17,20 @@ enum DisplayMode: String {
 
 
 struct TBColor {
+    
+    struct system {
+        struct background {
+            static let dark = UIColor(hex: "171F26")
+        }
+        // gunmetal: 2B3840 ; charcoal: 2D3F4B
+        struct blue {
+            static let medium = UIColor(hex: "2D3F4B")
+            static let light = UIColor(hex: "3D5466")
+        }
+        static let picker = UIColor(hex: "1F2933")
+        static let veronese = UIColor(hex: "1C9B84")
+    }
+    
     struct gray {
         static let dark = UIColor.darkGray
         static let medium = UIColor(hex: "ADADAD")
@@ -28,13 +42,10 @@ struct TBColor {
         static let light = UIColor(hex: "3F9E64")
         static let dark = UIColor(hex: "3A925C")
     }
+    
+    static let blurBackground = #colorLiteral(red: 0.1555562615, green: 0.1555895209, blue: 0.155551821, alpha: 0.6472870291)
+    
     static let beauBlue = UIColor(hex: "CCE2FF")
-    
-    struct background {
-        static let dark = UIColor(hex: "292929")
-    }
-    
-    static let tabBar = UIColor(hex: "141414")
     
     struct delete {
         static let normal = UIColor(hex: "E45C3A")

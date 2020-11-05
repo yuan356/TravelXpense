@@ -11,22 +11,26 @@ import SwiftEntryKit
 
 fileprivate let heightButtonBar: CGFloat = 60
 
-// color
-fileprivate let backgroundColor = TBColor.gray.dark
-
 fileprivate let titleColor: UIColor = .white
 fileprivate let amountTextColor: UIColor = TBColor.gray.light
-
+fileprivate let backgroundColor = TBColor.system.background.dark
 class AccountPickerViewController: UIViewController {
     
     lazy var headerView = UIView()
     lazy var buttonView = UIView()
     
     var isForPicker = false
+    
+    var allAccount = false
 
     var accounts: [Account] {
         if let book = BookService.shared.currentOpenBook{
-            return AccountService.shared.getAccountsList(bookId: book.id)
+            var list = AccountService.shared.getAccountsList(bookId: book.id)
+            if allAccount {
+                let allAccount = Account(id: -1, bookId: book.id, name: "All accounts", budget: 0, amount: 0, iconImageName: "")
+                list.insert(allAccount, at: 0)
+            }
+            return list
         }
         return []
     }
@@ -45,14 +49,20 @@ class AccountPickerViewController: UIViewController {
     }
     
     lazy var addButton: UIButton = {
-        let btn = TBButton.plus.getButton()
+        let btn = TBNavigationIcon.plus.getButton()
         btn.anchorSize(h: 23, w: 23)
         btn.addTarget(self, action: #selector(addAccountClicked(_:)), for: .touchUpInside)
         return btn
     }()
     
+    lazy var selectedView = UIView {
+        $0.backgroundColor = TBColor.system.blue.light
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         accountTableView = UITableView()
         accountTableView.register(AccountCell.self, forCellReuseIdentifier: String(describing: AccountCell.self))
         accountTableView.delegate = self
@@ -79,9 +89,10 @@ class AccountPickerViewController: UIViewController {
         
         if isForPicker {
             setButtonView()
-        } else {
+        } else { // picker background set at TBNotify
             self.view.backgroundColor = backgroundColor
         }
+        
         let accountTableViewBottom: NSLayoutYAxisAnchor = isForPicker ? buttonView.topAnchor : self.view.bottomAnchor
         
         accountTableView.anchor(top: headerView.bottomAnchor, bottom: accountTableViewBottom, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
@@ -101,12 +112,6 @@ class AccountPickerViewController: UIViewController {
         let vc = AccountDetailViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    @IBAction func cancelClicked(_ sender: UIButton) {
-        print("close")
-        TBNotify.dismiss(name: AccountPickerAttributes)
-    }
-    
     
 }
 
@@ -118,6 +123,7 @@ extension AccountPickerViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.accountTableView.dequeueReusableCell(withIdentifier: String(describing: AccountCell.self), for: indexPath) as? AccountCell {
+            cell.selectedBackgroundView = selectedView
             cell.item = self.accounts[indexPath.row]
             return cell
         }
@@ -138,16 +144,26 @@ extension AccountPickerViewController: UITableViewDelegate, UITableViewDataSourc
 class AccountCell: GenericInfoCell<Account> {
     override var item: Account! {
         didSet {
-            titleLabel.textColor = titleColor
-            titleLabel.text = item.name
-            
-            amountLabel.textColor = amountTextColor
-            amountLabel.text = TBFunc.convertDoubleToStr(item.amount)
+            if item.id == -1 {
+                titleLabel.textColor = titleColor
+                titleLabel.text = item.name
+                titleLabel.anchorCenterX(to: self.contentView)
+            } else {
+                titleLabel.textColor = titleColor
+                titleLabel.text = item.name
+                
+                amountLabel.textColor = amountTextColor
+                amountLabel.text = TBFunc.convertDoubleToStr(item.amount)
+            }
         }
     }
     
     override func setIconImage() {
-        iconImageName = item.iconImageName
-        super.setIconImage()
+        if item.id == -1 { // all accounts
+            iconImageView.backgroundColor = .clear
+        } else {
+            iconImageName = item.iconImageName
+            super.setIconImage()
+        }
     }
 }

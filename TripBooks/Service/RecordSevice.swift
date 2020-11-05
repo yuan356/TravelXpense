@@ -45,7 +45,12 @@ class RecordSevice {
         })
         
         var recordsList = [[Record]]()
+        
+        
         if let book = BookService.shared.getBookFromCache(bookId: bookId) {
+            guard book.days > 0 else { // 理論上不會發生, start >= end
+                return
+            }
             for i in (0..<book.days) {
                 var dateRecords = [Record]()
                 let date = TBFunc.getDateByOffset(startDate: book.startDate, daysInterval: i)
@@ -122,7 +127,26 @@ class RecordSevice {
         DBManager.shared.deleteRecordsOfAccount(accountId: accountId)
     }
     
-    func deleteRecord(recordId: Int) {
+    
+    /// 刪除小於或大於該指定日期的record
+    /// - Parameters:
+    ///   - date: target date
+    ///   - less: true 刪除小於該日期record，false 刪除大於該日期record。
+    func deleteRecordsOfDate(date: Date, less: Bool) {
+        var idList = [Int]()
+        let compare: ComparisonResult = less ? .orderedAscending : .orderedDescending
+        for record in self.recordCache.values {
+            if TBFunc.compareDate(date: record.date, target: date) == compare {
+                idList.append(record.id)
+            }
+        }
+        
+        for i in idList {
+            print(i)
+        }
+    }
+    
+    func deleteRecordById(recordId: Int) {
         guard let oldRecord = recordCache[recordId] else {
             return
         }
@@ -158,15 +182,25 @@ class RecordSevice {
     }
     
     // MARK: orderByAmount
-    func orderByAmount(accountId: Int, isExpense: Bool) -> [CategoryAmount] {
+    // accountId == -1, all accounts
+    func orderByAmount(accountId: Int, isExpense: Bool) -> ([CategoryAmount], Double) {
         var categoryDict: [Int: Double] = [:]
+        var total: Double = 0
         
         for cate in CategoryService.shared.categories {
             categoryDict[cate.id] = 0
         }
+        
         for record in recordCache.values {
-            if record.account.id == accountId, record.category.isExpense == isExpense {
+            if accountId == -1, // for all accounts
+               record.category.isExpense == isExpense {
                 categoryDict[record.category.id]? += record.amount
+                total += record.amount
+            }
+            else if record.account.id == accountId,
+               record.category.isExpense == isExpense {
+                categoryDict[record.category.id]? += record.amount
+                total += record.amount
             }
         }
      
@@ -178,8 +212,7 @@ class RecordSevice {
                 result.append(CategoryAmount(category: cate, amount: dict.value))
             }
         }
-        
-        return result
+        return (result, total)
     }
     
     /*

@@ -36,7 +36,7 @@ class RecordTableViewController: UIViewController {
     
     var onLongPress = false
     
-    var observer: Observer!
+    var observer: TBObserver!
     
     lazy var clearView = UIView {
         $0.backgroundColor = .clear
@@ -58,7 +58,7 @@ class RecordTableViewController: UIViewController {
             records = bookDayRecord[dayIndex]
         }
         
-        observer = Observer.init(notification: .recordTableUpdate, infoKey: .defalut)
+        observer = TBObserver.init(notification: .recordTableUpdate, infoKey: .defalut)
         observer.delegate = self
         
         setupLongPressGesture()
@@ -119,9 +119,13 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.records.count == 0 {
+            self.tableView.setEmptyMessage("There is no records here.\n\nAdd a new record !")
+        } else {
+            self.tableView.restore()
+        }
         return self.records.count
     }
-
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RecordTableViewCell.self), for: indexPath) as? RecordTableViewCell {
