@@ -14,7 +14,7 @@ fileprivate let cellHpadding: CGFloat = 15
 class GenericInfoCell<U>: GenericCell<U> {
     override var item: U! {
         didSet {
-            setViews()
+            setViewsDetail()
         }
     }
     
@@ -37,7 +37,9 @@ class GenericInfoCell<U>: GenericCell<U> {
     
     lazy var iconImageView = UIView()
     
-    func setViews() {
+    override final func setupViews() {}
+    
+    func setViewsDetail() {
         self.backgroundColor = .clear
         // background view
         contentView.addSubview(view)

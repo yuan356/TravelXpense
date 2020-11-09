@@ -77,7 +77,6 @@ class RecordContainerViewController: UIViewController {
         pageViewController.currentDayIndex = initDayIndex
         
         self.view.addSubview(pageViewController.view)
-        
         self.addChild(pageViewController)
         pageViewController.view.anchor(top: daysCollectionView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
 
@@ -99,6 +98,7 @@ class RecordContainerViewController: UIViewController {
         
         return collectionView
     }
+
 }
 
 // MARK: CollectionView functions

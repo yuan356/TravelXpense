@@ -77,8 +77,12 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     private func setHeaderButton() {
         // search bar
         searchBar.searchBarStyle = .prominent
-        searchBar.placeholder = "Search..."
+    
+        let placeholder = pickerType == .country ? "Country name" : "Country name or currency code"
+        
         searchBar.sizeToFit()
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: TBColor.gray.dark])
+
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         searchBar.roundedCorners(roundedType: .top)

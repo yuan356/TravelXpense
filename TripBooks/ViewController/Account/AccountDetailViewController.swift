@@ -25,12 +25,6 @@ fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
 fileprivate let numberFont: UIFont = MainFontNumeral.medium.with(fontSize: .medium)
 fileprivate let textColor: UIColor = TBColor.gray.light
 
-fileprivate enum EditRow {
-    case name
-    case budget
-    case icon
-}
-
 class AccountDetailViewController: UIViewController {
 
     var account: Account? {
@@ -100,7 +94,6 @@ class AccountDetailViewController: UIViewController {
         $0.backgroundColor = TBColor.gray.medium
         $0.layer.cornerRadius = $0.frame.height / 2
         $0.onTintColor = TBColor.system.veronese
-
     }
     
     var keyboardShown = false {
@@ -192,7 +185,6 @@ class AccountDetailViewController: UIViewController {
     
     private func initCategoriesCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
-
         let height = (heightForCategoryView - 20 - 5) / 2
         layout.itemSize = CGSize(width: 50, height: height)
         layout.scrollDirection = .vertical
@@ -218,7 +210,7 @@ class AccountDetailViewController: UIViewController {
         }
         
         guard let iconName = accountIconName else {
-            TBNotify.showCenterAlert(message: "Didn't choose a icon.")
+            TBNotify.showCenterAlert(message: "You should choose an icon.")
             return
         }
 
@@ -277,7 +269,7 @@ class AccountDetailViewController: UIViewController {
     }
     
     @IBAction func openBudgetCalculator() {
-        TBNotify.showCalculator(on: self, originalAmount: budget, currencyCode: currencyCode)
+        TBNotify.showCalculator(on: self, originalAmount: budget, currencyCode: currencyCode, isForBudget: true)
     }
 }
  

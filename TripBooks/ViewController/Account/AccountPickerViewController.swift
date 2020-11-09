@@ -62,7 +62,6 @@ class AccountPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         accountTableView = UITableView()
         accountTableView.register(AccountCell.self, forCellReuseIdentifier: String(describing: AccountCell.self))
         accountTableView.delegate = self
@@ -153,7 +152,7 @@ class AccountCell: GenericInfoCell<Account> {
                 titleLabel.text = item.name
                 
                 amountLabel.textColor = amountTextColor
-                amountLabel.text = TBFunc.convertDoubleToStr(item.amount)
+                amountLabel.text = TBFunc.convertDoubleToStr(item.budget + item.amount)
             }
         }
     }

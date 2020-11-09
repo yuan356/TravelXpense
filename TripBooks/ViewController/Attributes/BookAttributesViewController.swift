@@ -183,8 +183,6 @@ class BookAttributesViewController: UIViewController {
         let emptyImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(emptyImage, for: .default)
         self.navigationController?.navigationBar.shadowImage = emptyImage
-       
-        self.navigationController?.navigationBar.tintColor = .white
         self.navigationItem.backButtonTitle = ""
         
         setViews()
@@ -318,6 +316,11 @@ class BookAttributesViewController: UIViewController {
                     if result == .success, let country = country as? Country {
                         self.bookCountry = country
                         self.saveData(field: .country, value: country)
+                        if let currencyCode = IsoCountryCodes.find(key: country.code)?.currency {
+                            let currency = Currency(code: currencyCode)
+                            self.bookCurrency = currency
+                            self.saveData(field: .currency, value: currency)
+                        }
                     }
                 }
             case .currency:
@@ -435,9 +438,6 @@ extension BookAttributesViewController: TBDatePickerDelegate {
         let alertNote = "New travel date range is less than original one that will cause records missing."
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
-//                print("origin: ", bookStartDate)
-//                print("new: ", date)
-                
                 guard TBFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
                     TBNotify.showCenterAlert(message: "Start date should less than end date.")
                     return

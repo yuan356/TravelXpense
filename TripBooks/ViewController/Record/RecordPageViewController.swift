@@ -18,7 +18,7 @@ protocol pageViewControllerSelectedDayDelegate: AnyObject {
     func selectedDayChanged(dayIndex: Int)
 }
 
-class RecordPageViewController: UIPageViewController {
+class RecordPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     var book: Book!
 
@@ -42,18 +42,14 @@ class RecordPageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.dataSource = self
         self.delegate = self
+        self.dataSource = self
         // first show viewController
         if let startingVC = contentViewController(at: currentDayIndex) {
             self.setViewControllers([startingVC], direction: .forward, animated: true, completion: nil)
             self.updatePageDelegate?.didUpdatePageIndex(currentIndex: currentDayIndex)
         }
     }
-
-}
-
-extension RecordPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         var dayIndex = (viewController as! RecordTableViewController).dayIndex
@@ -78,6 +74,7 @@ extension RecordPageViewController: UIPageViewControllerDataSource, UIPageViewCo
         recordTableViewVC.dayIndex = dayIndex
         return recordTableViewVC
     }
+    
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {

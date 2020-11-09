@@ -24,6 +24,7 @@ enum TBNavigationIcon: String {
     
     func getButton() -> UIButton {
         let button = UIButton()
+        button.tintColor = .white
         button.setImage(UIImage(named: rawValue), for: .normal)
         return button
     }

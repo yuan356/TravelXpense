@@ -55,6 +55,7 @@ private let categoryCell = "CategoryCell"
         1. book
         2. record
  */
+
 class RecordDetailViewController: UIViewController {
     
     // MARK: Necessary setting when init
@@ -102,7 +103,7 @@ class RecordDetailViewController: UIViewController {
     var currentCategoryCell: IconsCollectionViewCell<Category>?
     
     var categories: [Category] {
-        return CategoryService.shared.categories
+        return CategoryService.shared.expenseCategories
     }
     
     // TODO: transactionIsExpense
@@ -114,18 +115,21 @@ class RecordDetailViewController: UIViewController {
     
     // View
     lazy var headerView = UIView {
-        $0.backgroundColor = .darkGray
-        let checkButton = TBNavigationIcon.check.getButton()
-        checkButton.tintColor = .white
-        $0.addSubview(checkButton)
-        checkButton.anchorButtonToHeader(position: .right)
-        checkButton.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
+        let cancelBtn = TBNavigationIcon.cancel.getButton()
+        $0.addSubview(cancelBtn)
+        cancelBtn.anchorButtonToHeader(position: .left)
+        cancelBtn.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
+        
+        let okayBtn = TBNavigationIcon.check.getButton()
+        $0.addSubview(okayBtn)
+        okayBtn.anchorButtonToHeader(position: .right)
+        okayBtn.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
     }
     
     lazy var contentView = UIView()
     
     lazy var amountView = UIView {
-        $0.backgroundColor = TBColor.beauBlue
+        $0.backgroundColor = TBColor.system.blue.medium
         $0.anchorSize(h: heightForAmountView)
         $0.roundedCorners(radius: cornerRadius)
     }
@@ -133,6 +137,7 @@ class RecordDetailViewController: UIViewController {
     lazy var amountLabel = UILabel {
         $0.font = MainFontNumeral.regular.with(fontSize: 40)
         $0.text = "0"
+        $0.textColor = .white
         $0.textAlignment = .right
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.8
@@ -190,7 +195,7 @@ class RecordDetailViewController: UIViewController {
     }
     
     lazy var doneButton = UIButton {
-        $0.backgroundColor = TBColor.shamrockGreen.light
+        $0.backgroundColor = TBColor.system.veronese
         $0.setTitle("DONE", for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.tintColor = .white
@@ -220,6 +225,8 @@ class RecordDetailViewController: UIViewController {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = TBColor.system.background.dark
+        
         setContentViewAndHeader()
         
         setAmountView()
@@ -248,9 +255,9 @@ class RecordDetailViewController: UIViewController {
                     object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
+//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         TBNotify.dismiss(name: CalculatorAttributes)
@@ -314,7 +321,6 @@ class RecordDetailViewController: UIViewController {
     // MARK: - Detail View Setting
     /// add contentView & HeaderView to self.view
     private func setContentViewAndHeader() {
-        self.view.backgroundColor = TBColor.gray.dark
         self.view.addSubview(headerView)
         headerView.anchorViewOnTop()
         
@@ -362,7 +368,7 @@ class RecordDetailViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: pd, left: pd, bottom: 0, right: pd)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.backgroundColor = .darkGray
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(IconsCollectionViewCell<Category>.self, forCellWithReuseIdentifier: categoryCell)
         collectionView.isPagingEnabled = true
@@ -499,6 +505,10 @@ class RecordDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func cancelButtonClicked() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: Save
     @IBAction func saveButtonClicked(_ sender: UIButton) {
         print("saveButtonClicked")
@@ -557,39 +567,39 @@ class RecordDetailViewController: UIViewController {
         // amount
         guard let amountText = amountLabel.text?.trimmingCharacters(in: .whitespaces),
               amountText != ""  else {
-            return "amountTextField text is empty."
+            return "Amount is empty."
         }
         
         guard let _ = Double(amountText) else {
-            return "amountTextField worng format."
+            return "Amount is wrong format."
         }
         
         // title
         if let title = titleTextField.text {
             if title.count > 100 {
-                return "titleTextField should less than 100."
+                return "Title length should less than 100."
             }
         }
         
         // category
         if self.recoredCategory == nil {
-            return "recordCategory didnt set."
+            return "You should choose a category."
         }
         
         // date
         if self.recordDate == nil {
-            return "recordDate didnt set."
+            return "You should set a record date."
         }
         
         // account
         if self.recordAccount == nil {
-            return "recordAccount didnt set."
+            return "You should choose an account."
         }
         
         // note
         if let note = noteTextView.text {
             if note.count > 500 {
-                return "noteTextView length greater then 500."
+                return "Note length should less than 500."
             }
         }
         
@@ -677,8 +687,8 @@ extension RecordDetailViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell, for: indexPath) as? IconsCollectionViewCell<Category> {
-            if indexPath.row < CategoryService.shared.categories.count {
-                let cate = CategoryService.shared.categories[indexPath.row]
+            if indexPath.row < CategoryService.shared.expenseCategories.count {
+                let cate = CategoryService.shared.expenseCategories[indexPath.row]
                 cell.setupIconViews(imageName: cate.iconImageName, title: cate.title, colorHex: cate.colorHex)
                 cell.item = cate
                 if cate.id == recoredCategory?.id {

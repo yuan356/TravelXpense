@@ -101,7 +101,7 @@ class ChartViewController: UIViewController {
         totalAmountLabel.anchorCenterY(to: rankingLabel)
         
         let lineView = UIView {
-            $0.backgroundColor = TBColor.gray.medium
+            $0.backgroundColor = TBColor.system.veronese
             $0.anchorSize(h: 3)
         }
         self.view.addSubview(lineView)

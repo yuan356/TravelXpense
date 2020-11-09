@@ -68,7 +68,7 @@ struct TBNotify {
         var attributes = EKAttributes.topToast
         attributes.entryBackground = .color(color: .white)
         attributes.displayDuration = .infinity
-        
+        attributes.statusBar = statusBarStyle()
         attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 10, offset: .init(width: 5, height: 5)))
         attributes.roundCorners = .all(radius: 10)
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.9)
@@ -85,6 +85,7 @@ struct TBNotify {
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.7)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.27)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
+        attributes.statusBar = statusBarStyle()
         attributes.windowLevel = .alerts
         attributes.displayDuration = .infinity
         attributes.hapticFeedbackType = .success
@@ -110,8 +111,6 @@ struct TBNotify {
     
     
 
-    
-    
 //
 //    static func show(_ noticeType: NoticeType, completion: ((_ result: Result, _ value: Any?) -> ())? = nil) {
 //        let view = UIView()
@@ -165,11 +164,13 @@ struct TBNotify {
         
         let vStack = UIStackView()
         vStack.distribution = .fill
+        vStack.spacing = 2
         vStack.axis = .vertical
         if title != "" {
             let titleLabel = UILabel {
                 $0.textAlignment = .center
                 $0.textColor = .white
+                $0.numberOfLines = 0
                 $0.font = titleFont
                 $0.text = title
             }
@@ -257,6 +258,7 @@ struct TBNotify {
         SwiftEntryKit.display(entry: view, using: attributes)
     }
     
+    
     // MARK: showCalculator
     static func showCalculator(on parentController: UIViewController, originalAmount: Double = 0, currencyCode: String, isForBudget: Bool = false) {
         guard !SwiftEntryKit.isCurrentlyDisplaying(entryNamed: CalculatorAttributes) else {
@@ -264,6 +266,7 @@ struct TBNotify {
         }
         var attributes = EKAttributes.bottomToast
         attributes.name = CalculatorAttributes
+        attributes.statusBar = statusBarStyle()
         attributes.entranceAnimation = alertEntranceAnimation
         attributes.exitAnimation = alertExitAnimation
         attributes.displayDuration = .infinity
@@ -273,7 +276,7 @@ struct TBNotify {
         let height = EKAttributes.PositionConstraints.Edge.ratio(value: heightRatio)
    
         attributes.positionConstraints.size.height = height
-        attributes.entryBackground = .color(color: EKColor.init(TBColor.gray.medium))
+        attributes.entryBackground = .color(color: EKColor.init(TBColor.system.blue.medium))
         
         let calculatorVC = CalculatorViewController()
         var amount = originalAmount
@@ -446,6 +449,20 @@ struct TBNotify {
         let okayAction = UIAlertAction.init(title: "Okay", style: .cancel, handler: nil)
         alertController.addAction(okayAction)
         controller.present(alertController, animated: true, completion: nil)
+    }
+    
+    static func statusBarStyle() -> EKAttributes.StatusBar {
+        switch DisplayMode.statusBarStyle() {
+
+        case .default:
+            return .inferred
+        case .lightContent:
+            return .light
+        case .darkContent:
+            return .dark
+        @unknown default:
+            return .inferred
+        }
     }
 }
 

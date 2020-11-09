@@ -56,7 +56,6 @@ class BookContainerViewController: UIViewController {
     
     lazy var homeButton: UIButton = {
         let btn = TBNavigationIcon.home.getButton()
-        btn.anchorSize(h: 30, w: 30)
         btn.tintColor = .white
         btn.addTarget(self, action: #selector(homeBtnClicked), for: .touchUpInside)
         return btn
@@ -73,9 +72,9 @@ class BookContainerViewController: UIViewController {
     
     lazy var headerView = UIView {
         $0.anchorSize(h: heightForBookNameHeader)
-        $0.addSubview(homeButton)
         $0.roundedCorners(radius: 20, roundedType: .bottom)
-        homeButton.anchor(top: $0.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: $0.leadingAnchor, trailing: nil, padding: UIEdgeInsets(top: 15, left: 20, bottom: 0, right: 0))
+        $0.addSubview(homeButton)
+        homeButton.anchorButtonToHeader(position: .left, height: 30)
         
         $0.addSubview(bookNameLabel)
         bookNameLabel.setAutoresizingToFalse()
@@ -86,8 +85,10 @@ class BookContainerViewController: UIViewController {
     
     var observer: TBObserver!
     
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.view.backgroundColor = TBColor.system.background.dark
         setViews()
         
@@ -163,6 +164,10 @@ class BookContainerViewController: UIViewController {
     @IBAction func homeBtnClicked() {
         BookService.shared.currentOpenBook = nil
         dismiss(animated: true, completion: nil)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return DisplayMode.statusBarStyle()
     }
 }
 

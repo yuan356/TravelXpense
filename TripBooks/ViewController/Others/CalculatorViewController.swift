@@ -64,7 +64,7 @@ class CalculatorViewController: UIViewController {
         didSet {
             if currentOperationBtn != nil {
                 UIView.animate(withDuration: 0.2) {
-                    self.currentOperationBtn?.backgroundColor = TBColor.gray.dark
+                    self.currentOperationBtn?.backgroundColor = TBColor.system.blue.light
                 }
             }
         }
@@ -183,10 +183,7 @@ class CalculatorViewController: UIViewController {
         if sender.title(for: .normal) == "OK" { // finish
             numberOnScreen = checkAmountLimited(numberOnScreen)
             if isForBudget && numberOnScreen < 0 { // 預算不得為負
-                TBNotify.systemNotice(on: self, message: "Budget should greater than 0.")
                 numberOnScreen.turnToPositive()
-                amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
-                return
             }
             setAmountResult()
             TBNotify.dismiss(name: CalculatorAttributes)
@@ -292,7 +289,7 @@ class CalculatorViewController: UIViewController {
     // MARK: setButton
     private func setButton() {
         let btnColor: UIColor = .white
-        let btnColorHighLighted: UIColor = .darkGray
+        let btnColorHighLighted: UIColor = TBColor.system.blue.light
         let numberFont = MainFontNumeral.regular.with(fontSize: 28)
         let wordsFont = MainFontNumeral.medium.with(fontSize: 28)
         let signFontLarge = MainFontNumeral.medium.with(fontSize: 30)

@@ -370,11 +370,45 @@ class DBManager: NSObject {
         return record
     }
     
-    func deleteRecord(recordId: Int) {
+    func deleteRecordById(recordId: Int) {
         if self.openConnection() {
             let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.id) = ?"
             do {
                 try self.database.executeUpdate(deleteSQL, values: [recordId])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
+    }
+    
+    func deleteRecordById(recordId: [Int]) {
+        var marks: String = ""
+        for _ in 0..<recordId.count {
+            marks += "?,"
+        }
+        if marks.count > 0 {
+            marks.removeLast()
+        }
+        
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.id) in (\(marks))"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: recordId)
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
+    }
+    
+    func deleteRecordsOfCategory(categoryId: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.categoryId) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [categoryId])
             } catch {
                 print(error.localizedDescription)
             }
@@ -418,6 +452,25 @@ class DBManager: NSObject {
             database.close()
         }
         return records
+    }
+    
+    func getCountFromCategory(categoryId: Int) -> Int {
+        var count = 0
+        if self.openConnection() {
+            //select Count(id) from RECORD where record_category_id = 7
+            let getCateSQL = "SELECT Count(\(RecordField.id)) count FROM  \(RecordField.RECORD) WHERE \(RecordField.categoryId) = ?"
+            do {
+                let dataLists: FMResultSet = try database.executeQuery(getCateSQL, values: [categoryId])
+                
+                if dataLists.next() {
+                    count = Int(dataLists.int(forColumn: "count"))
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.database.close()
+        }
+        return count
     }
     
     /// 回傳指定帳本(book)內所有紀錄(record), createdDate (DESC)
@@ -548,6 +601,19 @@ class DBManager: NSObject {
         }
         
         return category
+    }
+    
+    func deleteCategory(id: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(CategoryField.CATEGORY) WHERE \(CategoryField.id) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [id])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
     }
     
     

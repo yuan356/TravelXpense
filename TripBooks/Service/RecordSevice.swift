@@ -127,6 +127,14 @@ class RecordSevice {
         DBManager.shared.deleteRecordsOfAccount(accountId: accountId)
     }
     
+    func deleteRecordsOfCategory(categoryId: Int) {
+        DBManager.shared.deleteRecordsOfCategory(categoryId: categoryId)
+    }
+    
+    func getCountFromCategory(categoryId: Int) -> Int {
+        return DBManager.shared.getCountFromCategory(categoryId: categoryId)
+    }
+    
     
     /// 刪除小於或大於該指定日期的record
     /// - Parameters:
@@ -138,19 +146,18 @@ class RecordSevice {
         for record in self.recordCache.values {
             if TBFunc.compareDate(date: record.date, target: date) == compare {
                 idList.append(record.id)
+                self.recordCache[record.id] = nil
             }
         }
         
-        for i in idList {
-            print(i)
-        }
+        DBManager.shared.deleteRecordById(recordId: idList)
     }
     
     func deleteRecordById(recordId: Int) {
         guard let oldRecord = recordCache[recordId] else {
             return
         }
-        DBManager.shared.deleteRecord(recordId: recordId)
+        DBManager.shared.deleteRecordById(recordId: recordId)
         
         
         AccountService.shared.updateAmount(accountId: oldRecord.account.id, value: -oldRecord.amount)
@@ -187,7 +194,7 @@ class RecordSevice {
         var categoryDict: [Int: Double] = [:]
         var total: Double = 0
         
-        for cate in CategoryService.shared.categories {
+        for cate in CategoryService.shared.expenseCategories {
             categoryDict[cate.id] = 0
         }
         

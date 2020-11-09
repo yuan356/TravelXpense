@@ -7,16 +7,16 @@
 //
 
 import UIKit
-import SwiftEntryKit
-
-enum DisplayMode: String {
-    case light
-    case dark
-}
-
-
 
 struct TBColor {
+    
+    static func background() -> UIColor {
+        if DisplayMode.statusBarStyle() == .darkContent {
+            return UIColor(hex: "171F26")
+        } else {
+            return UIColor(hex: "171F26") // light
+        }
+    }
     
     struct system {
         struct background {

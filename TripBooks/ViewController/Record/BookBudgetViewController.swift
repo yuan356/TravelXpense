@@ -80,7 +80,7 @@ class BookBudgetViewController: UIViewController {
         budgetLabel.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 20, bottom: 0, right: 20))
         
         self.view.addSubview(progressView)
-        progressView.backgroundColor = TBColor.gray.medium
+        progressView.backgroundColor = TBColor.gray.light
         progressView.anchor(top: budgetLabel.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20))
     }
 }

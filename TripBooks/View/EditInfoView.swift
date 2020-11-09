@@ -14,12 +14,12 @@ fileprivate let titleTextFont: UIFont = MainFont.regular.with(fontSize: 18)
 
 class EditInfoView: UIView {
     
-    init(viewheight: CGFloat, title: String, object: UIView, withButton button: UIButton? = nil) {
+    init(viewheight: CGFloat, title: String, object: UIView, withButton button: UIButton? = nil, anchorBottom: Bool = false) {
         super.init(frame: CGRect.zero)
-        setView(viewheight: viewheight, title: title, object: object, button: button)
+        setView(viewheight: viewheight, title: title, object: object, button: button, anchorBottom: anchorBottom)
     }
     
-    func setView(viewheight: CGFloat, title: String, object: UIView, button: UIButton?) {
+    func setView(viewheight: CGFloat, title: String, object: UIView, button: UIButton?, anchorBottom: Bool) {
         self.anchorSize(h: viewheight)
         
         let titleLabel = UILabel {
@@ -31,15 +31,21 @@ class EditInfoView: UIView {
         
         self.addSubview(titleLabel)
         titleLabel.anchorSuperViewLeading(padding: paddingInVStack)
-        titleLabel.anchorCenterY(to: self)
-
+        
         self.addSubview(object)
         if !(object is UISwitch) {
             object.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
         }
         
         object.anchorSuperViewTrailing(padding: paddingInVStack)
-        object.anchorCenterY(to: self)
+        
+        if anchorBottom {
+            object.anchorSuperViewBottom()
+            titleLabel.anchorSuperViewBottom()
+        } else {
+            object.anchorCenterY(to: self)
+            titleLabel.anchorCenterY(to: self)
+        }
         
         if let btn = button {
             self.addSubview(btn)

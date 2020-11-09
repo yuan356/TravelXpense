@@ -13,6 +13,7 @@ enum UserDefaultsKey: String {
     case isFirstLaunchApp
     case defaultAccountDict
     case displayMode
+    case myCurrency
 }
 
 @UIApplicationMain
@@ -20,13 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        DBManager.shared.createTable()
+        let textAttributes = [NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().titleTextAttributes = textAttributes
+        UINavigationBar.appearance().tintColor = .white
+        
         let isFirstLaunchAppKey = UserDefaultsKey.isFirstLaunchApp.rawValue
         
         let dic = [isFirstLaunchAppKey: true]
         UserDefaults.standard.register(defaults: dic)
                 
         let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
+        
+        DBManager.shared.createTable()
         if isFirstOpenApp {
             // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
@@ -38,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // TODO:mode
         return true
     }
+    
 
     // MARK: UISceneSession Lifecycle
 
