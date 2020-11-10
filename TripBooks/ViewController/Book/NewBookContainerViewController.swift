@@ -46,8 +46,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     override func viewDidLoad() {
         self.view.backgroundColor = TBColor.background()
         self.view.addSubview(pageView)
-        pageView.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: CGSize(width: 0, height: UIScreen.main.bounds.height * 0.6))
-        
+        pageView.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: CGSize(width: 0, height: UIScreen.main.bounds.height * 0.7))
         pageView.addSubview(pageViewController.view)
         self.addChild(pageViewController)
         pageViewController.view.fillSuperview()
@@ -56,15 +55,15 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
         self.view.addSubview(controlView)
         controlView.anchor(top: pageView.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         
-        controlView.addSubview(doneBtn)
-        doneBtn.setAutoresizingToFalse()
-        doneBtn.anchorCenterX(to: controlView)
-        doneBtn.centerYAnchor.constraint(equalTo: controlView.centerYAnchor, constant: -50).isActive = true
-        
         controlView.addSubview(nextBtn)
         nextBtn.setAutoresizingToFalse()
-        nextBtn.anchorCenterX(to: doneBtn)
-        nextBtn.centerYAnchor.constraint(equalTo: doneBtn.centerYAnchor, constant: 80).isActive = true
+        nextBtn.anchorCenterX(to: controlView)
+        nextBtn.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 20).isActive = true
+        
+        controlView.addSubview(doneBtn)
+        doneBtn.setAutoresizingToFalse()
+        doneBtn.anchorCenterX(to: nextBtn)
+        doneBtn.topAnchor.constraint(equalTo: nextBtn.bottomAnchor, constant: 20).isActive = true
     }
     
     @IBAction func pageBtnClicked(_ sender: UIButton) {
@@ -79,23 +78,56 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     }
     
     @IBAction func doneBtnClicked() {
-        print("done")
+        let errMsg = checkInput()
+        if errMsg != "" {
+            TBNotify.showCenterAlert(message: errMsg)
+            return
+        }
+        
+        guard let name = pageViewController.bookName ?? "",
+              let startDate = pageViewController.startDate,
+              let endDate = pageViewController.endDate,
+              let country = pageViewController.bookCountry,
+              let currency = pageViewController.bookCurrency else {
+            return
+        }
+        
+        
+        var imageUrl: String? = nil
+        if pageViewController.bookImage != nil {
+            imageUrl = ""
+        }
+
+        BookService.shared.addNewBook(bookName: name, country: country.code, currency: currency.code, imageUrl: imageUrl, image: pageViewController.bookImage, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (book) in
+            print("success")
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     
-    //    @IBAction func save() {
-    //
-    //        let bookName = "Test"
-    //        let location = "Taiwan"
-    //
-    //        guard let startDate = startDate, let endDate = endDate else {
-    //
-    //            return
-    //        }
-    //        BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (newBook) in
-    //
-    //        }
-    //    }
+    private func checkInput() -> String {
+        if let name = pageViewController.bookName, name.count > 100  {
+            return "Book name should less than 100."
+        }
+        
+        if pageViewController.startDate == nil {
+             return "You should set the start date."
+        }
+        
+        if pageViewController.endDate == nil {
+            return "You should set the end date."
+        }
+        
+        if pageViewController.bookCountry == nil {
+            return "You should set the country."
+        }
+        
+        if pageViewController.bookCurrency == nil {
+            return "You should set the currency."
+        }
+        
+        return ""
+    }
     
     func didUpdatePageIndex(currentIndex: Int) {
         updateUI()
@@ -126,7 +158,7 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
     var bookName: String?
     var bookCountry: Country?
     var bookCurrency: Currency?
-    var bookImageUrl: String?
+    var bookImage: UIImage?
     var startDate: Date?
     var endDate: Date?
     
@@ -182,14 +214,17 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
         
         if index == 0 {
             let newBookVC = NewBookFirstViewController()
+            newBookVC.index = index
             newBookVC.bookName = bookName
             newBookVC.startDate = startDate
             newBookVC.endDate = endDate
-            newBookVC.index = index
             return newBookVC
         } else if index == 1 {
             let newBookVC = NewBookSecondViewController()
             newBookVC.index = index
+            newBookVC.country = bookCountry
+            newBookVC.currency = bookCurrency
+            newBookVC.imageView.image = bookImage
             return newBookVC
         }
         
@@ -204,23 +239,6 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
                 pageDelegate?.didUpdatePageIndex(currentIndex: currentIndex)
                 print("currentIdex", currentIndex)
             }
-        }
-    }
-    
-    func setValue(field: BookValue, value: Any) {
-        switch field {
-        case .name:
-            bookName = value as? String
-        case .country:
-            bookCountry = value as? Country
-        case .currency:
-            bookCurrency = value as? Currency
-        case .startDate:
-            startDate = value as? Date
-        case .endDate:
-            endDate = value as? Date
-        case .imageUrl:
-            bookImageUrl = value as? String
         }
     }
     

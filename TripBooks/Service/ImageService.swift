@@ -15,7 +15,6 @@ class ImageService {
         guard let filepath = filePath(bookId: id) else {
             return
         }
-
         if let imageData = image.jpegData(compressionQuality: 0.8) {
             do  {
                 try imageData.write(to: filepath, options: .atomic)

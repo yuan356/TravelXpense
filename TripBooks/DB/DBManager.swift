@@ -29,6 +29,7 @@ enum BookFieldForUpdate {
     case currency
     case startDate
     case endDate
+    case imageUrl
 }
 
 enum RecordField {
@@ -172,23 +173,26 @@ class DBManager: NSObject {
     /// - Parameters:
     ///   - bookName: 帳本名稱
     ///   - country: 國家
+    ///   - currency: 貨幣
     ///   - coverImageNo: 封面圖片編號(cover_image_bk_id)，可為null
     ///   - startDate: 開始日期
     ///   - daysInterval: 旅遊天數 (結束-開始)
     ///   - createTime: 新增資料時間
     /// - Returns: 若新增成功回傳新的book，否則為nil
-    func insertNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970) -> Book? {
+    func insertNewBook(bookName: String, country: String, currency: String, imageUrl: String?, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970) -> Book? {
         var newBook: Book? = nil
         if self.openConnection() {
             let insertSQL: String = """
                         INSERT INTO \(BookField.BOOK) (
                         \(BookField.name),
                         \(BookField.country),
+                        \(BookField.currency),
+                        \(BookField.imageUrl),
                         \(BookField.startDate),
                         \(BookField.endDate),
-                        \(BookField.createdDate)) VALUES (?, ?, ?, ?, ?)
+                        \(BookField.createdDate)) VALUES (?, ?, ?, ?, ?, ?, ?)
                         """
-            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookName, country, startDate, endDate, createTime]) {
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [bookName, country, currency, imageUrl ?? NSNull() , startDate, endDate, createTime]) {
                 print("Failed to insert initial data into the database.")
                 print(database.lastError(), database.lastErrorMessage())
             }
@@ -243,6 +247,8 @@ class DBManager: NSObject {
             updateSQL += "\(BookField.startDate) = ?"
         case .endDate:
             updateSQL += "\(BookField.endDate) = ?"
+        case .imageUrl:
+            updateSQL += "\(BookField.imageUrl) = ?"
         }
         
         updateSQL += " WHERE \(BookField.id) = ?"

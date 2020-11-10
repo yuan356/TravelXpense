@@ -8,54 +8,73 @@
 
 import UIKit
 
-fileprivate let titleFont = MainFont.regular.with(fontSize: .large)
-fileprivate let textFont = MainFont.regular.with(fontSize: 23)
+fileprivate let titleFont = MainFont.regular.with(fontSize: 26)
+fileprivate let textFont = MainFont.regular.with(fontSize: 22)
 fileprivate let titleColor: UIColor = .white
 fileprivate let inputColor = TBColor.gray.light
 
-fileprivate let titleHeight: CGFloat = 80
-fileprivate let itemHeight: CGFloat = 50
+fileprivate let titleHeight: CGFloat = 70
+fileprivate let itemHeight: CGFloat = 30
 
 class NewBookSecondViewController: NewBookViewController {
     
-    lazy var startLabel = UILabel {
-        $0.textColor = inputColor
-        $0.font = textFont
-        $0.textAlignment = .right
-    }
-
-    lazy var endLabel = UILabel {
-        $0.textColor = inputColor
-        $0.font = textFont
-        $0.textAlignment = .right
-    }
-    
-    var bookName: String? {
+    var country: Country? {
         didSet {
-            nameTextField.text = bookName
+            countryLabel.text = country?.name
         }
     }
 
-    var startDate: Date? {
+    var currency: Currency? {
         didSet {
-            if let date = startDate {
-                startLabel.text = TBFunc.convertDateToDateStr(date: date)
-            }
-        }
-    }
-
-    var endDate: Date? {
-        didSet {
-            if let date = endDate {
-                endLabel.text = TBFunc.convertDateToDateStr(date: date)
-            }
+            currencyLabel.text = currency?.code
         }
     }
     
-    lazy var nameTextField = UITextField {
+    lazy var countryLabel = UILabel {
         $0.textColor = inputColor
         $0.font = textFont
-        $0.textAlignment = .right
+        $0.textAlignment = .center
+    }
+    
+    lazy var currencyLabel = UILabel {
+        $0.textColor = inputColor
+        $0.font = textFont
+        $0.textAlignment = .center
+    }
+    
+    lazy var countryPickerBtn = UIButton {
+        $0.addSubview(countryLabel)
+        countryLabel.anchorToSuperViewCenter()
+        countryLabel.anchorSize(to: $0)
+        $0.restorationIdentifier = "country"
+        $0.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+    }
+    
+    lazy var currecnyPickerBtn = UIButton {
+        $0.addSubview(currencyLabel)
+        currencyLabel.anchorToSuperViewCenter()
+        currencyLabel.anchorSize(to: $0)
+        $0.restorationIdentifier = "currency"
+        $0.addTarget(self, action: #selector(openPicker(_:)), for: .touchUpInside)
+    }
+    
+    lazy var imagePickerBtn = UIButton {
+        $0.setTitle("upload", for: .normal)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: 16)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = TBColor.system.blue.medium
+        $0.setBackgroundColor(color: TBColor.system.blue.light, forState: .highlighted)
+        $0.roundedCorners(radius: 5, shadow: true)
+        $0.addTarget(self, action: #selector(openImagePicker), for: .touchUpInside)
+        $0.anchorSize(h: 35, w: 80)
+    }
+    
+    lazy var imageView = UIImageView {
+        $0.heightAnchor.constraint(equalTo: $0.widthAnchor, multiplier: 0.45).isActive = true
+        $0.contentMode = .scaleAspectFill
+        $0.backgroundColor = TBColor.gray.light
+        $0.roundedCorners()
+        $0.clipsToBounds = true
     }
     
     lazy var vStack = UIStackView {
@@ -72,31 +91,42 @@ class NewBookSecondViewController: NewBookViewController {
     }
     
     private func setVStack() {
-        let nameDesc = UILabel {
+        let countryDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
             $0.text = "Which country do you go?"
             $0.anchorSize(h: titleHeight)
         }
         
-        let dateDesc = UILabel {
+        let currencyDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Set your travel date."
+            $0.text = "Set the currency."
             $0.anchorSize(h: titleHeight)
         }
         
-        vStack.addArrangedSubview(nameDesc)
-        vStack.addArrangedSubview(getView(obj: nameTextField))
-        vStack.addArrangedSubview(dateDesc)
+        let coverDesc = UILabel {
+            $0.textColor = titleColor
+            $0.font = titleFont
+            $0.text = "Upload a cover photo."
+            $0.anchorSize(h: titleHeight)
+        }
         
-
-//        vStack.addArrangedSubview(getView(obj: endView, lineWithObj: endLabel))
-        
+        vStack.addArrangedSubview(countryDesc)
+        vStack.addArrangedSubview(getView(obj: countryPickerBtn))
+        vStack.addArrangedSubview(currencyDesc)
+        vStack.addArrangedSubview(getView(obj: currecnyPickerBtn))
+        vStack.addArrangedSubview(coverDesc)
+        vStack.addArrangedSubview(imageView)
         
         self.view.addSubview(vStack)
-        vStack.anchorSize(h: titleHeight * 2 + itemHeight * 3)
-        vStack.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 35, left: 15, bottom: 0, right: 15))
+        vStack.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 35, left: 20, bottom: 0, right: 20))
+        
+        view.addSubview(imagePickerBtn)
+        imagePickerBtn.setAutoresizingToFalse()
+        imagePickerBtn.anchorCenterY(to: imageView)
+        imagePickerBtn.anchorCenterX(to: imageView)
+
     }
     
     private func getView(obj: UIView, lineWithObj: UIView? = nil) -> UIView {
@@ -118,32 +148,82 @@ class NewBookSecondViewController: NewBookViewController {
         obj.anchor(top: view.topAnchor, bottom: lineView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         return view
     }
+    
+    @IBAction func openPicker(_ sender: UIButton) {
+        if let id = sender.restorationIdentifier {
+            if id == "country" {
+                TBNotify.showPicker(type: .country, currentObject: self.country) { (result, country) in
+                    if result == .success, let country = country as? Country {
+                        self.country = country
+                        guard let pageVC = self.parent as? NewBookPageViewController else {
+                            return
+                        }
+                        pageVC.bookCountry = country
+
+                        if let currencyCode = IsoCountryCodes.find(key: country.code)?.currency {
+                            let currency = Currency(code: currencyCode)
+                            self.currency = currency
+                            pageVC.bookCurrency = currency
+                        }
+                    }
+                }
+            } else {
+                TBNotify.showPicker(type: .currency, currentObject: currency) { (result, currency) in
+                    if result == .success, let currency = currency as? Currency {
+                        self.currency = currency
+                        if let pageVC = self.parent as? NewBookPageViewController {
+                            pageVC.bookCurrency = currency
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: openImagePicker
+    @IBAction func openImagePicker() {
+        let photoSourceRequestController = UIAlertController(title: "", message: "Choose your image source", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler : { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .camera
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+        })
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo library", style: .default, handler: { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        photoSourceRequestController.addAction(cameraAction)
+        photoSourceRequestController.addAction(photoLibraryAction)
+        photoSourceRequestController.addAction(cancelAction)
+        present(photoSourceRequestController, animated: true, completion: nil)
+    }
 }
 
-fileprivate let nameMaxLength = 100
-
-extension NewBookSecondViewController: UITextFieldDelegate {
-    // 輸入字數限制
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentString: NSString = (textField.text ?? "") as NSString
-        let newString: NSString =
-            currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= nameMaxLength
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    // store name text
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if let pageVC = self.parent as? NewBookPageViewController {
-            pageVC.bookName = textField.text
+// MARK: ImagePicker
+extension NewBookSecondViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        dismiss(animated: true) {
+            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                self.imageView.image = selectedImage
+                if let pageVC = self.parent as? NewBookPageViewController {
+                    pageVC.bookImage = selectedImage
+                }
+            }
         }
     }
 }

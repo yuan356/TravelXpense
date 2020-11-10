@@ -28,15 +28,18 @@ class BookService {
         self.cache = self.orderdBookList.reduce(into: [:], { (result, book) in
             result[book.id] = book
         })
-        
     }
     
-    func addNewBook(bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970,
+    func addNewBook(bookName: String, country: String, currency: String, imageUrl: String?, image: UIImage?, startDate: Double, endDate: Double,
                     completion: @escaping (_ newBook: Book) -> ()) {
         
         // add new book to DB (if insert succeed, newBook not nil)
-        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
+        guard let newBook = DBManager.shared.insertNewBook(bookName: bookName, country: country, currency: currency, imageUrl: imageUrl, startDate: startDate, endDate: endDate) else {
             return
+        }
+        
+        if let image = image {
+            ImageService.storeToLocal(image: image, bookId: newBook.id)
         }
         
         // add book into cache
@@ -94,7 +97,10 @@ class BookService {
             if let daysInterval = TBFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
                 oldBook.days = daysInterval + 1
             }
+        case .imageUrl:
+            oldBook.imageUrl = newBook.imageUrl
         }
+        
 
         // update order
         if needReorder {

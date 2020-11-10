@@ -109,7 +109,7 @@ class NewBookFirstViewController: NewBookViewController {
         
         self.view.addSubview(vStack)
         vStack.anchorSize(h: titleHeight * 2 + itemHeight * 3)
-        vStack.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 35, left: 15, bottom: 0, right: 15))
+        vStack.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 35, left: 20, bottom: 0, right: 20))
     }
     
     private func getView(obj: UIView, lineWithObj: UIView? = nil) -> UIView {

@@ -20,7 +20,6 @@ class Book {
     var endDate: Date
     var createDate: Double
     var days: Int = 0
-//    var coverImageView = UIImageView()
     
     init(id: Int, name: String, country: Country, currency: Currency, imageUrl: String?,
          totalAmount: Double, startDate: Date, endDate: Date, createDate: Double) {
@@ -28,7 +27,7 @@ class Book {
         self.name = name
         self.country = country
         self.currency = currency
-        self.imageUrl = imageUrl ?? ""
+        self.imageUrl = imageUrl
         self.totalAmount = totalAmount
         self.startDate = startDate
         self.endDate = endDate
@@ -43,7 +42,6 @@ class Book {
         guard let name = dataLists.string(forColumn: BookField.name) ?? "",
               let countryCode = dataLists.string(forColumn: BookField.country) ?? "",
               let currencyCode = dataLists.string(forColumn: BookField.currency) ?? "",
-              let imageUrl = dataLists.string(forColumn: BookField.imageUrl) ?? "",
               let startDate = dataLists.date(forColumn: BookField.startDate),
               let endDate = dataLists.date(forColumn: BookField.endDate) else {
             return nil
@@ -54,6 +52,7 @@ class Book {
         let createDate = dataLists.double(forColumn: BookField.createdDate)
         let country = Country(code: countryCode)
         let currency = Currency(code: currencyCode)
+        let imageUrl = dataLists.string(forColumn: BookField.imageUrl)
         
         return Book(id: id, name: name, country: country, currency: currency, imageUrl: imageUrl, totalAmount: totalAmount,  startDate: startDate, endDate: endDate, createDate: createDate)
     }

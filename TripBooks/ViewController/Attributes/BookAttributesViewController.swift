@@ -115,7 +115,7 @@ class BookAttributesViewController: UIViewController {
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .small)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = TBColor.system.blue.medium
-        $0.setBackgroundColor(color: TBColor.gray.medium, forState: .highlighted)
+        $0.setBackgroundColor(color: TBColor.system.blue.light, forState: .highlighted)
         $0.roundedCorners(radius: 5, shadow: true)
     }
     
@@ -358,7 +358,7 @@ class BookAttributesViewController: UIViewController {
     
     // MARK: openImagePicker
     @IBAction func openImagePicker() {
-        let photoSourceRequestController = UIAlertController(title: "", message: " Choose your image source", preferredStyle: .actionSheet)
+        let photoSourceRequestController = UIAlertController(title: "", message: "Choose your image source", preferredStyle: .actionSheet)
         
         let cameraAction = UIAlertAction(title: "Camera", style: .default, handler : { (action) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -386,7 +386,6 @@ class BookAttributesViewController: UIViewController {
         photoSourceRequestController.addAction(photoLibraryAction)
         photoSourceRequestController.addAction(cancelAction)
         present(photoSourceRequestController, animated: true, completion: nil)
-        
     }
     
     // MARK: Save
@@ -413,6 +412,8 @@ class BookAttributesViewController: UIViewController {
         case .startDate:
             break
         case .endDate:
+            break
+        case .imageUrl:
             break
         }
         
@@ -519,6 +520,7 @@ extension BookAttributesViewController: UIImagePickerControllerDelegate, UINavig
             if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 self.imageView.image = selectedImage
                 ImageService.storeToLocal(image: selectedImage, bookId: self.book.id)
+                self.saveData(field: .imageUrl, value: "")
                 // if store to local, image url is empty
             }
         }

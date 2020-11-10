@@ -12,7 +12,7 @@ fileprivate let headerHeight: CGFloat = 60
 
 class MainViewController: UIViewController {
 
-    var books = [Book]()
+    var books: [Book]!
     
     var bookTableView: UITableView!
     
