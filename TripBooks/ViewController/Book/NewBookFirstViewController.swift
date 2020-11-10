@@ -16,10 +16,6 @@ fileprivate let inputColor = TBColor.gray.light
 fileprivate let titleHeight: CGFloat = 80
 fileprivate let itemHeight: CGFloat = 50
 
-class NewBookViewController: UIViewController {
-    var index = 0
-}
-
 class NewBookFirstViewController: NewBookViewController {
     
     lazy var startDateBtn = UIButton {
@@ -43,6 +39,12 @@ class NewBookFirstViewController: NewBookViewController {
         $0.font = textFont
         $0.textAlignment = .right
     }
+    
+    var bookName: String? {
+        didSet {
+            nameTextField.text = bookName
+        }
+    }
 
     var startDate: Date? {
         didSet {
@@ -64,6 +66,7 @@ class NewBookFirstViewController: NewBookViewController {
         $0.textColor = inputColor
         $0.font = textFont
         $0.textAlignment = .right
+        $0.delegate = self
     }
     
     lazy var vStack = UIStackView {
@@ -83,7 +86,7 @@ class NewBookFirstViewController: NewBookViewController {
         let nameDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Name your travel book !"
+            $0.text = "Name your travel book!"
             $0.anchorSize(h: titleHeight)
         }
         
@@ -128,20 +131,6 @@ class NewBookFirstViewController: NewBookViewController {
         obj.anchor(top: view.topAnchor, bottom: lineView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         return view
     }
-    
-//    @IBAction func save() {
-//
-//        let bookName = "Test"
-//        let location = "Taiwan"
-//
-//        guard let startDate = startDate, let endDate = endDate else {
-//
-//            return
-//        }
-//        BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (newBook) in
-//
-//        }
-//    }
 
     @IBAction func selectDate(_ sender: UIButton) {
         let datePickerVC = TBdatePickerViewController()
@@ -158,6 +147,33 @@ class NewBookFirstViewController: NewBookViewController {
         datePickerVC.delegate = self
         if let vc = self.parent?.parent as? NewBookContainerViewController {
             datePickerVC.show(on: vc)
+        }
+    }
+}
+
+fileprivate let nameMaxLength = 100
+extension NewBookFirstViewController: UITextFieldDelegate {
+    // 輸入字數限制
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= nameMaxLength
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // store name text
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let pageVC = self.parent as? NewBookPageViewController {
+            pageVC.bookName = textField.text
         }
     }
 }

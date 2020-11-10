@@ -23,8 +23,8 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     lazy var controlView = UIView()
     
     lazy var nextBtn = UIButton {
-        $0.roundedCorners(radius: 15)
-        $0.titleLabel?.font = MainFont.medium.with(fontSize: 22)
+        $0.roundedCorners(radius: 16)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
         $0.setTitle("Next", for: .normal)
         $0.anchorSize(h: 45, w: 150)
         $0.backgroundColor = TBColor.orange.light
@@ -32,8 +32,8 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     }
     
     lazy var doneBtn = UIButton {
-        $0.roundedCorners(radius: 15)
-        $0.titleLabel?.font = MainFont.medium.with(fontSize: 22)
+        $0.roundedCorners(radius: 16)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
         $0.setTitle("Done", for: .normal)
         $0.anchorSize(h: 45, w: 150)
         $0.isHidden = true
@@ -82,6 +82,20 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
         print("done")
         dismiss(animated: true, completion: nil)
     }
+    
+    //    @IBAction func save() {
+    //
+    //        let bookName = "Test"
+    //        let location = "Taiwan"
+    //
+    //        guard let startDate = startDate, let endDate = endDate else {
+    //
+    //            return
+    //        }
+    //        BookService.shared.addNewBook(bookName: bookName, country: location, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (newBook) in
+    //
+    //        }
+    //    }
     
     func didUpdatePageIndex(currentIndex: Int) {
         updateUI()
@@ -167,18 +181,19 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
         }
         
         if index == 0 {
-            // init new RecordViewController
             let newBookVC = NewBookFirstViewController()
+            newBookVC.bookName = bookName
             newBookVC.startDate = startDate
             newBookVC.endDate = endDate
             newBookVC.index = index
             return newBookVC
-        } else {
-            // init new RecordViewController
-            let newBookVC = NewBookFirstViewController()
+        } else if index == 1 {
+            let newBookVC = NewBookSecondViewController()
             newBookVC.index = index
             return newBookVC
         }
+        
+        return NewBookViewController()
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
@@ -226,4 +241,8 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
             setViewControllers([nextViewController], direction: .reverse, animated: true, completion: nil)
         }
     }
+}
+
+class NewBookViewController: UIViewController {
+    var index = 0
 }

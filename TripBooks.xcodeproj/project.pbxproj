@@ -53,10 +53,11 @@
 		1CBCD67C254AC2B500FB6C12 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD67B254AC2B500FB6C12 /* EditInfoView.swift */; };
 		1CBCD681254C034700FB6C12 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCD680254C034700FB6C12 /* Icons.swift */; };
 		1CC0730B25592061009343E1 /* NewBookContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC0730A25592061009343E1 /* NewBookContainerViewController.swift */; };
+		1CC0730F255A3B5E009343E1 /* NewBookSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC0730E255A3B5E009343E1 /* NewBookSecondViewController.swift */; };
 		1CCBBBAE2551091A002C47A1 /* UITableView+emptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBAD2551091A002C47A1 /* UITableView+emptyView.swift */; };
 		1CCBBBB125526958002C47A1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBB025526957002C47A1 /* MainViewController.swift */; };
 		1CCBBBB525526F32002C47A1 /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBB425526F31002C47A1 /* BookTableViewCell.swift */; };
-		1CCBBBBA2553EB86002C47A1 /* NewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBB92553EB83002C47A1 /* NewBookViewController.swift */; };
+		1CCBBBBA2553EB86002C47A1 /* NewBookFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBB92553EB83002C47A1 /* NewBookFirstViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
 		1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* BookViewController.swift */; };
@@ -136,10 +137,11 @@
 		1CBCD67B254AC2B500FB6C12 /* EditInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
 		1CBCD680254C034700FB6C12 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		1CC0730A25592061009343E1 /* NewBookContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookContainerViewController.swift; sourceTree = "<group>"; };
+		1CC0730E255A3B5E009343E1 /* NewBookSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookSecondViewController.swift; sourceTree = "<group>"; };
 		1CCBBBAD2551091A002C47A1 /* UITableView+emptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+emptyView.swift"; sourceTree = "<group>"; };
 		1CCBBBB025526957002C47A1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1CCBBBB425526F31002C47A1 /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
-		1CCBBBB92553EB83002C47A1 /* NewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookViewController.swift; sourceTree = "<group>"; };
+		1CCBBBB92553EB83002C47A1 /* NewBookFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookFirstViewController.swift; sourceTree = "<group>"; };
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD181F62512048C00AFD985 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +199,8 @@
 		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
+				1CD181F82512048C00AFD985 /* BookViewController.swift */,
 				1C40AFEE255553220010EE47 /* Setting */,
 				1CF560B7253D5968003EEC66 /* Book */,
 				1C8B6F312521D9D9000D423B /* Record */,
@@ -204,10 +208,6 @@
 				1CBCD6642549188400FB6C12 /* Chart */,
 				1CCBBBA9254DB840002C47A1 /* Account */,
 				1CCBBBAA254DB85D002C47A1 /* Others */,
-				1CCBBBB025526957002C47A1 /* MainViewController.swift */,
-				1CCBBBB425526F31002C47A1 /* BookTableViewCell.swift */,
-				1CCBBBB92553EB83002C47A1 /* NewBookViewController.swift */,
-				1CC0730A25592061009343E1 /* NewBookContainerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -431,8 +431,11 @@
 		1CF560B7253D5968003EEC66 /* Book */ = {
 			isa = PBXGroup;
 			children = (
-				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
-				1CD181F82512048C00AFD985 /* BookViewController.swift */,
+				1CCBBBB025526957002C47A1 /* MainViewController.swift */,
+				1CCBBBB425526F31002C47A1 /* BookTableViewCell.swift */,
+				1CC0730A25592061009343E1 /* NewBookContainerViewController.swift */,
+				1CCBBBB92553EB83002C47A1 /* NewBookFirstViewController.swift */,
+				1CC0730E255A3B5E009343E1 /* NewBookSecondViewController.swift */,
 				1CBCD5E82546B1E800FB6C12 /* BookContainerViewController.swift */,
 				1CBCD5EC2546BC0A00FB6C12 /* TBTabViewController.swift */,
 			);
@@ -613,6 +616,7 @@
 				1CF560212535791E003EEC66 /* UIButton+BackgroundColor.swift in Sources */,
 				1C8B6F53252C6A80000D423B /* UIColor+Hex.swift in Sources */,
 				1CA8036D2519E25E003D7708 /* Book.swift in Sources */,
+				1CC0730F255A3B5E009343E1 /* NewBookSecondViewController.swift in Sources */,
 				1C40AFF0255553480010EE47 /* CategorySettingViewController.swift in Sources */,
 				1CF5602425358FFF003EEC66 /* Account.swift in Sources */,
 				1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */,
@@ -641,7 +645,7 @@
 				1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */,
 				1CA803732519F2B6003D7708 /* BookTableViewCellold.swift in Sources */,
 				1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */,
-				1CCBBBBA2553EB86002C47A1 /* NewBookViewController.swift in Sources */,
+				1CCBBBBA2553EB86002C47A1 /* NewBookFirstViewController.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
 				1CBCD5ED2546BC0A00FB6C12 /* TBTabViewController.swift in Sources */,
 				1CBCD666254918A700FB6C12 /* ChartViewController.swift in Sources */,
