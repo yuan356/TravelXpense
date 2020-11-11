@@ -38,7 +38,7 @@ extension UITableView {
             
         } else {
             msgLabel.anchorCenterX(to: emptyView)
-            msgLabel.anchor(top: nil, bottom: downArrowView.topAnchor, leading: emptyView.leadingAnchor, trailing: emptyView.trailingAnchor)
+            msgLabel.anchor(top: nil, bottom: downArrowView.topAnchor, leading: emptyView.leadingAnchor, trailing: emptyView.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0))
             downArrowView.anchorSuperViewBottom(padding: 30)
         }
         

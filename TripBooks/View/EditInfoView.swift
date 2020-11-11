@@ -25,6 +25,7 @@ class EditInfoView: UIView {
         let titleLabel = UILabel {
             $0.text = title
             $0.font = titleTextFont
+            $0.anchorSize(w: 120)
             $0.textColor = .white
         }
         
