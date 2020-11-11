@@ -92,8 +92,6 @@ class CategoryService {
                 self.expenseCache[newCate.id] = newCate
             }
         }
-        // get data to chahe
-        self.getAllCategoriesToCache()
     }
     
     private func getCategoryList() -> [Category] {

@@ -56,6 +56,7 @@ class CalculatorViewController: UIViewController {
     private var amountText: String = "" {
         didSet {
             amountText = checkAmountTextLength(amountText)
+            
             self.delegate?.changeAmountValue(amountStr: amountText)
         }
     }
@@ -75,8 +76,24 @@ class CalculatorViewController: UIViewController {
         }
     }
     
+    lazy var exchangeLabel = UILabel {
+        $0.textColor = TBColor.gray.light
+        $0.textAlignment = .center
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.85
+        $0.font = MainFontNumeral.medium.with(fontSize: 23)
+    }
+    
+    
     // calculator
-    var numberOnScreen: Double = 0 // 稍後要存目前畫面上的數字，目前是 0。
+    var numberOnScreen: Double = 0 { // 稍後要存目前畫面上的數字，目前是 0。
+        didSet {
+            let amount = RateService.shared.exchange(to: currencyCode, amount: numberOnScreen)
+            let text = TBFunc.convertDoubleToStr(amount, currencyCode: RateService.shared.myCurrency?.code)
+            
+            exchangeLabel.text = text
+        }
+    }
     private var previousNumber: Double = 0 // 要存的運算之前畫面上的數字。
     private var performingMath = false { // 記錄目前是不是在運算過程中。
         didSet {
@@ -226,8 +243,12 @@ class CalculatorViewController: UIViewController {
         let hStackView_1_2 = UIStackView()
         hStackView_1.axis = .horizontal
         hStackView_1.distribution = .fillEqually
-        let typeBtn = buttons[typeBtnId]!
-        hStackView_1.addArrangedSubview(typeBtn)
+ 
+        let exView = UIView()
+        exView.addSubview(exchangeLabel)
+        exchangeLabel.anchor(top: exView.topAnchor, bottom: exView.bottomAnchor, leading: exView.leadingAnchor, trailing: exView.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
+        
+        hStackView_1.addArrangedSubview(exView)
         hStackView_1.addArrangedSubview(hStackView_1_2)
              
         hStackView_1_2.axis = .horizontal

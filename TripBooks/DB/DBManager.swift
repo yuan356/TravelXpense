@@ -32,6 +32,11 @@ enum BookFieldForUpdate {
     case imageUrl
 }
 
+enum BookOrder {
+    case startDate
+    case createdDate
+}
+
 enum RecordField {
     static let RECORD = "RECORD"
     static let id = "id"
@@ -304,14 +309,18 @@ class DBManager: NSObject {
         return book
     }
     
-    /// 取得所有book，排序由旅行開始時間新到舊
-    /// ( order by createTime desc )
-    /// - Returns: book array
-    func getAllBooks() -> [Book] {
+    func getAllBooks(order: BookOrder) -> [Book] {
         var books: [Book] = []
 
         if self.openConnection() {
-            let querySQL: String = "SELECT * FROM \(BookField.BOOK) ORDER BY \(BookField.startDate) DESC"
+            var querySQL: String = "SELECT * FROM \(BookField.BOOK) ORDER BY "
+            
+            switch order {
+            case .startDate:
+                querySQL += "\(BookField.startDate) DESC"
+            case .createdDate:
+                querySQL += "\(BookField.createdDate) DESC"
+            }
 
             do {
                 let dataLists: FMResultSet = try database.executeQuery(querySQL, values: nil)
@@ -428,6 +437,19 @@ class DBManager: NSObject {
             let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.accountId) = ?"
             do {
                 try self.database.executeUpdate(deleteSQL, values: [accountId])
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            self.database.close()
+        }
+    }
+    
+    func deleteRecordsOfBook(bookId: Int) {
+        if self.openConnection() {
+            let deleteSQL: String = "DELETE FROM \(RecordField.RECORD) WHERE \(RecordField.bookId) = ?"
+            do {
+                try self.database.executeUpdate(deleteSQL, values: [bookId])
             } catch {
                 print(error.localizedDescription)
             }

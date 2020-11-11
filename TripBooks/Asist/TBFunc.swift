@@ -19,7 +19,6 @@ class TBFunc {
     /// # 若為整數，將去除小數點
     static func convertDoubleToStr(_ value: Double, moneyFormat: Bool = true, currencyCode: String? = nil) -> String {
         var value = value
-        
         if floor(value) == value {
             value = min(value, amountMaxValue)
             value = max(value, amountMinValue)
@@ -46,7 +45,6 @@ class TBFunc {
         formatter.numberStyle = .currency
         
         let code = (currencyCode == "" || currencyCode == nil) ? "USD" : currencyCode
-        
         var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
         locComps[NSLocale.Key.currencyCode.rawValue] = code
         let locId = Locale.identifier(fromComponents: locComps)
@@ -73,9 +71,14 @@ class TBFunc {
         return today
     }
     
-    static func convertDateToDateStr(date: Date) -> String {
+    static func convertDateToDateStr(date: Date, full: Bool = false) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        if full {
+            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+
+        } else {
+            dateFormatter.dateFormat = "yyyy/MM/dd"
+        }
         dateFormatter.timeZone = .current // 取得系統目前timezone
         let today = dateFormatter.string(from: date)
         return today

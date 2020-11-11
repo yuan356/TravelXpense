@@ -9,8 +9,10 @@
 import UIKit
 
 enum SetRows: Int {
-    case currency = 0
-    case category
+    case category = 0
+    case currency
+    case exchangeRate
+    case about
     case LAST
     
     func value() -> Int {
@@ -23,6 +25,10 @@ enum SetRows: Int {
             return "Currency"
         case .category:
             return "Category"
+        case .exchangeRate:
+            return "Exchange Rate"
+        case .about:
+            return "About"
         case .LAST:
             return ""
         }
@@ -36,7 +42,7 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         self.view.backgroundColor = TBColor.background()
         self.navigationItem.title = "Setting"
         
-        items = [SetRows.currency, SetRows.category]
+        items = [SetRows.category, SetRows.currency, SetRows.exchangeRate, SetRows.about]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,11 +64,13 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
             TBNotify.showPicker(type: .currency, currentObject: myCurrnecy) { (result, currency) in
                 if result == .success, let currency = currency as? Currency {
                     self.myCurrnecy = currency
-                    IsoService.shared.setMyCurrency(code: currency.code)
+                    RateService.shared.setMyCurrency(code: currency.code)
                     let cell = tableView.cellForRow(at: indexPath) as! settingCell
                     cell.detailLabel.text = currency.code
                 }
             }
+        case .exchangeRate:
+            self.navigationController?.pushViewController(ExchangeRateViewController(), animated: true)
         default: break
         }
     }
@@ -76,7 +84,7 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         if let cell = cell as? settingCell {
             if SetRows.init(rawValue: indexPath.row) == .currency {
                 cell.arrowView.isHidden = true
-                if let currency = IsoService.shared.myCurrency {
+                if let currency = RateService.shared.myCurrency {
                     cell.detailLabel.text = currency.code
                 }
                 cell.selectedBackgroundView = clearView

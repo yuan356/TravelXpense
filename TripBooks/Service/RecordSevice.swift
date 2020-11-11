@@ -131,6 +131,10 @@ class RecordSevice {
         DBManager.shared.deleteRecordsOfCategory(categoryId: categoryId)
     }
     
+    func deleteRecordsOfBook(bookId: Int) {
+        DBManager.shared.deleteRecordsOfBook(bookId: bookId)
+    }
+    
     func getCountFromCategory(categoryId: Int) -> Int {
         return DBManager.shared.getCountFromCategory(categoryId: categoryId)
     }

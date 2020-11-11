@@ -43,7 +43,7 @@ struct TBColor {
         static let dark = UIColor(hex: "3A925C")
     }
     
-    static let blurBackground = #colorLiteral(red: 0.1555562615, green: 0.1555895209, blue: 0.155551821, alpha: 0.6472870291)
+    static let blurBackground = #colorLiteral(red: 0.07533254474, green: 0.07489258796, blue: 0.07567579299, alpha: 0.6472870291)
     
     static let beauBlue = UIColor(hex: "CCE2FF")
     

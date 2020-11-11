@@ -21,6 +21,7 @@ enum TBNavigationIcon: String {
     case arrowRight = "arrow-right"
     case trash = "trash"
     case downArrow = "down-sketched-arrow"
+    case exchange = "exchange"
     
     func getButton() -> UIButton {
         let button = UIButton()

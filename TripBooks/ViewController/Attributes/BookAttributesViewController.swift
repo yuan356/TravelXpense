@@ -21,7 +21,6 @@ fileprivate enum SettingCellRow {
 fileprivate let paddingInContentView: CGFloat = 10
 fileprivate let paddingInVStack: CGFloat = 8
 fileprivate let spacingInVStack: CGFloat = 8
-fileprivate let heightForStackItem: CGFloat = 45
 fileprivate let widthForInputObject: CGFloat = 225
 
 // Font
@@ -121,7 +120,7 @@ class BookAttributesViewController: UIViewController {
     
     lazy var vStackView = UIStackView {
         $0.alignment = .fill
-        $0.distribution = .equalSpacing
+        $0.distribution = .fillEqually
         $0.spacing = spacingInVStack
         $0.axis = .vertical
     }
@@ -170,6 +169,27 @@ class BookAttributesViewController: UIViewController {
         $0.anchorSize(w: widthForInputObject)
     }
     
+    lazy var deleteButton = UIButton {
+        $0.setTitle("Delete book", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
+        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
+        $0.backgroundColor = TBColor.delete.normal
+        $0.setBackgroundColor(color: TBColor.delete.highlighted, forState: .highlighted)
+        $0.roundedCorners()
+        $0.anchorSize(h: 43, w: 170)
+        $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
+    }
+    
+    @IBAction func deleteButtonClicked() {
+        TBNotify.showCenterAlert(message: "Are you sure you want to delete this book?", note: "All records of this book will be delete!", confirm: true, okAction: {
+            TBNotify.dismiss()
+            BookService.shared.deleteBook(bookId: self.book.id) {
+                self.dismiss(animated: true, completion: nil)
+            }
+        })
+    }
+   
     lazy var countryBtn = UIButton()
     lazy var currencyBtn = UIButton()
     lazy var startDateBtn = UIButton()
@@ -190,6 +210,10 @@ class BookAttributesViewController: UIViewController {
     
     private func setViews() {
         setImageViews()
+        self.view.addSubview(deleteButton)
+        deleteButton.anchor(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, padding: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+        deleteButton.anchorCenterX(to: view)
+        
         setVStackView()
     }
     
@@ -221,11 +245,8 @@ class BookAttributesViewController: UIViewController {
         }
         
         view.addSubview(vStackView)
-        let viewCount = CGFloat(views.count)
-        let vStackHeight = (heightForStackItem * viewCount)
-                            + (paddingInVStack * (viewCount - 1))
-        
-        vStackView.anchor(top: imageView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView), size: CGSize(width: 0, height: vStackHeight))
+
+        vStackView.anchor(top: imageView.bottomAnchor, bottom: deleteButton.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
     }
     
     // MARK: set detail
@@ -267,7 +288,6 @@ class BookAttributesViewController: UIViewController {
     
     private func getInputView(viewTitle: String, rowType: SettingCellRow) -> UIView {
         let view = UIView()
-        view.anchorSize(h: heightForStackItem)
         setDetailView(title: viewTitle, to: view, type: rowType)
         return view
     }
@@ -334,6 +354,9 @@ class BookAttributesViewController: UIViewController {
                 let datePickerVC = TBdatePickerViewController()
                 if let date = bookStartDate {
                     datePickerVC.setDate(date: date)
+                }
+                if let endDate = bookEndDate {
+                    datePickerVC.setMaximumDate(endDate)
                 }
                 datePickerVC.buttonIdentifier = type.rawValue
                 datePickerVC.delegate = self

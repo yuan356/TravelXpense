@@ -18,14 +18,13 @@ class BookService {
     
     var cache = [Int: Book]()
     
-    // order by start date
-    var orderdBookList = [Book]()
+    var bookList = [Book]()
     
     /// 載入所有帳本，並重設book cache & booklist
     func getAllBooksToCache() {
-        self.orderdBookList = DBManager.shared.getAllBooks()
+        self.bookList = DBManager.shared.getAllBooks(order: .createdDate)
         
-        self.cache = self.orderdBookList.reduce(into: [:], { (result, book) in
+        self.cache = self.bookList.reduce(into: [:], { (result, book) in
             result[book.id] = book
         })
     }
@@ -46,10 +45,11 @@ class BookService {
         self.cache[newBook.id] = newBook
         
         // add book into booklist
-        self.orderdBookList.append(newBook)
+        self.bookList.insert(newBook, at: 0)
+//        self.bookList.append(newBook)
         
         // sort the booklist
-        self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
+//        self.bookList.sort(by: {$0.startDate > $1.startDate})
         
         // add a default account for book
         AccountService.shared.insertDefaultAccounts(bookId: newBook.id)
@@ -78,7 +78,7 @@ class BookService {
             RecordSevice.shared.deleteRecordsOfDate(date: newBook.endDate, less: false)
         }
         
-        let needReorder = oldBook.startDate != newBook.startDate
+//        let needReorder = oldBook.startDate != newBook.startDate
         
         switch field {
         case .name:
@@ -102,51 +102,24 @@ class BookService {
         }
         
 
-        // update order
-        if needReorder {
-            self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
-        }
+        // update order (start day) 原本以開始日期排序，改為新增時間排序，先註解，
+//        if needReorder {
+//            self.bookList.sort(by: {$0.startDate > $1.startDate})
+//        }
     }
-    
-    
-    
-//    func updateBook(bookId: Int, bookName: String, country: String, coverImageNo: Int? = nil, startDate: Double, endDate: Double, completion: @escaping (_ targetBook: Book) -> ()) {
-//        
-//        // update book in DB (if update succeed, return a not nil book)
-//        guard let targetBook = DBManager.shared.updateBook(bookId: bookId, bookName: bookName, country: country, startDate: startDate, endDate: endDate) else {
-//            return
-//        }
-//        
-//        // update book in cache
-//        self.cache[targetBook.id] = targetBook
-//        
-//        // update book in booklist
-//        var needToSort = false
-//        for (index, book) in self.orderdBookList.enumerated() {
-//            if book.id == targetBook.id {
-//                needToSort = book.startDate != targetBook.startDate
-//                self.orderdBookList[index] = targetBook
-//                break
-//            }
-//        }
-//        
-//        if needToSort {
-//            self.orderdBookList.sort(by: {$0.startDate > $1.startDate})
-//        }
-//        
-//        completion(targetBook)
-//    }
+
     
     func deleteBook(bookId: Int, completion: @escaping () -> ()) {
         DBManager.shared.deleteBook(bookId: bookId)
+        RecordSevice.shared.deleteRecordsOfBook(bookId: bookId)
         
         // delete book in cache
         self.cache.removeValue(forKey: bookId)
         
         // delete book in booklist
-        for (index, book) in self.orderdBookList.enumerated() {
+        for (index, book) in self.bookList.enumerated() {
             if book.id == bookId {
-                self.orderdBookList.remove(at: index)
+                self.bookList.remove(at: index)
                 break
             }
         }

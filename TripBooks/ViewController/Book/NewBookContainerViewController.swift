@@ -17,10 +17,16 @@ enum BookValue {
     case imageUrl
 }
 
+protocol NewBookDelegate: AnyObject {
+    func insertNewBook()
+}
+
 class NewBookContainerViewController: UIViewController, NewBookPageViewControllerDelegate {
    
     lazy var pageView = UIView()
     lazy var controlView = UIView()
+    
+    weak var delegate: NewBookDelegate?
     
     lazy var nextBtn = UIButton {
         $0.roundedCorners(radius: 16)
@@ -99,7 +105,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
         }
 
         BookService.shared.addNewBook(bookName: name, country: country.code, currency: currency.code, imageUrl: imageUrl, image: pageViewController.bookImage, startDate: startDate.timeIntervalSince1970, endDate: endDate.timeIntervalSince1970) { (book) in
-            print("success")
+            self.delegate?.insertNewBook()
         }
         
         dismiss(animated: true, completion: nil)
@@ -110,12 +116,16 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
             return "Book name should less than 100."
         }
         
-        if pageViewController.startDate == nil {
-             return "You should set the start date."
+        guard let start = pageViewController.startDate else {
+            return "You should set the start date."
         }
         
-        if pageViewController.endDate == nil {
+        guard let end = pageViewController.endDate else {
             return "You should set the end date."
+        }
+        
+        if start > end {
+            return "Start date should less than end date."
         }
         
         if pageViewController.bookCountry == nil {
@@ -235,9 +245,7 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
         if completed {
             if let vc = pageViewController.viewControllers?.first as? NewBookViewController {
                 self.currentIndex = vc.index
-                print(currentIndex)
                 pageDelegate?.didUpdatePageIndex(currentIndex: currentIndex)
-                print("currentIdex", currentIndex)
             }
         }
     }

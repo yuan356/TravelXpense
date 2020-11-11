@@ -12,6 +12,8 @@ extension Notification.Name {
     static let recordTableUpdate = Notification.Name("recordTableUpdate")
     static let accountAmountUpdate = Notification.Name("accountAmountUpdate")
     static let bookNameUpdate = Notification.Name("bookNameUpdate")
+    static let showBlocking = Notification.Name("showBlocking")
+    static let hideBlocking = Notification.Name("hideBlocking")
 }
 
 enum InfoKey: String {

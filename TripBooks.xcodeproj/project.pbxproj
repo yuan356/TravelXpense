@@ -18,6 +18,9 @@
 		1C40AFEC25553D5A0010EE47 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40AFEB25553D5A0010EE47 /* SettingViewController.swift */; };
 		1C40AFF0255553480010EE47 /* CategorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40AFEF255553480010EE47 /* CategorySettingViewController.swift */; };
 		1C40AFF3255652700010EE47 /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40AFF2255652700010EE47 /* CategoryDetailViewController.swift */; };
+		1C6AB42D255A901000073095 /* ExchangeRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */; };
+		1C6AB430255A907400073095 /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB42F255A907400073095 /* RateService.swift */; };
+		1C6AB433255BC35800073095 /* BlockingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB432255BC35800073095 /* BlockingViewController.swift */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
@@ -28,7 +31,6 @@
 		1C8B6F60252EF077000D423B /* IconsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F5F252EF077000D423B /* IconsCollectionViewCell.swift */; };
 		1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
-		1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803692519C833003D7708 /* InsertNewBookViewController.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
 		1CA803732519F2B6003D7708 /* BookTableViewCellold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803712519F2B6003D7708 /* BookTableViewCellold.swift */; };
 		1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803722519F2B6003D7708 /* BookTableViewCell.xib */; };
@@ -60,7 +62,6 @@
 		1CCBBBBA2553EB86002C47A1 /* NewBookFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCBBBB92553EB83002C47A1 /* NewBookFirstViewController.swift */; };
 		1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F42512048B00AFD985 /* AppDelegate.swift */; };
 		1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F62512048C00AFD985 /* SceneDelegate.swift */; };
-		1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181F82512048C00AFD985 /* BookViewController.swift */; };
 		1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1CD181FD2512048C00AFD985 /* TripBooks.xcdatamodeld */; };
 		1CD182012512048D00AFD985 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182002512048D00AFD985 /* Assets.xcassets */; };
 		1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD182022512048D00AFD985 /* LaunchScreen.storyboard */; };
@@ -102,6 +103,9 @@
 		1C40AFEB25553D5A0010EE47 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		1C40AFEF255553480010EE47 /* CategorySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingViewController.swift; sourceTree = "<group>"; };
 		1C40AFF2255652700010EE47 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewController.swift; sourceTree = "<group>"; };
+		1C6AB42F255A907400073095 /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
+		1C6AB432255BC35800073095 /* BlockingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingViewController.swift; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
@@ -112,7 +116,6 @@
 		1C8B6F5F252EF077000D423B /* IconsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDaysCollectionViewCell.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		1CA803692519C833003D7708 /* InsertNewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertNewBookViewController.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		1CA803712519F2B6003D7708 /* BookTableViewCellold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCellold.swift; sourceTree = "<group>"; };
 		1CA803722519F2B6003D7708 /* BookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookTableViewCell.xib; sourceTree = "<group>"; };
@@ -145,7 +148,6 @@
 		1CD181F12512048B00AFD985 /* TripBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD181F42512048B00AFD985 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD181F62512048C00AFD985 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1CD181F82512048C00AFD985 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		1CD181FE2512048C00AFD985 /* TripBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TripBooks.xcdatamodel; sourceTree = "<group>"; };
 		1CD182002512048D00AFD985 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1CD182032512048D00AFD985 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				1C40AFEB25553D5A0010EE47 /* SettingViewController.swift */,
 				1C40AFEF255553480010EE47 /* CategorySettingViewController.swift */,
 				1C40AFF2255652700010EE47 /* CategoryDetailViewController.swift */,
+				1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -199,8 +202,6 @@
 		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1CA803692519C833003D7708 /* InsertNewBookViewController.swift */,
-				1CD181F82512048C00AFD985 /* BookViewController.swift */,
 				1C40AFEE255553220010EE47 /* Setting */,
 				1CF560B7253D5968003EEC66 /* Book */,
 				1C8B6F312521D9D9000D423B /* Record */,
@@ -274,6 +275,7 @@
 				1C3ACD372542C6130030ACBA /* IsoService.swift */,
 				1CBCD5C82546856600FB6C12 /* ImageService.swift */,
 				1C40AFE82555091B0010EE47 /* DisplayMode.swift */,
+				1C6AB42F255A907400073095 /* RateService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -328,6 +330,7 @@
 			children = (
 				1CF5606125383C65003EEC66 /* CalculatorViewController.swift */,
 				1C3ACD342542B5D70030ACBA /* LocalePickerViewController.swift */,
+				1C6AB432255BC35800073095 /* BlockingViewController.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C6AB430255A907400073095 /* RateService.swift in Sources */,
 				1C3ACD6325431DD40030ACBA /* GenericTableViewController.swift in Sources */,
 				1C8B6F4C252AFE3E000D423B /* RecordDetailViewController.swift in Sources */,
 				1C3ACD322542AB0B0030ACBA /* IsoCountryCodes.swift in Sources */,
@@ -591,7 +595,6 @@
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CBCD5C625454FFC00FB6C12 /* Locale.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBNavigationIcon.swift in Sources */,
-				1CD181F92512048C00AFD985 /* BookViewController.swift in Sources */,
 				1CF560C525403662003EEC66 /* BookAttributesViewController.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+IsNumber.swift in Sources */,
 				1CBCD67425496A6D00FB6C12 /* BookBudgetViewController.swift in Sources */,
@@ -624,10 +627,11 @@
 				1CD181F52512048B00AFD985 /* AppDelegate.swift in Sources */,
 				1CF560C2254012FB003EEC66 /* Double+Ext.swift in Sources */,
 				1CCBBBB525526F32002C47A1 /* BookTableViewCell.swift in Sources */,
+				1C6AB42D255A901000073095 /* ExchangeRateViewController.swift in Sources */,
 				1CF5603F2535AC51003EEC66 /* GenericInfoCell.swift in Sources */,
 				1CBCD681254C034700FB6C12 /* Icons.swift in Sources */,
 				1CD181F72512048C00AFD985 /* SceneDelegate.swift in Sources */,
-				1CA8036A2519C833003D7708 /* InsertNewBookViewController.swift in Sources */,
+				1C6AB433255BC35800073095 /* BlockingViewController.swift in Sources */,
 				1C8B6F5A252ED056000D423B /* CategoryService.swift in Sources */,
 				1CA803F5251F2560003D7708 /* RecordPageViewController.swift in Sources */,
 				1CA8037A251B2857003D7708 /* BookService.swift in Sources */,

@@ -121,7 +121,6 @@ class NewBookFirstViewController: NewBookViewController {
         }
         view.addSubview(lineView)
         
-        
         view.addSubview(obj)
         if let withObj = lineWithObj {
             lineView.anchor(top: nil, bottom: view.bottomAnchor, leading: withObj.leadingAnchor, trailing: withObj.trailingAnchor)

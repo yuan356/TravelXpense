@@ -14,13 +14,16 @@ enum UserDefaultsKey: String {
     case defaultAccountDict
     case displayMode
     case myCurrency
+    case exchangeRateData
+    case getRateDateTime
+    case rateDataTime
+    case autoUpdateRate
 }
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         let textAttributes = [NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().tintColor = .white
@@ -32,19 +35,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
         
-        DBManager.shared.createTable()
+        DBManager.shared.createTable() // will check database is exist or not
+        
         if isFirstOpenApp {
             // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
             UserDefaults.standard.set(false, forKey: isFirstLaunchAppKey)
-        } else {
-            // Every time open the app.
-            CategoryService.shared.getAllCategoriesToCache()
         }
+        
+        // Every time open the app.
+        CategoryService.shared.getAllCategoriesToCache()
+        
+        RateService.shared.initData()
         // TODO:mode
         return true
     }
-    
 
     // MARK: UISceneSession Lifecycle
 

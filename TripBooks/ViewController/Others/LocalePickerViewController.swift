@@ -56,9 +56,16 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     }
     
     private func getAllCurrencyList() -> [Any] {
-        let list = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
-            result.append(Currency(code: info.currency))
+        let strlist = IsoService.shared.allCountries.reduce(into: [String]()) { (result, info) in
+            if !result.contains(info.currency) {
+                result.append(info.currency)
+            }
         }
+        
+        let list = strlist.map { (code) -> Currency in
+            return Currency(code: code)
+        }
+        
         return list
     }
     
@@ -81,6 +88,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         let placeholder = pickerType == .country ? "Country name" : "Country name or currency code"
         
         searchBar.sizeToFit()
+        searchBar.searchTextField.leftView?.tintColor = TBColor.gray.dark
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: TBColor.gray.dark])
 
         searchBar.backgroundImage = UIImage()
@@ -89,6 +97,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             textfield.returnKeyType = .default
+            textfield.textColor = .black
             textfield.backgroundColor = TBColor.gray.medium
         }
         headerView.addSubview(searchBar)
@@ -129,10 +138,15 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
                 }
             }
         } else if pickerType == .currency {
-            result = IsoService.shared.allCountries.reduce(into: [Any]()) { (result, info) in
+            let strlist = IsoService.shared.allCountries.reduce(into: [String]()) { (result, info) in
                 if info.name.localizedCaseInsensitiveContains(str) || info.alpha3.localizedCaseInsensitiveContains(str) || info.currency.localizedCaseInsensitiveContains(str) {
-                    result.append(Currency(code: info.currency))
+                    if !result.contains(info.currency) {
+                        result.append(info.currency)
+                    }
                 }
+            }
+            result = strlist.map { (code) -> Currency in
+                return Currency(code: code)
             }
         }
        
@@ -142,7 +156,8 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // search
-        search(by: searchText)
+        let text = searchText.trimmingCharacters(in: .whitespaces)
+        search(by: text)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

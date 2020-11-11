@@ -281,9 +281,9 @@ struct TBNotify {
         let calculatorVC = CalculatorViewController()
         var amount = originalAmount
         amount.turnToPositive()
+        calculatorVC.currencyCode = currencyCode
         calculatorVC.numberOnScreen = amount
         calculatorVC.isForBudget = isForBudget
-        calculatorVC.currencyCode = currencyCode
         calculatorVC.delegate = parentController as? CalculatorDelegate
         calculatorVC.viewRatio = heightRatio
         SwiftEntryKit.display(entry: calculatorVC, using: attributes)        

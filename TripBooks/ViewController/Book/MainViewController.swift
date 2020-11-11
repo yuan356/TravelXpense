@@ -10,12 +10,14 @@ import UIKit
 
 fileprivate let headerHeight: CGFloat = 60
 
-class MainViewController: UIViewController {
-
+class MainViewController: UIViewController, NewBookDelegate {
+    
     var books: [Book]!
     
     var bookTableView: UITableView!
     
+    var blockingViewController: BlockingViewController?
+        
     lazy var headerView = UIView {
         $0.anchorSize(h: headerHeight)
         $0.addSubview(settingButton)
@@ -63,7 +65,7 @@ class MainViewController: UIViewController {
 
         // initialize setting
         BookService.shared.getAllBooksToCache()
-        self.books = BookService.shared.orderdBookList
+        self.books = BookService.shared.bookList
         
         bookTableViewSetting()
         
@@ -72,8 +74,8 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-        self.books = BookService.shared.orderdBookList
-        bookTableView.reloadData() // temp
+        self.books = BookService.shared.bookList
+        bookTableView.reloadData()
     }
     
     private func bookTableViewSetting() {
@@ -123,8 +125,8 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func addButtonClicked() {
-        print("addButtonClicked")
         let vc = NewBookContainerViewController()
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
     
@@ -148,6 +150,13 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    func insertNewBook() {
+        self.books = BookService.shared.bookList
+        bookTableView.beginUpdates()
+        bookTableView.insertRows(at: [IndexPath(row: 0, section: 1)], with: .fade)
+        bookTableView.endUpdates()
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
@@ -159,6 +168,11 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             return 1
         } else if section == 1 {
+            if books.count == 0 {
+                self.bookTableView.setEmptyMessage("You don't have a book right now.\n\nGo add a new book !", isForBookTable: true)
+            } else {
+                self.bookTableView.restore()
+            }
             return self.books.count
         } else {
             return 0
