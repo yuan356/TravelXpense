@@ -9,12 +9,12 @@
 import UIKit
 
 let defaultCategories = [
-    (title: "Accommodation", colorCode: "2BA193", iconName: "hotel"),
-    (title: "Air tickets", colorCode: "9FC680", iconName: "air-ticket"),
-    (title: "Food & Drink", colorCode: "ECC06F", iconName: "pizza"),
-    (title: "Shopping", colorCode: "E97C61", iconName: "shopping-bag"),
-    (title: "Entertainment", colorCode: "9E8BBB", iconName: "snorkel"),
-    (title: "Transport", colorCode: "88B7D3", iconName: "train")
+    (title: "Air tickets", colorCode: "9FC680", iconName: "cate-1"),
+    (title: "Accommodation", colorCode: "2BA193", iconName: "cate-2"),
+    (title: "Food & Drink", colorCode: "ECC06F", iconName: "cate-3"),
+    (title: "Shopping", colorCode: "E97C61", iconName: "cate-4"),
+    (title: "Entertainment", colorCode: "9E8BBB", iconName: "cate-5"),
+    (title: "Transport", colorCode: "88B7D3", iconName: "cate-6")
     ]
 
 class CategoryService {

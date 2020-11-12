@@ -22,6 +22,7 @@
 		1C6AB430255A907400073095 /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB42F255A907400073095 /* RateService.swift */; };
 		1C6AB433255BC35800073095 /* BlockingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB432255BC35800073095 /* BlockingViewController.swift */; };
 		1C6AB453255BD7C800073095 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C6AB455255BD7C800073095 /* Localizable.strings */; };
+		1C6AB463255D276B00073095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C6AB465255D276B00073095 /* InfoPlist.strings */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
@@ -33,8 +34,6 @@
 		1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
-		1CA803732519F2B6003D7708 /* BookTableViewCellold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803712519F2B6003D7708 /* BookTableViewCellold.swift */; };
-		1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CA803722519F2B6003D7708 /* BookTableViewCell.xib */; };
 		1CA8037A251B2857003D7708 /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA80379251B2857003D7708 /* BookService.swift */; };
 		1CA803D6251C8D5B003D7708 /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D3251C8D5B003D7708 /* UIView+Anchors.swift */; };
 		1CA803D8251C8D5B003D7708 /* TBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */; };
@@ -110,6 +109,8 @@
 		1C6AB44D255BD6A500073095 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		1C6AB454255BD7C800073095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1C6AB45B255BDC0100073095 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		1C6AB464255D276B00073095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1C6AB467255D277200073095 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
@@ -121,8 +122,6 @@
 		1C8B6F62252EF0AE000D423B /* RecordDaysCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDaysCollectionViewCell.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
-		1CA803712519F2B6003D7708 /* BookTableViewCellold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCellold.swift; sourceTree = "<group>"; };
-		1CA803722519F2B6003D7708 /* BookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookTableViewCell.xib; sourceTree = "<group>"; };
 		1CA80379251B2857003D7708 /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
 		1CA803D3251C8D5B003D7708 /* UIView+Anchors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
 		1CA803D5251C8D5B003D7708 /* TBDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBDatePicker.swift; sourceTree = "<group>"; };
@@ -207,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				1C6AB455255BD7C800073095 /* Localizable.strings */,
+				1C6AB465255D276B00073095 /* InfoPlist.strings */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -268,8 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				1CBCD6552549175B00FB6C12 /* TBPieChartView.swift */,
-				1CA803712519F2B6003D7708 /* BookTableViewCellold.swift */,
-				1CA803722519F2B6003D7708 /* BookTableViewCell.xib */,
 				1C8B6F56252DB042000D423B /* IconView.swift */,
 				1CBCD6522549172600FB6C12 /* ProgressBarView.swift */,
 				1CBCD67B254AC2B500FB6C12 /* EditInfoView.swift */,
@@ -539,8 +537,8 @@
 				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
 				1C6AB453255BD7C800073095 /* Localizable.strings in Resources */,
 				1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */,
+				1C6AB463255D276B00073095 /* InfoPlist.strings in Resources */,
 				1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */,
-				1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */,
 				1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */,
 				1CBCD5DA2546AB9D00FB6C12 /* Roboto-Light.ttf in Resources */,
 				1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */,
@@ -662,7 +660,6 @@
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,
 				1CBCD679254AB8C500FB6C12 /* AccountDetailViewController.swift in Sources */,
 				1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */,
-				1CA803732519F2B6003D7708 /* BookTableViewCellold.swift in Sources */,
 				1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */,
 				1CCBBBBA2553EB86002C47A1 /* NewBookFirstViewController.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,
@@ -681,6 +678,15 @@
 				1C6AB45B255BDC0100073095 /* zh-Hant */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		1C6AB465255D276B00073095 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C6AB464255D276B00073095 /* en */,
+				1C6AB467255D277200073095 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		1CD182022512048D00AFD985 /* LaunchScreen.storyboard */ = {
@@ -828,7 +834,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuan.TripBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -847,7 +853,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuan.TripBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

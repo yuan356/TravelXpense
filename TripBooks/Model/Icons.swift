@@ -11,20 +11,25 @@ import UIKit
 
 class Icons {
     static let accounts: [String]
-        = ["coins",
-           "check-bill",
-           "credit-card",
-           "notes",
-           "piggy-bank",
-           "piggy-bank-2",
-           "rich"]
+        = ["acc-1",
+           "acc-2",
+           "acc-3",
+           "acc-4",
+           "acc-5",
+           "acc-6",
+           "acc-7",
+           "acc-8",
+           "acc-9",
+           "acc-10",
+           "acc-11",
+           "acc-12",
+        ]
     static let categories: [String] = [
-        "air-ticket",
-        "pizza",
-        "shopping-bag",
-        "snorkel",
-        "train",
-        "hotel"
+        "cate-1", "cate-2", "cate-3", "cate-4", "cate-5",
+        "cate-6", "cate-7", "cate-8", "cate-9", "cate-10",
+        "cate-11", "cate-12", "cate-13", "cate-14", "cate-15",
+        "cate-16", "cate-17", "cate-18","cate-19", "cate-20",
+        "cate-21", "cate-22", "cate-23", "cate-24", "cate-25"
     ]
     
     static let colorHex: [String] = [

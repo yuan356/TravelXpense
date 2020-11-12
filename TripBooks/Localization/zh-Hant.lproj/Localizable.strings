@@ -100,11 +100,16 @@
 "All accounts" = "所有帳戶";
 // AccountDetail
 "Delete account" = "刪除帳戶";
+"Name" = "名稱";
+"Budget" = "預算";
+"Default" = "預設帳戶";
 // MARK: Others
 // LocalePickerViewController
 "Country name" = "國家名稱";
 "Country name or currency code" = "國家名稱或貨幣代碼";
-
+"You need at least one account." = "需要至少一個帳戶";
+"Are you sure you want to delete this account?" = "確定要刪除此帳戶？";
+"All the records of this account will be delete!" = "帳戶中所有紀錄將被刪除";
 // MARK: Notify
 "Cancel" = "取消";
 "Okay" = "確定";
@@ -112,3 +117,7 @@
 "You didn't select a country!" = "你還沒有選擇國家";
 "You didn't select a currency!" = "你還沒有選擇幣別";
 "Notice" = "提醒";
+
+// TBDatePicker
+" Today " = " 今天 ";
+" Done " = " 完成 ";

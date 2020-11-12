@@ -80,11 +80,6 @@ class TBdatePickerViewController: UIViewController {
     }
     
     @IBAction func selectedDone() {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat =  "HH:mm"
-//        let time = dateFormatter.date(from: "00:00")
-//        datePicker.date = time!
-//        
         self.delegate?.changeDate(buttonIdentifier: self.buttonIdentifier, date: self.datePicker.date)
         close()
     }
@@ -123,14 +118,14 @@ class TBdatePickerViewController: UIViewController {
     private func createButton(to view: UIView) {
         let todayBtn = UIButton()
         todayBtn.roundedCorners()
-        todayBtn.setTitle(" Today ", for: .normal)
+        todayBtn.setTitle(NSLocalizedString(" Today ", comment: "Today"), for: .normal)
         todayBtn.backgroundColor = TBColor.system.blue.medium
         todayBtn.titleLabel?.font = textFont
         todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
 
         let doneBtn = UIButton()
         doneBtn.roundedCorners()
-        doneBtn.setTitle(" Done ", for: .normal)
+        doneBtn.setTitle(NSLocalizedString(" Done ", comment: "Done"), for: .normal)
         doneBtn.backgroundColor = TBColor.system.blue.medium
         doneBtn.titleLabel?.font = textFont
         doneBtn.addTarget(self, action: #selector(selectedDone), for: .touchUpInside)

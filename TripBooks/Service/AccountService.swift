@@ -8,8 +8,7 @@
 
 import UIKit
 
-let defaultAccount = (name: "Cash", iconName: "coins")
-let UserDefaultsdefaultAccountId = "defaultAccountId"
+let defaultAccount = (name: "Cash", iconName: "acc-3")
 
 class AccountService {
 

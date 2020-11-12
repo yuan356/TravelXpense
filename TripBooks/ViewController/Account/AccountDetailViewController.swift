@@ -150,15 +150,15 @@ class AccountDetailViewController: UIViewController {
     private func setVStackView() {
         var views = [UIView]()
         nameTextField.delegate = self
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Name", object: nameTextField))
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Budget", object: budgetLabel, withButton: budgetButton))
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Default", object: defaultSwitch))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Name", comment: "Name"), object: nameTextField))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Budget", comment: "Budget"), object: budgetLabel, withButton: budgetButton))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Default", comment: "Default"), object: defaultSwitch))
         
         let iconBackView = UIView()
         iconBackView.addSubview(iconView)
         iconView.anchorCenterY(to: iconBackView)
         iconView.anchorSuperViewTrailing()
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Icon", object: iconBackView))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Icon", comment: "Icon"), object: iconBackView))
 
         for view in views {
             vStackView.addArrangedSubview(view)
@@ -210,7 +210,7 @@ class AccountDetailViewController: UIViewController {
         }
         
         guard let iconName = accountIconName else {
-            TBNotify.showCenterAlert(message: "You should choose an icon.")
+            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
             return
         }
 
@@ -245,11 +245,13 @@ class AccountDetailViewController: UIViewController {
         
         // at least one account
         if AccountService.shared.cache.count == 1 {
-            TBNotify.showCenterAlert(message: "You need at least one account.")
+            TBNotify.showCenterAlert(message: NSLocalizedString("You need at least one account.", comment: "You need at least one account."))
             return
         }
         
-        TBNotify.showCenterAlert(message: "Are you sure you want to delete this account?", note: "All the records of this account will be delete!", confirm: true) {
+        let msg = NSLocalizedString("Are you sure you want to delete this account?", comment: "Are you sure you want to delete this account?")
+        let note = NSLocalizedString("All the records of this account will be delete!", comment: "All the records of this account will be delete!")
+        TBNotify.showCenterAlert(message: msg, note: note, confirm: true) {
             AccountService.shared.deleteAccount(accountId: acc.id)
             self.navigationController?.popViewController(animated: true)
             TBFeedback.notificationOccur(.warning)
