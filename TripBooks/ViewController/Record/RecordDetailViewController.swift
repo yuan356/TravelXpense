@@ -159,7 +159,8 @@ class RecordDetailViewController: UIViewController {
     }
     
     lazy var titleTextField = UITextField {
-        $0.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
+        let msg = NSLocalizedString("recordTitle", comment: "recordTitle")
+        $0.attributedPlaceholder = NSAttributedString(string: msg, attributes: [NSAttributedString.Key.foregroundColor: textViewPlaceholderColor])
         $0.font = textFont
         $0.textColor = inputTextColor
         $0.textAlignment = .left
@@ -191,12 +192,12 @@ class RecordDetailViewController: UIViewController {
         $0.backgroundColor = .clear
         $0.font = MainFont.regular.with(fontSize: 18)
         $0.textAlignment = .left
-        $0.text = "Type your notes here..."
+        $0.text = NSLocalizedString("Note", comment: "Note")
     }
     
     lazy var doneButton = UIButton {
         $0.backgroundColor = TBColor.system.veronese
-        $0.setTitle("DONE", for: .normal)
+        $0.setTitle(NSLocalizedString("Done", comment: "Done"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.tintColor = .white
         $0.setTitleColor(.lightGray, for: .highlighted)
@@ -385,13 +386,13 @@ class RecordDetailViewController: UIViewController {
 
         let titleView = UIView()
         titleView.anchorSize(h: heightForDetailView)
-        setDetailView(name: "Title", to: titleView, type: .title)
+        setDetailView(to: titleView, type: .title)
 
         let accountView = UIView()
-        setDetailView(name: "Account", to: accountView, type: .account)
+        setDetailView(to: accountView, type: .account)
         
         let dateView = UIView()
-        setDetailView(name: "Date", to: dateView, type: .date)
+        setDetailView(to: dateView, type: .date)
         
         let hStackView = UIStackView()
         hStackView.axis = .horizontal
@@ -409,7 +410,7 @@ class RecordDetailViewController: UIViewController {
     /// add a View to contentView for noteTextView
     func setNoteView() {
         let noteView = UIView()
-        setDetailView(name: "Note", to: noteView, type: .note)
+        setDetailView(to: noteView, type: .note)
         contentView.addSubview(noteView)
         noteView.anchor(top: vStackView.bottomAnchor, bottom: doneButton.topAnchor, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView + 10, right: paddingInContentView))
         noteView.addSubview(noteTextView)
@@ -418,7 +419,7 @@ class RecordDetailViewController: UIViewController {
         
     // MARK: setDetailView
     /// 各 detail 的細節設定(加入lineView)
-    private func setDetailView(name: String, to view: UIView, type: RecordDetailCellRow) {
+    private func setDetailView(to view: UIView, type: RecordDetailCellRow) {
         
         let lineView = UIView()
         lineView.backgroundColor = .white
@@ -511,8 +512,6 @@ class RecordDetailViewController: UIViewController {
     
     // MARK: Save
     @IBAction func saveButtonClicked(_ sender: UIButton) {
-        print("saveButtonClicked")
-        
         let checkResult = checkInput()
         guard checkResult == nil else {
             TBNotify.showCenterAlert(message: checkResult!)
@@ -567,39 +566,39 @@ class RecordDetailViewController: UIViewController {
         // amount
         guard let amountText = amountLabel.text?.trimmingCharacters(in: .whitespaces),
               amountText != ""  else {
-            return "Amount is empty."
+            return NSLocalizedString("Amount is empty.", comment: "Amount is empty.")
         }
         
         guard let _ = Double(amountText) else {
-            return "Amount is wrong format."
+            return NSLocalizedString("Amount is wrong format.", comment: "Amount is wrong format.")
         }
         
         // title
         if let title = titleTextField.text {
             if title.count > 100 {
-                return "Title length should less than 100."
+                return NSLocalizedString("Title length should less than 100.", comment: "Title length should less than 100.")
             }
         }
         
         // category
         if self.recoredCategory == nil {
-            return "You should choose a category."
+            return NSLocalizedString("You should choose a category.", comment: "You should choose a category.")
         }
         
         // date
         if self.recordDate == nil {
-            return "You should set a record date."
+            return NSLocalizedString("You should set a record date.", comment: "You should set a record date.")
         }
         
         // account
         if self.recordAccount == nil {
-            return "You should choose an account."
+            return NSLocalizedString("You should choose an account.", comment: "You should choose an account.")
         }
         
         // note
         if let note = noteTextView.text {
             if note.count > 500 {
-                return "Note length should less than 500."
+                return NSLocalizedString("Note length should less than 500.", comment: "Note length should less than 500.")
             }
         }
         
@@ -617,7 +616,7 @@ extension RecordDetailViewController: TBDatePickerDelegate {
 
 extension RecordDetailViewController: CalculatorDelegate {
     func changeTransactionType(type: TransactionType) {
-        print("change to : \(type)")
+//        print("change to : \(type)")
     }
     
     func changeAmountValue(amountStr: String) {
@@ -651,7 +650,7 @@ extension RecordDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     func textViewDidEndEditing (_ textView: UITextView) {
         if textView.text.isEmpty || textView.text == "" {
             textView.textColor = textViewPlaceholderColor
-            textView.text = "Type your notes here..."
+            textView.text = NSLocalizedString("Note", comment: "Note")
         }
     }
     

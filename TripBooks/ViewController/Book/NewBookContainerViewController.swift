@@ -31,7 +31,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     lazy var nextBtn = UIButton {
         $0.roundedCorners(radius: 16)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
-        $0.setTitle("Next", for: .normal)
+        $0.setTitle(NSLocalizedString("Next", comment: "Next"), for: .normal)
         $0.anchorSize(h: 45, w: 150)
         $0.backgroundColor = TBColor.orange.light
         $0.addTarget(self, action: #selector(pageBtnClicked), for: .touchUpInside)
@@ -40,7 +40,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     lazy var doneBtn = UIButton {
         $0.roundedCorners(radius: 16)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
-        $0.setTitle("Done", for: .normal)
+        $0.setTitle(NSLocalizedString("Done", comment: "Done"), for: .normal)
         $0.anchorSize(h: 45, w: 150)
         $0.isHidden = true
         $0.backgroundColor = TBColor.system.veronese
@@ -74,7 +74,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     
     @IBAction func pageBtnClicked(_ sender: UIButton) {
         if let title = sender.title(for: .normal) {
-            if title == "Next" {
+            if title == NSLocalizedString("Next", comment: "Next") {
                 pageViewController.forwardPage()
             } else {
                 pageViewController.backwardPage()
@@ -113,27 +113,31 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     
     private func checkInput() -> String {
         if let name = pageViewController.bookName, name.count > 100  {
-            return "Book name should less than 100."
+            return NSLocalizedString("Book name should less than 100.", comment: "Book name should less than 100.")
         }
         
         guard let start = pageViewController.startDate else {
-            return "You should set the start date."
+            return NSLocalizedString("You should set the start date.", comment: "You should set the start date.")
         }
         
         guard let end = pageViewController.endDate else {
-            return "You should set the end date."
+            return NSLocalizedString("You should set the end date.", comment: "You should set the end date.")
         }
         
         if start > end {
-            return "Start date should less than end date."
+            return NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date.")
+        }
+        
+        if end < start {
+            return NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date.")
         }
         
         if pageViewController.bookCountry == nil {
-            return "You should set the country."
+            return NSLocalizedString("You should set the country.", comment: "You should set the country.")
         }
         
         if pageViewController.bookCurrency == nil {
-            return "You should set the currency."
+            return NSLocalizedString("You should set the currency.", comment: "You should set the currency.")
         }
         
         return ""
@@ -147,10 +151,10 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
         let index = pageViewController.currentIndex
             switch index {
             case 0:
-                nextBtn.setTitle("Next", for: .normal)
+                nextBtn.setTitle(NSLocalizedString("Next", comment: "Next"), for: .normal)
                 doneBtn.isHidden = true
             case 1:
-                nextBtn.setTitle("Previous", for: .normal)
+                nextBtn.setTitle(NSLocalizedString("Previous", comment: "Previous"), for: .normal)
                 doneBtn.isHidden = false
             default: break
         }

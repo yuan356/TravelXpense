@@ -142,15 +142,17 @@ struct TBNotify {
     
     // MARK: showCenterAlert
     static func showCenterAlert(message: String, title: String = "", note: String = "", confirm: Bool = false, okAction: (()->())? = nil ) {
-        let attributes = centerFloatAttributes
+        var attributes = centerFloatAttributes
+        let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.3)
+        attributes.positionConstraints.size.height = heightConstraint
         let view = UIView()
         view.roundedCorners()
         view.backgroundColor = TBColor.system.blue.medium
         
-        let titleFont = MainFont.medium.with(fontSize: 20)
+        let titleFont = MainFont.medium.with(fontSize: 18)
         let textFont = MainFont.regular.with(fontSize: 17)
         let noteFont = MainFont.regular.with(fontSize: 15)
-        let btnFont = MainFont.regular.with(fontSize: .medium)
+        let btnFont = MainFont.regular.with(fontSize: 18)
         
         let MessageView = UIView()
 
@@ -164,12 +166,12 @@ struct TBNotify {
         
         let vStack = UIStackView()
         vStack.distribution = .fill
-        vStack.spacing = 2
+        vStack.spacing = 1
         vStack.axis = .vertical
         if title != "" {
             let titleLabel = UILabel {
                 $0.textAlignment = .center
-                $0.textColor = .white
+                $0.textColor = TBColor.gray.medium
                 $0.numberOfLines = 0
                 $0.font = titleFont
                 $0.text = title
@@ -192,7 +194,7 @@ struct TBNotify {
         MessageView.addSubview(vStack)
         vStack.fillSuperview(padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
-        let closeText = confirm ? "Cancel": "Okay"
+        let closeText = confirm ? NSLocalizedString("Cancel", comment: "Cancel"): NSLocalizedString("Okay", comment: "Okay")
         let closeTextColor = confirm ?
             EKColor.init(TBColor.orange.light) : EKColor.white
         
@@ -217,7 +219,7 @@ struct TBNotify {
             color: .white
         )
         let okButtonLabel = EKProperty.LabelContent(
-            text: "Okay",
+            text: NSLocalizedString("Okay", comment: "Okay"),
             style: okButtonLabelStyle
         )
         
@@ -317,14 +319,14 @@ struct TBNotify {
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
         
-        let mediumFont = MainFont.regular.with(fontSize: .medium)
+        let btnFont = MainFont.regular.with(fontSize: 18)
         
         let closeButtonLabelStyle = EKProperty.LabelStyle(
-            font: mediumFont,
+            font: btnFont,
             color: .white
         )
         let closeButtonLabel = EKProperty.LabelContent(
-            text: "Cancel",
+            text: NSLocalizedString("Cancel", comment: "Cancel"),
             style: closeButtonLabelStyle
         )
         let closeButton = EKProperty.ButtonContent(
@@ -336,11 +338,11 @@ struct TBNotify {
             }
         
         let okButtonLabelStyle = EKProperty.LabelStyle(
-            font: mediumFont,
+            font: btnFont,
             color: .white
         )
         let okButtonLabel = EKProperty.LabelContent(
-            text: "Okay",
+            text: NSLocalizedString("Okay", comment: "Okay"),
             style: okButtonLabelStyle
         )
         let okButton = EKProperty.ButtonContent(
@@ -379,7 +381,7 @@ struct TBNotify {
                     SwiftEntryKit.dismiss()
                     completion(PickerResult.success, acc)
                 } else {
-                    systemNotice(on: viewController, message: "You didn't select a account!")
+                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a account!", comment: "You didn't select a account!"))
                 }
             }
             
@@ -398,7 +400,7 @@ struct TBNotify {
                     SwiftEntryKit.dismiss()
                     completion(PickerResult.success, country)
                 } else {
-                    systemNotice(on: viewController, message: "You didn't select a country!")
+                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a country!", comment: "You didn't select a country!"))
                 }
             }
             
@@ -418,7 +420,7 @@ struct TBNotify {
                     SwiftEntryKit.dismiss()
                     completion(PickerResult.success, currency)
                 } else {
-                    systemNotice(on: viewController, message: "You didn't select a currency!")
+                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a currency!", comment: "You didn't select a currency!"))
                 }
             }
             vc.pickerType = type
@@ -445,8 +447,8 @@ struct TBNotify {
     }
     
     static func systemNotice(on controller: UIViewController, message: String) {
-        let alertController = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
-        let okayAction = UIAlertAction.init(title: "Okay", style: .cancel, handler: nil)
+        let alertController = UIAlertController(title: NSLocalizedString("Notice", comment: "Notice"), message: message, preferredStyle: .alert)
+        let okayAction = UIAlertAction.init(title: NSLocalizedString("Okay", comment: "Okay"), style: .cancel, handler: nil)
         alertController.addAction(okayAction)
         controller.present(alertController, animated: true, completion: nil)
     }

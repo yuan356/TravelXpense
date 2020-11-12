@@ -21,6 +21,7 @@
 		1C6AB42D255A901000073095 /* ExchangeRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */; };
 		1C6AB430255A907400073095 /* RateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB42F255A907400073095 /* RateService.swift */; };
 		1C6AB433255BC35800073095 /* BlockingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB432255BC35800073095 /* BlockingViewController.swift */; };
+		1C6AB453255BD7C800073095 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C6AB455255BD7C800073095 /* Localizable.strings */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
@@ -85,7 +86,7 @@
 		1CF560BB253D7F67003EEC66 /* TBNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */; };
 		1CF560BF253ED522003EEC66 /* TBFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560BE253ED521003EEC66 /* TBFeedback.swift */; };
 		1CF560C2254012FB003EEC66 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C1254012FA003EEC66 /* Double+Ext.swift */; };
-		1CF560C525403662003EEC66 /* BookAttributesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookAttributesViewController.swift */; };
+		1CF560C525403662003EEC66 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookDetailViewController.swift */; };
 		C5861E775554FD9D3668B28E /* Pods_TripBooks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A04AE95A0610B3A9EB94E9 /* Pods_TripBooks.framework */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +107,9 @@
 		1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateViewController.swift; sourceTree = "<group>"; };
 		1C6AB42F255A907400073095 /* RateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateService.swift; sourceTree = "<group>"; };
 		1C6AB432255BC35800073095 /* BlockingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingViewController.swift; sourceTree = "<group>"; };
+		1C6AB44D255BD6A500073095 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		1C6AB454255BD7C800073095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1C6AB45B255BDC0100073095 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
@@ -172,7 +176,7 @@
 		1CF560BA253D7F67003EEC66 /* TBNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBNotificationCenter.swift; sourceTree = "<group>"; };
 		1CF560BE253ED521003EEC66 /* TBFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBFeedback.swift; sourceTree = "<group>"; };
 		1CF560C1254012FA003EEC66 /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
-		1CF560C425403662003EEC66 /* BookAttributesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAttributesViewController.swift; sourceTree = "<group>"; };
+		1CF560C425403662003EEC66 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		9C6F67FB085CFA721B307CE2 /* Pods-TripBooks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripBooks.debug.xcconfig"; path = "Target Support Files/Pods-TripBooks/Pods-TripBooks.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,13 +203,21 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		1C6AB44E255BD6AD00073095 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				1C6AB455255BD7C800073095 /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		1C6C50C72519A9E200F5EC43 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				1C40AFEE255553220010EE47 /* Setting */,
 				1CF560B7253D5968003EEC66 /* Book */,
 				1C8B6F312521D9D9000D423B /* Record */,
-				1CBCD6692549190800FB6C12 /* Attributes */,
+				1CBCD6692549190800FB6C12 /* BookDetail */,
 				1CBCD6642549188400FB6C12 /* Chart */,
 				1CCBBBA9254DB840002C47A1 /* Account */,
 				1CCBBBAA254DB85D002C47A1 /* Others */,
@@ -308,12 +320,12 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
-		1CBCD6692549190800FB6C12 /* Attributes */ = {
+		1CBCD6692549190800FB6C12 /* BookDetail */ = {
 			isa = PBXGroup;
 			children = (
-				1CF560C425403662003EEC66 /* BookAttributesViewController.swift */,
+				1CF560C425403662003EEC66 /* BookDetailViewController.swift */,
 			);
-			path = Attributes;
+			path = BookDetail;
 			sourceTree = "<group>";
 		};
 		1CCBBBA9254DB840002C47A1 /* Account */ = {
@@ -356,6 +368,7 @@
 		1CD181F32512048B00AFD985 /* TripBooks */ = {
 			isa = PBXGroup;
 			children = (
+				1C6AB44E255BD6AD00073095 /* Localization */,
 				1CF5606425384256003EEC66 /* Resources */,
 				1CF5605825380C1E003EEC66 /* Extension */,
 				1CA803D2251C8D5B003D7708 /* TBDatePicker */,
@@ -506,6 +519,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 1CD181E82512048B00AFD985;
 			productRefGroup = 1CD181F22512048B00AFD985 /* Products */;
@@ -523,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
+				1C6AB453255BD7C800073095 /* Localizable.strings in Resources */,
 				1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */,
 				1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */,
 				1CA803742519F2B6003D7708 /* BookTableViewCell.xib in Resources */,
@@ -595,7 +610,7 @@
 				1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */,
 				1CBCD5C625454FFC00FB6C12 /* Locale.swift in Sources */,
 				1CF5604F2536B9E5003EEC66 /* TBNavigationIcon.swift in Sources */,
-				1CF560C525403662003EEC66 /* BookAttributesViewController.swift in Sources */,
+				1CF560C525403662003EEC66 /* BookDetailViewController.swift in Sources */,
 				1CF5605C25380C3E003EEC66 /* String+IsNumber.swift in Sources */,
 				1CBCD67425496A6D00FB6C12 /* BookBudgetViewController.swift in Sources */,
 				1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */,
@@ -659,10 +674,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1C6AB455255BD7C800073095 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C6AB454255BD7C800073095 /* en */,
+				1C6AB45B255BDC0100073095 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		1CD182022512048D00AFD985 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1CD182032512048D00AFD985 /* Base */,
+				1C6AB44D255BD6A500073095 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -674,6 +699,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -735,6 +761,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

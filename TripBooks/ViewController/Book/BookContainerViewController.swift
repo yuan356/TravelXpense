@@ -203,7 +203,7 @@ extension BookContainerViewController: TBTabViewControllerDelegate {
                 vc.selectedDayDelegate = self
                 controller = vc
             case .bookinfo:
-                let vc = BookAttributesViewController()
+                let vc = BookDetailViewController()
                 vc.book = self.currentBook
                 controller = UINavigationController(rootViewController: vc)
             }

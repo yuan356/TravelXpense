@@ -169,7 +169,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
         } else if section == 1 {
             if books.count == 0 {
-                self.bookTableView.setEmptyMessage("You don't have a book right now.\n\nGo add a new book !", isForBookTable: true)
+                let msg1 = NSLocalizedString("You don't have a book right now.", comment: "bookTableViewEmpty")
+                let msg2 = NSLocalizedString("Go add a new book!", comment: "bookTableViewEmpty")
+                self.bookTableView.setEmptyMessage(msg1 + "\n\n" + msg2, isForBookTable: true)
             } else {
                 self.bookTableView.restore()
             }

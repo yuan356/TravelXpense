@@ -42,7 +42,7 @@ fileprivate enum buttonType: String {
 
 fileprivate let nameMaxLength = 100
 
-class BookAttributesViewController: UIViewController {
+class BookDetailViewController: UIViewController {
 
     // MARK: Book Parameters
     var book: Book! {
@@ -110,7 +110,7 @@ class BookAttributesViewController: UIViewController {
     
     lazy var imagePickerBtn = UIButton {
         $0.anchorSize(h: 30, w: 95)
-        $0.setTitle("Change cover", for: .normal)
+        $0.setTitle(NSLocalizedString("Change cover", comment: "Change cover"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .small)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = TBColor.system.blue.medium
@@ -170,7 +170,7 @@ class BookAttributesViewController: UIViewController {
     }
     
     lazy var deleteButton = UIButton {
-        $0.setTitle("Delete book", for: .normal)
+        $0.setTitle(NSLocalizedString("Delete book", comment: "Delete book"), for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
@@ -182,7 +182,10 @@ class BookAttributesViewController: UIViewController {
     }
     
     @IBAction func deleteButtonClicked() {
-        TBNotify.showCenterAlert(message: "Are you sure you want to delete this book?", note: "All records of this book will be delete!", confirm: true, okAction: {
+        let msg = NSLocalizedString("Are you sure you want to delete this book?", comment: "Are you sure you want to delete this book?")
+        let note = NSLocalizedString("All records of this book will be delete!", comment: "All records of this book will be delete!")
+        
+        TBNotify.showCenterAlert(message: msg, note: note, confirm: true, okAction: {
             TBNotify.dismiss()
             BookService.shared.deleteBook(bookId: self.book.id) {
                 self.dismiss(animated: true, completion: nil)
@@ -233,12 +236,12 @@ class BookAttributesViewController: UIViewController {
     /// add vStackView to contentView & setting
     private func setVStackView() {
         var views = [UIView]()
-        views.append(getInputView(viewTitle: "Book name", rowType: .name))
-        views.append(getInputView(viewTitle: "Country", rowType: .country))
-        views.append(getInputView(viewTitle: "Currency", rowType: .currency))
-        views.append(getInputView(viewTitle: "Start Date", rowType: .startDate))
-        views.append(getInputView(viewTitle: "End Date", rowType: .endDate))
-        views.append(getInputView(viewTitle: "Account", rowType: .account))
+        views.append(getInputView(viewTitle: NSLocalizedString("Book name", comment: "Book name"), rowType: .name))
+        views.append(getInputView(viewTitle: NSLocalizedString("Country", comment: "Country"), rowType: .country))
+        views.append(getInputView(viewTitle: NSLocalizedString("Currency", comment: "Currency"), rowType: .currency))
+        views.append(getInputView(viewTitle: NSLocalizedString("Start date", comment: "Start Date"), rowType: .startDate))
+        views.append(getInputView(viewTitle: NSLocalizedString("End date", comment: "End Date"), rowType: .endDate))
+        views.append(getInputView(viewTitle: NSLocalizedString("Account", comment: "Account"), rowType: .account))
         
         for view in views {
             vStackView.addArrangedSubview(view)
@@ -381,9 +384,9 @@ class BookAttributesViewController: UIViewController {
     
     // MARK: openImagePicker
     @IBAction func openImagePicker() {
-        let photoSourceRequestController = UIAlertController(title: "", message: "Choose your image source", preferredStyle: .actionSheet)
+        let photoSourceRequestController = UIAlertController(title: "", message: NSLocalizedString("Choose your image source", comment: "Choose your image source"), preferredStyle: .actionSheet)
         
-        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler : { (action) in
+        let cameraAction = UIAlertAction(title: NSLocalizedString("Camera", comment: "Camera"), style: .default, handler : { (action) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -393,7 +396,7 @@ class BookAttributesViewController: UIViewController {
             }
         })
         
-        let photoLibraryAction = UIAlertAction(title: "Photo library", style: .default, handler: { (action) in
+        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo library", comment: "Photo library"), style: .default, handler: { (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -403,7 +406,7 @@ class BookAttributesViewController: UIViewController {
             }
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel, handler: nil)
         
         photoSourceRequestController.addAction(cameraAction)
         photoSourceRequestController.addAction(photoLibraryAction)
@@ -421,7 +424,7 @@ class BookAttributesViewController: UIViewController {
         case .name: // limited <= 100
             if let value = updateValue as? String {
                 if value.count > nameMaxLength {
-                    errorMsg = "Book name should less than \(nameMaxLength)."
+                    errorMsg = NSLocalizedString("Book name should less than 100.", comment: "Book name should less than 100.")
                 }
             }
         case .country:
@@ -455,15 +458,15 @@ class BookAttributesViewController: UIViewController {
 
 // MARK: - extension
 // MARK: TBDatePickerDelegate
-extension BookAttributesViewController: TBDatePickerDelegate {
+extension BookDetailViewController: TBDatePickerDelegate {
     func changeDate(buttonIdentifier: String, date: Date) {
         
-        let alertTitle = "Are you sure you want to change the travel date?"
-        let alertNote = "New travel date range is less than original one that will cause records missing."
+        let alertTitle = NSLocalizedString("Are you sure you want to change the travel date?", comment: "BookDateChangeConfirm")
+        let alertNote = NSLocalizedString("New travel date range is less than original one that will cause records be deleted.", comment: "BookDateRangeAlert")
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
                 guard TBFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
-                    TBNotify.showCenterAlert(message: "Start date should less than end date.")
+                    TBNotify.showCenterAlert(message: NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date."))
                     return
                 }
                 
@@ -481,7 +484,7 @@ extension BookAttributesViewController: TBDatePickerDelegate {
             } else if type == .endDate {
                 
                 guard TBFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
-                    TBNotify.showCenterAlert(message: "End date should greater than start date.")
+                    TBNotify.showCenterAlert(message: NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date."))
                     return
                 }
                 
@@ -495,16 +498,13 @@ extension BookAttributesViewController: TBDatePickerDelegate {
                     self.bookEndDate = date
                     self.saveData(field: .endDate, value: date)
                 }
-                
-                
-                
             }
         }
     }
 }
 
 // MARK: UITextFieldDelegate
-extension BookAttributesViewController: UITextFieldDelegate {
+extension BookDetailViewController: UITextFieldDelegate {
     // update name text
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text {
@@ -536,7 +536,7 @@ extension BookAttributesViewController: UITextFieldDelegate {
 }
 
 // MARK: ImagePicker
-extension BookAttributesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension BookDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         dismiss(animated: true) {

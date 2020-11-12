@@ -194,7 +194,7 @@ class RecordSevice {
     
     // MARK: orderByAmount
     // accountId == -1, all accounts
-    func orderByAmount(accountId: Int, isExpense: Bool) -> ([CategoryAmount], Double) {
+    func orderByAmount(accountId: Int, isExpense: Bool = true) -> ([CategoryAmount], Double) {
         var categoryDict: [Int: Double] = [:]
         var total: Double = 0
         

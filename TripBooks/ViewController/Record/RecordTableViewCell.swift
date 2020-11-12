@@ -190,7 +190,7 @@ class RecordTableViewCell: UITableViewCell {
     }
     
     @IBAction func deleteButtonClicked() {
-        TBNotify.showCenterAlert(message: "Are you sure you want to delete this record?", confirm: true) {
+        TBNotify.showCenterAlert(message: NSLocalizedString("Are you sure you want to delete this record?", comment: "Are you sure you want to delete this record?"), confirm: true) {
             if let rd = self.record {
                 RecordSevice.shared.deleteRecordById(recordId: rd.id)
                 TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)

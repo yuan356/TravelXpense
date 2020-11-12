@@ -85,7 +85,8 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         // search bar
         searchBar.searchBarStyle = .prominent
     
-        let placeholder = pickerType == .country ? "Country name" : "Country name or currency code"
+        let placeholder = pickerType == .country ?
+            NSLocalizedString("Country name", comment: "Country name") : NSLocalizedString("Country name or currency code", comment: "Country name or currency code")
         
         searchBar.sizeToFit()
         searchBar.searchTextField.leftView?.tintColor = TBColor.gray.dark

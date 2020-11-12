@@ -51,21 +51,22 @@ class CategoryDetailViewController: UIViewController {
         $0.textAlignment = .right
         $0.font = textFont
         $0.textColor = textColor
+        $0.delegate = self
     }
     
     lazy var saveButton = UIButton {
-        $0.setTitle("Save", for: .normal)
+        $0.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 18)
         $0.setTitleColor(.white, for: .normal)
         $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
-        $0.anchorSize(h: 30, w: 55)
+        $0.anchorSize(h: 35, w: 55)
         $0.roundedCorners()
         $0.backgroundColor = TBColor.system.blue.medium
         $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
     lazy var deleteButton = UIButton {
-        $0.setTitle("Delete", for: .normal)
+        $0.setTitle(NSLocalizedString("Delete category", comment: "Delete category"), for: .normal)
         $0.roundedCorners()
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
@@ -116,13 +117,13 @@ class CategoryDetailViewController: UIViewController {
     // MARK: setVStackView
     private func setVStackView() {
         var views = [UIView]()
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Title", object: titleTextField))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Title", comment: "Title"), object: titleTextField))
         
         let iconBackView = UIView()
         iconBackView.addSubview(iconView)
         iconView.anchorCenterY(to: iconBackView)
         iconView.anchorSuperViewTrailing()
-        views.append(EditInfoView(viewheight: heightForStackItem, title: "Icon", object: iconBackView))
+        views.append(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Icon", comment: "Icon"), object: iconBackView))
         
         for view in views {
             vStackView.addArrangedSubview(view)
@@ -196,17 +197,17 @@ class CategoryDetailViewController: UIViewController {
     // MARK: Save
     @IBAction func saveButtonClicked() {
         guard let title = titleTextField.text,
-              title.count < titleMaxLength else {
+              title.count <= titleMaxLength else {
             return
         }
         
         guard let iconName = categoryIconName else {
-            TBNotify.showCenterAlert(message: "You should choose an icon.")
+            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
             return
         }
         
         guard let color = categoryColor else {
-            TBNotify.showCenterAlert(message: "You should choose a color.")
+            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose a color.", comment: "You should choose a color."))
             return
         }
         
@@ -226,14 +227,17 @@ class CategoryDetailViewController: UIViewController {
         
         // at least one account
         if CategoryService.shared.expenseCache.count == 1 {
-            TBNotify.showCenterAlert(message: "You need at least one category.")
+            TBNotify.showCenterAlert(message: NSLocalizedString("You need at least one category.", comment: "You need at least one category."))
             return
         }
         
         let count = RecordSevice.shared.getCountFromCategory(categoryId: cate.id)
-        let countMsg = "This category have \(count) records."
+        let countMsg = NSLocalizedString("This category have", comment: "This category") + " \(count) " + NSLocalizedString("records", comment: "records")
         
-        TBNotify.showCenterAlert(message: "Are you sure you want to delete this category?\n\n" + countMsg , note: "All the records of this category will be delete!", confirm: true) {
+        let confirmMsg = NSLocalizedString("Are you sure you want to delete this category?", comment: "category delete confirm")
+        let confirmNote = NSLocalizedString("All the records of this category will be delete", comment: "category delete note")
+        
+        TBNotify.showCenterAlert(message: confirmMsg + "\n" , title: countMsg,  note: confirmNote, confirm: true) {
             CategoryService.shared.deleteCategory(id: cate.id)
             self.navigationController?.popViewController(animated: true)
             TBFeedback.notificationOccur(.warning)
@@ -251,6 +255,15 @@ extension CategoryDetailViewController: UITextFieldDelegate {
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: string) as NSString
         return newString.length <= titleMaxLength
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 

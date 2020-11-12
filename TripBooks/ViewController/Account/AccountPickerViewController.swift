@@ -27,7 +27,7 @@ class AccountPickerViewController: UIViewController {
         if let book = BookService.shared.currentOpenBook{
             var list = AccountService.shared.getAccountsList(bookId: book.id)
             if allAccount {
-                let allAccount = Account(id: -1, bookId: book.id, name: "All accounts", budget: 0, amount: 0, iconImageName: "")
+                let allAccount = Account(id: -1, bookId: book.id, name: NSLocalizedString("All accounts", comment: "All accounts"), budget: 0, amount: 0, iconImageName: "")
                 list.insert(allAccount, at: 0)
             }
             return list

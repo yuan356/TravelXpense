@@ -120,7 +120,9 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.records.count == 0 {
-            self.tableView.setEmptyMessage("There is no records here.\n\nAdd a new record !")
+            let msg1 = NSLocalizedString("There is no records here.", comment: "There is no records here.")
+            let msg2 = NSLocalizedString("Add a new record!", comment: "Add a new record!")
+            self.tableView.setEmptyMessage(msg1 + "\n\n" + msg2)
         } else {
             self.tableView.restore()
         }

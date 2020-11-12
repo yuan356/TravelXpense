@@ -107,18 +107,18 @@ class AccountDetailViewController: UIViewController {
     lazy var iconView = IconView()
     
     lazy var saveButton = UIButton {
-        $0.setTitle("Save", for: .normal)
+        $0.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 18)
         $0.setTitleColor(.white, for: .normal)
         $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
-        $0.anchorSize(h: 30, w: 55)
+        $0.anchorSize(h: 35, w: 55)
         $0.roundedCorners()
         $0.backgroundColor = TBColor.system.blue.medium
         $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
     lazy var deleteButton = UIButton {
-        $0.setTitle("Delete", for: .normal)
+        $0.setTitle(NSLocalizedString("Delete account", comment: "Delete account"), for: .normal)
         $0.roundedCorners()
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)

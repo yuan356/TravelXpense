@@ -86,14 +86,14 @@ class NewBookFirstViewController: NewBookViewController {
         let nameDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Name your travel book!"
+            $0.text = NSLocalizedString("Name your travel book", comment: "Name your travel book")
             $0.anchorSize(h: titleHeight)
         }
         
         let dateDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Set your travel date."
+            $0.text = NSLocalizedString("Set your travel date", comment: "Set your travel date")
             $0.anchorSize(h: titleHeight)
         }
         
@@ -101,9 +101,9 @@ class NewBookFirstViewController: NewBookViewController {
         vStack.addArrangedSubview(getView(obj: nameTextField))
         vStack.addArrangedSubview(dateDesc)
         
-        let startView = EditInfoView(viewheight: itemHeight-1, title: "Start date", object: startLabel, withButton: startDateBtn, anchorBottom: true)
+        let startView = EditInfoView(viewheight: itemHeight-1, title: NSLocalizedString("Start date", comment: "Start date"), object: startLabel, withButton: startDateBtn, anchorBottom: true)
         vStack.addArrangedSubview(getView(obj: startView, lineWithObj: startLabel))
-        let endView = EditInfoView(viewheight: itemHeight-1, title: "End date", object: endLabel, withButton: endDateBtn, anchorBottom: true)
+        let endView = EditInfoView(viewheight: itemHeight-1, title: NSLocalizedString("End date", comment: "End date"), object: endLabel, withButton: endDateBtn, anchorBottom: true)
         vStack.addArrangedSubview(getView(obj: endView, lineWithObj: endLabel))
         
         

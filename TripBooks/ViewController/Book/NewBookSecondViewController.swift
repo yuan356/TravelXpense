@@ -59,7 +59,7 @@ class NewBookSecondViewController: NewBookViewController {
     }
     
     lazy var imagePickerBtn = UIButton {
-        $0.setTitle("upload", for: .normal)
+        $0.setTitle(NSLocalizedString("Upload", comment: "Upload"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 16)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = TBColor.system.blue.medium
@@ -94,21 +94,21 @@ class NewBookSecondViewController: NewBookViewController {
         let countryDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Which country do you go?"
+            $0.text = NSLocalizedString("Which country do you go?", comment: "Which country do you go?")
             $0.anchorSize(h: titleHeight)
         }
         
         let currencyDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = "Set the currency."
+            $0.text = NSLocalizedString("Set the currency", comment: "Set the currency.")
             $0.anchorSize(h: titleHeight)
         }
         
         let coverDesc = UILabel {
             $0.textColor = titleColor
-            $0.font = titleFont
-            $0.text = "Upload a cover photo."
+            $0.font = MainFont.regular.with(fontSize: 20)
+            $0.text = NSLocalizedString("You can upload a cover image", comment: "You can upload a cover image")
             $0.anchorSize(h: titleHeight)
         }
         
@@ -182,9 +182,9 @@ class NewBookSecondViewController: NewBookViewController {
     
     // MARK: openImagePicker
     @IBAction func openImagePicker() {
-        let photoSourceRequestController = UIAlertController(title: "", message: "Choose your image source", preferredStyle: .actionSheet)
+        let photoSourceRequestController = UIAlertController(title: "", message: NSLocalizedString("Choose your image source", comment: "Choose your image source"), preferredStyle: .actionSheet)
         
-        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler : { (action) in
+        let cameraAction = UIAlertAction(title: NSLocalizedString("Camera", comment: "Camera"), style: .default, handler : { (action) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -194,7 +194,7 @@ class NewBookSecondViewController: NewBookViewController {
             }
         })
         
-        let photoLibraryAction = UIAlertAction(title: "Photo library", style: .default, handler: { (action) in
+        let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo library", comment: "Photo library"), style: .default, handler: { (action) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -204,7 +204,7 @@ class NewBookSecondViewController: NewBookViewController {
             }
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel, handler: nil)
         
         photoSourceRequestController.addAction(cameraAction)
         photoSourceRequestController.addAction(photoLibraryAction)

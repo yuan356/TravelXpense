@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  TripBooks
+
+  Created by 阿遠 on 2020/11/11.
+  Copyright © 2020 yuan. All rights reserved.
+*/
+
+// RecordDetailViewController
+"recordTitle" = "Title";

@@ -22,13 +22,13 @@ enum SetRows: Int {
     func str() -> String {
         switch self {
         case .currency:
-            return "Currency"
+            return NSLocalizedString("Currency", comment: "Currency")
         case .category:
-            return "Category"
+            return NSLocalizedString("Category", comment: "Category")
         case .exchangeRate:
-            return "Exchange Rate"
+            return NSLocalizedString("Exchange Rate", comment: "Exchange Rate")
         case .about:
-            return "About"
+            return NSLocalizedString("About", comment: "About")
         case .LAST:
             return ""
         }
@@ -40,7 +40,7 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = TBColor.background()
-        self.navigationItem.title = "Setting"
+        self.navigationItem.title = NSLocalizedString("Setting", comment: "Setting")
         
         items = [SetRows.category, SetRows.currency, SetRows.exchangeRate, SetRows.about]
     }

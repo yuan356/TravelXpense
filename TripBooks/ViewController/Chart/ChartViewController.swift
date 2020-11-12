@@ -19,9 +19,7 @@ class ChartViewController: UIViewController {
             accountButton.setTitle(" \(currentAccount!.name) ", for: .normal)
         }
     }
-    
-    var isExpense: Bool = true
-    
+
     var amountData: [CategoryAmount] = []
     
     var totalAmount: Double = 0.0 {
@@ -85,7 +83,7 @@ class ChartViewController: UIViewController {
         pieChart.anchorSize(h: UIScreen.main.bounds.height / 3)
         
         let rankingLabel = UILabel {
-            $0.text = "Ranking"
+            $0.text = NSLocalizedString("Ranking", comment: "Ranking")
             $0.font = MainFont.bold.with(fontSize: .medium)
             $0.textColor = .white
             $0.anchorSize(w: 80)
@@ -112,12 +110,12 @@ class ChartViewController: UIViewController {
     }
     
     private func getChartData(accountId: Int) {
-        let result = RecordSevice.shared.orderByAmount(accountId: accountId, isExpense: isExpense)
+        let result = RecordSevice.shared.orderByAmount(accountId: accountId)
         self.amountData = result.0
         self.totalAmount = result.1
         
         pieChart.setData(datalist: amountData)
-        pieChart.changeCenterText(text: isExpense ? "Expense" : "Income")
+        pieChart.changeCenterText(text: NSLocalizedString("Expense", comment: "Expense"))
     }
     
     @IBAction func accountBtnClicked() {

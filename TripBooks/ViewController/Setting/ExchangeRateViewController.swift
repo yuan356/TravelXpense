@@ -35,7 +35,7 @@ class ExchangeRateViewController: UIViewController {
     }
     
     lazy var updateButton = UIButton {
-        $0.setTitle("Update now", for: .normal)
+        $0.setTitle(NSLocalizedString("Update now", comment: "Update now"), for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
@@ -69,8 +69,8 @@ class ExchangeRateViewController: UIViewController {
         imageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil)
         imageView.anchorCenterX(to: view)
         
-        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: "Data  time", object: dataTimeLabel))
-        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: "Auto update", object: autoUpdateSwitch))
+        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: NSLocalizedString("Update time", comment: "Update time"), object: dataTimeLabel))
+        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: NSLocalizedString("Auto update", comment: "Auto update"), object: autoUpdateSwitch))
         
         self.view.addSubview(vStackView)
         vStackView.anchor(top: imageView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 8, bottom: 0, right: 8))
