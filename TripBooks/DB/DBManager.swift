@@ -208,6 +208,32 @@ class DBManager: NSObject {
         }
         return newBook
     }
+
+    func addTestNewBook(id: Int, bookName: String, country: String, currency: String, imageUrl: String?, startDate: Double, endDate: Double, createTime: Double = Date().timeIntervalSince1970) -> Book? {
+        var newBook: Book? = nil
+        if self.openConnection() {
+            let insertSQL: String = """
+                        INSERT INTO \(BookField.BOOK) (
+                        \(BookField.id),
+                        \(BookField.name),
+                        \(BookField.country),
+                        \(BookField.currency),
+                        \(BookField.imageUrl),
+                        \(BookField.startDate),
+                        \(BookField.endDate),
+                        \(BookField.createdDate)) VALUES (? ,?, ?, ?, ?, ?, ?, ?)
+                        """
+            if !self.database.executeUpdate(insertSQL, withArgumentsIn: [id, bookName, country, currency, imageUrl ?? NSNull() , startDate, endDate, createTime]) {
+                print("Failed to insert initial data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+            }
+            
+            let newId = Int(self.database.lastInsertRowId)
+            newBook = self.getBookById(newId)
+            self.database.close()
+        }
+        return newBook
+    }
     
 
     /// 更新指定Book內容
@@ -339,6 +365,8 @@ class DBManager: NSObject {
         }
         return books
     }
+    
+   
     
     // MARK: - RECORD
     func addNewRecord(title: String, amount: Double, note: String, date: Double, bookId: Int, categoryId: Int, accountId: Int, createTime: Double = Date().timeIntervalSince1970) -> Record? {

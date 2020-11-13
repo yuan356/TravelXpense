@@ -13,7 +13,7 @@ fileprivate let textColor: UIColor = TBColor.gray.light
 
 // height / width
 fileprivate let heightForStackItem: CGFloat = 45
-fileprivate let heightForCategoryView: CGFloat = 160
+fileprivate let heightForCategoryView: CGFloat = 180
 fileprivate let heightForColorsView: CGFloat = 90
 // padding
 fileprivate let spacingInVStack: CGFloat = 8
@@ -146,17 +146,16 @@ class CategoryDetailViewController: UIViewController {
         
         view.addSubview(categoriesView)
         categoriesView.anchor(top: vStackView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 15, bottom: 0, right:15))
+
     }
     
     private func initCollectionView(forColor: Bool = false) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
-//        let collectionHeight = forColor ? heightForColorsView
-//        let height = (collectionHeight - 20 - 5) / 2
-        let height: CGFloat = forColor ? 32 : 45
-        layout.itemSize = CGSize(width: height, height: height)
+        let width: CGFloat = forColor ? 32 : 43
+        layout.itemSize = CGSize(width: width, height: width)
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)

@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CategoryService.shared.getAllCategoriesToCache()
         
         RateService.shared.initData()
-        // TODO:mode
+
         return true
     }
 
