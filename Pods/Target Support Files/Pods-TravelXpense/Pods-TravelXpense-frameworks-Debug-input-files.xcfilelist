@@ -1,4 +1,4 @@
-${PODS_ROOT}/Target Support Files/Pods-TripBooks/Pods-TripBooks-frameworks.sh
+${PODS_ROOT}/Target Support Files/Pods-TravelXpense/Pods-TravelXpense-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
 ${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework
 ${BUILT_PRODUCTS_DIR}/QuickLayout/QuickLayout.framework

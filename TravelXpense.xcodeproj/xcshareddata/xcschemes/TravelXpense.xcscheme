@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3E1775379D9F586B8239F67C4A2ABEC6"
-               BuildableName = "Pods_TripBooks.framework"
-               BlueprintName = "Pods-TripBooks"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "1CD181F02512048B00AFD985"
+               BuildableName = "TravelXpense.app"
+               BlueprintName = "TravelXpense"
+               ReferencedContainer = "container:TravelXpense.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1CD181F02512048B00AFD985"
+            BuildableName = "TravelXpense.app"
+            BlueprintName = "TravelXpense"
+            ReferencedContainer = "container:TravelXpense.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -47,6 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1CD181F02512048B00AFD985"
+            BuildableName = "TravelXpense.app"
+            BlueprintName = "TravelXpense"
+            ReferencedContainer = "container:TravelXpense.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

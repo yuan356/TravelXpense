@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_TripBooksVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_TripBooksVersionString[];
+FOUNDATION_EXPORT double Pods_TravelXpenseVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_TravelXpenseVersionString[];
 
