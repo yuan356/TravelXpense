@@ -62,6 +62,13 @@ class NewBookFirstViewController: NewBookViewController {
         }
     }
     
+    var keyboardOpen = false {
+        didSet {
+            startDateBtn.isEnabled = !keyboardOpen
+            endDateBtn.isEnabled = !keyboardOpen
+        }
+    }
+    
     lazy var nameTextField = UITextField {
         $0.textColor = inputColor
         $0.font = textFont
@@ -169,8 +176,13 @@ extension NewBookFirstViewController: UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        keyboardOpen = true
+    }
+    
     // store name text
     func textFieldDidEndEditing(_ textField: UITextField) {
+        keyboardOpen = false
         if let pageVC = self.parent as? NewBookPageViewController {
             pageVC.bookName = textField.text
         }

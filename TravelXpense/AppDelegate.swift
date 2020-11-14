@@ -48,6 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CategoryService.shared.getAllCategoriesToCache()
         
         RateService.shared.initData()
+        
+        let dispatchQueue = DispatchQueue(label: "QueueIdentification", qos: .background)
+        dispatchQueue.async {
+            for i in (0...10000000) {
+                print(i)
+            }
+        }
 
         return true
     }
