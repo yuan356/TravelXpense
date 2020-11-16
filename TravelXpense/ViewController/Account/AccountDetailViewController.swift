@@ -10,7 +10,7 @@ import UIKit
 
 fileprivate let nameMaxLength = 100
 
-fileprivate let backgroundColor = TBColor.system.background.dark
+fileprivate let backgroundColor = TXColor.background()
 
 // height / width
 fileprivate let heightForStackItem: CGFloat = 45
@@ -23,7 +23,7 @@ fileprivate let paddingInVStack: CGFloat = 8
 // font
 fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
 fileprivate let numberFont: UIFont = MainFontNumeral.medium.with(fontSize: .medium)
-fileprivate let textColor: UIColor = TBColor.gray.light
+fileprivate let textColor: UIColor = TXColor.gray.light
 
 class AccountDetailViewController: UIViewController {
 
@@ -69,12 +69,12 @@ class AccountDetailViewController: UIViewController {
         $0.textAlignment = .right
         $0.font = numberFont
         $0.textColor = textColor
-        $0.text = TBFunc.convertDoubleToStr(0, currencyCode: currencyCode)
+        $0.text = TXFunc.convertDoubleToStr(0, currencyCode: currencyCode)
     }
     
     var budget: Double! = 0.0 {
         didSet {
-            budgetLabel.text = TBFunc.convertDoubleToStr(budget!, currencyCode: currencyCode)
+            budgetLabel.text = TXFunc.convertDoubleToStr(budget!, currencyCode: currencyCode)
         }
     }
     
@@ -86,14 +86,14 @@ class AccountDetailViewController: UIViewController {
         $0.anchorSize(h: heightForCategoryView)
         $0.roundedCorners()
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = TBColor.gray.medium.cgColor
+        $0.layer.borderColor = TXColor.gray.medium.cgColor
     }
     
     lazy var defaultSwitch = UISwitch {
         $0.tintColor = .red
-        $0.backgroundColor = TBColor.gray.medium
+        $0.backgroundColor = TXColor.gray.medium
         $0.layer.cornerRadius = $0.frame.height / 2
-        $0.onTintColor = TBColor.system.veronese
+        $0.onTintColor = TXColor.system.veronese
     }
     
     var keyboardShown = false {
@@ -110,10 +110,10 @@ class AccountDetailViewController: UIViewController {
         $0.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 18)
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
+        $0.setTitleColor(TXColor.gray.medium, for: .highlighted)
         $0.anchorSize(h: 35, w: 55)
         $0.roundedCorners()
-        $0.backgroundColor = TBColor.system.blue.medium
+        $0.backgroundColor = TXColor.system.blue.medium
         $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
@@ -125,8 +125,8 @@ class AccountDetailViewController: UIViewController {
         $0.anchorSize(h: 50)
         $0.setTitleColor(.white, for: .normal)
         $0.isHidden = true
-        $0.backgroundColor = TBColor.delete.normal
-        $0.setBackgroundColor(color: TBColor.delete.highlighted, forState: .highlighted)
+        $0.backgroundColor = TXColor.delete.normal
+        $0.setBackgroundColor(color: TXColor.delete.highlighted, forState: .highlighted)
     }
     
     // MARK: viewDidLoad
@@ -210,7 +210,7 @@ class AccountDetailViewController: UIViewController {
         }
         
         guard let iconName = accountIconName else {
-            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
             return
         }
 
@@ -245,17 +245,17 @@ class AccountDetailViewController: UIViewController {
         
         // at least one account
         if AccountService.shared.cache.count == 1 {
-            TBNotify.showCenterAlert(message: NSLocalizedString("You need at least one account.", comment: "You need at least one account."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("You need at least one account.", comment: "You need at least one account."))
             return
         }
         
         let msg = NSLocalizedString("Are you sure you want to delete this account?", comment: "Are you sure you want to delete this account?")
         let note = NSLocalizedString("All the records of this account will be delete!", comment: "All the records of this account will be delete!")
-        TBNotify.showCenterAlert(message: msg, note: note, confirm: true) {
+        TXAlert.showCenterAlert(message: msg, note: note, confirm: true) {
             AccountService.shared.deleteAccount(accountId: acc.id)
             self.navigationController?.popViewController(animated: true)
-            TBFeedback.notificationOccur(.warning)
-            TBNotify.dismiss()
+            TXFeedback.notificationOccur(.warning)
+            TXAlert.dismiss()
         }
     }
     
@@ -271,7 +271,7 @@ class AccountDetailViewController: UIViewController {
     }
     
     @IBAction func openBudgetCalculator() {
-        TBNotify.showCalculator(on: self, originalAmount: budget, currencyCode: currencyCode, isForBudget: true)
+        TXAlert.showCalculator(on: self, originalAmount: budget, currencyCode: currencyCode, isForBudget: true)
     }
 }
  
@@ -314,7 +314,7 @@ extension AccountDetailViewController: UICollectionViewDelegate, UICollectionVie
             let iconName = Icons.accounts[indexPath.row]
             cell.item = iconName
             cell.setupIconViews(imageName: iconName)
-            cell.selectedColor = TBColor.system.veronese
+            cell.selectedColor = TXColor.system.veronese
             return cell
         }
         return UICollectionViewCell()

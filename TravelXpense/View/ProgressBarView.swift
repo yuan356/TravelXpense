@@ -34,6 +34,6 @@ class ProgressBarView: UIView {
         
         let progressRect = CGRect(origin: CGPoint(x: rect.width, y: 0), size: CGSize(width: rect.width * -progress, height: rect.height))
         progressLayer.frame = progressRect
-        progressLayer.backgroundColor = TBColor.system.veronese.cgColor
+        progressLayer.backgroundColor = TXColor.system.veronese.cgColor
     }
 }

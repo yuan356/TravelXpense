@@ -9,7 +9,7 @@
 import UIKit
 
 fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
-fileprivate let textColor: UIColor = TBColor.gray.light
+fileprivate let textColor: UIColor = TXColor.gray.light
 
 // height / width
 fileprivate let heightForStackItem: CGFloat = 45
@@ -58,10 +58,10 @@ class CategoryDetailViewController: UIViewController {
         $0.setTitle(NSLocalizedString("Save", comment: "Save"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 18)
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
+        $0.setTitleColor(TXColor.gray.medium, for: .highlighted)
         $0.anchorSize(h: 35, w: 55)
         $0.roundedCorners()
-        $0.backgroundColor = TBColor.system.blue.medium
+        $0.backgroundColor = TXColor.system.blue.medium
         $0.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
@@ -73,8 +73,8 @@ class CategoryDetailViewController: UIViewController {
         $0.anchorSize(h: 50)
         $0.setTitleColor(.white, for: .normal)
         $0.isHidden = true
-        $0.backgroundColor = TBColor.delete.normal
-        $0.setBackgroundColor(color: TBColor.delete.highlighted, forState: .highlighted)
+        $0.backgroundColor = TXColor.delete.normal
+        $0.setBackgroundColor(color: TXColor.delete.highlighted, forState: .highlighted)
     }
     
     lazy var iconView = IconView()
@@ -85,7 +85,7 @@ class CategoryDetailViewController: UIViewController {
         $0.anchorSize(h: heightForCategoryView)
         $0.roundedCorners()
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = TBColor.gray.medium.cgColor
+        $0.layer.borderColor = TXColor.gray.medium.cgColor
     }
     
     var colorsCollectionView: UICollectionView!
@@ -94,12 +94,12 @@ class CategoryDetailViewController: UIViewController {
         $0.anchorSize(h: heightForColorsView)
         $0.roundedCorners()
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = TBColor.gray.medium.cgColor
+        $0.layer.borderColor = TXColor.gray.medium.cgColor
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.background()
+        self.view.backgroundColor = TXColor.background()
         setViews()
     }
     
@@ -201,12 +201,12 @@ class CategoryDetailViewController: UIViewController {
         }
         
         guard let iconName = categoryIconName else {
-            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
             return
         }
         
         guard let color = categoryColor else {
-            TBNotify.showCenterAlert(message: NSLocalizedString("You should choose a color.", comment: "You should choose a color."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose a color.", comment: "You should choose a color."))
             return
         }
         
@@ -226,7 +226,7 @@ class CategoryDetailViewController: UIViewController {
         
         // at least one account
         if CategoryService.shared.expenseCache.count == 1 {
-            TBNotify.showCenterAlert(message: NSLocalizedString("You need at least one category.", comment: "You need at least one category."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("You need at least one category.", comment: "You need at least one category."))
             return
         }
         
@@ -236,11 +236,11 @@ class CategoryDetailViewController: UIViewController {
         let confirmMsg = NSLocalizedString("Are you sure you want to delete this category?", comment: "category delete confirm")
         let confirmNote = NSLocalizedString("All the records of this category will be delete", comment: "category delete note")
         
-        TBNotify.showCenterAlert(message: confirmMsg + "\n" , title: countMsg,  note: confirmNote, confirm: true) {
+        TXAlert.showCenterAlert(message: confirmMsg + "\n" , title: countMsg,  note: confirmNote, confirm: true) {
             CategoryService.shared.deleteCategory(id: cate.id)
             self.navigationController?.popViewController(animated: true)
-            TBFeedback.notificationOccur(.warning)
-            TBNotify.dismiss()
+            TXFeedback.notificationOccur(.warning)
+            TXAlert.dismiss()
         }
     }
     
@@ -287,7 +287,7 @@ extension CategoryDetailViewController: UICollectionViewDelegate, UICollectionVi
                 let iconName = Icons.categories[indexPath.row]
                 cell.item = iconName
                 cell.setupIconViews(imageName: iconName)
-                cell.selectedColor = TBColor.system.veronese
+                cell.selectedColor = TXColor.system.veronese
                 return cell
             }
         }

@@ -12,7 +12,7 @@ class BlockingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.blurBackground
+        self.view.backgroundColor = TXColor.blurBackground
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.color = .white
         spinner.startAnimating()

@@ -65,7 +65,7 @@ class CalculatorViewController: UIViewController {
         didSet {
             if currentOperationBtn != nil {
                 UIView.animate(withDuration: 0.2) {
-                    self.currentOperationBtn?.backgroundColor = TBColor.system.blue.light
+                    self.currentOperationBtn?.backgroundColor = TXColor.system.blue.light
                 }
             }
         }
@@ -77,7 +77,7 @@ class CalculatorViewController: UIViewController {
     }
     
     lazy var exchangeLabel = UILabel {
-        $0.textColor = TBColor.gray.light
+        $0.textColor = TXColor.gray.light
         $0.textAlignment = .center
         $0.adjustsFontSizeToFitWidth = true
         $0.minimumScaleFactor = 0.85
@@ -89,7 +89,7 @@ class CalculatorViewController: UIViewController {
     var numberOnScreen: Double = 0 { // 稍後要存目前畫面上的數字，目前是 0。
         didSet {
             let amount = RateService.shared.exchange(to: currencyCode, amount: numberOnScreen)
-            let text = TBFunc.convertDoubleToStr(amount, currencyCode: RateService.shared.myCurrency?.code)
+            let text = TXFunc.convertDoubleToStr(amount, currencyCode: RateService.shared.myCurrency?.code)
             
             exchangeLabel.text = text
         }
@@ -124,7 +124,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func numberTapped(_ sender: UIButton) {
-        TBFeedback.buttonOccur()
+        TXFeedback.buttonOccur()
         guard let inputNum = sender.restorationIdentifier else {
             return
         }
@@ -157,7 +157,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func tapOperation(_ sender: UIButton) {
-        TBFeedback.buttonOccur()
+        TXFeedback.buttonOccur()
         guard let operationId = sender.restorationIdentifier,
               let operationType = OperationType.init(rawValue: operationId) else {
             return
@@ -171,7 +171,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func clearTapped() {
-        TBFeedback.buttonOccur()
+        TXFeedback.buttonOccur()
         amountText = ""
         numberOnScreen = 0
         previousNumber = 0
@@ -181,7 +181,7 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func changeTransactionTapped(_ sender: UIButton) {
-        TBFeedback.notificationOccur(.warning)
+        TXFeedback.notificationOccur(.warning)
         if let title = sender.title(for: .normal),
            var type = TransactionType.init(rawValue: title) {
             switch type {
@@ -196,14 +196,14 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func doneBtnTapped(_ sender: UIButton) {
-        TBFeedback.notificationOccur(.warning)
+        TXFeedback.notificationOccur(.warning)
         if sender.title(for: .normal) == "OK" { // finish
             numberOnScreen = checkAmountLimited(numberOnScreen)
             if isForBudget && numberOnScreen < 0 { // 預算不得為負
                 numberOnScreen.turnToPositive()
             }
             setAmountResult()
-            TBNotify.dismiss(name: CalculatorAttributes)
+            TXAlert.dismiss(name: CalculatorAttributes)
             return
         }
         if performingMath {
@@ -231,7 +231,7 @@ class CalculatorViewController: UIViewController {
         // 1. check limited
         numberOnScreen = checkAmountLimited(numberOnScreen)
         // 2. set amount text
-        amountText = TBFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
+        amountText = TXFunc.convertDoubleToStr(numberOnScreen, moneyFormat: false)
     }
     
     // MARK: setViews
@@ -310,7 +310,7 @@ class CalculatorViewController: UIViewController {
     // MARK: setButton
     private func setButton() {
         let btnColor: UIColor = .white
-        let btnColorHighLighted: UIColor = TBColor.system.blue.light
+        let btnColorHighLighted: UIColor = TXColor.system.blue.light
         let numberFont = MainFontNumeral.regular.with(fontSize: 28)
         let wordsFont = MainFontNumeral.medium.with(fontSize: 28)
         let signFontLarge = MainFontNumeral.medium.with(fontSize: 30)

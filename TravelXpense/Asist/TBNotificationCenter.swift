@@ -12,8 +12,7 @@ extension Notification.Name {
     static let recordTableUpdate = Notification.Name("recordTableUpdate")
     static let accountAmountUpdate = Notification.Name("accountAmountUpdate")
     static let bookNameUpdate = Notification.Name("bookNameUpdate")
-    static let showBlocking = Notification.Name("showBlocking")
-    static let hideBlocking = Notification.Name("hideBlocking")
+    static let authLog = Notification.Name("authLog")
 }
 
 enum InfoKey: String {
@@ -26,7 +25,7 @@ protocol ObserverProtocol: AnyObject {
     func handleNotification(infoValue: Any?)
 }
 
-class TBObserver {
+class TXObserver {
     
     let infoKey: String?
     
@@ -61,7 +60,7 @@ class TBObserver {
     }
 }
 
-class TBObserved {
+class TXObserved {
     static func notifyObservers(notificationName: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
         var userInfo: [AnyHashable : Any]?
         

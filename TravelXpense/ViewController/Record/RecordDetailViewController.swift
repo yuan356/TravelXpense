@@ -36,7 +36,7 @@ fileprivate let heightForDetailView: CGFloat = 40
 fileprivate let heightForAmountView: CGFloat = 80
 fileprivate let heightForNoteView: CGFloat = 150
 
-fileprivate let textViewPlaceholderColor = TBColor.gray.light
+fileprivate let textViewPlaceholderColor = TXColor.gray.light
 
 fileprivate let textFont = MainFont.regular.with(fontSize: .medium)
 fileprivate let inputTextColor: UIColor = .white
@@ -69,7 +69,7 @@ class RecordDetailViewController: UIViewController {
                 var initValue = record.amount
                 initValue.turnToPositive()
                 self.recordAmount = initValue
-                self.amountLabel.text = TBFunc.convertDoubleToStr(recordAmount, moneyFormat: false)
+                self.amountLabel.text = TXFunc.convertDoubleToStr(recordAmount, moneyFormat: false)
                 self.titleTextField.text = record.title
                 self.recordDate = record.date
                 self.originalDate = record.date
@@ -84,7 +84,7 @@ class RecordDetailViewController: UIViewController {
     
     var recordDate: Date? {
         didSet {
-            self.dateLabel.text = TBFunc.convertDateToDateStr(date: recordDate!)
+            self.dateLabel.text = TXFunc.convertDateToDateStr(date: recordDate!)
         }
     }
     
@@ -107,20 +107,16 @@ class RecordDetailViewController: UIViewController {
     }
     
     // TODO: transactionIsExpense
-    var transactionIsExpense: Bool = true {
-        didSet {
-            
-        }
-    }
+    var transactionIsExpense: Bool = true
     
     // View
     lazy var headerView = UIView {
-        let cancelBtn = TBNavigationIcon.cancel.getButton()
+        let cancelBtn = TXNavigationIcon.cancel.getButton()
         $0.addSubview(cancelBtn)
         cancelBtn.anchorButtonToHeader(position: .left)
         cancelBtn.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
         
-        let okayBtn = TBNavigationIcon.check.getButton()
+        let okayBtn = TXNavigationIcon.check.getButton()
         $0.addSubview(okayBtn)
         okayBtn.anchorButtonToHeader(position: .right)
         okayBtn.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
@@ -129,7 +125,7 @@ class RecordDetailViewController: UIViewController {
     lazy var contentView = UIView()
     
     lazy var amountView = UIView {
-        $0.backgroundColor = TBColor.system.blue.medium
+        $0.backgroundColor = TXColor.system.blue.medium
         $0.anchorSize(h: heightForAmountView)
         $0.roundedCorners(radius: cornerRadius)
     }
@@ -196,13 +192,13 @@ class RecordDetailViewController: UIViewController {
     }
     
     lazy var doneButton = UIButton {
-        $0.backgroundColor = TBColor.system.veronese
+        $0.backgroundColor = TXColor.system.veronese
         $0.setTitle(NSLocalizedString("Done", comment: "Done"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
         $0.tintColor = .white
         $0.setTitleColor(.lightGray, for: .highlighted)
         $0.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
-        $0.setBackgroundColor(color: TBColor.shamrockGreen.dark, forState: .highlighted)
+        $0.setBackgroundColor(color: TXColor.system.veroneseDrak, forState: .highlighted)
         $0.anchorSize(h: 50)
         $0.roundedCorners(radius: cornerRadius)
     }
@@ -226,8 +222,7 @@ class RecordDetailViewController: UIViewController {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.system.background.dark
-        
+        self.view.backgroundColor = TXColor.system.background.dark
         setContentViewAndHeader()
         
         setAmountView()
@@ -261,7 +256,7 @@ class RecordDetailViewController: UIViewController {
 //    }
     
     override func viewWillDisappear(_ animated: Bool) {
-        TBNotify.dismiss(name: CalculatorAttributes)
+        TXAlert.dismiss(name: CalculatorAttributes)
     }
     
     
@@ -422,7 +417,7 @@ class RecordDetailViewController: UIViewController {
     private func setDetailView(to view: UIView, type: RecordDetailCellRow) {
         
         let lineView = UIView()
-        lineView.backgroundColor = .white
+        lineView.backgroundColor = TXColor.gray.medium
         lineView.anchorSize(h: 1)
         
         view.addSubview(lineView)
@@ -484,7 +479,7 @@ class RecordDetailViewController: UIViewController {
         if let identifier = sender.restorationIdentifier {
             switch ToolType.init(rawValue: identifier) {
             case .amount:
-                TBNotify.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
+                TXAlert.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
             case .date:
                 let datePickerVC = TBdatePickerViewController()
                 if let date = self.recordDate {
@@ -495,8 +490,8 @@ class RecordDetailViewController: UIViewController {
                 datePickerVC.delegate = self
                 datePickerVC.show(on: self)
             case .account:
-                TBNotify.showPicker(type: .account, currentObject: recordAccount) { (result, account) in
-                    if result == PickerResult.success, let acc = account as? Account {
+                TXAlert.showPicker(type: .account, currentObject: recordAccount) { (result, account) in
+                    if result == CompletionResult.success, let acc = account as? Account {
                         self.recordAccount = acc
                     }
                 }
@@ -514,7 +509,7 @@ class RecordDetailViewController: UIViewController {
     @IBAction func saveButtonClicked(_ sender: UIButton) {
         let checkResult = checkInput()
         guard checkResult == nil else {
-            TBNotify.showCenterAlert(message: checkResult!)
+            TXAlert.showCenterAlert(message: checkResult!)
             return
         }
         
@@ -547,16 +542,16 @@ class RecordDetailViewController: UIViewController {
         } else { // insert
             RecordSevice.shared.addNewRecord(title: title, amount: recordAmount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id)
             
-            needToReloadTable = TBFunc.compareDateOnly(date1: date, date2: self.originalDate)
+            needToReloadTable = TXFunc.compareDateOnly(date1: date, date2: self.originalDate)
         }
         
         // didn't change the date, current record table need to update.
         // notify the recordTable observer
         if needToReloadTable {
-            TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
+            TXObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
         }
         
-        TBFeedback.notificationOccur(.success)
+        TXFeedback.notificationOccur(.success)
         dismiss(animated: true, completion: nil)
         
     }

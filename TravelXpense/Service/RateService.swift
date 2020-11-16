@@ -47,7 +47,7 @@ class RateService {
     }
     
     func checkAutoUpdate() {
-        let days = TBFunc.getDaysInterval(start: self.dataTime, end: Date()) ?? 0
+        let days = TXFunc.getDaysInterval(start: self.dataTime, end: Date()) ?? 0
         if days >= 7 {
             getNewData()
         }

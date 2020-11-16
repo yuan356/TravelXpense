@@ -24,7 +24,7 @@ class ChartViewController: UIViewController {
     
     var totalAmount: Double = 0.0 {
         didSet {
-            totalAmountLabel.text = TBFunc.convertDoubleToStr(totalAmount, moneyFormat: true, currencyCode: book.currency.code)
+            totalAmountLabel.text = TXFunc.convertDoubleToStr(totalAmount, moneyFormat: true, currencyCode: book.currency.code)
         }
     }
     
@@ -41,9 +41,9 @@ class ChartViewController: UIViewController {
     
     lazy var accountButton = UIButton {
         $0.roundedCorners()
-        $0.backgroundColor = TBColor.system.blue.medium
+        $0.backgroundColor = TXColor.system.blue.medium
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
-        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
+        $0.setTitleColor(TXColor.gray.medium, for: .highlighted)
         $0.addTarget(self, action: #selector(accountBtnClicked), for: .touchUpInside)
     }
     
@@ -99,7 +99,7 @@ class ChartViewController: UIViewController {
         totalAmountLabel.anchorCenterY(to: rankingLabel)
         
         let lineView = UIView {
-            $0.backgroundColor = TBColor.system.veronese
+            $0.backgroundColor = TXColor.system.veronese
             $0.anchorSize(h: 3)
         }
         self.view.addSubview(lineView)
@@ -119,7 +119,7 @@ class ChartViewController: UIViewController {
     }
     
     @IBAction func accountBtnClicked() {
-        TBNotify.showPicker(type: .account, currentObject: currentAccount, allAccount: true) { (result, acc) in
+        TXAlert.showPicker(type: .account, currentObject: currentAccount, allAccount: true) { (result, acc) in
             if result == .success, let acc = acc as? Account {
                 self.currentAccount = acc
                 self.getChartData(accountId: acc.id)
@@ -150,7 +150,7 @@ class AmountDataCell: GenericInfoCell<CategoryAmount> {
             titleLabel.textColor = .white
             amountLabel.textColor = .white
             if let book = BookService.shared.currentOpenBook {
-                amountLabel.text = TBFunc.convertDoubleToStr(item.amount, moneyFormat: true, currencyCode: book.currency.code)
+                amountLabel.text = TXFunc.convertDoubleToStr(item.amount, moneyFormat: true, currencyCode: book.currency.code)
             }
             addSeparatorLine()
         }
@@ -159,7 +159,7 @@ class AmountDataCell: GenericInfoCell<CategoryAmount> {
     func addSeparatorLine() {
         // separator line
         let lineView = UIView()
-        lineView.backgroundColor = TBColor.gray.medium
+        lineView.backgroundColor = TXColor.gray.medium
         self.view.addSubview(lineView)
         lineView.anchor(top: nil, bottom: view.bottomAnchor, leading: titleLabel.leadingAnchor, trailing: amountLabel.trailingAnchor, size: CGSize(width: 0, height: 1))
     }

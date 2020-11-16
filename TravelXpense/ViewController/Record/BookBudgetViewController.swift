@@ -14,7 +14,7 @@ class BookBudgetViewController: UIViewController {
     
     var budget: Double = 0.0 {
         didSet {
-            budgetStr = TBFunc.convertDoubleToStr(budget, currencyCode: book.currency.code)
+            budgetStr = TXFunc.convertDoubleToStr(budget, currencyCode: book.currency.code)
         }
     }
     
@@ -22,7 +22,7 @@ class BookBudgetViewController: UIViewController {
     
     var balance: Double = 0.0 {
         didSet {
-            balanceStr = TBFunc.convertDoubleToStr(balance, currencyCode: book.currency.code)
+            balanceStr = TXFunc.convertDoubleToStr(balance, currencyCode: book.currency.code)
         }
     }
     
@@ -41,7 +41,7 @@ class BookBudgetViewController: UIViewController {
     
     lazy var progressView = ProgressBarView()
 
-    var observer = TBObserver(notification: .accountAmountUpdate, infoKey: .accountAmount)
+    var observer = TXObserver(notification: .accountAmountUpdate, infoKey: .accountAmount)
     
     override func viewDidLoad() {
         setView()
@@ -80,7 +80,7 @@ class BookBudgetViewController: UIViewController {
         budgetLabel.anchor(top: self.view.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 20, bottom: 0, right: 20))
         
         self.view.addSubview(progressView)
-        progressView.backgroundColor = TBColor.gray.light
+        progressView.backgroundColor = TXColor.gray.light
         progressView.anchor(top: budgetLabel.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20))
     }
 }

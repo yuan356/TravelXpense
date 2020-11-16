@@ -19,14 +19,14 @@ let heightForTabBtnBackView: CGFloat = 55 // same as HeightForTabBarView
 let HeightForTabBarView: CGFloat = 55
 let moveUpOffset: CGFloat = 12
 
-let tabBarColor: UIColor = TBColor.system.blue.medium
+let tabBarColor: UIColor = TXColor.system.blue.medium
 
-fileprivate let btnColor: UIColor = TBColor.system.veronese
+fileprivate let btnColor: UIColor = TXColor.system.veronese
 
 struct ViewControllerPage {
  
     var pageType: TabBarPage
-    var buttonImage: TBNavigationIcon
+    var buttonImage: TXNavigationIcon
     
     init(type: TabBarPage) {
         self.pageType = type

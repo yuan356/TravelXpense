@@ -32,7 +32,7 @@ class Book {
         self.startDate = startDate
         self.endDate = endDate
         self.createDate = createDate
-        if let daysInterval = TBFunc.getDaysInterval(start: startDate, end: endDate) {
+        if let daysInterval = TXFunc.getDaysInterval(start: startDate, end: endDate) {
             self.days = daysInterval + 1
         }
     }

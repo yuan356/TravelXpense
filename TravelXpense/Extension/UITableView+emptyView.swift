@@ -17,13 +17,13 @@ extension UITableView {
             $0.font = MainFontNumeral.medium.with(fontSize: .medium)
             $0.textAlignment = .center
             $0.numberOfLines = 0
-            $0.textColor = TBColor.gray.light
+            $0.textColor = TXColor.gray.light
         }
         
         let downArrowView = UIImageView {
-            $0.image = UIImage(named: TBNavigationIcon.downArrow.rawValue)
+            $0.image = UIImage(named: TXNavigationIcon.downArrow.rawValue)
             $0.anchorSize(h: 55, w: 55)
-            $0.tintColor = TBColor.gray.light
+            $0.tintColor = TXColor.gray.light
         }
         
         emptyView.addSubview(msgLabel)

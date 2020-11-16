@@ -8,10 +8,10 @@
 
 import UIKit
 
-fileprivate let titleFont = MainFont.regular.with(fontSize: .large)
+fileprivate let titleFont = MainFont.regular.with(fontSize: 26)
 fileprivate let textFont = MainFont.regular.with(fontSize: 23)
 fileprivate let titleColor: UIColor = .white
-fileprivate let inputColor = TBColor.gray.light
+fileprivate let inputColor = TXColor.gray.light
 
 fileprivate let titleHeight: CGFloat = 80
 fileprivate let itemHeight: CGFloat = 50
@@ -49,7 +49,7 @@ class NewBookFirstViewController: NewBookViewController {
     var startDate: Date? {
         didSet {
             if let date = startDate {
-                startLabel.text = TBFunc.convertDateToDateStr(date: date)
+                startLabel.text = TXFunc.convertDateToDateStr(date: date)
             }
         }
     }
@@ -57,7 +57,7 @@ class NewBookFirstViewController: NewBookViewController {
     var endDate: Date? {
         didSet {
             if let date = endDate {
-                endLabel.text = TBFunc.convertDateToDateStr(date: date)
+                endLabel.text = TXFunc.convertDateToDateStr(date: date)
             }
         }
     }
@@ -84,7 +84,7 @@ class NewBookFirstViewController: NewBookViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.system.background.dark
+        self.view.backgroundColor = TXColor.system.background.dark
         setVStack()
         
     }
@@ -124,7 +124,7 @@ class NewBookFirstViewController: NewBookViewController {
         view.anchorSize(h: itemHeight)
         let lineView = UIView {
             $0.anchorSize(h: 1)
-            $0.backgroundColor = .white
+            $0.backgroundColor = TXColor.gray.medium
         }
         view.addSubview(lineView)
         

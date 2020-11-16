@@ -28,29 +28,31 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     
     weak var delegate: NewBookDelegate?
     
-    lazy var nextBtn = UIButton {
+    lazy var nextBtn = TXButton {
         $0.roundedCorners(radius: 16)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
         $0.setTitle(NSLocalizedString("Next", comment: "Next"), for: .normal)
         $0.anchorSize(h: 45, w: 150)
-        $0.backgroundColor = TBColor.orange.light
+        $0.backgroundColor = TXColor.orange.light
+        $0.setBackgroundColor(color: TXColor.orange.dark, forState: .highlighted)
         $0.addTarget(self, action: #selector(pageBtnClicked), for: .touchUpInside)
     }
     
-    lazy var doneBtn = UIButton {
+    lazy var doneBtn = TXButton {
         $0.roundedCorners(radius: 16)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 21)
         $0.setTitle(NSLocalizedString("Done", comment: "Done"), for: .normal)
         $0.anchorSize(h: 45, w: 150)
         $0.isHidden = true
-        $0.backgroundColor = TBColor.system.veronese
+        $0.backgroundColor = TXColor.system.veronese
+        $0.setBackgroundColor(color: TXColor.system.veroneseDrak, forState: .highlighted)
         $0.addTarget(self, action: #selector(doneBtnClicked), for: .touchUpInside)
     }
         
     var pageViewController = NewBookPageViewController()
     
     override func viewDidLoad() {
-        self.view.backgroundColor = TBColor.background()
+        self.view.backgroundColor = TXColor.background()
         self.view.addSubview(pageView)
         pageView.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: CGSize(width: 0, height: UIScreen.main.bounds.height * 0.7))
         pageView.addSubview(pageViewController.view)
@@ -86,7 +88,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     @IBAction func doneBtnClicked() {
         let errMsg = checkInput()
         if errMsg != "" {
-            TBNotify.showCenterAlert(message: errMsg)
+            TXAlert.showCenterAlert(message: errMsg)
             return
         }
         
@@ -187,7 +189,7 @@ class NewBookPageViewController: UIPageViewController, UIPageViewControllerDeleg
     }
     
     lazy var cancelBtn: UIButton = {
-        let btn = TBNavigationIcon.cancel.getButton()
+        let btn = TXNavigationIcon.cancel.getButton()
         btn.addTarget(self, action: #selector(cancelBtnClicked), for: .touchUpInside)
         return btn
     }()

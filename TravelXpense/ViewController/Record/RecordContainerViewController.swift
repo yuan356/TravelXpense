@@ -90,7 +90,7 @@ class RecordContainerViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.backgroundColor = TBColor.system.blue.medium
+        collectionView.backgroundColor = TXColor.system.blue.medium
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(RecordDaysCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: RecordDaysCollectionViewCell.self))
         collectionView.dataSource = self
@@ -127,7 +127,7 @@ extension RecordContainerViewController: UICollectionViewDataSource, UICollectio
     // MARK: Slider
     private func setSlider(_ collectionView: UICollectionView) {
         self.slider.frame.size = CGSize(width: collectionViewCellWidth, height: 3)
-        self.slider.backgroundColor = TBColor.system.veronese
+        self.slider.backgroundColor = TXColor.system.veronese
         self.slider.center.y = collectionView.bounds.maxY - 10
         collectionView.addSubview(self.slider)
         self.moveSlider(collectionView, didSelectItemAt: IndexPath(row: 0, section: 0))

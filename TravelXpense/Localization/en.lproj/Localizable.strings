@@ -8,3 +8,5 @@
 
 // RecordDetailViewController
 "recordTitle" = "Title";
+"There is no user record corresponding to this identifier. The user may have been deleted." = "Incorrect email.";
+"The password is invalid or the user does not have a password." = "Incorrect password.";

@@ -22,7 +22,7 @@ class BookTableViewCell: GenericCell<Book> {
     
     lazy var backView = UIView {
         $0.roundedCorners()
-        $0.backgroundColor = TBColor.gray.medium
+        $0.backgroundColor = TXColor.gray.medium
         $0.heightAnchor.constraint(equalToConstant: cellHeight).usingPriority(.almostRequired).isActive = true
     }
     
@@ -53,7 +53,7 @@ class BookTableViewCell: GenericCell<Book> {
     
     lazy var dateLabel = UILabel {
         $0.font = MainFontNumeral.regular.with(fontSize: 18)
-        $0.textColor = TBColor.gray.dark
+        $0.textColor = TXColor.gray.dark
         $0.textAlignment = .center
     }
     
@@ -91,8 +91,8 @@ class BookTableViewCell: GenericCell<Book> {
             ImageService.retrieveFromLocal(bookId: book.id, imageView: self.converImageView)
         }
         
-        let start = TBFunc.convertDateToDateStr(date: book.startDate)
-        let end = TBFunc.convertDateToDateStr(date: book.endDate)
+        let start = TXFunc.convertDateToDateStr(date: book.startDate)
+        let end = TXFunc.convertDateToDateStr(date: book.endDate)
         dateLabel.text = start + " ~ " + end
     }
     

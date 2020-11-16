@@ -26,7 +26,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
     var pickerType: PickerType!
     
     lazy var selectedView = UIView {
-        $0.backgroundColor = TBColor.system.blue.light
+        $0.backgroundColor = TXColor.system.blue.light
     }
     
     override func viewDidLoad() {
@@ -89,8 +89,8 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
             NSLocalizedString("Country name", comment: "Country name") : NSLocalizedString("Country name or currency code", comment: "Country name or currency code")
         
         searchBar.sizeToFit()
-        searchBar.searchTextField.leftView?.tintColor = TBColor.gray.dark
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: TBColor.gray.dark])
+        searchBar.searchTextField.leftView?.tintColor = TXColor.gray.dark
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: TXColor.gray.dark])
 
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
@@ -99,7 +99,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             textfield.returnKeyType = .default
             textfield.textColor = .black
-            textfield.backgroundColor = TBColor.gray.medium
+            textfield.backgroundColor = TXColor.gray.medium
         }
         headerView.addSubview(searchBar)
         searchBar.fillSuperview()

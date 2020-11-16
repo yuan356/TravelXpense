@@ -23,7 +23,7 @@ class GenericCell<U>: UITableViewCell {
     
     /// size h: 16, w: 16, tailing: 8
     func addRightArrow() {
-        arrowView.image = UIImage(named: TBNavigationIcon.arrowRight.rawValue)
+        arrowView.image = UIImage(named: TXNavigationIcon.arrowRight.rawValue)
         arrowView.anchorSize(h: 16, w: 16)
         arrowView.tintColor = .white
         self.contentView.addSubview(arrowView)
@@ -41,7 +41,7 @@ class GenericTableViewController<T: GenericCell<U>, U>: UITableViewController {
     var items = [U]()
     
     lazy var selectedView = UIView {
-        $0.backgroundColor = TBColor.system.blue.light
+        $0.backgroundColor = TXColor.system.blue.light
     }
     
     override func viewDidLoad() {

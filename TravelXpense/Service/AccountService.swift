@@ -14,8 +14,6 @@ class AccountService {
 
     static let shared = AccountService()
     
-    var observer: TBObserver!
-    
     private init() {}
     
     var cache: [Int: Account] = [:]
@@ -176,7 +174,7 @@ class AccountService {
     func updateAmount(accountId: Int, value: Double) {
         if let acc = getAccountFromCache(accountId: accountId) {
             acc.amount += value
-            TBObserved.notifyObservers(notificationName: .accountAmountUpdate, infoKey: .accountAmount, infoValue: acc)
+            TXObserved.notifyObservers(notificationName: .accountAmountUpdate, infoKey: .accountAmount, infoValue: acc)
         }
     }
     

@@ -29,8 +29,8 @@ fileprivate let inputTextFont: UIFont = MainFont.regular.with(fontSize: 18)
 fileprivate let inputTextNumberFont = MainFontNumeral.regular.with(fontSize: .medium)
 
 // Color
-fileprivate let backgroundColor = TBColor.gray.dark
-fileprivate let inputTextColor: UIColor = TBColor.gray.light
+fileprivate let backgroundColor = TXColor.gray.dark
+fileprivate let inputTextColor: UIColor = TXColor.gray.light
 
 fileprivate enum buttonType: String {
     case country
@@ -64,7 +64,7 @@ class BookDetailViewController: UIViewController {
     var bookStartDate: Date! {
         didSet {
             if let date = bookStartDate {
-                startDateLabel.text = TBFunc.convertDateToDateStr(date: date)
+                startDateLabel.text = TXFunc.convertDateToDateStr(date: date)
             }
         }
     }
@@ -72,7 +72,7 @@ class BookDetailViewController: UIViewController {
     var bookEndDate: Date! {
         didSet {
             if let date = bookEndDate {
-                endDateLabel.text = TBFunc.convertDateToDateStr(date: date)
+                endDateLabel.text = TXFunc.convertDateToDateStr(date: date)
             }
         }
     }
@@ -113,8 +113,8 @@ class BookDetailViewController: UIViewController {
         $0.setTitle(NSLocalizedString("Change cover", comment: "Change cover"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .small)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = TBColor.system.blue.medium
-        $0.setBackgroundColor(color: TBColor.system.blue.light, forState: .highlighted)
+        $0.backgroundColor = TXColor.system.blue.medium
+        $0.setBackgroundColor(color: TXColor.system.blue.light, forState: .highlighted)
         $0.roundedCorners(radius: 5, shadow: true)
     }
     
@@ -173,9 +173,9 @@ class BookDetailViewController: UIViewController {
         $0.setTitle(NSLocalizedString("Delete book", comment: "Delete book"), for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
-        $0.setTitleColor(TBColor.gray.medium, for: .highlighted)
-        $0.backgroundColor = TBColor.delete.normal
-        $0.setBackgroundColor(color: TBColor.delete.highlighted, forState: .highlighted)
+        $0.setTitleColor(TXColor.gray.medium, for: .highlighted)
+        $0.backgroundColor = TXColor.delete.normal
+        $0.setBackgroundColor(color: TXColor.delete.highlighted, forState: .highlighted)
         $0.roundedCorners()
         $0.anchorSize(h: 43, w: 170)
         $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
@@ -185,8 +185,8 @@ class BookDetailViewController: UIViewController {
         let msg = NSLocalizedString("Are you sure you want to delete this book?", comment: "Are you sure you want to delete this book?")
         let note = NSLocalizedString("All records of this book will be delete!", comment: "All records of this book will be delete!")
         
-        TBNotify.showCenterAlert(message: msg, note: note, confirm: true, okAction: {
-            TBNotify.dismiss()
+        TXAlert.showCenterAlert(message: msg, note: note, confirm: true, okAction: {
+            TXAlert.dismiss()
             BookService.shared.deleteBook(bookId: self.book.id) {
                 self.dismiss(animated: true, completion: nil)
             }
@@ -281,7 +281,7 @@ class BookDetailViewController: UIViewController {
             addToolsButton(btnType: .endDate, to: view)
         case .account:
             let arrowView = UIImageView()
-            arrowView.image = UIImage(named: TBNavigationIcon.arrowRight.rawValue)
+            arrowView.image = UIImage(named: TXNavigationIcon.arrowRight.rawValue)
             arrowView.anchorSize(h: 16, w: 16)
             arrowView.tintColor = .white
             addInputObjects(to: view, object: arrowView)
@@ -335,7 +335,7 @@ class BookDetailViewController: UIViewController {
            let type = buttonType.init(rawValue: id) {
             switch type {
             case .country:
-                TBNotify.showPicker(type: .country, currentObject: bookCountry) { (result, country) in
+                TXAlert.showPicker(type: .country, currentObject: bookCountry) { (result, country) in
                     if result == .success, let country = country as? Country {
                         self.bookCountry = country
                         self.saveData(field: .country, value: country)
@@ -347,7 +347,7 @@ class BookDetailViewController: UIViewController {
                     }
                 }
             case .currency:
-                TBNotify.showPicker(type: .currency, currentObject: bookCurrency) { (result, currency) in
+                TXAlert.showPicker(type: .currency, currentObject: bookCurrency) { (result, currency) in
                     if result == .success, let currency = currency as? Currency {
                         self.bookCurrency = currency
                         self.saveData(field: .currency, value: currency)
@@ -448,10 +448,10 @@ class BookDetailViewController: UIViewController {
             book.updateData(field: field, value: value)
             
             if field == .name {
-                TBObserved.notifyObservers(notificationName: .bookNameUpdate, infoKey: .bookName, infoValue: value)
+                TXObserved.notifyObservers(notificationName: .bookNameUpdate, infoKey: .bookName, infoValue: value)
             }
         } else {
-            TBNotify.showCenterAlert(message: errorMsg)
+            TXAlert.showCenterAlert(message: errorMsg)
         }
     }
 }
@@ -465,16 +465,16 @@ extension BookDetailViewController: TBDatePickerDelegate {
         let alertNote = NSLocalizedString("New travel date range is less than original one that will cause records be deleted.", comment: "BookDateRangeAlert")
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
-                guard TBFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
-                    TBNotify.showCenterAlert(message: NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date."))
+                guard TXFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
+                    TXAlert.showCenterAlert(message: NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date."))
                     return
                 }
                 
                 if date > bookStartDate {
-                    TBNotify.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
+                    TXAlert.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
                         self.bookStartDate = date
                         self.saveData(field: .startDate, value: date)
-                        TBNotify.dismiss()
+                        TXAlert.dismiss()
                     }
                 } else {
                     bookStartDate = date
@@ -483,16 +483,16 @@ extension BookDetailViewController: TBDatePickerDelegate {
                 
             } else if type == .endDate {
                 
-                guard TBFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
-                    TBNotify.showCenterAlert(message: NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date."))
+                guard TXFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
+                    TXAlert.showCenterAlert(message: NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date."))
                     return
                 }
                 
                 if date < bookEndDate {
-                    TBNotify.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
+                    TXAlert.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
                         self.bookEndDate = date
                         self.saveData(field: .endDate, value: date)
-                        TBNotify.dismiss()
+                        TXAlert.dismiss()
                     }
                 } else {
                     self.bookEndDate = date

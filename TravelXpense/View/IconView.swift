@@ -49,7 +49,7 @@ class IconView: UIView {
         if let colorCode = colorHex {
             self.backgroundColor = UIColor(hex: colorCode)
         } else {
-            self.backgroundColor  = TBColor.gray.light
+            self.backgroundColor  = TXColor.gray.light
         }
         
         if let imageName = imageName, imageName != "" {
@@ -61,7 +61,7 @@ class IconView: UIView {
         if let colorCode = colorHex {
             self.backgroundColor = UIColor(hex: colorCode)
         } else {
-            self.backgroundColor  = TBColor.gray.light
+            self.backgroundColor  = TXColor.gray.light
         }
         
         iconImageView.image = UIImage(named: imageName)

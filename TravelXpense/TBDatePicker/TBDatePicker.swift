@@ -41,7 +41,7 @@ class TBdatePickerViewController: UIViewController {
     func setView() {
         // bottom view (buttonView + datePicker + safeArea)
         let bottomView = UIView()
-        bottomView.backgroundColor = TBColor.system.picker
+        bottomView.backgroundColor = TXColor.system.picker
         self.view.addSubview(bottomView)
         
         bottomView.addSubview(datePicker)
@@ -60,7 +60,7 @@ class TBdatePickerViewController: UIViewController {
         
         // background View
         let backgroundView = UIView()
-        backgroundView.backgroundColor = TBColor.blurBackground
+        backgroundView.backgroundColor = TXColor.blurBackground
         self.view.addSubview(backgroundView)
         backgroundView.anchor(top: self.view.topAnchor, bottom: buttonView.topAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         
@@ -118,15 +118,15 @@ class TBdatePickerViewController: UIViewController {
     private func createButton(to view: UIView) {
         let todayBtn = UIButton()
         todayBtn.roundedCorners()
-        todayBtn.setTitle(NSLocalizedString(" Today ", comment: "Today"), for: .normal)
-        todayBtn.backgroundColor = TBColor.system.blue.medium
+        todayBtn.setTitle(" " + NSLocalizedString("Today", comment: "Today") + " " , for: .normal)
+        todayBtn.backgroundColor = TXColor.system.blue.medium
         todayBtn.titleLabel?.font = textFont
         todayBtn.addTarget(self, action: #selector(setToday), for: .touchUpInside)
 
         let doneBtn = UIButton()
         doneBtn.roundedCorners()
-        doneBtn.setTitle(NSLocalizedString(" Done ", comment: "Done"), for: .normal)
-        doneBtn.backgroundColor = TBColor.system.blue.medium
+        doneBtn.setTitle(" " + NSLocalizedString("Done", comment: "Done") + " ", for: .normal)
+        doneBtn.backgroundColor = TXColor.system.blue.medium
         doneBtn.titleLabel?.font = textFont
         doneBtn.addTarget(self, action: #selector(selectedDone), for: .touchUpInside)
         

@@ -15,7 +15,7 @@ class CategorySettingViewController: UIViewController {
     }
     
     lazy var selectedView = UIView {
-        $0.backgroundColor = TBColor.system.blue.light
+        $0.backgroundColor = TXColor.system.blue.light
     }
     
     lazy var expenseTB = UITableView()
@@ -23,7 +23,7 @@ class CategorySettingViewController: UIViewController {
     var categories: [Category] = CategoryService.shared.expenseCategories
     
     lazy var addButton: UIButton = {
-        let btn = TBNavigationIcon.plus.getButton()
+        let btn = TXNavigationIcon.plus.getButton()
         btn.anchorSize(h: 23, w: 23)
         btn.addTarget(self, action: #selector(addAccountClicked), for: .touchUpInside)
         return btn
@@ -31,7 +31,7 @@ class CategorySettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.background()
+        self.view.backgroundColor = TXColor.background()
         
         // navigationItem
         self.navigationItem.backButtonTitle = ""

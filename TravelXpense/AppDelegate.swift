@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 enum UserDefaultsKey: String {
     case isFirstLaunchApp
@@ -25,19 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let textAttributes = [NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white]
-        UINavigationBar.appearance().titleTextAttributes = textAttributes
-        UINavigationBar.appearance().tintColor = .white
-        
         let isFirstLaunchAppKey = UserDefaultsKey.isFirstLaunchApp.rawValue
-        
         let dic = [isFirstLaunchAppKey: true]
         UserDefaults.standard.register(defaults: dic)
-                
         let isFirstOpenApp = UserDefaults.standard.bool(forKey: isFirstLaunchAppKey)
         
         DBManager.shared.createTable() // will check database is exist or not
-        
         if isFirstOpenApp {
             // do some initialize setting.
             CategoryService.shared.setDefaultCategories()
@@ -45,18 +39,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Every time open the app.
+        
+        customizeUIStyle()
+        
         CategoryService.shared.getAllCategoriesToCache()
         
         RateService.shared.initData()
-        
-        let dispatchQueue = DispatchQueue(label: "QueueIdentification", qos: .background)
-        dispatchQueue.async {
-            for i in (0...10000000) {
-                print(i)
-            }
-        }
 
+        // 設置 Firebase
+        FirebaseApp.configure()
+        
         return true
+    }
+    
+    func customizeUIStyle() {
+        let textAttributes = [NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().titleTextAttributes = textAttributes
+        UINavigationBar.appearance().tintColor = .white
     }
 
     // MARK: UISceneSession Lifecycle

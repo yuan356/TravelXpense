@@ -13,8 +13,8 @@ fileprivate let cellHpadding: CGFloat = 15
 fileprivate let trashCanHeight: CGFloat = 26
 fileprivate let iconPaddingInView: CGFloat = 8
 
-fileprivate let cellColor = TBColor.system.blue.medium
-fileprivate let cellHighlightedColor = TBColor.system.blue.light
+fileprivate let cellColor = TXColor.system.blue.medium
+fileprivate let cellHighlightedColor = TXColor.system.blue.light
 
 class RecordTableViewCell: UITableViewCell {
 
@@ -44,7 +44,7 @@ class RecordTableViewCell: UITableViewCell {
     }
     
     lazy var noteLabel = UILabel {
-        $0.textColor = TBColor.gray.light
+        $0.textColor = TXColor.gray.light
         $0.font = MainFont.regular.with(fontSize:13)
     }
     
@@ -57,9 +57,9 @@ class RecordTableViewCell: UITableViewCell {
     lazy var deleteView = UIView()
     
     lazy var deleteBtn: UIButton = {
-        let btn = TBNavigationIcon.trash.getButton()
+        let btn = TXNavigationIcon.trash.getButton()
         btn.anchorSize(h: trashCanHeight)
-        btn.tintColor = TBColor.orange.light
+        btn.tintColor = TXColor.orange.light
         btn.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
         return btn
     }()
@@ -134,7 +134,7 @@ class RecordTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
         
         // separator line
-        lineView.backgroundColor = TBColor.gray.medium
+        lineView.backgroundColor = TXColor.gray.medium
         backView.addSubview(lineView)
         lineView.setAutoresizingToFalse()
         lineView.anchor(top: nil, bottom: backView.bottomAnchor, leading: infoStackView.leadingAnchor, trailing: amountLabel.trailingAnchor, size: CGSize(width: 0, height: 1))
@@ -182,19 +182,19 @@ class RecordTableViewCell: UITableViewCell {
         // amount
         var amountText: String = ""
         if let book = BookService.shared.getBookFromCache(bookId: record.bookId) {
-            amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true, currencyCode: book.currency.code)
+            amountText = TXFunc.convertDoubleToStr(record.amount, moneyFormat: true, currencyCode: book.currency.code)
         } else {
-            amountText = TBFunc.convertDoubleToStr(record.amount, moneyFormat: true)
+            amountText = TXFunc.convertDoubleToStr(record.amount, moneyFormat: true)
         }
         amountLabel.text = amountText
     }
     
     @IBAction func deleteButtonClicked() {
-        TBNotify.showCenterAlert(message: NSLocalizedString("Are you sure you want to delete this record?", comment: "Are you sure you want to delete this record?"), confirm: true) {
+        TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to delete this record?", comment: "Are you sure you want to delete this record?"), confirm: true) {
             if let rd = self.record {
                 RecordSevice.shared.deleteRecordById(recordId: rd.id)
-                TBObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
-                TBNotify.dismiss()
+                TXObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
+                TXAlert.dismiss()
             }
         }
     }

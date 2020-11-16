@@ -11,7 +11,7 @@ import UIKit
 fileprivate let titleFont = MainFont.regular.with(fontSize: 26)
 fileprivate let textFont = MainFont.regular.with(fontSize: 22)
 fileprivate let titleColor: UIColor = .white
-fileprivate let inputColor = TBColor.gray.light
+fileprivate let inputColor = TXColor.gray.light
 
 fileprivate let titleHeight: CGFloat = 70
 fileprivate let itemHeight: CGFloat = 30
@@ -62,8 +62,8 @@ class NewBookSecondViewController: NewBookViewController {
         $0.setTitle(NSLocalizedString("Upload", comment: "Upload"), for: .normal)
         $0.titleLabel?.font = MainFont.medium.with(fontSize: 16)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = TBColor.system.blue.medium
-        $0.setBackgroundColor(color: TBColor.system.blue.light, forState: .highlighted)
+        $0.backgroundColor = TXColor.system.blue.medium
+        $0.setBackgroundColor(color: TXColor.system.blue.light, forState: .highlighted)
         $0.roundedCorners(radius: 5, shadow: true)
         $0.addTarget(self, action: #selector(openImagePicker), for: .touchUpInside)
         $0.anchorSize(h: 35, w: 80)
@@ -72,7 +72,7 @@ class NewBookSecondViewController: NewBookViewController {
     lazy var imageView = UIImageView {
         $0.heightAnchor.constraint(equalTo: $0.widthAnchor, multiplier: 0.45).isActive = true
         $0.contentMode = .scaleAspectFill
-        $0.backgroundColor = TBColor.gray.light
+        $0.backgroundColor = TXColor.gray.light
         $0.roundedCorners()
         $0.clipsToBounds = true
     }
@@ -85,7 +85,7 @@ class NewBookSecondViewController: NewBookViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.system.background.dark
+        self.view.backgroundColor = TXColor.system.background.dark
         setVStack()
         
     }
@@ -134,7 +134,7 @@ class NewBookSecondViewController: NewBookViewController {
         view.anchorSize(h: itemHeight)
         let lineView = UIView {
             $0.anchorSize(h: 1)
-            $0.backgroundColor = .white
+            $0.backgroundColor = TXColor.gray.medium
         }
         view.addSubview(lineView)
         
@@ -152,7 +152,7 @@ class NewBookSecondViewController: NewBookViewController {
     @IBAction func openPicker(_ sender: UIButton) {
         if let id = sender.restorationIdentifier {
             if id == "country" {
-                TBNotify.showPicker(type: .country, currentObject: self.country) { (result, country) in
+                TXAlert.showPicker(type: .country, currentObject: self.country) { (result, country) in
                     if result == .success, let country = country as? Country {
                         self.country = country
                         guard let pageVC = self.parent as? NewBookPageViewController else {
@@ -168,7 +168,7 @@ class NewBookSecondViewController: NewBookViewController {
                     }
                 }
             } else {
-                TBNotify.showPicker(type: .currency, currentObject: currency) { (result, currency) in
+                TXAlert.showPicker(type: .currency, currentObject: currency) { (result, currency) in
                     if result == .success, let currency = currency as? Currency {
                         self.currency = currency
                         if let pageVC = self.parent as? NewBookPageViewController {

@@ -55,7 +55,7 @@ class BookContainerViewController: UIViewController {
     }
     
     lazy var homeButton: UIButton = {
-        let btn = TBNavigationIcon.home.getButton()
+        let btn = TXNavigationIcon.home.getButton()
         btn.tintColor = .white
         btn.addTarget(self, action: #selector(homeBtnClicked), for: .touchUpInside)
         return btn
@@ -83,19 +83,19 @@ class BookContainerViewController: UIViewController {
         bookNameLabel.leadingAnchor.constraint(equalTo: homeButton.trailingAnchor, constant: 15).isActive = true
     }
     
-    var observer: TBObserver!
+    var observer: TXObserver!
     
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = TBColor.system.background.dark
+        self.view.backgroundColor = TXColor.system.background.dark
         setViews()
         
         addViewControllerToContainerView(containerView: tabBarContainerView, controller: tabViewController)
         tabViewController.delegate = self
         
-        observer = TBObserver.init(notification: .bookNameUpdate, infoKey: .bookName)
+        observer = TXObserver.init(notification: .bookNameUpdate, infoKey: .bookName)
         observer.delegate = self
         
         // get all accounts to cache
@@ -180,7 +180,7 @@ extension BookContainerViewController: ObserverProtocol {
 }
 extension BookContainerViewController: recordContainerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {
-        if let date = TBFunc.getDateByOffset(startDate: self.currentBook.startDate, daysInterval: dayIndex) {
+        if let date = TXFunc.getDateByOffset(startDate: self.currentBook.startDate, daysInterval: dayIndex) {
             self.selectedDay = date
         }
     }

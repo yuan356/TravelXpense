@@ -15,8 +15,8 @@ class RecordDaysCollectionViewCell: UICollectionViewCell {
     var dayIndex: Int! {
         didSet {
             dayLabel.text = "day \(dayIndex + 1)"
-            if let date = TBFunc.getDateByOffset(startDate: startDate, daysInterval: dayIndex) {
-                dateLabel.text = TBFunc.convertDateToDateStr(date: date)
+            if let date = TXFunc.getDateByOffset(startDate: startDate, daysInterval: dayIndex) {
+                dateLabel.text = TXFunc.convertDateToDateStr(date: date)
 
             }
         }
@@ -31,7 +31,7 @@ class RecordDaysCollectionViewCell: UICollectionViewCell {
     lazy var dateLabel = UILabel {
         $0.textAlignment = .center
         $0.font = MainFontNumeral.regular.with(fontSize: .small)
-        $0.textColor = TBColor.gray.light
+        $0.textColor = TXColor.gray.light
     }
     
     override init(frame: CGRect) {

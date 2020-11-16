@@ -53,9 +53,9 @@ class RecordSevice {
             }
             for i in (0..<book.days) {
                 var dateRecords = [Record]()
-                let date = TBFunc.getDateByOffset(startDate: book.startDate, daysInterval: i)
+                let date = TXFunc.getDateByOffset(startDate: book.startDate, daysInterval: i)
                 for record in records {
-                    if TBFunc.compareDateOnly(date1: record.date, date2: date!) {
+                    if TXFunc.compareDateOnly(date1: record.date, date2: date!) {
                         dateRecords.append(record)
                     }
                 }
@@ -95,7 +95,7 @@ class RecordSevice {
         }
         
         // update record from cache
-        if !TBFunc.compareDateOnly(date1: oldRecord.date, date2: newRecord.date) {
+        if !TXFunc.compareDateOnly(date1: oldRecord.date, date2: newRecord.date) {
             // not in the same bookDayRecord
             removeFromDaysRecordCache(bookId: bookId, originalDate: oldRecord.date, record: newRecord)
             insertIntoDaysRecordCache(bookId: bookId, record: newRecord)
@@ -148,7 +148,7 @@ class RecordSevice {
         var idList = [Int]()
         let compare: ComparisonResult = less ? .orderedAscending : .orderedDescending
         for record in self.recordCache.values {
-            if TBFunc.compareDate(date: record.date, target: date) == compare {
+            if TXFunc.compareDate(date: record.date, target: date) == compare {
                 idList.append(record.id)
                 self.recordCache[record.id] = nil
             }
@@ -172,7 +172,7 @@ class RecordSevice {
     // MARK: RecordCache
     private func insertIntoDaysRecordCache(bookId: Int, record: Record) {
         if let book = BookService.shared.getBookFromCache(bookId: bookId),
-           let index = TBFunc.getDaysInterval(start: book.startDate, end: record.date),
+           let index = TXFunc.getDaysInterval(start: book.startDate, end: record.date),
            index >= 0 && index < book.days {
             bookDaysRecordCache[book.id]?[index].insert(record, at: 0)
         }
@@ -180,7 +180,7 @@ class RecordSevice {
     
     private func removeFromDaysRecordCache(bookId: Int, originalDate: Date, record: Record) {
         if let book = BookService.shared.getBookFromCache(bookId: bookId),
-           let index = TBFunc.getDaysInterval(start: book.startDate, end: originalDate),
+           let index = TXFunc.getDaysInterval(start: book.startDate, end: originalDate),
            index >= 0 && index < book.days,
            bookDaysRecordCache[book.id] != nil {
             for (i, rd) in bookDaysRecordCache[book.id]![index].enumerated() {

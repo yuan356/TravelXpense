@@ -36,7 +36,7 @@ class RecordTableViewController: UIViewController {
     
     var onLongPress = false
     
-    var observer: TBObserver!
+    var observer: TXObserver!
     
     lazy var clearView = UIView {
         $0.backgroundColor = .clear
@@ -58,7 +58,7 @@ class RecordTableViewController: UIViewController {
             records = bookDayRecord[dayIndex]
         }
         
-        observer = TBObserver.init(notification: .recordTableUpdate, infoKey: .defalut)
+        observer = TXObserver.init(notification: .recordTableUpdate, infoKey: .defalut)
         observer.delegate = self
         
         setupLongPressGesture()

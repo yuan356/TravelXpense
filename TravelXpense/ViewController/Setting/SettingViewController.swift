@@ -12,6 +12,7 @@ enum SetRows: Int {
     case category = 0
     case currency
     case exchangeRate
+    case backup
     case about
     case LAST
     
@@ -27,6 +28,8 @@ enum SetRows: Int {
             return NSLocalizedString("Category", comment: "Category")
         case .exchangeRate:
             return NSLocalizedString("Exchange Rate", comment: "Exchange Rate")
+        case .backup:
+            return NSLocalizedString("Backup", comment: "Backup")
         case .about:
             return NSLocalizedString("About", comment: "About")
         case .LAST:
@@ -39,10 +42,11 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TBColor.background()
+        self.view.backgroundColor = TXColor.background()
         self.navigationItem.title = NSLocalizedString("Setting", comment: "Setting")
         
-        items = [SetRows.category, SetRows.currency, SetRows.exchangeRate, SetRows.about]
+        items = [SetRows.category, SetRows.currency, SetRows.exchangeRate,
+                 SetRows.backup, SetRows.about]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +57,9 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         return 60
     }
     
-    var myCurrnecy: Currency?
+    var myCurrnecy: Currency? {
+        return RateService.shared.myCurrency
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = SetRows.init(rawValue: indexPath.row)
@@ -61,9 +67,8 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         case .category:
             self.navigationController?.pushViewController(CategorySettingViewController(), animated: true)
         case .currency:
-            TBNotify.showPicker(type: .currency, currentObject: myCurrnecy) { (result, currency) in
+            TXAlert.showPicker(type: .currency, currentObject: myCurrnecy) { (result, currency) in
                 if result == .success, let currency = currency as? Currency {
-                    self.myCurrnecy = currency
                     RateService.shared.setMyCurrency(code: currency.code)
                     let cell = tableView.cellForRow(at: indexPath) as! settingCell
                     cell.detailLabel.text = currency.code
@@ -71,6 +76,8 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
             }
         case .exchangeRate:
             self.navigationController?.pushViewController(ExchangeRateViewController(), animated: true)
+        case .backup:
+            self.navigationController?.pushViewController(BackupViewController(), animated: true)
         default: break
         }
     }
@@ -84,7 +91,7 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         if let cell = cell as? settingCell {
             if SetRows.init(rawValue: indexPath.row) == .currency {
                 cell.arrowView.isHidden = true
-                if let currency = RateService.shared.myCurrency {
+                if let currency = self.myCurrnecy {
                     cell.detailLabel.text = currency.code
                 }
                 cell.selectedBackgroundView = clearView
@@ -99,7 +106,7 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
 class settingCell: GenericCell<SetRows> {
     
     lazy var detailLabel = UILabel {
-        $0.textColor = TBColor.gray.light
+        $0.textColor = TXColor.gray.light
         $0.font = MainFont.regular.with(fontSize: .medium)
     }
     

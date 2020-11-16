@@ -9,23 +9,23 @@
 import UIKit
 
 fileprivate let paddingInVStack: CGFloat = 10
-fileprivate let titleTextFont: UIFont = MainFont.regular.with(fontSize: 18)
+fileprivate let titleTextFont: UIFont = MainFont.regular.with(fontSize: .medium)
 
 
 class EditInfoView: UIView {
     
-    init(viewheight: CGFloat, title: String, object: UIView, withButton button: UIButton? = nil, anchorBottom: Bool = false) {
+    init(viewheight: CGFloat, titleWidth: CGFloat = 120, title: String, object: UIView, underLine: Bool = false, withButton button: UIButton? = nil, anchorBottom: Bool = false) {
         super.init(frame: CGRect.zero)
-        setView(viewheight: viewheight, title: title, object: object, button: button, anchorBottom: anchorBottom)
+        setView(viewheight: viewheight,titleWidth: titleWidth, title: title, object: object, underLine: underLine, button: button, anchorBottom: anchorBottom)
     }
     
-    func setView(viewheight: CGFloat, title: String, object: UIView, button: UIButton?, anchorBottom: Bool) {
+    func setView(viewheight: CGFloat, titleWidth: CGFloat, title: String, object: UIView, underLine: Bool, button: UIButton?, anchorBottom: Bool) {
         self.anchorSize(h: viewheight)
         
         let titleLabel = UILabel {
             $0.text = title
             $0.font = titleTextFont
-            $0.anchorSize(w: 120)
+            $0.anchorSize(w: titleWidth)
             $0.textColor = .white
         }
         
@@ -45,6 +45,15 @@ class EditInfoView: UIView {
         } else {
             object.anchorCenterY(to: self)
             titleLabel.anchorCenterY(to: self)
+        }
+        
+        if underLine {
+            let lineView = UIView {
+                $0.backgroundColor = .white
+                $0.anchorSize(h: 1)
+            }
+            self.addSubview(lineView)
+            lineView.anchor(top: nil, bottom: self.bottomAnchor, leading: object.leadingAnchor, trailing: object.trailingAnchor)
         }
         
         if let btn = button {

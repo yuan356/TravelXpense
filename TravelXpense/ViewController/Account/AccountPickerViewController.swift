@@ -12,8 +12,8 @@ import SwiftEntryKit
 fileprivate let heightButtonBar: CGFloat = 60
 
 fileprivate let titleColor: UIColor = .white
-fileprivate let amountTextColor: UIColor = TBColor.gray.light
-fileprivate let backgroundColor = TBColor.system.background.dark
+fileprivate let amountTextColor: UIColor = TXColor.gray.light
+fileprivate let backgroundColor = TXColor.system.background.dark
 class AccountPickerViewController: UIViewController {
     
     lazy var headerView = UIView()
@@ -49,14 +49,14 @@ class AccountPickerViewController: UIViewController {
     }
     
     lazy var addButton: UIButton = {
-        let btn = TBNavigationIcon.plus.getButton()
+        let btn = TXNavigationIcon.plus.getButton()
         btn.anchorSize(h: 23, w: 23)
         btn.addTarget(self, action: #selector(addAccountClicked(_:)), for: .touchUpInside)
         return btn
     }()
     
     lazy var selectedView = UIView {
-        $0.backgroundColor = TBColor.system.blue.light
+        $0.backgroundColor = TXColor.system.blue.light
     }
     
     override func viewDidLoad() {
@@ -152,7 +152,7 @@ class AccountCell: GenericInfoCell<Account> {
                 titleLabel.text = item.name
                 
                 amountLabel.textColor = amountTextColor
-                amountLabel.text = TBFunc.convertDoubleToStr(item.budget + item.amount)
+                amountLabel.text = TXFunc.convertDoubleToStr(item.budget + item.amount)
             }
         }
     }

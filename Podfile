@@ -9,4 +9,6 @@ target 'TravelXpense' do
   pod 'FMDB'
   pod 'SwiftEntryKit', '1.2.6'
   pod 'Charts'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 end

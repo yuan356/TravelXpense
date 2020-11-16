@@ -67,8 +67,8 @@ class BookService {
             return
         }
         
-        let startDateCompare = TBFunc.compareDate(date: newBook.startDate, target: oldBook.startDate)
-        let endDateCompare = TBFunc.compareDate(date: newBook.endDate, target: oldBook.endDate)
+        let startDateCompare = TXFunc.compareDate(date: newBook.startDate, target: oldBook.startDate)
+        let endDateCompare = TXFunc.compareDate(date: newBook.endDate, target: oldBook.endDate)
         if startDateCompare == .orderedDescending {
             // delete records that date is less than newBook.startDate
             RecordSevice.shared.deleteRecordsOfDate(date: newBook.startDate, less: true)
@@ -89,12 +89,12 @@ class BookService {
             oldBook.currency = newBook.currency
         case .startDate:
             oldBook.startDate = newBook.startDate
-            if let daysInterval = TBFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
+            if let daysInterval = TXFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
                 oldBook.days = daysInterval + 1
             }
         case .endDate:
             oldBook.endDate = newBook.endDate
-            if let daysInterval = TBFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
+            if let daysInterval = TXFunc.getDaysInterval(start: oldBook.startDate, end: oldBook.endDate) {
                 oldBook.days = daysInterval + 1
             }
         case .imageUrl:
