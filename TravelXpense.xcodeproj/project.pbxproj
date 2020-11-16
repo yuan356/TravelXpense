@@ -39,6 +39,7 @@
 		1CA0B14C25622B850083DE0F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA0B14B25622B850083DE0F /* AuthService.swift */; };
 		1CA0B14F25622D8B0083DE0F /* BlockingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA0B14E25622D8B0083DE0F /* BlockingControl.swift */; };
 		1CA0B1542562663B0083DE0F /* BackupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA0B1532562663B0083DE0F /* BackupViewController.swift */; };
+		1CA0B1712562721B0083DE0F /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA0B1702562721B0083DE0F /* FirebaseService.swift */; };
 		1CA803242519AD35003D7708 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA803232519AD35003D7708 /* DBManager.swift */; };
 		1CA8036D2519E25E003D7708 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8036C2519E25E003D7708 /* Book.swift */; };
 		1CA8037A251B2857003D7708 /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA80379251B2857003D7708 /* BookService.swift */; };
@@ -133,6 +134,7 @@
 		1CA0B14B25622B850083DE0F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1CA0B14E25622D8B0083DE0F /* BlockingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingControl.swift; sourceTree = "<group>"; };
 		1CA0B1532562663B0083DE0F /* BackupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupViewController.swift; sourceTree = "<group>"; };
+		1CA0B1702562721B0083DE0F /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		1CA803232519AD35003D7708 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		1CA8036C2519E25E003D7708 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		1CA80379251B2857003D7708 /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				1C40AFE82555091B0010EE47 /* DisplayMode.swift */,
 				1C6AB42F255A907400073095 /* RateService.swift */,
 				1CA0B14B25622B850083DE0F /* AuthService.swift */,
+				1CA0B1702562721B0083DE0F /* FirebaseService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				1CD181FF2512048C00AFD985 /* TripBooks.xcdatamodeld in Sources */,
 				1CBCD679254AB8C500FB6C12 /* AccountDetailViewController.swift in Sources */,
 				1C8B6F63252EF0AE000D423B /* RecordDaysCollectionViewCell.swift in Sources */,
+				1CA0B1712562721B0083DE0F /* FirebaseService.swift in Sources */,
 				1CF560BF253ED522003EEC66 /* TXFeedback.swift in Sources */,
 				1CCBBBBA2553EB86002C47A1 /* NewBookFirstViewController.swift in Sources */,
 				1C3F207825188E6B008628C5 /* Category.swift in Sources */,

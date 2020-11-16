@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 fileprivate let itemHeight: CGFloat = 60
 fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
 fileprivate let textColor: UIColor = TXColor.gray.light
@@ -83,14 +84,51 @@ class BackupViewController: TXViewController {
     }
     
     @IBAction func updateClicked() {
-        showBlockingView()
-        RateService.shared.getNewData {
-            DispatchQueue.main.async {
-                self.hideBlockingView()
-                self.dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, full: true)
+        // 確保已登入
+        guard let user = AuthService.currentUser else {
+            return
+        }
+        let userUId = user.uid
+        print(userUId)
+        
+        // 產生一個貼文的唯一ID 並準備backuplog Database 的參照
+        let backupLogRef = FirebaseService.shared.BACKUPLOG_DB_REF.child("\(userUId)")
+
+        let dbFileUrl = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
+        let storgeRef = FirebaseService.shared.DBFILE_STORAGE_REF.child("\(userUId).sqlite")
+        
+        let uploadTask = storgeRef.putFile(from: dbFileUrl, metadata: nil) { metadata, error in
+          guard let metadata = metadata else {
+            // Uh-oh, an error occurred!
+            print("Error1")
+            return
+          }
+            
+          // Metadata contains file metadata such as size, content-type.
+          let size = metadata.size
+            print("size: ", size)
+          // You can also access to download URL after upload.
+            storgeRef.downloadURL { (url, error) in
+            guard let downloadURL = url else {
+              // Uh-oh, an error occurred!
+                print("Error2")
+              return
             }
+                
+            // store the backup log to database
+            let fileUrl = downloadURL.absoluteString
+            let timestamp = Date().timeIntervalSince1970
+            let log: [String : Any] = ["backupUrl" : fileUrl, "timestamp" : timestamp]
+            backupLogRef.setValue(log)
+            print("downloadURL: ", downloadURL)
+          }
+        }
+        
+        uploadTask.observe(.success) { (snapshot) in // 執行上傳成功後的操作
+            print(snapshot)
         }
     }
+    
     
     @IBAction func autoUpdateChange() {
         let auto = autoUpdateSwitch.isOn
