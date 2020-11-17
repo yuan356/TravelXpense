@@ -62,20 +62,23 @@ class TXFunc {
         return result
     }
     
-    static func convertDoubleTimeToDateStr(timeStamp: Double) -> String {
+    static func convertDoubleTimeToDateStr(timeStamp: Double, fullFormat: Bool = false) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        if fullFormat {
+            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        } else {
+            dateFormatter.dateFormat = "yyyy/MM/dd"
+        }
         dateFormatter.timeZone = .current // 取得系統目前timezone
         let date = Date(timeIntervalSince1970: timeStamp)
         let today = dateFormatter.string(from: date)
         return today
     }
     
-    static func convertDateToDateStr(date: Date, full: Bool = false) -> String {
+    static func convertDateToDateStr(date: Date, fullFormat: Bool = false) -> String {
         let dateFormatter = DateFormatter()
-        if full {
+        if fullFormat {
             dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-
         } else {
             dateFormatter.dateFormat = "yyyy/MM/dd"
         }

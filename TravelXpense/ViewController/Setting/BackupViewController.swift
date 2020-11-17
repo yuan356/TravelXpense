@@ -21,6 +21,12 @@ class BackupViewController: TXViewController {
         $0.axis = .vertical
     }
     
+    var backupTimestampe: Double? {
+        didSet {
+            dataTimeLabel.text = TXFunc.convertDoubleTimeToDateStr(timeStamp: backupTimestampe!, fullFormat: true)
+        }
+    }
+    
     lazy var dataTimeLabel = UILabel {
         $0.textColor = textColor
         $0.font = textFont
@@ -35,14 +41,24 @@ class BackupViewController: TXViewController {
         $0.addTarget(self, action: #selector(autoUpdateChange), for: .touchUpInside)
     }
     
-    lazy var updateButton = TXButton {
+    lazy var backupButton = TXButton {
         $0.setTitle(NSLocalizedString("Backup now", comment: "Backup now"), for: .normal)
         $0.backgroundColor = TXColor.system.veronese
         $0.setFont(font: MainFont.medium.with(fontSize: .medium))
         $0.setBackgroundColor(color: TXColor.system.veroneseDrak, forState: .highlighted)
         $0.roundedCorners()
-        $0.anchorSize(h: 43, w: 170)
+        $0.anchorSize(h: 40, w: 160)
         $0.addTarget(self, action: #selector(updateClicked), for: .touchUpInside)
+    }
+    
+    lazy var restoreButton = TXButton {
+        $0.setTitle(NSLocalizedString("Restore", comment: "Restore"), for: .normal)
+        $0.backgroundColor = TXColor.orange.light
+        $0.setFont(font: MainFont.medium.with(fontSize: .medium))
+        $0.setBackgroundColor(color: TXColor.orange.dark, forState: .highlighted)
+        $0.roundedCorners()
+        $0.anchorSize(h: 40, w: 160)
+        $0.addTarget(self, action: #selector(restore), for: .touchUpInside)
     }
     
     override func viewDidLoad() {
@@ -51,7 +67,7 @@ class BackupViewController: TXViewController {
         self.view.backgroundColor = TXColor.background()
         setViews()
         
-        dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, full: true)
+        dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, fullFormat: true)
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.autoUpdateRate.rawValue) {
             autoUpdateSwitch.setOn(true, animated: false)
@@ -77,56 +93,32 @@ class BackupViewController: TXViewController {
         self.view.addSubview(vStackView)
         vStackView.anchor(top: imageView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 8, bottom: 0, right: 8))
         
-        self.view.addSubview(updateButton)
-        updateButton.setAutoresizingToFalse()
-        updateButton.anchorCenterX(to: view)
-        updateButton.topAnchor.constraint(equalTo: vStackView.bottomAnchor, constant: 20).isActive = true
+        self.view.addSubview(backupButton)
+        backupButton.setAutoresizingToFalse()
+        backupButton.anchorCenterX(to: view)
+        backupButton.topAnchor.constraint(equalTo: vStackView.bottomAnchor, constant: 20).isActive = true
+        
+        self.view.addSubview(restoreButton)
+        restoreButton.setAutoresizingToFalse()
+        restoreButton.anchorCenterX(to: view)
+        restoreButton.topAnchor.constraint(equalTo: backupButton.bottomAnchor, constant: 20).isActive = true
     }
     
     @IBAction func updateClicked() {
-        // 確保已登入
-        guard let user = AuthService.currentUser else {
-            return
-        }
-        let userUId = user.uid
-        print(userUId)
-        
-        // 產生一個貼文的唯一ID 並準備backuplog Database 的參照
-        let backupLogRef = FirebaseService.shared.BACKUPLOG_DB_REF.child("\(userUId)")
-
-        let dbFileUrl = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
-        let storgeRef = FirebaseService.shared.DBFILE_STORAGE_REF.child("\(userUId).sqlite")
-        
-        let uploadTask = storgeRef.putFile(from: dbFileUrl, metadata: nil) { metadata, error in
-          guard let metadata = metadata else {
-            // Uh-oh, an error occurred!
-            print("Error1")
-            return
-          }
-            
-          // Metadata contains file metadata such as size, content-type.
-          let size = metadata.size
-            print("size: ", size)
-          // You can also access to download URL after upload.
-            storgeRef.downloadURL { (url, error) in
-            guard let downloadURL = url else {
-              // Uh-oh, an error occurred!
-                print("Error2")
-              return
+        showBlockingView()
+        FirebaseService.shared.backupSQLite { (result, timestamp) in
+            if result == .success {
+                self.hideBlockingView()
+                if let timestamp = timestamp {
+                    self.backupTimestampe = timestamp
+                }
             }
-                
-            // store the backup log to database
-            let fileUrl = downloadURL.absoluteString
-            let timestamp = Date().timeIntervalSince1970
-            let log: [String : Any] = ["backupUrl" : fileUrl, "timestamp" : timestamp]
-            backupLogRef.setValue(log)
-            print("downloadURL: ", downloadURL)
-          }
         }
-        
-        uploadTask.observe(.success) { (snapshot) in // 執行上傳成功後的操作
-            print(snapshot)
-        }
+    }
+    
+    @IBAction func restore() {
+//        showBlockingView()
+        FirebaseService.shared.getBackupLog()
     }
     
     
@@ -134,5 +126,7 @@ class BackupViewController: TXViewController {
         let auto = autoUpdateSwitch.isOn
         UserDefaults.standard.set(auto, forKey: UserDefaultsKey.autoUpdateRate.rawValue)
     }
+    
+
     
 }

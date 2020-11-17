@@ -49,7 +49,7 @@ class ExchangeRateViewController: TXViewController {
         self.view.backgroundColor = TXColor.background()
         setViews()
         
-        dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, full: true)
+        dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, fullFormat: true)
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKey.autoUpdateRate.rawValue) {
             autoUpdateSwitch.setOn(true, animated: false)
@@ -85,7 +85,7 @@ class ExchangeRateViewController: TXViewController {
         RateService.shared.getNewData {
             DispatchQueue.main.async {
                 self.hideBlockingView()
-                self.dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, full: true)
+                self.dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, fullFormat: true)
             }
         }
     }
