@@ -77,7 +77,11 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         case .exchangeRate:
             self.navigationController?.pushViewController(ExchangeRateViewController(), animated: true)
         case .backup:
-            self.navigationController?.pushViewController(BackupViewController(), animated: true)
+            if AuthService.currentUser != nil {
+                self.navigationController?.pushViewController(BackupViewController(), animated: true)
+            } else {
+                TXAlert.showCenterAlert(message: "You are not logged in.")
+            }
         default: break
         }
     }

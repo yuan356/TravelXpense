@@ -19,6 +19,8 @@ enum UserDefaultsKey: String {
     case getRateDateTime
     case rateDataTime
     case autoUpdateRate
+    case backupTime
+    case autoBackup
 }
 
 @UIApplicationMain
@@ -42,12 +44,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         customizeUIStyle()
         
-        CategoryService.shared.getAllCategoriesToCache()
-        
-        RateService.shared.initData()
-
         // 設置 Firebase
         FirebaseApp.configure()
+        
+        RateService.shared.initData()
+        BackupService.shared.initSetting()
+        
+        // database initialize load data
+        CategoryService.shared.getAllCategoriesToCache()
+        BookService.shared.getAllBooksToCache()
+
         
         return true
     }

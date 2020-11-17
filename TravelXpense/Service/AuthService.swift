@@ -52,6 +52,7 @@ class AuthService {
                 return
             }
             TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+            BackupService.shared.initSetting()
             completion(.success)
         })
     }

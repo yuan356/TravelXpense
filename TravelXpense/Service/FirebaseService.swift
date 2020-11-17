@@ -16,8 +16,17 @@ enum backupLogField {
     static let timestamp = "timestamp"
 }
 
-class FirebaseService {
-    static let shared = FirebaseService()
+struct BackupLog {
+    var url: String
+    var date: Date
+}
+
+class BackupService {
+    
+    static let shared = BackupService()
+    
+    var backupTime: Date!
+    
     private init() { }
     
 //    // MARK: - Firebase Database 參照
@@ -28,12 +37,18 @@ class FirebaseService {
     let DBFILE_STORAGE_REF: StorageReference = Storage.storage().reference().child("DBfile")
 //    let COVER_STORAGE_REF: StorageReference = Storage.storage().reference().child("COVER")
 
-    func backupSQLite(completion: @escaping (_ result: CompletionResult, _ timestamp: Double? )->()) {
+    
+    func initSetting() {
+        
+    }
+    
+    func backupSQLite(completion: @escaping (_ result: CompletionResult, _ log: BackupLog?)->()) {
         // 確保已登入
         guard let uid = AuthService.currentUser?.uid else {
+            completion(.failed, nil)
             return
         }
-   
+
         let backupLogRef = BACKUPLOG_DB_REF.child(uid)
 
         let dbFileUrl = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
@@ -58,28 +73,55 @@ class FirebaseService {
                 
                 // store the backup log to database
                 let fileUrl = downloadURL.absoluteString
-                let timestamp = Date().timeIntervalSince1970
-                    let log: [String : Any] = [backupLogField.backupUrl : fileUrl, backupLogField.timestamp : timestamp]
+                let date = Date()
+                let timestamp = date.timeIntervalSince1970
+                let log: [String : Any] = [backupLogField.backupUrl : fileUrl, backupLogField.timestamp : timestamp]
                 backupLogRef.setValue(log)
-                completion(.success, timestamp)
+                    
+                let backupLog = BackupLog(url: fileUrl, date: date)
+                completion(.success, backupLog)
             }
         }
     }
     
-    func getBackupLog() {
+    func restoreBackup(completion: @escaping (_ result: CompletionResult) -> ()) {
         guard let uid = AuthService.currentUser?.uid else {
+            completion(.failed)
+            return
+        }
+        let dbFileRef = DBFILE_STORAGE_REF.child("\(uid).sqlite")
+
+        let documentURL = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
+        dbFileRef.write(toFile: documentURL) { url, error in
+           if let error = error {
+                print(error.localizedDescription)
+                completion(.failed)
+                return
+           } else {
+                // database initialize load data
+                CategoryService.shared.getAllCategoriesToCache()
+                BookService.shared.getAllBooksToCache()
+                completion(.success)
+           }
+        }
+    }
+    
+    func getBackupLog(completion: @escaping (_ log: BackupLog?)->()) {
+        guard let uid = AuthService.currentUser?.uid else {
+            completion(nil)
             return
         }
         
         let backupLogRef = BACKUPLOG_DB_REF.child(uid)
         backupLogRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let log = snapshot.value as? [String: Any] {
-                print("DBfile Url: ", log[backupLogField.backupUrl] ?? "")
-                print("timestamp: ", log[backupLogField.timestamp] ?? "")
+            if let dict = snapshot.value as? [String: Any] {
+                if let url = dict[backupLogField.backupUrl] as? String,
+                   let timestamp = dict[backupLogField.timestamp] as? Double {
+                    let date = TXFunc.convertDoubleToDate(timeStamp: timestamp)
+                    let log = BackupLog(url: url, date: date)
+                    completion(log)
+                }
             }
-            
-            
         })
     }
 }

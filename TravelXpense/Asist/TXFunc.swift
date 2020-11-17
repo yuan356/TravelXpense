@@ -62,7 +62,11 @@ class TXFunc {
         return result
     }
     
-    static func convertDoubleTimeToDateStr(timeStamp: Double, fullFormat: Bool = false) -> String {
+    static func convertDoubleToDate(timeStamp: Double) -> Date {
+        return Date(timeIntervalSince1970: timeStamp)
+    }
+    
+    static func convertDoubleToDateStr(timeStamp: Double, fullFormat: Bool = false) -> String {
         let dateFormatter = DateFormatter()
         if fullFormat {
             dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"

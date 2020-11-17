@@ -74,6 +74,7 @@ class DBManager: NSObject {
     static let shared = DBManager()
     
     var databaseFileName: String = "ACCOUNT_DATA.sqlite" // sqlite name
+    var pathToDocument: String = ""
     var pathToDatabase: String = "" // sqlite path
     var database: FMDatabase! // FMDBConnection
     
@@ -81,7 +82,8 @@ class DBManager: NSObject {
         super.init()
         
         // 取得sqlite在documents下的路徑(開啟連線用)
-        self.pathToDatabase = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] + "/" + self.databaseFileName
+        self.pathToDocument = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]
+        self.pathToDatabase = pathToDocument + "/" + self.databaseFileName
         
         print("filePath: \(self.pathToDatabase)")
     }

@@ -93,19 +93,19 @@ class MainViewController: UIViewController, NewBookDelegate {
     lazy var logInBtn = TXButton {
         $0.setTitle(NSLocalizedString("Log in", comment: "Log in"), for: .normal)
         $0.addTarget(self, action: #selector(logInClicked), for: .touchUpInside)
-        $0.anchorSize(h: 45)
+        $0.anchorSize(h: 45, w: userInfoWidth - 20)
     }
     
     lazy var signUpBtn = TXButton {
         $0.setTitle(NSLocalizedString("Sign up", comment: "Sign up"), for: .normal)
         $0.addTarget(self, action: #selector(signUpClicked), for: .touchUpInside)
-        $0.anchorSize(h: 45)
+        $0.anchorSize(h: 45, w: userInfoWidth - 20)
     }
     
     lazy var logOutBtn = TXButton {
         $0.setTitle(NSLocalizedString("Log out", comment: "Log out"), for: .normal)
         $0.addTarget(self, action: #selector(logOutClicked), for: .touchUpInside)
-        $0.anchorSize(h: 45)
+        $0.anchorSize(h: 45, w: userInfoWidth - 20)
     }
     
     lazy var btnStackView = UIStackView {
@@ -161,7 +161,7 @@ class MainViewController: UIViewController, NewBookDelegate {
         }
     
         // initialize setting
-        BookService.shared.getAllBooksToCache()
+        
         self.books = BookService.shared.bookList
         
         bookTableViewSetting()

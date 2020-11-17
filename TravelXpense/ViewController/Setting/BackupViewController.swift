@@ -21,12 +21,6 @@ class BackupViewController: TXViewController {
         $0.axis = .vertical
     }
     
-    var backupTimestampe: Double? {
-        didSet {
-            dataTimeLabel.text = TXFunc.convertDoubleTimeToDateStr(timeStamp: backupTimestampe!, fullFormat: true)
-        }
-    }
-    
     lazy var dataTimeLabel = UILabel {
         $0.textColor = textColor
         $0.font = textFont
@@ -48,7 +42,7 @@ class BackupViewController: TXViewController {
         $0.setBackgroundColor(color: TXColor.system.veroneseDrak, forState: .highlighted)
         $0.roundedCorners()
         $0.anchorSize(h: 40, w: 160)
-        $0.addTarget(self, action: #selector(updateClicked), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(backupClicked), for: .touchUpInside)
     }
     
     lazy var restoreButton = TXButton {
@@ -67,12 +61,15 @@ class BackupViewController: TXViewController {
         self.view.backgroundColor = TXColor.background()
         setViews()
         
-        dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, fullFormat: true)
-        
-        if UserDefaults.standard.bool(forKey: UserDefaultsKey.autoUpdateRate.rawValue) {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKey.autoBackup.rawValue) {
             autoUpdateSwitch.setOn(true, animated: false)
         } else {
             autoUpdateSwitch.setOn(false, animated: false)
+        }
+        
+        if let timestamp = BackupService.shared.backupTimestamp {
+           let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
+            dataTimeLabel.text = dateStr
         }
         
     }
@@ -104,29 +101,32 @@ class BackupViewController: TXViewController {
         restoreButton.topAnchor.constraint(equalTo: backupButton.bottomAnchor, constant: 20).isActive = true
     }
     
-    @IBAction func updateClicked() {
+    @IBAction func backupClicked() {
         showBlockingView()
-        FirebaseService.shared.backupSQLite { (result, timestamp) in
+        BackupService.shared.backupSQLite { (result) in
+            self.hideBlockingView()
             if result == .success {
-                self.hideBlockingView()
-                if let timestamp = timestamp {
-                    self.backupTimestampe = timestamp
+                if let timestamp = BackupService.shared.backupTimestamp {
+                   let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
+                    self.dataTimeLabel.text = dateStr
                 }
             }
         }
     }
     
     @IBAction func restore() {
-//        showBlockingView()
-        FirebaseService.shared.getBackupLog()
+        showBlockingView()
+        BackupService.shared.restoreBackup { (result) in
+            self.hideBlockingView()
+            if result == .success {
+                print("success")
+            }
+        }
     }
     
     
     @IBAction func autoUpdateChange() {
         let auto = autoUpdateSwitch.isOn
-        UserDefaults.standard.set(auto, forKey: UserDefaultsKey.autoUpdateRate.rawValue)
+        UserDefaults.standard.set(auto, forKey: UserDefaultsKey.autoBackup.rawValue)
     }
-    
-
-    
 }
