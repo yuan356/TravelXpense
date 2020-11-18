@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import FBSDKCoreKit
 
 enum UserDefaultsKey: String {
     case isFirstLaunchApp
@@ -27,6 +28,8 @@ enum UserDefaultsKey: String {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         let isFirstLaunchAppKey = UserDefaultsKey.isFirstLaunchApp.rawValue
         let dic = [isFirstLaunchAppKey: true]
@@ -58,10 +61,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    
     func customizeUIStyle() {
         let textAttributes = [NSAttributedString.Key.font: MainFont.medium.with(fontSize: .medium), NSAttributedString.Key.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().tintColor = .white
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        let handled = ApplicationDelegate.shared.application(app, open: url, options: options)
+//        return handled
+        ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
     }
 
     // MARK: UISceneSession Lifecycle

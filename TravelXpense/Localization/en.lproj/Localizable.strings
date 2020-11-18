@@ -10,3 +10,4 @@
 "recordTitle" = "Title";
 "There is no user record corresponding to this identifier. The user may have been deleted." = "Incorrect email.";
 "The password is invalid or the user does not have a password." = "Incorrect password.";
+"An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address." = "The email address is already in use by another account";

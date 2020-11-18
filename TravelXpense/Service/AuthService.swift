@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
 
 class AuthService {
     
@@ -41,6 +42,44 @@ class AuthService {
                 })
             }
         })
+    }
+    
+    static func fbLogin(vc: UIViewController, completion: @escaping (_ result: CompletionResult)->()) {
+        let fbLoginManager = LoginManager()
+        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: vc) {
+            (result, error) in
+            if let error = error {
+                print("Failed to login: \(error.localizedDescription)")
+                completion(.failed)
+                return
+            }
+            
+            guard let accessToken = AccessToken.current else {
+                print("Failed to get access token")
+                completion(.failed)
+                return
+            }
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            if let cancel = result?.isCancelled, cancel == true {
+                completion(.failed)
+                return
+            }
+            
+            // 呼叫 Firebase APIs 來執行登入
+            Auth.auth().signIn(with: credential, completion: { (result, error) in
+                if let error = error {
+                    TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: "email adress exist"))
+                    completion(.failed)
+                    return
+                } else {
+                    print("fb sign in success")
+                    TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+                    completion(.success)
+                }
+            })
+        }
     }
     
     static func logIn(email: String, password: String, completion: @escaping (_ result: CompletionResult)->()) {

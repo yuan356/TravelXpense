@@ -65,7 +65,7 @@ class MainViewController: UIViewController, NewBookDelegate {
     lazy var userLabel = UILabel {
         $0.textColor = .white
         $0.textAlignment = .center
-        $0.numberOfLines = 3
+        $0.numberOfLines = 0
         $0.font = MainFont.medium.with(fontSize: .medium)
     }
     

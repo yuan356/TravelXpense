@@ -14,7 +14,7 @@ private enum SignUpType: String {
     case email
 }
 
-class LogViewController: UIViewController {
+class LogViewController: TXViewController {
     
     var isLogIn: Bool! {
         didSet {
@@ -107,6 +107,13 @@ class LogViewController: UIViewController {
     }
     
     @IBAction func facebookBtnClicked() {
+        showBlockingView()
+        AuthService.fbLogin(vc: self) { (result) in
+            self.hideBlockingView()
+            if result == .success {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @IBAction func emailBtnClicked() {
