@@ -398,7 +398,6 @@
 		1CD181F32512048B00AFD985 /* TravelXpense */ = {
 			isa = PBXGroup;
 			children = (
-				1C6AB5F925603F2C00073095 /* GoogleService-Info.plist */,
 				1C6AB44E255BD6AD00073095 /* Localization */,
 				1CF5606425384256003EEC66 /* Resources */,
 				1CF5605825380C1E003EEC66 /* Extension */,
@@ -415,6 +414,7 @@
 				1CD182002512048D00AFD985 /* Assets.xcassets */,
 				1CD182052512048D00AFD985 /* Info.plist */,
 				1CD181FD2512048C00AFD985 /* TripBooks.xcdatamodeld */,
+				1C6AB5F925603F2C00073095 /* GoogleService-Info.plist */,
 			);
 			path = TravelXpense;
 			sourceTree = "<group>";

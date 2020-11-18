@@ -89,7 +89,7 @@ class BookContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = TXColor.system.background.dark
+        self.view.backgroundColor = TXColor.background()
         setViews()
         
         addViewControllerToContainerView(containerView: tabBarContainerView, controller: tabViewController)

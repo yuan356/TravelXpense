@@ -84,7 +84,7 @@ class NewBookFirstViewController: NewBookViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TXColor.system.background.dark
+        self.view.backgroundColor = TXColor.background()
         setVStack()
         
     }

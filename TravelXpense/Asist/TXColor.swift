@@ -27,7 +27,6 @@ struct TXColor {
             static let medium = UIColor(hex: "2D3F4B")
             static let light = UIColor(hex: "3D5466")
         }
-        static let picker = UIColor(hex: "1F2933")
         static let veronese = UIColor(hex: "1C9B84")
         static let veroneseDrak = UIColor(hex: "198A75")
         

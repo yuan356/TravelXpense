@@ -147,7 +147,7 @@ class MainViewController: UIViewController, NewBookDelegate {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = TXColor.system.background.dark
+        self.view.backgroundColor = TXColor.background()
         
         let emptyImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(emptyImage, for: .default)
@@ -212,7 +212,7 @@ class MainViewController: UIViewController, NewBookDelegate {
     lazy var blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.backgroundColor = TXColor.system.background.dark
+        blurEffectView.backgroundColor = TXColor.background()
         blurEffectView.alpha = 0
         return blurEffectView
     }()

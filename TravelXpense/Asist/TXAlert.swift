@@ -314,7 +314,7 @@ struct TXAlert {
         attributes.hapticFeedbackType = .none
         attributes.name = AccountPickerAttributes
         attributes.roundCorners = .all(radius: 10)
-        attributes.entryBackground = .color(color: EKColor(TXColor.system.picker))
+        attributes.entryBackground = .color(color: EKColor(TXColor.system.blue.medium))
         let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.8)
         let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.6)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)

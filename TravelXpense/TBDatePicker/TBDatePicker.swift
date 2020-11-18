@@ -41,7 +41,7 @@ class TBdatePickerViewController: UIViewController {
     func setView() {
         // bottom view (buttonView + datePicker + safeArea)
         let bottomView = UIView()
-        bottomView.backgroundColor = TXColor.system.picker
+        bottomView.backgroundColor = TXColor.system.blue.medium
         self.view.addSubview(bottomView)
         
         bottomView.addSubview(datePicker)

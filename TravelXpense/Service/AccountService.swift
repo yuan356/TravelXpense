@@ -44,13 +44,14 @@ class AccountService {
         if accounts.count > 0 {
             firstAcc = accounts[0]
         }
-        
+ 
         if var defalutAccDic = UserDefaults.standard.dictionary(forKey: UserDefaultsKey.defaultAccountDict.rawValue) {
             if let defaultAccId = defalutAccDic["\(bookId)"] as? Int {
                 cache[defaultAccId]?.isDefault = true
             }
             else { // default account haven't set yet
                 // 理論上不會進來，因為預設帳戶新增時就會設定 userDefault
+                // 例外：刪除重裝並回復備份後。
                 if let acc = firstAcc {
                     defalutAccDic["\(bookId)"] = acc.id
                     cache[acc.id]?.isDefault = true
@@ -59,13 +60,14 @@ class AccountService {
             }
         } else { // userDefault haven't set yet
             // 理論上不會進來，因為預設帳戶新增時就會設定 userDefault
+            // 例外：刪除重裝並回復備份後。
             var dict = [String: Int]()
             if let acc = firstAcc {
                 dict["\(bookId)"] = acc.id
+                cache[acc.id]?.isDefault = true
             }
             UserDefaults.standard.set(dict, forKey: UserDefaultsKey.defaultAccountDict.rawValue)
         }
-
         self.cache = cache
         
         if cache.count == 0 { // 理論上不會發生
@@ -164,6 +166,8 @@ class AccountService {
     
     func getDefaultAccount(bookId: Int) -> Account? {
         for acc in cache.values {
+            print(acc.id)
+            print("isdefault ", acc.isDefault)
             if acc.isDefault {
                 return acc
             }

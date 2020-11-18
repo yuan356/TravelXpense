@@ -61,6 +61,7 @@ class AuthService {
         do {
             try Auth.auth().signOut()
             TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+            BackupService.shared.resetBackupTime()
         } catch {
             TXAlert.showCenterAlert(message: error.localizedDescription)
         }

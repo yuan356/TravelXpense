@@ -70,6 +70,8 @@ class BackupViewController: TXViewController {
         if let timestamp = BackupService.shared.backupTimestamp {
            let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
             dataTimeLabel.text = dateStr
+        } else {
+            restoreButton.isHidden = true
         }
         
     }
@@ -109,6 +111,7 @@ class BackupViewController: TXViewController {
                 if let timestamp = BackupService.shared.backupTimestamp {
                    let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
                     self.dataTimeLabel.text = dateStr
+                    self.restoreButton.isHidden = false
                 }
             }
         }

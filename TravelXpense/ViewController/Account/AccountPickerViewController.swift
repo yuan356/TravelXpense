@@ -13,7 +13,7 @@ fileprivate let heightButtonBar: CGFloat = 60
 
 fileprivate let titleColor: UIColor = .white
 fileprivate let amountTextColor: UIColor = TXColor.gray.light
-fileprivate let backgroundColor = TXColor.system.background.dark
+fileprivate let backgroundColor = TXColor.background()
 class AccountPickerViewController: UIViewController {
     
     lazy var headerView = UIView()
