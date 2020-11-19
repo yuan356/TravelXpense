@@ -166,8 +166,6 @@ class AccountService {
     
     func getDefaultAccount(bookId: Int) -> Account? {
         for acc in cache.values {
-            print(acc.id)
-            print("isdefault ", acc.isDefault)
             if acc.isDefault {
                 return acc
             }

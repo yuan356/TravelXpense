@@ -424,7 +424,7 @@ class BookDetailViewController: UIViewController {
         case .name: // limited <= 100
             if let value = updateValue as? String {
                 if value.count > nameMaxLength {
-                    errorMsg = NSLocalizedString("Book name should less than 100.", comment: "Book name should less than 100.")
+                    errorMsg = NSLocalizedString("Book name should be less than 100 characters", comment: "Book name should be less than 100 characters")
                 }
             }
         case .country:
@@ -462,11 +462,11 @@ extension BookDetailViewController: TBDatePickerDelegate {
     func changeDate(buttonIdentifier: String, date: Date) {
         
         let alertTitle = NSLocalizedString("Are you sure you want to change the travel date?", comment: "BookDateChangeConfirm")
-        let alertNote = NSLocalizedString("New travel date range is less than original one that will cause records be deleted.", comment: "BookDateRangeAlert")
+        let alertNote = NSLocalizedString("New travel date is shorter than original one, so data will change according", comment: "BookDateRangeAlert")
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
                 guard TXFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
-                    TXAlert.showCenterAlert(message: NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date."))
+                    TXAlert.showCenterAlert(message: NSLocalizedString("Start date should be earlier than end date", comment: "Start date should be earlier than end date"))
                     return
                 }
                 
@@ -484,7 +484,7 @@ extension BookDetailViewController: TBDatePickerDelegate {
             } else if type == .endDate {
                 
                 guard TXFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
-                    TXAlert.showCenterAlert(message: NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date."))
+                    TXAlert.showCenterAlert(message: NSLocalizedString("End date should be later than start date", comment: "End date should be later than start date"))
                     return
                 }
                 

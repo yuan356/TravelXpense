@@ -17,4 +17,8 @@ target 'TravelXpense' do
 
   # Pods for Facebook
   pod 'FBSDKLoginKit'
+
+
+  # Pods for Google Sign In
+  pod 'GoogleSignIn'
 end

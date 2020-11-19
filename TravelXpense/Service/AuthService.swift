@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import GoogleSignIn
 
 class AuthService {
     
@@ -38,13 +39,36 @@ class AuthService {
                         return
                     }
                     TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+                    
                     completion(.success)
                 })
             }
         })
     }
     
-    static func fbLogin(vc: UIViewController, completion: @escaping (_ result: CompletionResult)->()) {
+    static func googleLogin(user: GIDGoogleUser, completion: @escaping (_ result: CompletionResult)->()) {
+        
+        guard let authentication = user.authentication else {
+            completion(.failed)
+            return
+        }
+        
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication .idToken, accessToken: authentication.accessToken)
+        
+        Auth.auth().signIn(with: credential) { (result, error) in
+            if let error = error {
+                TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: "email address exist"))
+                completion(.failed)
+                return
+            }
+            
+            TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+            BackupService.shared.initSetting()
+            completion(.success)
+        }
+    }
+    
+    static func facebookLogin(vc: UIViewController, completion: @escaping (_ result: CompletionResult)->()) {
         let fbLoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: vc) {
             (result, error) in
@@ -70,12 +94,12 @@ class AuthService {
             // 呼叫 Firebase APIs 來執行登入
             Auth.auth().signIn(with: credential, completion: { (result, error) in
                 if let error = error {
-                    TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: "email adress exist"))
+                    TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: "email address exist"))
                     completion(.failed)
                     return
                 } else {
-                    print("fb sign in success")
                     TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
+                    BackupService.shared.initSetting()
                     completion(.success)
                 }
             })
@@ -102,7 +126,7 @@ class AuthService {
             TXObserved.notifyObservers(notificationName: .authLog, infoKey: nil, infoValue: nil)
             BackupService.shared.resetBackupTime()
         } catch {
-            TXAlert.showCenterAlert(message: error.localizedDescription)
+            TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: ""))
         }
     }
     

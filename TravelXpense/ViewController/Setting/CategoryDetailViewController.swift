@@ -201,12 +201,12 @@ class CategoryDetailViewController: UIViewController {
         }
         
         guard let iconName = categoryIconName else {
-            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("Please choose an icon", comment: "Please choose an icon"))
             return
         }
         
         guard let color = categoryColor else {
-            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose a color.", comment: "You should choose a color."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("Please choose a color", comment: "Please choose a color"))
             return
         }
         
@@ -226,7 +226,7 @@ class CategoryDetailViewController: UIViewController {
         
         // at least one account
         if CategoryService.shared.expenseCache.count == 1 {
-            TXAlert.showCenterAlert(message: NSLocalizedString("You need at least one category.", comment: "You need at least one category."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("At least one category is required", comment: "At least one category is required"))
             return
         }
         
@@ -234,7 +234,7 @@ class CategoryDetailViewController: UIViewController {
         let countMsg = NSLocalizedString("This category have", comment: "This category") + " \(count) " + NSLocalizedString("records", comment: "records")
         
         let confirmMsg = NSLocalizedString("Are you sure you want to delete this category?", comment: "category delete confirm")
-        let confirmNote = NSLocalizedString("All the records of this category will be delete", comment: "category delete note")
+        let confirmNote = NSLocalizedString("All records of this category will be deleted!", comment: "category delete notice")
         
         TXAlert.showCenterAlert(message: confirmMsg + "\n" , title: countMsg,  note: confirmNote, confirm: true) {
             CategoryService.shared.deleteCategory(id: cate.id)

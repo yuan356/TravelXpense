@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import FBSDKCoreKit
+import GoogleSignIn
 
 enum UserDefaultsKey: String {
     case isFirstLaunchApp
@@ -29,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
         let isFirstLaunchAppKey = UserDefaultsKey.isFirstLaunchApp.rawValue
         let dic = [isFirstLaunchAppKey: true]
         UserDefaults.standard.register(defaults: dic)
@@ -44,6 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Every time open the app.
+        
+        // For facebook sign in
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // For google sign in
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         customizeUIStyle()
         
@@ -69,9 +74,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-//        let handled = ApplicationDelegate.shared.application(app, open: url, options: options)
-//        return handled
-        ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        let handled: Bool
+        if url.absoluteString.contains("fb") {
+            handled = ApplicationDelegate.shared.application(app, open: url, options: options)
+        } else {
+            handled = GIDSignIn.sharedInstance().handle(url)
+        }
+        return handled
     }
 
     // MARK: UISceneSession Lifecycle

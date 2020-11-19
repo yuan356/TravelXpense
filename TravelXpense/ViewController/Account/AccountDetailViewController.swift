@@ -210,7 +210,7 @@ class AccountDetailViewController: UIViewController {
         }
         
         guard let iconName = accountIconName else {
-            TXAlert.showCenterAlert(message: NSLocalizedString("You should choose an icon.", comment: "You should choose an icon."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("Please choose an icon", comment: "Please choose an icon"))
             return
         }
 
@@ -245,12 +245,12 @@ class AccountDetailViewController: UIViewController {
         
         // at least one account
         if AccountService.shared.cache.count == 1 {
-            TXAlert.showCenterAlert(message: NSLocalizedString("You need at least one account.", comment: "You need at least one account."))
+            TXAlert.showCenterAlert(message: NSLocalizedString("At least one account is required", comment: "At least one account is required"))
             return
         }
         
         let msg = NSLocalizedString("Are you sure you want to delete this account?", comment: "Are you sure you want to delete this account?")
-        let note = NSLocalizedString("All the records of this account will be delete!", comment: "All the records of this account will be delete!")
+        let note = NSLocalizedString("All records of this account will be deleted!", comment: "All records of this account will be deleted!")
         TXAlert.showCenterAlert(message: msg, note: note, confirm: true) {
             AccountService.shared.deleteAccount(accountId: acc.id)
             self.navigationController?.popViewController(animated: true)

@@ -115,31 +115,31 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
     
     private func checkInput() -> String {
         if let name = pageViewController.bookName, name.count > 100  {
-            return NSLocalizedString("Book name should less than 100.", comment: "Book name should less than 100.")
+            return NSLocalizedString("Book name should be less than 100 characters", comment: "Book name should be less than 100 characters")
         }
         
         guard let start = pageViewController.startDate else {
-            return NSLocalizedString("You should set the start date.", comment: "You should set the start date.")
+            return NSLocalizedString("Please choose the start date", comment: "Please choose the start date")
         }
         
         guard let end = pageViewController.endDate else {
-            return NSLocalizedString("You should set the end date.", comment: "You should set the end date.")
+            return NSLocalizedString("Please choose the end date", comment: "Please choose the end date")
         }
         
         if start > end {
-            return NSLocalizedString("Start date should less than end date.", comment: "Start date should less than end date.")
+            return NSLocalizedString("Start date should be earlier than end date", comment: "Start date should be earlier than end date")
         }
         
         if end < start {
-            return NSLocalizedString("End date should greater than start date.", comment: "End date should greater than start date.")
+            return NSLocalizedString("End date should be later than start date", comment: "End date should be later than start date")
         }
         
         if pageViewController.bookCountry == nil {
-            return NSLocalizedString("You should set the country.", comment: "You should set the country.")
+            return NSLocalizedString("Please choose a country", comment: "Please choose a country")
         }
         
         if pageViewController.bookCurrency == nil {
-            return NSLocalizedString("You should set the currency.", comment: "You should set the currency.")
+            return NSLocalizedString("Please choose a currency", comment: "Please choose a currency")
         }
         
         return ""

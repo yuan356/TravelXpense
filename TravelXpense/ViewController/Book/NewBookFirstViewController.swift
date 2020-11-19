@@ -100,7 +100,7 @@ class NewBookFirstViewController: NewBookViewController {
         let dateDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = NSLocalizedString("Set your travel date", comment: "Set your travel date")
+            $0.text = NSLocalizedString("Choose your travel date", comment: "Choose your travel date")
             $0.anchorSize(h: titleHeight)
         }
         

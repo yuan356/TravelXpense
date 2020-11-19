@@ -112,6 +112,7 @@ class BackupViewController: TXViewController {
                    let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
                     self.dataTimeLabel.text = dateStr
                     self.restoreButton.isHidden = false
+                    TXAlert.showTopAlert(message: NSLocalizedString("Backup succeed", comment: "Backup succeed"))
                 }
             }
         }
@@ -122,7 +123,8 @@ class BackupViewController: TXViewController {
         BackupService.shared.restoreBackup { (result) in
             self.hideBlockingView()
             if result == .success {
-                print("success")
+                TXAlert.showTopAlert(message: NSLocalizedString("Restore succeed", comment: "Restore succeed"))
+                
             }
         }
     }

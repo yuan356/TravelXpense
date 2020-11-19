@@ -86,6 +86,7 @@ class ExchangeRateViewController: TXViewController {
             DispatchQueue.main.async {
                 self.hideBlockingView()
                 self.dataTimeLabel.text = TXFunc.convertDateToDateStr(date: RateService.shared.dataTime, fullFormat: true)
+                TXAlert.showTopAlert(message: NSLocalizedString("Update succeed", comment: "Update succeed"))
             }
         }
     }

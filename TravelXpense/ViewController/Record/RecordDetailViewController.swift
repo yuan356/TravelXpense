@@ -561,7 +561,7 @@ class RecordDetailViewController: UIViewController {
         // amount
         guard let amountText = amountLabel.text?.trimmingCharacters(in: .whitespaces),
               amountText != ""  else {
-            return NSLocalizedString("Amount is empty.", comment: "Amount is empty.")
+            return NSLocalizedString("Please enter amount", comment: "Please enter amount")
         }
         
         guard let _ = Double(amountText) else {
@@ -571,29 +571,29 @@ class RecordDetailViewController: UIViewController {
         // title
         if let title = titleTextField.text {
             if title.count > 100 {
-                return NSLocalizedString("Title length should less than 100.", comment: "Title length should less than 100.")
+                return NSLocalizedString("Title should be less than 100 characters", comment: "TTitle should be less than 100 characters")
             }
         }
         
         // category
         if self.recoredCategory == nil {
-            return NSLocalizedString("You should choose a category.", comment: "You should choose a category.")
+            return NSLocalizedString("Please choose a category", comment: "Please choose a category")
         }
         
         // date
         if self.recordDate == nil {
-            return NSLocalizedString("You should set a record date.", comment: "You should set a record date.")
+            return NSLocalizedString("Please choose a date", comment: "Please choose a date")
         }
         
         // account
         if self.recordAccount == nil {
-            return NSLocalizedString("You should choose an account.", comment: "You should choose an account.")
+            return NSLocalizedString("Please choose an account", comment: "Please choose an account")
         }
         
         // note
         if let note = noteTextView.text {
             if note.count > 500 {
-                return NSLocalizedString("Note length should less than 500.", comment: "Note length should less than 500.")
+                return NSLocalizedString("Note should be less than 500 characters", comment: "Note should be less than 500 characters")
             }
         }
         

@@ -64,15 +64,14 @@ struct TXAlert {
         return animation
     }()
     
-    static var topToastAttributes: EKAttributes = {
-        var attributes = EKAttributes.topToast
+    static var topFloattAttributes: EKAttributes = {
+        var attributes = EKAttributes.topFloat
         attributes.entryBackground = .color(color: .white)
-        attributes.displayDuration = .infinity
+//        attributes.displayDuration =
         attributes.statusBar = statusBarStyle()
         attributes.shadow = .active(with: .init(color: .black, opacity: 0.3, radius: 10, offset: .init(width: 5, height: 5)))
-        attributes.roundCorners = .all(radius: 10)
-        let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.9)
-        let heightConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.3)
+        let widthConstraint = EKAttributes.PositionConstraints.Edge.ratio(value: 0.82)
+        let heightConstraint = EKAttributes.PositionConstraints.Edge.constant(value: 50)
         attributes.positionConstraints.size = .init(width: widthConstraint, height: heightConstraint)
         attributes.popBehavior = .animated(animation: .translation)
         let edgeWidth = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
@@ -109,36 +108,24 @@ struct TXAlert {
         return attributes
     }()
     
-    
-
-//
-//    static func show(_ noticeType: NoticeType, completion: ((_ result: Result, _ value: Any?) -> ())? = nil) {
-//        let view = UIView()
-////        view.layer.cornerRadius = 10
-//        view.backgroundColor = .white
-//        switch noticeType {
-//        case .topToast:
-//            SwiftEntryKit.display(entry: view, using: topToastAttributes)
-//            _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in
-//                UIView.animate(withDuration: 0.2) {
-//                    view.backgroundColor = .systemPink
-//                }
-//            }
-//            _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { (timer) in
-//                UIView.animate(withDuration: 0.2) {
-//                    SwiftEntryKit.dismiss()
-//                }
-//            }
-//            break
-//        case .centerAlert:
-//            SwiftEntryKit.display(entry: view, using: centerFloatAttributes)
-//            break
-//        case .accountPicker:
-//            showAccountPicker { (result, account) in
-//                completion?(result, account)
-//            }
-//        }
-//    }
+    static func showTopAlert(message: String) {
+        let view = UIView()
+        view.backgroundColor = TXColor.shamrockGreen.light
+        view.roundedCorners()
+        
+        let msg = UILabel {
+            $0.text = message
+            $0.font = MainFont.medium.with(fontSize: .medium)
+            $0.textColor = .white
+            $0.numberOfLines = 0
+            $0.textAlignment = .center
+        }
+        
+        view.addSubview(msg)
+        msg.fillSuperview()
+        
+        SwiftEntryKit.display(entry: view, using: topFloattAttributes)
+    }
     
     // MARK: showCenterAlert
     static func showCenterAlert(message: String, title: String = "", note: String = "", confirm: Bool = false, okAction: (()->())? = nil ) {
@@ -381,7 +368,7 @@ struct TXAlert {
                     SwiftEntryKit.dismiss()
                     completion(CompletionResult.success, acc)
                 } else {
-                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a account!", comment: "You didn't select a account!"))
+                    systemNotice(on: viewController, message: NSLocalizedString("Please choose an account", comment: "Please choose an account"))
                 }
             }
             
@@ -400,7 +387,7 @@ struct TXAlert {
                     SwiftEntryKit.dismiss()
                     completion(CompletionResult.success, country)
                 } else {
-                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a country!", comment: "You didn't select a country!"))
+                    systemNotice(on: viewController, message: NSLocalizedString("Please choose a country", comment: "Please choose a country"))
                 }
             }
             
@@ -420,7 +407,7 @@ struct TXAlert {
                     SwiftEntryKit.dismiss()
                     completion(CompletionResult.success, currency)
                 } else {
-                    systemNotice(on: viewController, message: NSLocalizedString("You didn't select a currency!", comment: "You didn't select a currency!"))
+                    systemNotice(on: viewController, message: NSLocalizedString("Please choose a currency", comment: "Please choose a currency"))
                 }
             }
             vc.pickerType = type

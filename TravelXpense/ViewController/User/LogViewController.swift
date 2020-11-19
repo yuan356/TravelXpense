@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import GoogleSignIn
+import Firebase
 private enum SignUpType: String {
     case google
     case facebook
@@ -16,15 +17,7 @@ private enum SignUpType: String {
 
 class LogViewController: TXViewController {
     
-    var isLogIn: Bool! {
-        didSet {
-            if isLogIn {
-                self.navigationItem.title = "Log in"
-            } else {
-                
-            }
-        }
-    }
+    var isLogIn: Bool!
 
     lazy var cancelBtn: UIButton = {
         let btn = TXNavigationIcon.cancel.getButton()
@@ -38,6 +31,10 @@ class LogViewController: TXViewController {
         self.view.backgroundColor = TXColor.background()
         
         setViews()
+        
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
     }
     
     private func setViews() {
@@ -104,11 +101,13 @@ class LogViewController: TXViewController {
     }
     
     @IBAction func googleBtnClicked() {
+        showBlockingView()
+        GIDSignIn.sharedInstance().signIn()
     }
     
     @IBAction func facebookBtnClicked() {
         showBlockingView()
-        AuthService.fbLogin(vc: self) { (result) in
+        AuthService.facebookLogin(vc: self) { (result) in
             self.hideBlockingView()
             if result == .success {
                 self.dismiss(animated: true, completion: nil)
@@ -122,4 +121,26 @@ class LogViewController: TXViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
+}
+
+extension LogViewController: GIDSignInDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if error != nil {
+            self.hideBlockingView()
+            return
+        }
+
+        AuthService.googleLogin(user: user) { (result) in
+            self.hideBlockingView()
+            if result == .success {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        
+    }
+    
+    
 }

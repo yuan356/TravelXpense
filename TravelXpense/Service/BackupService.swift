@@ -65,6 +65,7 @@ class BackupService {
         }
     }
     
+    // MARK: Backup
     func backupSQLite(completion: ((_ result: CompletionResult)->())? = nil) {
         // 確保已登入
         guard let uid = AuthService.currentUser?.uid else {
@@ -72,16 +73,17 @@ class BackupService {
             return
         }
         
+        // backupImage
         guard let nameList = backupImage() else {
             return
         }
         
         let backupLogRef = BACKUPLOG_DB_REF.child(uid)
-
         let dbFileUrl = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
-        let storgeRef = DBFILE_STORAGE_REF.child("\(uid).sqlite")
+        let storgeRef = DBFILE_STORAGE_REF.child(uid).child("ACCOUNT_DATA.sqlite")
         
         let uploadTask = storgeRef.putFile(from: dbFileUrl, metadata: nil)
+        
         uploadTask.observe(.success) { (snapshot) in
             snapshot.reference.downloadURL { (url, error) in
                 guard let url = url else { return }
@@ -96,6 +98,11 @@ class BackupService {
                 backupLogRef.setValue(log)
                 completion?(.success)
             }
+        }
+        
+        uploadTask.observe(.failure) { (_) in
+            completion?(.failed)
+            return
         }
     }
     
@@ -112,8 +119,15 @@ class BackupService {
             if fm.fileExists(atPath: coverFolderPath) {
                 let items = try fm.contentsOfDirectory(atPath: coverFolderPath)
                 for item in items {
-                    let coverFileUrl = URL(fileURLWithPath: coverFolderPath + "/" + item)
-                    coverRef.child(item).putFile(from: coverFileUrl, metadata: nil)
+                    let path = coverFolderPath + "/" + item
+                    let metadata = StorageMetadata()
+                    metadata.contentType = "image/jpg"
+                    
+                    if let data = fm.contents(atPath: path),
+                       let image = UIImage(data: data),
+                       let imageData = image.jpegData(compressionQuality: 0.7) {
+                        coverRef.child(item).putData(imageData, metadata: metadata)
+                    }
                     imageNameList.append(item)
                 }
             }
@@ -130,17 +144,15 @@ class BackupService {
         let dbRef = BACKUPLOG_DB_REF.child(uid)
         dbRef.observeSingleEvent(of: .value) { (snapshot) in
             if let dict = snapshot.value as? [String: Any] {
-                if let list = dict[backupLogField.imageNameList] as? [String] {
-                    self.restoreImage(list)
-                }
+                self.restoreImage(dict[backupLogField.imageNameList])
             } else {
-                TXAlert.showCenterAlert(message: "There is no backup data.")
+                TXAlert.showCenterAlert(message: NSLocalizedString("There is no backup data", comment: "There is no backup data") )
                 completion(.failed)
                 return
             }
         }
                 
-        let sqlFileRef = DBFILE_STORAGE_REF.child("\(uid).sqlite")
+        let sqlFileRef = DBFILE_STORAGE_REF.child(uid).child("ACCOUNT_DATA.sqlite")
         let databaseURL = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
         sqlFileRef.write(toFile: databaseURL) { url, error in
            if let error = error {
@@ -156,16 +168,28 @@ class BackupService {
         }
     }
     
-    func restoreImage(_ imageList: [String]) {
+    func restoreImage(_ imageList: Any?) {
         guard let uid = AuthService.currentUser?.uid else {
             return
         }
         
-        let coverRef = COVER_STORAGE_REF.child(uid)
-        
+        // 1. delete all files in folder
         let localFolderPath = DBManager.shared.pathToDocument + "/imageCover/"
-        
-        for imageName in imageList {
+        let fileManager = FileManager.default
+        do {
+            let paths = try fileManager.contentsOfDirectory(atPath: localFolderPath)
+            for path in paths {
+                try fileManager.removeItem(atPath: localFolderPath + path)
+            }
+        } catch {}
+               
+        // 2. store new image
+        let coverRef = COVER_STORAGE_REF.child(uid)
+        guard let list = imageList as? [String] else {
+            return
+        }
+
+        for imageName in list {
             coverRef.child(imageName).write(toFile: URL(fileURLWithPath: localFolderPath + imageName))
         }
     }

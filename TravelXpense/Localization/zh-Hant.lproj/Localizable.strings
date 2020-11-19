@@ -24,45 +24,50 @@
 "Delete category" = "刪除類別";
 "Title" = "標題";
 "Icon" = "圖示";
-"You should choose an icon." = "選擇一個圖示";
-"You should choose a color." = "選擇一個顏色";
-"You need at least one category." = "需要至少一個類別";
+"Please choose an icon" = "選擇一個圖示";
+"Please choose a color" = "選擇一個顏色";
+"At least one category is required" = "需要至少一個類別";
 "This category have" = "此類別有";
 "records" = "筆紀錄";
 "Are you sure you want to delete this category?" = "確定要刪除此類別？";
-"All the records of this category will be delete" = "此類別紀錄將全部刪除";
+"All records of this category will be deleted!" = "此類別紀錄將全部刪除";
 
 // exchangeRateViewController
 "Update now" = "立即更新";
 "Auto update" = "自動更新";
 "Update time" = "資料更新時間";
+"Update succeed" = "資料更新完成";
 
 // BackupRateViewController
 "Backup now" = "立即備份";
+"Restore" = "恢復備份";
 "Last backup time" = "上次備份時間";
 "Auto backup" = "自動備份";
+"Backup succeed" = "備份成功";
+"Restore succeed" = "恢復備份成功";
 
 // MARK: Book
 // MainViewController
 "New book" = "新增帳本";
-"You don't have a book right now." = "你還沒有旅遊帳本";
-"Go add a new book!" = "去新增一個吧！";
+"Ready for a new book?" = "你還沒有旅遊帳本";
+"Add one now!" = "去新增一個吧！";
 // NewBookContainerViewController
-"Book name should less than 100." = "帳本名稱長度需小於100";
-"You should set the start date." = "選擇你的旅程開始日期";
-"You should set the end date." = "選擇你的旅程結束日期";
-"Start date should less than end date." = "旅程開始時間需小於結束時間";
-"End date should greater than start date." = "旅程結束時間需大於開始時間";
-"You should set the country." = "選擇你的旅遊國家";
-"You should set the currency." = "選擇一種幣別";
+"Book name should be less than 100 characters" = "帳本名稱長度需小於100";
+"Please choose the start date" = "選擇你的旅程開始日期";
+"Please choose the end date" = "選擇你的旅程結束日期";
+"Start date should be earlier than end date" = "旅程開始時間需小於結束時間";
+"End date should be later than start date" = "旅程結束時間需大於開始時間";
+"Please choose a country" = "選擇你的旅遊國家";
+"Please choose a currency" = "選擇一種幣別";
 "Next" = "下一步";
 "Previous" = "上一步";
 
 // NewBookFirst
 "Name your travel book" = "設定你的帳本名稱";
-"Set your travel date" = "旅程日期";
+"Choose your travel date" = "選擇旅程日期";
 "Start date" = "開始日期";
 "End date" = "結束日期";
+
 // NewBookSecond
 "Upload" = "上傳";
 "Which country do you go?" = "選擇一個旅遊國家";
@@ -81,7 +86,7 @@
 "Country" = "國家";
 "Account" = "帳戶";
 "Are you sure you want to change the travel date?" = "確定要更改旅遊日期？";
-"New travel date range is less than original one that will cause records be deleted." = "新的日期區間較小，將造成區間外資料被刪除";
+"New travel date is shorter than original one, so data will change according" = "新的日期區間較小，將造成資料更動";
 
 // MARK: Record
 // ReocrdTableViewcontroller
@@ -93,16 +98,18 @@
 "recordTitle" = "名稱";
 "Note" = "備註";
 
-"Amount is empty." = "尚未輸入金額";
+"Please enter amount" = "尚未輸入金額";
 "Amount is wrong format." = "金額格式錯誤";
-"Title length should less than 100." = "名稱長度不得大於100";
-"You should choose a category." = "尚未選擇類別";
-"You should set a record date." = "設定紀錄日期";
-"You should choose an account." = "選擇一個帳戶";
-"Note length should less than 500." = "備註長度不得大於500";
+"Title should be less than 100 characters" = "名稱長度需小於100";
+"Please choose a category" = "尚未選擇類別";
+"Please choose a date" = "設定紀錄日期";
+"Please choose an account" = "選擇一個帳戶";
+"Note should be less than 500 characters" = "備註長度不得大於500";
+
 // MARK: Chart
 "Expense" = "支出";
 "Ranking" = "排行";
+
 // MARK: Account
 // AccountPickerViewController
 "All accounts" = "所有帳戶";
@@ -115,16 +122,13 @@
 // LocalePickerViewController
 "Country name" = "國家名稱";
 "Country name or currency code" = "國家名稱或貨幣代碼";
-"You need at least one account." = "需要至少一個帳戶";
+"At least one account is required" = "需要至少一個帳戶";
 "Are you sure you want to delete this account?" = "確定要刪除此帳戶？";
-"All the records of this account will be delete!" = "帳戶中所有紀錄將被刪除";
+"All records of this account will be deleted!" = "帳戶中所有紀錄將被刪除";
 
 // MARK: Notify
 "Cancel" = "取消";
 "Okay" = "確定";
-"You didn't select a account!" = "你還沒有選擇帳戶";
-"You didn't select a country!" = "你還沒有選擇國家";
-"You didn't select a currency!" = "你還沒有選擇幣別";
 "Notice" = "提醒";
 
 // MARK: User
@@ -132,6 +136,7 @@
 "Log in" = "登入";
 "Log out" = "登出";
 "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address." = "此電子信箱已被註冊";
+
 // LogWithEmailViewController
 "User name" = "使用者名稱";
 "Email" = "電子信箱";
@@ -152,3 +157,6 @@
 // TBDatePicker
 "Today " = "今天";
 "Done" = "完成";
+
+// BackupService
+"There is no backup data" = "沒有備份資料";
