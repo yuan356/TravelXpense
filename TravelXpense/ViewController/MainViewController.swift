@@ -9,8 +9,8 @@
 import UIKit
 
 fileprivate let headerHeight: CGFloat = 60
-fileprivate let userInfoWidth: CGFloat = UIScreen.main.bounds.width * 0.5
-
+//fileprivate let userInfoWidth: CGFloat = UIScreen.main.bounds.width * 0.5
+fileprivate let userInfoWidth: CGFloat = 185
 
 class MainViewController: UIViewController, NewBookDelegate {
     
@@ -66,14 +66,14 @@ class MainViewController: UIViewController, NewBookDelegate {
         $0.textColor = .white
         $0.textAlignment = .center
         $0.numberOfLines = 0
-        $0.font = MainFont.medium.with(fontSize: .medium)
+        $0.font = MainFont.medium.with(fontSize: 17)
     }
     
     lazy var noteLabel = UILabel {
         $0.textColor = TXColor.gray.medium
         $0.textAlignment = .center
         $0.numberOfLines = 0
-        $0.text = "Log In then you can backup your data."
+        $0.text = NSLocalizedString("Log In to backup your data", comment: "Log In to backup your data")
         $0.font = MainFont.medium.with(fontSize: 15)
     }
     
@@ -119,9 +119,7 @@ class MainViewController: UIViewController, NewBookDelegate {
     lazy var userInfoView = UIView {
         $0.backgroundColor = TXColor.background()
         $0.anchorSize(w: userInfoWidth)
-        
-        print("is log in: ", AuthService.isUserLogin)
-        
+
         $0.addSubview(infoView)
         infoView.anchor(top: $0.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: $0.leadingAnchor, trailing: $0.trailingAnchor)
         
@@ -239,7 +237,7 @@ class MainViewController: UIViewController, NewBookDelegate {
             btnStackView.addArrangedSubview(getLineView())
             noteLabel.isHidden = true
             if let name = user.displayName  {
-                userLabel.text = "Hello," + "\n\n" + name
+                userLabel.text = NSLocalizedString("Hello", comment: "Hello") + "," + "\n\n" + name
             }
         } else {
             noteLabel.isHidden = false
@@ -247,7 +245,7 @@ class MainViewController: UIViewController, NewBookDelegate {
             btnStackView.addArrangedSubview(getLineView())
             btnStackView.addArrangedSubview(signUpBtn)
             btnStackView.addArrangedSubview(getLineView())
-            userLabel.text = "You are not log in."
+            userLabel.text = NSLocalizedString("You are not logged in", comment: "You are not logged in") 
         }
     }
     

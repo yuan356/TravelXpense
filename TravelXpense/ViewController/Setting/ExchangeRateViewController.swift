@@ -68,7 +68,7 @@ class ExchangeRateViewController: TXViewController {
         imageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil)
         imageView.anchorCenterX(to: view)
         
-        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: NSLocalizedString("Update time", comment: "Update time"), object: dataTimeLabel))
+        vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: NSLocalizedString("Last updated", comment: "Last updated"), object: dataTimeLabel))
         vStackView.addArrangedSubview(EditInfoView(viewheight: itemHeight, title: NSLocalizedString("Auto update", comment: "Auto update"), object: autoUpdateSwitch))
         
         self.view.addSubview(vStackView)

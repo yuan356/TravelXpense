@@ -194,7 +194,7 @@ class RecordDetailViewController: UIViewController {
     lazy var doneButton = UIButton {
         $0.backgroundColor = TXColor.system.veronese
         $0.setTitle(NSLocalizedString("Done", comment: "Done"), for: .normal)
-        $0.titleLabel?.font = MainFont.medium.with(fontSize: .medium)
+        $0.titleLabel?.font = MainFont.medium.with(fontSize: 20)
         $0.tintColor = .white
         $0.setTitleColor(.lightGray, for: .highlighted)
         $0.addTarget(self, action: #selector(saveButtonClicked(_:)), for: .touchUpInside)
@@ -565,7 +565,7 @@ class RecordDetailViewController: UIViewController {
         }
         
         guard let _ = Double(amountText) else {
-            return NSLocalizedString("Amount is wrong format.", comment: "Amount is wrong format.")
+            return NSLocalizedString("Amount is wrong format", comment: "Amount is wrong format")
         }
         
         // title

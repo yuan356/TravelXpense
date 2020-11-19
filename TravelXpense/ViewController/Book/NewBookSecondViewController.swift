@@ -94,21 +94,21 @@ class NewBookSecondViewController: NewBookViewController {
         let countryDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = NSLocalizedString("Which country do you go?", comment: "Which country do you go?")
+            $0.text = NSLocalizedString("Choose a country", comment: "Choose a country")
             $0.anchorSize(h: titleHeight)
         }
         
         let currencyDesc = UILabel {
             $0.textColor = titleColor
             $0.font = titleFont
-            $0.text = NSLocalizedString("Set the currency", comment: "Set the currency.")
+            $0.text = NSLocalizedString("Choose a currency", comment: "Choose a currency")
             $0.anchorSize(h: titleHeight)
         }
         
         let coverDesc = UILabel {
             $0.textColor = titleColor
             $0.font = MainFont.regular.with(fontSize: 20)
-            $0.text = NSLocalizedString("You can upload a cover image", comment: "You can upload a cover image")
+            $0.text = NSLocalizedString("Optional: Upload a cover image", comment: "Optional: Upload a cover image")
             $0.anchorSize(h: titleHeight)
         }
         

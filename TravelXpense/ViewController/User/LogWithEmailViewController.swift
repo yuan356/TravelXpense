@@ -102,12 +102,12 @@ class LogWithEmailViewController: TXViewController {
         
         // 輸入驗證
         guard let emailAddress = emailTextField.text, emailAddress != "" else {
-            TXAlert.showCenterAlert(message: "Please enter your email address.")
+            TXAlert.showCenterAlert(message: "Please enter your email address")
             return
         }
         
         guard let password = passwordTextField.text, password != "" else {
-            TXAlert.showCenterAlert(message: "Please enter your password.")
+            TXAlert.showCenterAlert(message: "Please enter your password")
             return
         }
         
@@ -122,7 +122,7 @@ class LogWithEmailViewController: TXViewController {
             }
         } else {
             guard let name = nameTextField.text, name != "" else {
-                TXAlert.showCenterAlert(message: "Please enter your user name.")
+                TXAlert.showCenterAlert(message: "Please enter your user name")
                 return
             }
             

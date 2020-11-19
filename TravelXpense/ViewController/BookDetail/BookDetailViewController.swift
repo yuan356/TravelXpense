@@ -462,7 +462,7 @@ extension BookDetailViewController: TBDatePickerDelegate {
     func changeDate(buttonIdentifier: String, date: Date) {
         
         let alertTitle = NSLocalizedString("Are you sure you want to change the travel date?", comment: "BookDateChangeConfirm")
-        let alertNote = NSLocalizedString("New travel date is shorter than original one, so data will change according", comment: "BookDateRangeAlert")
+        let alertNote = NSLocalizedString("New travel date is shorter than original one, so data will change accordingly", comment: "BookDateRangeAlert")
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
                 guard TXFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
