@@ -44,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Every time open the app.
         
+        // 設置 Firebase
+        FirebaseApp.configure()
+        
         // For facebook sign in
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -51,9 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         customizeUIStyle()
-        
-        // 設置 Firebase
-        FirebaseApp.configure()
         
         RateService.shared.initData()
         BackupService.shared.initSetting()

@@ -73,7 +73,7 @@ class MainViewController: UIViewController, NewBookDelegate {
         $0.textColor = TXColor.gray.medium
         $0.textAlignment = .center
         $0.numberOfLines = 0
-        $0.text = NSLocalizedString("Log In to backup your data", comment: "Log In to backup your data")
+        $0.text = NSLocalizedString("Log in to backup your data", comment: "Log in to backup your data")
         $0.font = MainFont.medium.with(fontSize: 15)
     }
     
