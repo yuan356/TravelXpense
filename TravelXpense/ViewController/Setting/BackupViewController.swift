@@ -114,7 +114,7 @@ class BackupViewController: TXViewController {
     
     @IBAction func backupClicked() {
         guard networkConnected else {
-            TXAlert.showCenterAlert(message: "Network error")
+            TXAlert.showCenterAlert(message: NSLocalizedString("Network error", comment: "Network error"))
             return
         }
         
@@ -138,7 +138,7 @@ class BackupViewController: TXViewController {
     @IBAction func restore() {
         
         guard networkConnected else {
-            TXAlert.showCenterAlert(message: "Network error")
+            TXAlert.showCenterAlert(message: NSLocalizedString("Network error", comment: "Network error"))
             return
         }
         
