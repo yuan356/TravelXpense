@@ -70,6 +70,7 @@ class BackupService {
         // 確保已登入
         guard let uid = AuthService.currentUser?.uid else {
             completion?(.failed)
+            TXAlert.showCenterAlert(message: "not logged in")
             return
         }
         
@@ -102,6 +103,7 @@ class BackupService {
         
         uploadTask.observe(.failure) { (_) in
             completion?(.failed)
+            TXAlert.showCenterAlert(message: "file")
             return
         }
     }
@@ -126,7 +128,10 @@ class BackupService {
                     if let data = fm.contents(atPath: path),
                        let image = UIImage(data: data),
                        let imageData = image.jpegData(compressionQuality: 0.7) {
-                        coverRef.child(item).putData(imageData, metadata: metadata)
+                       let task = coverRef.child(item).putData(imageData, metadata: metadata)
+                        task.observe(.failure) { (_) in
+                            TXAlert.showCenterAlert(message: "image storage err")
+                        }
                     }
                     imageNameList.append(item)
                 }

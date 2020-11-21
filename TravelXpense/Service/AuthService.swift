@@ -25,7 +25,8 @@ class AuthService {
         // 在 Firebase 註冊使用者帳號
         Auth.auth().createUser(withEmail: email, password: password, completion : { (user, error) in
             if let error = error {
-                TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: ""))
+                let er = AuthErrorCode(rawValue: error._code)
+                TXAlert.showCenterAlert(message: NSLocalizedString(er?.errorMessage ?? error.localizedDescription, comment: ""))
                 completion(.failed)
                 return
             }
@@ -110,7 +111,9 @@ class AuthService {
         // 呼叫 Firebase APIs 執行登入
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
-                TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: ""))
+                let er = AuthErrorCode(rawValue: error._code)
+                
+                TXAlert.showCenterAlert(message: NSLocalizedString(er?.errorMessage ?? error.localizedDescription, comment: ""))
                 completion(.failed)
                 return
             }

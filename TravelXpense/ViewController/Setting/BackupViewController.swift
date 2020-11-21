@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Network
 
 fileprivate let itemHeight: CGFloat = 60
 fileprivate let textFont: UIFont = MainFont.regular.with(fontSize: .medium)
@@ -15,6 +15,10 @@ fileprivate let textColor: UIColor = TXColor.gray.light
 
 class BackupViewController: TXViewController {
 
+    let monitor = NWPathMonitor()
+    
+    var networkConnected = true
+    
     lazy var vStackView = UIStackView {
         $0.alignment = .fill
         $0.distribution = .equalSpacing
@@ -74,6 +78,11 @@ class BackupViewController: TXViewController {
             restoreButton.isHidden = true
         }
         
+        monitor.pathUpdateHandler = { path in
+              self.networkConnected = path.status == .satisfied
+           }
+        monitor.start(queue: DispatchQueue.global())
+        
     }
     
     private func setViews() {
@@ -104,6 +113,11 @@ class BackupViewController: TXViewController {
     }
     
     @IBAction func backupClicked() {
+        guard networkConnected else {
+            TXAlert.showCenterAlert(message: "Network error")
+            return
+        }
+        
         TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to backup current data?", comment: "Are you sure you want to backup current data?"), note: NSLocalizedString("Old backup will be overridden", comment: "Old backup will be overridden"), confirm: true) {
             TXAlert.dismiss()
             self.showBlockingView()
@@ -122,6 +136,11 @@ class BackupViewController: TXViewController {
     }
     
     @IBAction func restore() {
+        
+        guard networkConnected else {
+            TXAlert.showCenterAlert(message: "Network error")
+            return
+        }
         
         TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to restore the backup?", comment: "Are you sure you want to restore the backup?"), note: NSLocalizedString("Old data will be deleted please confirm", comment: "Old data will be deleted please confirm"), confirm: true) {
                 TXAlert.dismiss()
