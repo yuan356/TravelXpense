@@ -81,6 +81,7 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Rubik-Medium.ttf</string>
 		<string>Rubik-Light.ttf</string>
+		<string>Oswald-Medium.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

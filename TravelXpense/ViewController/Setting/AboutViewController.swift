@@ -17,17 +17,15 @@ class AboutViewController: UIViewController {
     }
     
     lazy var versionView = UIView {
-        let logoLabel = UILabel {
-            $0.font = MainFont.medium.with(fontSize: .large)
-            $0.textColor = TXColor.gray.light
-            $0.text = "TravelXpense"
-        }
+        let logo = UIImageView()
+        logo.image = UIImage(named: "TitleLogo")
+        logo.anchorSize(h: 50, w: 210)
         
-        $0.addSubview(logoLabel)
-        logoLabel.anchorToSuperViewCenter()
+        $0.addSubview(logo)
+        logo.anchorToSuperViewCenter()
         $0.addSubview(versionLabel)
         versionLabel.anchorCenterX(to: $0)
-        versionLabel.anchorTopTo(to: logoLabel, padding: 15)
+        versionLabel.anchorTopTo(to: logo, padding: 15)
         $0.anchorSize(h: 180)
     }
     
@@ -56,6 +54,7 @@ class AbountTableView: GenericTableViewController<AbountCell, String> {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
+        self.tableView.separatorStyle = .none
         items = [NSLocalizedString("Website", comment: "Website")]
     }
     

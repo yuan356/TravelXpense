@@ -140,6 +140,7 @@ class BackupService {
             completion(.failed)
             return
         }
+        CacheManager.shared.clearCache()
         
         let dbRef = BACKUPLOG_DB_REF.child(uid)
         dbRef.observeSingleEvent(of: .value) { (snapshot) in

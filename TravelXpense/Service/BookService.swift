@@ -21,11 +21,13 @@ class BookService {
     var bookList = [Book]()
     
     /// 載入所有帳本，並重設book cache & booklist
+    // store cover image to cache
     func getAllBooksToCache() {
         self.bookList = DBManager.shared.getAllBooks(order: .createdDate)
         
         self.cache = self.bookList.reduce(into: [:], { (result, book) in
             result[book.id] = book
+            ImageService.initRetrieveImageForBook(bookId: book.id)
         })
     }
     

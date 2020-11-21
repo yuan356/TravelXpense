@@ -36,10 +36,17 @@ class LogWithEmailViewController: TXViewController {
         $0.tag = 1
         $0.delegate = self
     }
-    
+        
     lazy var passwordTextField = TXTextField {
         $0.isSecureTextEntry = true
+        $0.returnKeyType = .next
         $0.tag = 2
+        $0.delegate = self
+    }
+    
+    lazy var passwordConfirmTextField = TXTextField {
+        $0.isSecureTextEntry = true
+        $0.tag = 3
         $0.delegate = self
     }
 
@@ -73,15 +80,18 @@ class LogWithEmailViewController: TXViewController {
     
     private func setViews() {
         if !isLogIn {
-            vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("User name", comment: "User name"), object: nameTextField, underLine: true, anchorBottom: true))
+            vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, titleWidth: 156, title: NSLocalizedString("User name", comment: "User name"), object: nameTextField, underLine: true, anchorBottom: true))
         }
         
-        vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Email", comment: "Email"), object: emailTextField, underLine: true, anchorBottom: true))
-        vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, title: NSLocalizedString("Password", comment: "Password"), object: passwordTextField, underLine: true, anchorBottom: true))
+        vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, titleWidth: 156, title: NSLocalizedString("Email", comment: "Email"), object: emailTextField, underLine: true, anchorBottom: true))
+        vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, titleWidth: 156, title: NSLocalizedString("Password", comment: "Password"), object: passwordTextField, underLine: true, anchorBottom: true))
         
+        if !isLogIn {
+            vStackView.addArrangedSubview(EditInfoView(viewheight: heightForStackItem, titleWidth: 156, title: NSLocalizedString("Password confirm", comment: "Password confirm"), object: passwordConfirmTextField, underLine: true, anchorBottom: true))
+        }
         
         self.view.addSubview(vStackView)
-        vStackView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15))
+        vStackView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
         
         self.view.addSubview(loginButton)
         loginButton.setAutoresizingToFalse()
@@ -102,12 +112,12 @@ class LogWithEmailViewController: TXViewController {
         
         // 輸入驗證
         guard let emailAddress = emailTextField.text, emailAddress != "" else {
-            TXAlert.showCenterAlert(message: "Please enter your email address")
+            TXAlert.showCenterAlert(message: NSLocalizedString("Please enter email address", comment: "Please enter email address"))
             return
         }
         
         guard let password = passwordTextField.text, password != "" else {
-            TXAlert.showCenterAlert(message: "Please enter your password")
+            TXAlert.showCenterAlert(message: NSLocalizedString("Please enter password", comment: "Please enter password"))
             return
         }
         
@@ -118,13 +128,26 @@ class LogWithEmailViewController: TXViewController {
                 if result == .success {
                     self.dismiss(animated: true, completion: nil)
                 }
-                
             }
         } else {
             guard let name = nameTextField.text, name != "" else {
-                TXAlert.showCenterAlert(message: "Please enter your user name")
+                TXAlert.showCenterAlert(message: NSLocalizedString("Please enter user name", comment: "Please enter user name") )
+                hideBlockingView()
                 return
             }
+            
+            guard let passwordConfirm = passwordConfirmTextField.text, passwordConfirm != "" else {
+                TXAlert.showCenterAlert(message: NSLocalizedString("Please confirm password", comment: "Please confirm password"))
+                hideBlockingView()
+                return
+            }
+            
+            if password != passwordConfirm {
+                TXAlert.showCenterAlert(message: NSLocalizedString("Password does not match", comment: "Password does not match"))
+                hideBlockingView()
+                return
+            }
+            
             
             AuthService.signUp(name: name, email: emailAddress, password: password) { (result) in
                 self.hideBlockingView()

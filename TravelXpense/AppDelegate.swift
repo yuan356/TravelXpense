@@ -61,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // database initialize load data
         CategoryService.shared.getAllCategoriesToCache()
         BookService.shared.getAllBooksToCache()
-
         
         return true
     }

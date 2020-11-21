@@ -28,6 +28,8 @@
 		1C6AB60F2560418A00073095 /* LogWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB60E2560418A00073095 /* LogWithEmailViewController.swift */; };
 		1C731D622566E11100359BCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C731D612566E11100359BCE /* GoogleService-Info.plist */; };
 		1C7379AF2568F0480067AF61 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7379AE2568F0480067AF61 /* AboutViewController.swift */; };
+		1C7379BB2569064C0067AF61 /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C7379BA256906480067AF61 /* Oswald-Medium.ttf */; };
+		1C7379BF256919F40067AF61 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7379BE256919F40067AF61 /* CacheManager.swift */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
@@ -124,6 +126,8 @@
 		1C6AB60E2560418A00073095 /* LogWithEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWithEmailViewController.swift; sourceTree = "<group>"; };
 		1C731D612566E11100359BCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1C7379AE2568F0480067AF61 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		1C7379BA256906480067AF61 /* Oswald-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Medium.ttf"; sourceTree = "<group>"; };
+		1C7379BE256919F40067AF61 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 				1C6AB42F255A907400073095 /* RateService.swift */,
 				1CA0B14B25622B850083DE0F /* AuthService.swift */,
 				1CA0B1702562721B0083DE0F /* BackupService.swift */,
+				1C7379BE256919F40067AF61 /* CacheManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 		1CF5606525384260003EEC66 /* font */ = {
 			isa = PBXGroup;
 			children = (
+				1C7379BA256906480067AF61 /* Oswald-Medium.ttf */,
 				1CBCD5E12546AE0300FB6C12 /* Roboto */,
 				1CF5609D253949B7003EEC66 /* Rubik */,
 			);
@@ -581,6 +587,7 @@
 				1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
 				1CBCD5D12546AA2200FB6C12 /* Roboto-Regular.ttf in Resources */,
+				1C7379BB2569064C0067AF61 /* Oswald-Medium.ttf in Resources */,
 				1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
 			);
@@ -684,6 +691,7 @@
 				1C8B6F57252DB044000D423B /* IconView.swift in Sources */,
 				1CBCD6562549175B00FB6C12 /* TBPieChartView.swift in Sources */,
 				1CD1820D2512050900AFD985 /* Record.swift in Sources */,
+				1C7379BF256919F40067AF61 /* CacheManager.swift in Sources */,
 				1CF5605F25381DFE003EEC66 /* RecordSevice.swift in Sources */,
 				1C40AFF3255652700010EE47 /* CategoryDetailViewController.swift in Sources */,
 				1CCBBBAE2551091A002C47A1 /* UITableView+emptyView.swift in Sources */,

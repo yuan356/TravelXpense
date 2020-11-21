@@ -132,13 +132,15 @@
 "User name" = "使用者名稱";
 "Email" = "電子信箱";
 "Password" = "密碼";
+"Password confirm" = "密碼確認";
 "The email address is badly formatted." = "電子信箱格式錯誤";
 "The password must be 6 characters long or more." = "密碼長度需為6個字元以上";
 "The email address is already in use by another account." = "此電子信箱已被註冊";
-"Please enter your user name" = "請輸入使用者名稱";
-"Please enter your email address" = "請輸入電子信箱";
-"Please enter your password" = "請輸入密碼";
-
+"Please enter user name" = "請輸入使用者名稱";
+"Please enter email address" = "請輸入電子信箱";
+"Please enter password" = "請輸入密碼";
+"Please confirm password" = "請確認密碼";
+"Password does not match" = "密碼不相符";
 "There is no user record corresponding to this identifier. The user may have been deleted." = "電子信箱錯誤";
 "The password is invalid or the user does not have a password." = "密碼錯誤";
 "Reset password" = "重設密碼";

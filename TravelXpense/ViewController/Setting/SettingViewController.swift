@@ -52,11 +52,10 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         super.viewDidLoad()
         self.view.backgroundColor = TXColor.background()
         self.navigationItem.title = NSLocalizedString("Setting", comment: "Setting")
-        
+        self.tableView.separatorStyle = .none
         
         items = [SetRows.category, SetRows.currency, SetRows.exchangeRate,
                  SetRows.backup, SetRows.about]
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -9,8 +9,8 @@
 import UIKit
 
 let defaultCategories = [
-    (title: "Air tickets", colorCode: "E4B1AB", iconName: "cate-1"),
-    (title: "Accommodation", colorCode: "9FC680", iconName: "cate-2"),
+    (title: "Air tickets", colorCode: "5FBF84", iconName: "cate-1"),
+    (title: "Accommodation", colorCode: "FCF6BD", iconName: "cate-2"),
     (title: "Food & Drink", colorCode: "ECC06F", iconName: "cate-3"),
     (title: "Shopping", colorCode: "E97C61", iconName: "cate-4"),
     (title: "Entertainment", colorCode: "9E8BBB", iconName: "cate-5"),
