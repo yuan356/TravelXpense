@@ -367,7 +367,7 @@ class RecordDetailViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(IconsCollectionViewCell<Category>.self, forCellWithReuseIdentifier: categoryCell)
-        collectionView.isPagingEnabled = true
+//        collectionView.isPagingEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView

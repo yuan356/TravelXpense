@@ -27,6 +27,7 @@
 		1C6AB5F7255FE18000073095 /* TXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB5F6255FE18000073095 /* TXButton.swift */; };
 		1C6AB60F2560418A00073095 /* LogWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6AB60E2560418A00073095 /* LogWithEmailViewController.swift */; };
 		1C731D622566E11100359BCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C731D612566E11100359BCE /* GoogleService-Info.plist */; };
+		1C7379AF2568F0480067AF61 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7379AE2568F0480067AF61 /* AboutViewController.swift */; };
 		1C8B6F2E2521C3A3000D423B /* RecordContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */; };
 		1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */; };
 		1C8B6F4625247ACA000D423B /* RecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */; };
@@ -122,6 +123,7 @@
 		1C6AB5F6255FE18000073095 /* TXButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXButton.swift; sourceTree = "<group>"; };
 		1C6AB60E2560418A00073095 /* LogWithEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogWithEmailViewController.swift; sourceTree = "<group>"; };
 		1C731D612566E11100359BCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1C7379AE2568F0480067AF61 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		1C8B6F2D2521C3A3000D423B /* RecordContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordContainerViewController.swift; sourceTree = "<group>"; };
 		1C8B6F4225247A8E000D423B /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		1C8B6F4525247ACA000D423B /* RecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				1C40AFF2255652700010EE47 /* CategoryDetailViewController.swift */,
 				1C6AB42C255A901000073095 /* ExchangeRateViewController.swift */,
 				1CA0B1532562663B0083DE0F /* BackupViewController.swift */,
+				1C7379AE2568F0480067AF61 /* AboutViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -667,6 +670,7 @@
 				1CCBBBB125526958002C47A1 /* MainViewController.swift in Sources */,
 				1C8B6F4325247A8E000D423B /* RecordTableViewCell.swift in Sources */,
 				1CBCD6532549172600FB6C12 /* ProgressBarView.swift in Sources */,
+				1C7379AF2568F0480067AF61 /* AboutViewController.swift in Sources */,
 				1CBCD5C92546856600FB6C12 /* ImageService.swift in Sources */,
 				1CF56030253595A5003EEC66 /* TXAlert.swift in Sources */,
 				1CF5606225383C65003EEC66 /* CalculatorViewController.swift in Sources */,

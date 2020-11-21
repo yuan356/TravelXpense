@@ -39,14 +39,24 @@ enum SetRows: Int {
 }
 
 class SettingViewController: GenericTableViewController<settingCell, SetRows> {
+
+    var myCurrnecy: Currency? {
+        return RateService.shared.myCurrency
+    }
+    
+    lazy var clearView = UIView {
+        $0.backgroundColor = .clear
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = TXColor.background()
         self.navigationItem.title = NSLocalizedString("Setting", comment: "Setting")
         
+        
         items = [SetRows.category, SetRows.currency, SetRows.exchangeRate,
                  SetRows.backup, SetRows.about]
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,10 +65,6 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
-    }
-    
-    var myCurrnecy: Currency? {
-        return RateService.shared.myCurrency
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -82,12 +88,10 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
             } else {
                 TXAlert.showCenterAlert(message: "You are not logged in.")
             }
+        case .about:
+            self.navigationController?.pushViewController(AboutViewController(), animated: true)
         default: break
         }
-    }
-    
-    lazy var clearView = UIView {
-        $0.backgroundColor = .clear
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +108,6 @@ class SettingViewController: GenericTableViewController<settingCell, SetRows> {
         }
         return cell
     }
-    
 }
 
 class settingCell: GenericCell<SetRows> {
