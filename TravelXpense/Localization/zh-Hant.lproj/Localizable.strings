@@ -171,3 +171,13 @@
 "Restore succeed" = "恢復備份成功";
 
 "Website" = "官方網站";
+
+// MARK: Category
+"Air Tickets" = "機票";
+"Accommodation" = "住宿";
+"Food & Drink" = "飲食";
+"Shopping" = "購物";
+"Entertainment" = "娛樂";
+"Transport" = "交通";
+
+"Cash" = "現金";

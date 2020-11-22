@@ -136,7 +136,8 @@ class AuthService {
     static func resetPassword(email: String, completion: @escaping (_ result: CompletionResult)->()) { 
         Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
             if let error = error {
-                TXAlert.showCenterAlert(message: NSLocalizedString(error.localizedDescription, comment: ""))
+                let er = AuthErrorCode(rawValue: error._code)
+                TXAlert.showCenterAlert(message: NSLocalizedString(er?.errorMessage ?? error.localizedDescription, comment: ""))
                 completion(.failed)
             } else {
                 let msg1 = NSLocalizedString("We have just sent you a password reset email.", comment: "resetPassword")

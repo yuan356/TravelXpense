@@ -288,7 +288,6 @@ class RecordDetailViewController: UIViewController {
           } else if let activeItem = currentTextField {
               let bottomOfTextField = activeItem.convert(activeItem.bounds, to: self.view).maxY;
               let topOfKeyboard = self.view.frame.height - keyboardSize.height
-
             // if the bottom of Textfield is below the top of keyboard, move up
               if bottomOfTextField > topOfKeyboard {
                  shouldMoveViewUp = true
@@ -479,6 +478,7 @@ class RecordDetailViewController: UIViewController {
         if let identifier = sender.restorationIdentifier {
             switch ToolType.init(rawValue: identifier) {
             case .amount:
+                self.view.endEditing(true)
                 TXAlert.showCalculator(on: self, originalAmount: recordAmount, currencyCode: book.currency.code)
             case .date:
                 let datePickerVC = TBdatePickerViewController()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-let defaultAccount = (name: "Cash", iconName: "acc-3")
+let defaultAccount = (name: NSLocalizedString("Cash", comment: "Cash"), iconName: "acc-3")
 
 class AccountService {
 

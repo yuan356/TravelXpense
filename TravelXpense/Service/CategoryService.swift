@@ -9,12 +9,12 @@
 import UIKit
 
 let defaultCategories = [
-    (title: "Air tickets", colorCode: "5FBF84", iconName: "cate-1"),
-    (title: "Accommodation", colorCode: "FCF6BD", iconName: "cate-2"),
-    (title: "Food & Drink", colorCode: "ECC06F", iconName: "cate-3"),
-    (title: "Shopping", colorCode: "E97C61", iconName: "cate-4"),
-    (title: "Entertainment", colorCode: "9E8BBB", iconName: "cate-5"),
-    (title: "Transport", colorCode: "88B7D3", iconName: "cate-6")
+    (title: NSLocalizedString("Air Tickets", comment: "Air Tickets"), colorCode: "5FBF84", iconName: "cate-1"),
+    (title: NSLocalizedString("Accommodation", comment: "Accommodation"), colorCode: "FCF6BD", iconName: "cate-2"),
+    (title: NSLocalizedString("Food & Drink", comment: "Food & Drink"), colorCode: "ECC06F", iconName: "cate-3"),
+    (title: NSLocalizedString("Shopping", comment: "Shopping"), colorCode: "E97C61", iconName: "cate-4"),
+    (title: NSLocalizedString("Entertainment", comment: "Entertainment"), colorCode: "9E8BBB", iconName: "cate-5"),
+    (title: NSLocalizedString("Transport", comment: "Transport"), colorCode: "88B7D3", iconName: "cate-6")
     ]
 
 class CategoryService {
@@ -41,8 +41,6 @@ class CategoryService {
         if self.expenseCache.count == 0 { // 理論上不會發生
             setDefaultCategories()
         }
-            
-            
     }
     
     func updateCategory(id: Int, title: String, colorCode: String, iconName: String) {
