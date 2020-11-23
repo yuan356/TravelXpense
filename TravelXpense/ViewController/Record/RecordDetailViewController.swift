@@ -131,7 +131,7 @@ class RecordDetailViewController: UIViewController {
     }
     
     lazy var amountLabel = UILabel {
-        $0.font = MainFontNumeral.regular.with(fontSize: 40)
+        $0.font = MainFontNumeral.regular.with(fontSize: 38)
         $0.text = "0"
         $0.textColor = .white
         $0.textAlignment = .right
@@ -328,8 +328,18 @@ class RecordDetailViewController: UIViewController {
         contentView.addSubview(amountView)
         amountView.anchor(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: contentView.trailingAnchor, padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: 0, right: paddingInContentView))
         
+        let currencyLabel = UILabel {
+            $0.text = book.currency.code
+            $0.font = MainFontNumeral.medium.with(fontSize: 18)
+            $0.textColor = .white
+        }
+        
+        amountView.addSubview(currencyLabel)
+        currencyLabel.anchor(top: amountView.topAnchor, bottom: nil, leading: nil, trailing: amountView.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 0, bottom: 0, right: paddingInContentView))
+        
         amountView.addSubview(amountLabel)
-        amountLabel.fillSuperview(padding: UIEdgeInsets(top: paddingInContentView, left: paddingInContentView, bottom: paddingInContentView, right: paddingInContentView))
+        amountLabel.anchor(top: currencyLabel.bottomAnchor, bottom: amountView.bottomAnchor, leading: amountView.leadingAnchor, trailing: amountView.trailingAnchor, padding: UIEdgeInsets(top: 5, left: paddingInContentView, bottom: 8, right: paddingInContentView))
+
         
         let calculatorButton = UIButton()
         calculatorButton.restorationIdentifier = ToolType.amount.rawValue
@@ -514,14 +524,11 @@ class RecordDetailViewController: UIViewController {
         }
         
         guard let category = self.recoredCategory,
-              let amountText = amountLabel.text,
-              let amount = Double(amountText),
               let date = self.recordDate,
               let account = self.recordAccount else {
             return
         }
 
-        recordAmount = amount
         if transactionIsExpense {
             recordAmount.turnToNegative()
         } else {
@@ -616,6 +623,7 @@ extension RecordDetailViewController: CalculatorDelegate {
     
     func changeAmountValue(amountStr: String) {
         amountLabel.text = amountStr
+        recordAmount = Double(amountStr) ?? 0
     }
 }
 

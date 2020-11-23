@@ -32,8 +32,6 @@ fileprivate let clearBtnId = "clear"
 fileprivate let pointBtnId = "point"
 fileprivate let okayBtnId = "okay"
 
-fileprivate let heightForBudgetView: CGFloat = 80
-
 class CalculatorViewController: UIViewController {
 
     weak var delegate: CalculatorDelegate?
@@ -56,7 +54,6 @@ class CalculatorViewController: UIViewController {
     private var amountText: String = "" {
         didSet {
             amountText = checkAmountTextLength(amountText)
-            
             self.delegate?.changeAmountValue(amountStr: amountText)
         }
     }
@@ -80,7 +77,7 @@ class CalculatorViewController: UIViewController {
         $0.textColor = TXColor.gray.light
         $0.textAlignment = .center
         $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.85
+        $0.minimumScaleFactor = 0.7
         $0.font = MainFontNumeral.medium.with(fontSize: 23)
     }
     
@@ -89,9 +86,8 @@ class CalculatorViewController: UIViewController {
     var numberOnScreen: Double = 0 { // 稍後要存目前畫面上的數字，目前是 0。
         didSet {
             let amount = RateService.shared.exchange(to: currencyCode, amount: numberOnScreen)
-            let text = TXFunc.convertDoubleToStr(amount, currencyCode: RateService.shared.myCurrency?.code)
-            
-            exchangeLabel.text = text
+            let text = TXFunc.convertDoubleToStr(amount)
+            exchangeLabel.text = " " + text + " "
         }
     }
     private var previousNumber: Double = 0 // 要存的運算之前畫面上的數字。
@@ -244,11 +240,23 @@ class CalculatorViewController: UIViewController {
         hStackView_1.axis = .horizontal
         hStackView_1.distribution = .fillEqually
  
-        let exView = UIView()
-        exView.addSubview(exchangeLabel)
-        exchangeLabel.anchor(top: exView.topAnchor, bottom: exView.bottomAnchor, leading: exView.leadingAnchor, trailing: exView.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
+        let currencyLabel = UILabel {
+            $0.text = RateService.shared.myCurrency?.code
+            $0.textColor = TXColor.gray.light
+            $0.textAlignment = .center
+            $0.font = MainFontNumeral.medium.with(fontSize: 18)
+        }
         
-        hStackView_1.addArrangedSubview(exView)
+        let exStack = UIStackView {
+            $0.alignment = .center
+            $0.distribution = .fill
+            $0.axis = .vertical
+        }
+        
+        exStack.addArrangedSubview(currencyLabel)
+        exStack.addArrangedSubview(exchangeLabel)
+        
+        hStackView_1.addArrangedSubview(exStack)
         hStackView_1.addArrangedSubview(hStackView_1_2)
              
         hStackView_1_2.axis = .horizontal

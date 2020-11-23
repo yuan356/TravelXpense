@@ -176,8 +176,22 @@ class AccountService {
     func updateAmount(accountId: Int, value: Double) {
         if let acc = getAccountFromCache(accountId: accountId) {
             acc.amount += value
-            TXObserved.notifyObservers(notificationName: .accountAmountUpdate, infoKey: .accountAmount, infoValue: acc)
+            TXObserved.notifyObservers(notificationName: .accountAmountUpdate, infoKey: .accountAmount, infoValue: nil)
         }
+    }
+    
+    func getTotalBudget() -> Double {
+        let budget = cache.values.reduce(0) { (result, acc) -> Double in
+            return result + acc.budget
+        }
+        return budget
+    }
+    
+    func getTotalAmount() -> Double {
+        let amount = cache.values.reduce(0) { (result, acc) -> Double in
+            return result + acc.amount
+        }
+        return amount
     }
     
     func calculateAmountInBook(bookId: Int) {

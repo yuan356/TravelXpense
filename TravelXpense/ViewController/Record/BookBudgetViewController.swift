@@ -46,14 +46,12 @@ class BookBudgetViewController: UIViewController {
     override func viewDidLoad() {
         setView()
         
-        currentAccount = AccountService.shared.getDefaultAccount(bookId: book.id)
-        if let acc = currentAccount {
-            budget = acc.budget
-            
-            // caculate totol amount for default account
-            balance = budget + acc.amount
-            updateBalance()
-        }
+        let amount = AccountService.shared.getTotalAmount()
+        budget = AccountService.shared.getTotalBudget()
+        balance = budget + amount
+        updateBalance()
+        
+        
         observer.delegate = self
     }
     
@@ -87,12 +85,9 @@ class BookBudgetViewController: UIViewController {
 
 extension BookBudgetViewController: ObserverProtocol {
     func handleNotification(infoValue: Any?) {
-        if let acc = infoValue as? Account {
-            if currentAccount?.id == acc.id {
-                balance = budget + acc.amount
-                updateBalance()
-            }
-        }
+        let amount = AccountService.shared.getTotalAmount()
+        balance = budget + amount
+        updateBalance()
     }
 }
 

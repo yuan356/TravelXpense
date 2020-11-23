@@ -43,7 +43,6 @@ class RecordContainerViewController: UIViewController {
         
         // load all records in book
         RecordSevice.shared.getAllRecordsFromCertainBook(bookId: book.id)
-        
         AccountService.shared.calculateAmountInBook(bookId: book.id)
 
         // init book info view (budget)

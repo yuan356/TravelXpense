@@ -44,12 +44,16 @@ class TXFunc {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         
-        let code = (currencyCode == "" || currencyCode == nil) ? "USD" : currencyCode
-        var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
-        locComps[NSLocale.Key.currencyCode.rawValue] = code
-        let locId = Locale.identifier(fromComponents: locComps)
-        let loc = Locale(identifier: locId)
-        formatter.locale = loc
+//        let code = (currencyCode == "" || currencyCode == nil) ? "USD" : currencyCode
+        if let code = currencyCode, currencyCode != "" {
+            var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
+            locComps[NSLocale.Key.currencyCode.rawValue] = code
+            let locId = Locale.identifier(fromComponents: locComps)
+            let loc = Locale(identifier: locId)
+            formatter.locale = loc
+        }
+       
+
         
         var result: String?
         if let intValue = intValue {
