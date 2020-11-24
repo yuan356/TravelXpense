@@ -113,7 +113,7 @@ class RateService {
         myCurrency = Currency(code: code)
     }
     
-    func exchange(to code: String, amount: Double) -> Double {
+    func exchangeToMyCurrency(from code: String, amount: Double) -> Double {
         var amount = amount
         if let rateToUSD = rateData[code] {
             amount = amount / rateToUSD // -> USD

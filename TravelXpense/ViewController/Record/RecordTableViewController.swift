@@ -158,6 +158,7 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
         let controller = RecordDetailViewController()
         controller.book = self.book
         controller.record = self.records[indexPath.row]
+        controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }
 }

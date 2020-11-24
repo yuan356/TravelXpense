@@ -69,7 +69,6 @@ class RecordDetailViewController: UIViewController {
                 var initValue = record.amount
                 initValue.turnToPositive()
                 self.recordAmount = initValue
-                self.amountLabel.text = TXFunc.convertDoubleToStr(recordAmount, moneyFormat: false)
                 self.titleTextField.text = record.title
                 self.recordDate = record.date
                 self.originalDate = record.date
@@ -98,16 +97,17 @@ class RecordDetailViewController: UIViewController {
         }
     }
     
-    var recordAmount: Double = 0
+    var recordAmount: Double = 0 {
+        didSet {
+            amountLabel.text = TXFunc.convertDoubleToStr(recordAmount)
+        }
+    }
     
     var currentCategoryCell: IconsCollectionViewCell<Category>?
     
     var categories: [Category] {
         return CategoryService.shared.expenseCategories
     }
-    
-    // TODO: transactionIsExpense
-    var transactionIsExpense: Bool = true
     
     // View
     lazy var headerView = UIView {
@@ -132,7 +132,7 @@ class RecordDetailViewController: UIViewController {
     
     lazy var amountLabel = UILabel {
         $0.font = MainFontNumeral.regular.with(fontSize: 38)
-        $0.text = "0"
+        $0.text = TXFunc.convertDoubleToStr(0)
         $0.textColor = .white
         $0.textAlignment = .right
         $0.adjustsFontSizeToFitWidth = true
@@ -317,7 +317,7 @@ class RecordDetailViewController: UIViewController {
     /// add contentView & HeaderView to self.view
     private func setContentViewAndHeader() {
         self.view.addSubview(headerView)
-        headerView.anchorViewOnTop()
+        headerView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: CGSize(width: 0, height: 50))
         
         self.view.addSubview(contentView)
         contentView.anchor(top: headerView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
@@ -529,11 +529,9 @@ class RecordDetailViewController: UIViewController {
             return
         }
 
-        if transactionIsExpense {
-            recordAmount.turnToNegative()
-        } else {
-            recordAmount.turnToPositive()
-        }
+      
+        recordAmount.turnToNegative()
+    
         let title: String? = titleTextField.text?.trimmingCharacters(in: .whitespaces)
         var note: String? = noteTextView.text.trimmingCharacters(in: .whitespaces)
         
@@ -569,10 +567,6 @@ class RecordDetailViewController: UIViewController {
         guard let amountText = amountLabel.text?.trimmingCharacters(in: .whitespaces),
               amountText != ""  else {
             return NSLocalizedString("Please enter amount", comment: "Please enter amount")
-        }
-        
-        guard let _ = Double(amountText) else {
-            return NSLocalizedString("Amount is wrong format", comment: "Amount is wrong format")
         }
         
         // title
@@ -622,7 +616,6 @@ extension RecordDetailViewController: CalculatorDelegate {
     }
     
     func changeAmountValue(amountStr: String) {
-        amountLabel.text = amountStr
         recordAmount = Double(amountStr) ?? 0
     }
 }

@@ -24,17 +24,27 @@ class ChartViewController: UIViewController {
     
     var totalAmount: Double = 0.0 {
         didSet {
-            totalAmountLabel.text = TXFunc.convertDoubleToStr(totalAmount, moneyFormat: true, currencyCode: book.currency.code)
+            totalAmountLabel.text = TXFunc.convertDoubleToStr(totalAmount, currencyCode: book.currency.code, ISOcode: true)
+            let localAmount = RateService.shared.exchangeToMyCurrency(from: book.currency.code, amount: totalAmount)
+            
+            localAmountLabel.text = TXFunc.convertDoubleToStr(localAmount, currencyCode: RateService.shared.myCurrency?.code, ISOcode: true)
         }
     }
     
+    lazy var localAmountLabel = UILabel {
+        $0.font = MainFontNumeral.medium.with(fontSize: 20)
+        $0.textColor = TXColor.gray.medium
+        $0.textAlignment = .right
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.6
+    }
+    
     lazy var totalAmountLabel = UILabel {
-        $0.font = MainFontNumeral.medium.with(fontSize: .medium)
+        $0.font = MainFontNumeral.medium.with(fontSize: 20)
         $0.textColor = .white
         $0.textAlignment = .right
         $0.adjustsFontSizeToFitWidth = true
-        $0.adjustsFontSizeToFitWidth = true
-        $0.minimumScaleFactor = 0.7
+        $0.minimumScaleFactor = 0.6
     }
     
     lazy var controlBarView = UIView()
@@ -82,21 +92,31 @@ class ChartViewController: UIViewController {
         pieChart.anchor(top: controlBarView.bottomAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor)
         pieChart.anchorSize(h: UIScreen.main.bounds.height / 3)
         
+        var amountLabelTopAnchor: NSLayoutYAxisAnchor!
+        if let myCurrency = RateService.shared.myCurrency,
+           myCurrency.code != book.currency.code {
+            self.view.addSubview(localAmountLabel)
+            localAmountLabel.anchor(top: pieChart.bottomAnchor, bottom: nil, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25))
+            amountLabelTopAnchor = localAmountLabel.bottomAnchor
+        } else {
+            amountLabelTopAnchor = pieChart.bottomAnchor
+        }
+        
+        self.view.addSubview(totalAmountLabel)
+        totalAmountLabel.anchor(top: amountLabelTopAnchor, bottom: nil, leading: nil, trailing: view.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 25))
+        
         let rankingLabel = UILabel {
             $0.text = NSLocalizedString("Ranking", comment: "Ranking")
             $0.font = MainFont.bold.with(fontSize: .medium)
             $0.textColor = .white
-            $0.anchorSize(w: 80)
+            $0.anchorSize(w: 70)
         }
         
         self.view.addSubview(rankingLabel)
-        rankingLabel.anchor(top: pieChart.bottomAnchor, bottom: nil, leading: self.view.leadingAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0))
+        rankingLabel.anchor(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 10))
         
-        self.view.addSubview(totalAmountLabel)
-        totalAmountLabel.setAutoresizingToFalse()
-        totalAmountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: rankingLabel.trailingAnchor, constant: 15).isActive = true
-        totalAmountLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
-        totalAmountLabel.anchorCenterY(to: rankingLabel)
+        rankingLabel.trailingAnchor.constraint(lessThanOrEqualTo: totalAmountLabel.leadingAnchor, constant: -15).isActive = true
+        rankingLabel.anchorCenterY(to: totalAmountLabel)
         
         let lineView = UIView {
             $0.backgroundColor = TXColor.system.veronese
@@ -106,7 +126,7 @@ class ChartViewController: UIViewController {
         lineView.anchor(top: totalAmountLabel.bottomAnchor, bottom: nil, leading: totalAmountLabel.leadingAnchor, trailing: totalAmountLabel.trailingAnchor, padding: UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0))
         
         self.view.addSubview(tableView)
-        tableView.anchor(top: rankingLabel.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 15, left: 20, bottom: 10, right: 20))
+        tableView.anchor(top: lineView.bottomAnchor, bottom: self.view.bottomAnchor, leading: self.view.leadingAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 10, bottom: 10, right: 10))
     }
     
     private func getChartData(accountId: Int) {

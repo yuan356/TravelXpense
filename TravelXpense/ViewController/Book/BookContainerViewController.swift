@@ -178,6 +178,7 @@ extension BookContainerViewController: ObserverProtocol {
         }
     }
 }
+
 extension BookContainerViewController: recordContainerSelectedDayDelegate {
     func selectedDayChanged(dayIndex: Int) {
         if let date = TXFunc.getDateByOffset(startDate: self.currentBook.startDate, daysInterval: dayIndex) {
@@ -229,6 +230,7 @@ extension BookContainerViewController: TBTabViewControllerDelegate {
             vc.originalDate = self.selectedDay
             vc.recordAccount = AccountService.shared.getDefaultAccount(bookId: currentBook.id)
             vc.book = currentBook
+            vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true, completion: nil)
         }
     }

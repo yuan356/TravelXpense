@@ -72,7 +72,7 @@ class NewBookFirstViewController: NewBookViewController {
     lazy var nameTextField = UITextField {
         $0.textColor = inputColor
         $0.font = textFont
-        $0.textAlignment = .right
+        $0.textAlignment = .left
         $0.delegate = self
     }
     

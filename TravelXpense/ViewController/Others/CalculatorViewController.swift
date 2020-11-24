@@ -85,7 +85,7 @@ class CalculatorViewController: UIViewController {
     // calculator
     var numberOnScreen: Double = 0 { // 稍後要存目前畫面上的數字，目前是 0。
         didSet {
-            let amount = RateService.shared.exchange(to: currencyCode, amount: numberOnScreen)
+            let amount = RateService.shared.exchangeToMyCurrency(from: currencyCode, amount: numberOnScreen)
             let text = TXFunc.convertDoubleToStr(amount)
             exchangeLabel.text = " " + text + " "
         }

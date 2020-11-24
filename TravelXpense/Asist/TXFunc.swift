@@ -17,7 +17,7 @@ class TXFunc {
     /// - Parameter value: Double value
     /// - Returns: String value
     /// # 若為整數，將去除小數點
-    static func convertDoubleToStr(_ value: Double, moneyFormat: Bool = true, currencyCode: String? = nil) -> String {
+    static func convertDoubleToStr(_ value: Double, moneyFormat: Bool = true, currencyCode: String? = nil, ISOcode: Bool = false) -> String {
         var value = value
         if floor(value) == value {
             value = min(value, amountMaxValue)
@@ -25,14 +25,14 @@ class TXFunc {
  
             let intValue = Int(value)
             if moneyFormat,
-               let moneyString = turnToMoneyFormat(intValue: intValue, currencyCode: currencyCode) {
+               let moneyString = turnToMoneyFormat(intValue: intValue, currencyCode: currencyCode, ISOcode: ISOcode) {
                 return moneyString
             } else {
                 return String(intValue)
             }
         } else {
             if moneyFormat,
-               let moneyString = turnToMoneyFormat(doubleValue: value, currencyCode: currencyCode) {
+               let moneyString = turnToMoneyFormat(doubleValue: value, currencyCode: currencyCode, ISOcode: ISOcode) {
                 return moneyString
             } else {
                 return String(value)
@@ -40,17 +40,19 @@ class TXFunc {
         }
     }
     
-    static func turnToMoneyFormat(intValue: Int? = nil, doubleValue: Double? = nil, currencyCode: String? = nil) -> String? {
+    static func turnToMoneyFormat(intValue: Int? = nil, doubleValue: Double? = nil, currencyCode: String? = nil, ISOcode: Bool) -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         
-//        let code = (currencyCode == "" || currencyCode == nil) ? "USD" : currencyCode
         if let code = currencyCode, currencyCode != "" {
             var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
             locComps[NSLocale.Key.currencyCode.rawValue] = code
             let locId = Locale.identifier(fromComponents: locComps)
             let loc = Locale(identifier: locId)
             formatter.locale = loc
+            if ISOcode {
+                formatter.numberStyle = .currencyISOCode
+            }
         }
        
 

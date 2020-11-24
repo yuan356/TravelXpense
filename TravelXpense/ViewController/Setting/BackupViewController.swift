@@ -118,7 +118,7 @@ class BackupViewController: TXViewController {
             return
         }
         
-        TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to backup current data?", comment: "Are you sure you want to backup current data?"), note: NSLocalizedString("Old backup will be overridden", comment: "Old backup will be overridden"), confirm: true) {
+        TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to back up current data?", comment: "Are you sure you want to back up current data?"), note: NSLocalizedString("Old backup will be overridden", comment: "Old backup will be overridden"), confirm: true) {
             TXAlert.dismiss()
             self.showBlockingView()
             BackupService.shared.backupSQLite { (result) in
@@ -128,7 +128,7 @@ class BackupViewController: TXViewController {
                        let dateStr = TXFunc.convertDoubleToDateStr(timeStamp: timestamp, fullFormat: true)
                         self.dataTimeLabel.text = dateStr
                         self.restoreButton.isHidden = false
-                        TXAlert.showTopAlert(message: NSLocalizedString("Backup succeed", comment: "Backup succeed"))
+                        TXAlert.showTopAlert(message: NSLocalizedString("Backup completed", comment: "Backup completed"))
                     }
                 }
             }
@@ -142,13 +142,13 @@ class BackupViewController: TXViewController {
             return
         }
         
-        TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to restore the backup?", comment: "Are you sure you want to restore the backup?"), note: NSLocalizedString("Old data will be deleted please confirm", comment: "Old data will be deleted please confirm"), confirm: true) {
+        TXAlert.showCenterAlert(message: NSLocalizedString("Are you sure you want to restore the backup?", comment: "Are you sure you want to restore the backup?"), note: NSLocalizedString("Old data will be deleted, please confirm", comment: "Old data will be deleted, please confirm"), confirm: true) {
                 TXAlert.dismiss()
                 self.showBlockingView()
                 BackupService.shared.restoreBackup { (result) in
                     self.hideBlockingView()
                     if result == .success {
-                        TXAlert.showTopAlert(message: NSLocalizedString("Restore succeed", comment: "Restore succeed"))
+                        TXAlert.showTopAlert(message: NSLocalizedString("Restore completed", comment: "Restore completed"))
                     }
                 }
         }

@@ -97,7 +97,7 @@ class LocalePickerViewController<T: GenericCell<U>, U>: UIViewController, UITabl
         searchBar.roundedCorners(roundedType: .top)
         
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.returnKeyType = .default
+            textfield.returnKeyType = .search
             textfield.textColor = .black
             textfield.backgroundColor = TXColor.gray.medium
         }

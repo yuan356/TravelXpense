@@ -35,7 +35,7 @@
 "Update now" = "立即更新";
 "Auto update" = "自動更新";
 "Last updated" = "資料更新時間";
-"Update succeed" = "資料更新完成";
+"Updated" = "資料更新完成";
 
 // MARK: Book
 // MainViewController
@@ -159,23 +159,23 @@
 
 // BackupService
 "There is no backup data" = "沒有備份資料";
-"Are you sure you want to backup current data?" = "確定要備份目前的資料？";
+"Are you sure you want to back up current data?" = "確定要備份目前的資料？";
 "Old backup will be overridden" = "舊的備份資料將會被覆蓋";
 "Are you sure you want to restore the backup?" = "確定要恢復成備份資料？";
-"Old data will be deleted please confirm" = "舊資料將會被刪除";
+"Old data will be deleted, please confirm" = "舊資料將會被刪除";
 "Backup now" = "立即備份";
 "Restore" = "恢復備份";
 "Last backup time" = "上次備份時間";
 "Auto backup" = "自動備份";
-"Backup succeed" = "備份成功";
-"Restore succeed" = "恢復備份成功";
+"Backup completed" = "備份成功";
+"Restore completed" = "恢復備份成功";
 
 "Website" = "官方網站";
 
 // MARK: Category
 "Air Tickets" = "機票";
 "Accommodation" = "住宿";
-"Food & Drink" = "飲食";
+"Food & Drinks" = "飲食";
 "Shopping" = "購物";
 "Entertainment" = "娛樂";
 "Transport" = "交通";
