@@ -556,7 +556,7 @@ class RecordDetailViewController: UIViewController {
             TXObserved.notifyObservers(notificationName: .recordTableUpdate, infoKey: nil, infoValue: nil)
         }
         
-        TXFeedback.notificationOccur(.success)
+//        TXFeedback.notificationOccur(.success)
         dismiss(animated: true, completion: nil)
         
     }

@@ -192,7 +192,8 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func doneBtnTapped(_ sender: UIButton) {
-        TXFeedback.notificationOccur(.warning)
+//        TXFeedback.notificationOccur(.warning)
+        TXFeedback.buttonOccur()
         if sender.title(for: .normal) == "OK" { // finish
             numberOnScreen = checkAmountLimited(numberOnScreen)
             if isForBudget && numberOnScreen < 0 { // 預算不得為負

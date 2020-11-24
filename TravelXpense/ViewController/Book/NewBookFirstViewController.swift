@@ -142,11 +142,21 @@ class NewBookFirstViewController: NewBookViewController {
         let datePickerVC = TBdatePickerViewController()
         if let identifier = sender.restorationIdentifier {
             datePickerVC.buttonIdentifier = identifier
-            if identifier == "start", let end = endDate {
-                datePickerVC.setMaximumDate(end)
+            if identifier == "start" {
+                if let start = startDate {
+                    datePickerVC.setDate(date: start)
+                }
+                if let end = endDate {
+                    datePickerVC.setMaximumDate(end)
+                }
             }
-            if identifier == "end", let start = startDate {
-                datePickerVC.setMinimumDate(start)
+            if identifier == "end" {
+                if let end = endDate {
+                    datePickerVC.setDate(date: end)
+                }
+                if let start = startDate {
+                    datePickerVC.setMinimumDate(start)
+                }
             }
         }
         

@@ -152,7 +152,7 @@ class AccountCell: GenericInfoCell<Account> {
                 titleLabel.text = item.name
                 
                 amountLabel.textColor = amountTextColor
-                amountLabel.text = TXFunc.convertDoubleToStr(item.budget + item.amount)
+                amountLabel.text = TXFunc.convertDoubleToStr(item.budget + item.amount, currencyCode: BookService.shared.currentOpenBook.currency.code)
             }
         }
     }

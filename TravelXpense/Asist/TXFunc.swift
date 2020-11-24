@@ -44,7 +44,7 @@ class TXFunc {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         
-        if let code = currencyCode, currencyCode != "" {
+        if let code = currencyCode, code != "" {
             var locComps = Locale.components(fromIdentifier: Locale.current.identifier)
             locComps[NSLocale.Key.currencyCode.rawValue] = code
             let locId = Locale.identifier(fromComponents: locComps)
@@ -65,6 +65,11 @@ class TXFunc {
             formatter.maximumFractionDigits = 3
             result = formatter.string(from: NSNumber(value: doubleValue))
         }
+        
+        if currencyCode == nil || currencyCode == "" {
+            result?.removeFirst()
+        }
+        
         return result
     }
     
