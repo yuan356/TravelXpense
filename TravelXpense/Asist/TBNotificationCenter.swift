@@ -13,21 +13,26 @@ extension Notification.Name {
     static let accountAmountUpdate = Notification.Name("accountAmountUpdate")
     static let bookNameUpdate = Notification.Name("bookNameUpdate")
     static let authLog = Notification.Name("authLog")
+    static let bookCellUpdate = Notification.Name("bookCellUpdate")
+    static let bookCellDelete = Notification.Name("bookCellDelete")
+    static let bookTableReload = Notification.Name("bookTableReload")
 }
 
 enum InfoKey: String {
     case defalut
     case bookName
     case accountAmount
+    case bookUpdate
+    case bookDelete
 }
 
 protocol ObserverProtocol: AnyObject {
-    func handleNotification(infoValue: Any?)
+    func handleNotification(name: Notification.Name, infoKey: InfoKey?, infoValue: Any?)
 }
 
 class TXObserver {
     
-    let infoKey: String?
+    let infoKey: InfoKey?
     
     var notificationName: Notification.Name
     
@@ -35,7 +40,7 @@ class TXObserver {
     
     init(notification: Notification.Name, infoKey: InfoKey?) {
         self.notificationName = notification
-        self.infoKey = infoKey?.rawValue
+        self.infoKey = infoKey
         subscribe()
     }
     
@@ -50,9 +55,9 @@ class TXObserver {
     @IBAction func receiveNotification(_ notification: Notification) {
         var value: Any?
         if let key = infoKey {
-            value = notification.userInfo?[key]
+            value = notification.userInfo?[key.rawValue]
         }
-        self.delegate?.handleNotification(infoValue: value)
+        self.delegate?.handleNotification(name: notification.name, infoKey: infoKey, infoValue: value)
     } // end func receiveNotification
     
     deinit {

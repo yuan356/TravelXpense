@@ -84,7 +84,7 @@ class BookBudgetViewController: UIViewController {
 }
 
 extension BookBudgetViewController: ObserverProtocol {
-    func handleNotification(infoValue: Any?) {
+    func handleNotification(name: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
         let amount = AccountService.shared.getTotalAmount()
         balance = budget + amount
         updateBalance()

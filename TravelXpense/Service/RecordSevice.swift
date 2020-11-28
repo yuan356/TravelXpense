@@ -55,7 +55,7 @@ class RecordSevice {
                 var dateRecords = [Record]()
                 let date = TXFunc.getDateByOffset(startDate: book.startDate, daysInterval: i)
                 for record in records {
-                    if TXFunc.compareDateOnly(date1: record.date, date2: date!) {
+                    if TXFunc.compareDayIsEqual(date1: record.date, date2: date!) {
                         dateRecords.append(record)
                     }
                 }
@@ -95,7 +95,7 @@ class RecordSevice {
         }
         
         // update record from cache
-        if !TXFunc.compareDateOnly(date1: oldRecord.date, date2: newRecord.date) {
+        if !TXFunc.compareDayIsEqual(date1: oldRecord.date, date2: newRecord.date) {
             // not in the same bookDayRecord
             removeFromDaysRecordCache(bookId: bookId, originalDate: oldRecord.date, record: newRecord)
             insertIntoDaysRecordCache(bookId: bookId, record: newRecord)
@@ -148,7 +148,7 @@ class RecordSevice {
         var idList = [Int]()
         let compare: ComparisonResult = less ? .orderedAscending : .orderedDescending
         for record in self.recordCache.values {
-            if TXFunc.compareDate(date: record.date, target: date) == compare {
+            if TXFunc.compareDay(date: record.date, target: date) == compare {
                 idList.append(record.id)
                 self.recordCache[record.id] = nil
             }

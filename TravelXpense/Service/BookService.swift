@@ -69,8 +69,8 @@ class BookService {
             return
         }
         
-        let startDateCompare = TXFunc.compareDate(date: newBook.startDate, target: oldBook.startDate)
-        let endDateCompare = TXFunc.compareDate(date: newBook.endDate, target: oldBook.endDate)
+        let startDateCompare = TXFunc.compareDay(date: newBook.startDate, target: oldBook.startDate)
+        let endDateCompare = TXFunc.compareDay(date: newBook.endDate, target: oldBook.endDate)
         if startDateCompare == .orderedDescending {
             // delete records that date is less than newBook.startDate
             RecordSevice.shared.deleteRecordsOfDate(date: newBook.startDate, less: true)
@@ -112,6 +112,10 @@ class BookService {
 
     
     func deleteBook(bookId: Int, completion: @escaping () -> ()) {
+        if let book = getBookFromCache(bookId: bookId), book.imageUrl != nil{
+            ImageService.deleteImageFromLocal(bookId: bookId)
+        }
+        
         DBManager.shared.deleteBook(bookId: bookId)
         RecordSevice.shared.deleteRecordsOfBook(bookId: bookId)
         

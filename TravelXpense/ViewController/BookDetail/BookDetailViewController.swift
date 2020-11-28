@@ -189,6 +189,7 @@ class BookDetailViewController: UIViewController {
             TXAlert.dismiss()
             BookService.shared.deleteBook(bookId: self.book.id) {
                 self.dismiss(animated: true, completion: nil)
+                TXObserved.notifyObservers(notificationName: .bookCellDelete, infoKey: .bookDelete, infoValue: self.book)
             }
         })
     }
@@ -450,6 +451,7 @@ class BookDetailViewController: UIViewController {
             if field == .name {
                 TXObserved.notifyObservers(notificationName: .bookNameUpdate, infoKey: .bookName, infoValue: value)
             }
+            TXObserved.notifyObservers(notificationName: .bookCellUpdate, infoKey: .bookUpdate, infoValue: book)
         } else {
             TXAlert.showCenterAlert(message: errorMsg)
         }
@@ -465,12 +467,13 @@ extension BookDetailViewController: TBDatePickerDelegate {
         let alertNote = NSLocalizedString("New travel date is shorter than original one, so data will change accordingly", comment: "BookDateRangeAlert")
         if let type = buttonType.init(rawValue: buttonIdentifier) {
             if type == .startDate {
-                guard TXFunc.compareDate(date: date, target: bookEndDate) != .orderedDescending else {
+                guard TXFunc.compareDay(date: date, target: bookEndDate) != .orderedDescending else {
                     TXAlert.showCenterAlert(message: NSLocalizedString("Start date should be earlier than end date", comment: "Start date should be earlier than end date"))
                     return
                 }
                 
-                if date > bookStartDate {
+                // date > bookStartDate
+                if TXFunc.compareDay(date: date, target: bookStartDate) == .orderedDescending {
                     TXAlert.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
                         self.bookStartDate = date
                         self.saveData(field: .startDate, value: date)
@@ -482,13 +485,12 @@ extension BookDetailViewController: TBDatePickerDelegate {
                 }
                 
             } else if type == .endDate {
-                
-                guard TXFunc.compareDate(date: date, target: bookStartDate) != .orderedAscending else {
+                guard TXFunc.compareDay(date: date, target: bookStartDate) != .orderedAscending else {
                     TXAlert.showCenterAlert(message: NSLocalizedString("End date should be later than start date", comment: "End date should be later than start date"))
                     return
                 }
-                
-                if date < bookEndDate {
+                // date < bookEndDate
+                if TXFunc.compareDay(date: date, target: bookEndDate) == .orderedAscending {
                     TXAlert.showCenterAlert(message: alertTitle, note: alertNote, confirm: true) {
                         self.bookEndDate = date
                         self.saveData(field: .endDate, value: date)

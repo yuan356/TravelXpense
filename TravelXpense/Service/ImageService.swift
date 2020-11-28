@@ -30,6 +30,14 @@ class ImageService {
     }
     
     
+    static func deleteImageFromLocal(bookId id: Int) {
+        if let filePath = filePath(bookId: id) {
+            do {
+                try FileManager.default.removeItem(at: filePath)
+            } catch {}
+        }
+    }
+    
     static func retrieveFromLocal(bookId id: Int, imageView: UIImageView? = nil) {
         
         let thread = Thread {

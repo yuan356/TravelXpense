@@ -146,6 +146,7 @@ class BackupViewController: TXViewController {
                 TXAlert.dismiss()
                 self.showBlockingView()
                 BackupService.shared.restoreBackup { (result) in
+                    TXObserved.notifyObservers(notificationName: .bookTableReload, infoKey: nil, infoValue: nil)
                     self.hideBlockingView()
                     if result == .success {
                         TXAlert.showTopAlert(message: NSLocalizedString("Restore completed", comment: "Restore completed"))

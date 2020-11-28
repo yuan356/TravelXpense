@@ -547,7 +547,7 @@ class RecordDetailViewController: UIViewController {
         } else { // insert
             RecordSevice.shared.addNewRecord(title: title, amount: recordAmount, note: note, date: date.timeIntervalSince1970, bookId: book.id, categoryId: category.id, accountId: account.id)
             
-            needToReloadTable = TXFunc.compareDateOnly(date1: date, date2: self.originalDate)
+            needToReloadTable = TXFunc.compareDayIsEqual(date1: date, date2: self.originalDate)
         }
         
         // didn't change the date, current record table need to update.

@@ -126,12 +126,11 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
             return NSLocalizedString("Please choose the end date", comment: "Please choose the end date")
         }
         
-        if start > end {
-            return NSLocalizedString("Start date should be earlier than end date", comment: "Start date should be earlier than end date")
-        }
+        let result = TXFunc.compareDay(date: start, target: end)
         
-        if end < start {
-            return NSLocalizedString("End date should be later than start date", comment: "End date should be later than start date")
+        // start > end
+        if result == .orderedDescending {
+            return NSLocalizedString("Start date should be earlier than end date", comment: "Start date should be earlier than end date")
         }
         
         if pageViewController.bookCountry == nil {

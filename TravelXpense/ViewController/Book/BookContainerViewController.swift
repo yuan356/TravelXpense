@@ -172,7 +172,7 @@ class BookContainerViewController: UIViewController {
 }
 
 extension BookContainerViewController: ObserverProtocol {
-    func handleNotification(infoValue: Any?) {
+    func handleNotification(name: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
         if let bookName = infoValue as? String {
             self.bookNameLabel.text = bookName
         }

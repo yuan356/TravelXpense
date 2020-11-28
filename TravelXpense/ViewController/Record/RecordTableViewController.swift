@@ -164,7 +164,7 @@ extension RecordTableViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension RecordTableViewController: ObserverProtocol {
-    func handleNotification(infoValue: Any?) {
+    func handleNotification(name: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
         if let bookDayRecord = RecordSevice.shared.bookDaysRecordCache[self.book.id] {
             records = bookDayRecord[dayIndex]
             self.tableView.reloadData()

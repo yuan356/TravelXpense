@@ -47,7 +47,24 @@ class TBTabViewController: UIViewController {
     
     let moveDownTransform = CGAffineTransform.init(translationX: 0, y: moveUpOffset)
     
-    var currentButton: UIButton?
+    var currentButton: UIButton? {
+        didSet {
+            if let id = currentButton?.restorationIdentifier,
+               id == TabBarPage.record.rawValue,
+               let btn = recordPageButton {
+                btn.setImage(UIImage(named: TXNavigationIcon.plus.rawValue), for: .normal)
+            }
+        }
+        willSet {
+            if let id = currentButton?.restorationIdentifier,
+               id == TabBarPage.record.rawValue,
+               let btn = recordPageButton {
+                btn.setImage(UIImage(named: TXNavigationIcon.record.rawValue), for: .normal)
+            }
+        }
+    }
+    
+    var recordPageButton: UIButton?
     
     var pages: [ViewControllerPage] = []
     
@@ -119,6 +136,7 @@ class TBTabViewController: UIViewController {
         
         if page.pageType == .record {
             currentButton = button // record is default select button
+            recordPageButton = button
         }
     }
     

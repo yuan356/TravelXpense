@@ -150,31 +150,32 @@ class BackupService {
         let dbRef = BACKUPLOG_DB_REF.child(uid)
         dbRef.observeSingleEvent(of: .value) { (snapshot) in
             if let dict = snapshot.value as? [String: Any] {
-                self.restoreImage(dict[backupLogField.imageNameList])
+                self.restoreImage(dict[backupLogField.imageNameList]) {
+                    // 照片全部儲存完成後，再存database
+                    let sqlFileRef = self.DBFILE_STORAGE_REF.child(uid).child("ACCOUNT_DATA.sqlite")
+                    let databaseURL = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
+                    sqlFileRef.write(toFile: databaseURL) { url, error in
+                       if let error = error {
+                            print(error.localizedDescription)
+                            completion(.failed)
+                            return
+                       } else {
+                            // database initialize load data
+                            CategoryService.shared.getAllCategoriesToCache()
+                            BookService.shared.getAllBooksToCache()
+                            completion(.success)
+                       }
+                    }
+                }
             } else {
                 TXAlert.showCenterAlert(message: NSLocalizedString("There is no backup data", comment: "There is no backup data") )
                 completion(.failed)
                 return
             }
         }
-                
-        let sqlFileRef = DBFILE_STORAGE_REF.child(uid).child("ACCOUNT_DATA.sqlite")
-        let databaseURL = URL(fileURLWithPath: DBManager.shared.pathToDatabase)
-        sqlFileRef.write(toFile: databaseURL) { url, error in
-           if let error = error {
-                print(error.localizedDescription)
-                completion(.failed)
-                return
-           } else {
-                // database initialize load data
-                CategoryService.shared.getAllCategoriesToCache()
-                BookService.shared.getAllBooksToCache()
-                completion(.success)
-           }
-        }
     }
     
-    func restoreImage(_ imageList: Any?) {
+    func restoreImage(_ imageList: Any?, completion: @escaping ()->()) {
         guard let uid = AuthService.currentUser?.uid else {
             return
         }
@@ -195,8 +196,16 @@ class BackupService {
             return
         }
 
+        var result = 0
         for imageName in list {
-            coverRef.child(imageName).write(toFile: URL(fileURLWithPath: localFolderPath + imageName))
+            let task = coverRef.child(imageName).write(toFile: URL(fileURLWithPath: localFolderPath + imageName))
+            
+            task.observe(.success) { (_) in
+                result += 1
+                if result == list.count {
+                    completion()
+                }
+            }
         }
     }
     

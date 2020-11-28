@@ -118,7 +118,7 @@ class TXFunc {
         return date
     }
     
-    static func compareDateOnly(date1: Date, date2: Date) -> Bool {
+    static func compareDayIsEqual(date1: Date, date2: Date) -> Bool {
         let result = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return result == .orderedSame
     }
@@ -128,7 +128,7 @@ class TXFunc {
      * a > b   then return NSOrderedDescending.
      * a == b  then return NSOrderedSame.
      */
-    static func compareDate(date date1: Date, target date2: Date) -> ComparisonResult {
+    static func compareDay(date date1: Date, target date2: Date) -> ComparisonResult {
         let result = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return result
     }

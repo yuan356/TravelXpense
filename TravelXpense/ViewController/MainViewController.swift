@@ -140,8 +140,12 @@ class MainViewController: UIViewController, NewBookDelegate {
     lazy var clearView = UIView {
         $0.backgroundColor = .clear
     }
-    var observer: TXObserver!
-
+    
+    var loggenObserver: TXObserver!
+    var bookUpdateObserver: TXObserver!
+    var bookDeleteObserver: TXObserver!
+    var bookReloadObserver: TXObserver!
+    
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,14 +174,21 @@ class MainViewController: UIViewController, NewBookDelegate {
                 
         toggleFloatingSideBarView(enable: false, animate: false)
         
-        observer = TXObserver.init(notification: .authLog, infoKey: nil)
-        observer.delegate = self
+        loggenObserver = TXObserver.init(notification: .authLog, infoKey: nil)
+        loggenObserver.delegate = self
+        
+        bookUpdateObserver = TXObserver.init(notification: .bookCellUpdate, infoKey: .bookUpdate)
+        bookUpdateObserver.delegate = self
+        
+        bookDeleteObserver = TXObserver.init(notification: .bookCellDelete, infoKey: .bookDelete)
+        bookDeleteObserver.delegate = self
+        
+        bookReloadObserver = TXObserver.init(notification: .bookTableReload, infoKey: nil)
+        bookReloadObserver.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-        self.books = BookService.shared.bookList
-        bookTableView.reloadData()
     }
     
     private func bookTableViewSetting() {
@@ -361,8 +372,30 @@ class MainViewController: UIViewController, NewBookDelegate {
 }
 
 extension MainViewController: ObserverProtocol {
-    func handleNotification(infoValue: Any?) {
-        updateUserInfoUI()
+    func handleNotification(name: Notification.Name, infoKey: InfoKey?, infoValue: Any?) {
+        if name == .authLog {
+            updateUserInfoUI()
+        } else if name == .bookCellUpdate {
+            if let book = infoValue as? Book {
+                guard let index = self.books.firstIndex(where: { $0 === book }) else { return }
+                bookTableView.beginUpdates()
+                bookTableView.reloadRows(at: [IndexPath(row: index, section: 1)], with: .automatic)
+                bookTableView.endUpdates()
+            }
+        } else if name == .bookCellDelete {
+           
+            if let book = infoValue as? Book {
+                guard let index = self.books.firstIndex(where: { $0 === book }) else { return }
+                self.books.remove(at: index)
+                bookTableView.beginUpdates()
+                bookTableView.deleteRows(at: [IndexPath(row: index, section: 1)], with: .fade)
+                bookTableView.endUpdates()
+                
+            }
+        } else if name == .bookTableReload {
+            self.books = BookService.shared.bookList
+            bookTableView.reloadData()
+        }
     }
 }
 
@@ -436,6 +469,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             headerBlurEffect(show: false, animate: true)
         }
     }
+    
+    
 }
 
 class headerCell: UITableViewCell {

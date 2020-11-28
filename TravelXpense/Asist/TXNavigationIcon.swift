@@ -27,6 +27,7 @@ enum TXNavigationIcon: String {
     case facebook = "facebook"
     case email = "email"
     case cloud = "cloud"
+    case record = "record"
     
     func getButton() -> UIButton {
         let button = UIButton()
