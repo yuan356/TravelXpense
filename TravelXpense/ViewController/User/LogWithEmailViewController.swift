@@ -173,14 +173,15 @@ class LogWithEmailViewController: TXViewController {
     }
 }
 
-fileprivate let titleMaxLength = 100
 extension LogWithEmailViewController: UITextFieldDelegate {
-    // 輸入字數限制
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentString: NSString = (textField.text ?? "") as NSString
-        let newString: NSString =
-            currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= titleMaxLength
+        if var text = textField.text, range.location == text.count, string == " " {
+            let noBreakSpace: Character = "\u{00a0}"
+            text.append(noBreakSpace)
+            textField.text = text
+            return false
+        }
+        return true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -188,13 +189,13 @@ extension LogWithEmailViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      let nextTag = textField.tag + 1
+        let nextTag = textField.tag + 1
         if let nextResponder = self.view.viewWithTag(nextTag) {
-         nextResponder.becomeFirstResponder()
-      } else {
-        textField.resignFirstResponder()
-      }
-      return true
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
 

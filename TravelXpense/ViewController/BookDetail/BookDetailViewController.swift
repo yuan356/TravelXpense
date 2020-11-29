@@ -530,6 +530,13 @@ extension BookDetailViewController: UITextFieldDelegate {
     
     // 輸入字數限制
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if var text = textField.text, range.location == text.count, string == " " {
+            let noBreakSpace: Character = "\u{00a0}"
+            text.append(noBreakSpace)
+            textField.text = text
+            return false
+        }
+        
         let currentString: NSString = (textField.text ?? "") as NSString
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: string) as NSString
