@@ -195,6 +195,7 @@ class CategoryDetailViewController: UIViewController {
     
     // MARK: Save
     @IBAction func saveButtonClicked() {
+        self.view.endEditing(true)
         guard let title = titleTextField.text,
               title.count <= titleMaxLength else {
             return

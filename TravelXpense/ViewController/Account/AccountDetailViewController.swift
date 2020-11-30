@@ -204,6 +204,8 @@ class AccountDetailViewController: UIViewController {
     
     // MARK: Save
     @IBAction func saveButtonClicked() {
+        self.view.endEditing(true)
+        
         guard let name = nameTextField.text,
               name.count <= nameMaxLength else {
             return

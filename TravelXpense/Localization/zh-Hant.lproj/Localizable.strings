@@ -123,8 +123,6 @@
 "Notice" = "提醒";
 
 // MARK: User
-"Sign up" = "註冊";
-"Log in" = "登入";
 "Log out" = "登出";
 "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address." = "此電子信箱已被註冊";
 
@@ -152,7 +150,8 @@
 // TBDatePicker
 "Today " = "今天";
 "Done" = "完成";
-
+"Log in" = "登入";
+"Sign up" = "註冊";
 "You are not logged in" = "尚未登入";
 "Log in to backup your data" = "登入後即可備份你的資料";
 "Hello" = "你好";

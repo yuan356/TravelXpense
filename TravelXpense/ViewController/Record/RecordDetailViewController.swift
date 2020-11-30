@@ -600,6 +600,10 @@ class RecordDetailViewController: UIViewController {
         
         return nil
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return DisplayMode.statusBarStyle()
+    }
 }
 
 // MARK: - Extension

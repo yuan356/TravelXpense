@@ -85,11 +85,11 @@ class DBManager: NSObject {
         self.pathToDocument = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]
         self.pathToDatabase = pathToDocument + "/" + self.databaseFileName
         
-        print("filePath: \(self.pathToDatabase)")
+//        print("filePath: \(self.pathToDatabase)")
     }
     
     deinit {
-        print("deinit: \(self)")
+//        print("deinit: \(self)")
     }
     
     // MARK: - Create Database
@@ -151,7 +151,7 @@ class DBManager: NSObject {
                 print("file copy to: \(self.pathToDatabase)")
             }
         } else {
-            print("Datebase allready exists.")
+//            print("Datebase allready exists.")
             //print("DID-NOT copy db file, file allready exists at path:\(self.pathToDatabase)")
         }
     }

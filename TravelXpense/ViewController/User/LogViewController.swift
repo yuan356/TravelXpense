@@ -41,7 +41,7 @@ class LogViewController: TXViewController {
         let emptyImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(emptyImage, for: .default)
         self.navigationController?.navigationBar.shadowImage = emptyImage
-        self.navigationItem.title = isLogIn ? "Log in" : "Sign up"
+        self.navigationItem.title = isLogIn ? NSLocalizedString("Log in", comment: "Log in") : NSLocalizedString("Sign up", comment: "Sign up")
         
         let saveBarItem = UIBarButtonItem(customView: cancelBtn)
         navigationItem.leftBarButtonItem = saveBarItem
