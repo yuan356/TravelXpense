@@ -95,6 +95,10 @@
 		1CF560C2254012FB003EEC66 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C1254012FA003EEC66 /* Double+Ext.swift */; };
 		1CF560C525403662003EEC66 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookDetailViewController.swift */; };
 		B0E156276A0D3701F1A3060F /* Pods_TravelXpense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E3CBAEC2F458CBBCA552727 /* Pods_TravelXpense.framework */; };
+		BE10A43E281A458400693128 /* Settings.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43A281A458200693128 /* Settings.gif */; };
+		BE10A43F281A458400693128 /* Record.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43B281A458300693128 /* Record.gif */; };
+		BE10A440281A458400693128 /* Chart.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43C281A458300693128 /* Chart.gif */; };
+		BE10A441281A458400693128 /* Login.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43D281A458400693128 /* Login.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -193,6 +197,10 @@
 		1CF560C425403662003EEC66 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		4E3CBAEC2F458CBBCA552727 /* Pods_TravelXpense.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelXpense.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFE12B85D9C1D1B2F5A546D /* Pods-TravelXpense.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelXpense.release.xcconfig"; path = "Target Support Files/Pods-TravelXpense/Pods-TravelXpense.release.xcconfig"; sourceTree = "<group>"; };
+		BE10A43A281A458200693128 /* Settings.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings.gif; sourceTree = "<group>"; };
+		BE10A43B281A458300693128 /* Record.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Record.gif; sourceTree = "<group>"; };
+		BE10A43C281A458300693128 /* Chart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Chart.gif; sourceTree = "<group>"; };
+		BE10A43D281A458400693128 /* Login.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Login.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +388,7 @@
 		1CD181E82512048B00AFD985 = {
 			isa = PBXGroup;
 			children = (
+				BE10A429281A39D200693128 /* Demo */,
 				1CD181F32512048B00AFD985 /* TravelXpense */,
 				1CD181F22512048B00AFD985 /* Products */,
 				61631689A378B42A74B3D4E8 /* Pods */,
@@ -497,6 +506,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		BE10A429281A39D200693128 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				BE10A43C281A458300693128 /* Chart.gif */,
+				BE10A43D281A458400693128 /* Login.gif */,
+				BE10A43B281A458300693128 /* Record.gif */,
+				BE10A43A281A458200693128 /* Settings.gif */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
 		CB18AB1F58B956D4ED5E73BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,16 +590,20 @@
 				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
 				1C6AB453255BD7C800073095 /* Localizable.strings in Resources */,
 				1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */,
+				BE10A43F281A458400693128 /* Record.gif in Resources */,
 				1C6AB463255D276B00073095 /* InfoPlist.strings in Resources */,
 				1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */,
 				1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */,
 				1CBCD5DA2546AB9D00FB6C12 /* Roboto-Light.ttf in Resources */,
 				1C731D622566E11100359BCE /* GoogleService-Info.plist in Resources */,
 				1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */,
+				BE10A43E281A458400693128 /* Settings.gif in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
 				1CBCD5D12546AA2200FB6C12 /* Roboto-Regular.ttf in Resources */,
 				1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */,
+				BE10A441281A458400693128 /* Login.gif in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
+				BE10A440281A458400693128 /* Chart.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
