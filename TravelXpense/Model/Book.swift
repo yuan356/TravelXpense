@@ -39,9 +39,9 @@ class Book {
     
     static func getBookByFMDBdata(FMDBdatalist dataLists: FMResultSet) -> Book? {
         
-        guard let name = dataLists.string(forColumn: BookField.name) ?? "",
-              let countryCode = dataLists.string(forColumn: BookField.country) ?? "",
-              let currencyCode = dataLists.string(forColumn: BookField.currency) ?? "",
+        guard let name = dataLists.string(forColumn: BookField.name),
+              let countryCode = dataLists.string(forColumn: BookField.country),
+              let currencyCode = dataLists.string(forColumn: BookField.currency),
               let startDate = dataLists.date(forColumn: BookField.startDate),
               let endDate = dataLists.date(forColumn: BookField.endDate) else {
             return nil

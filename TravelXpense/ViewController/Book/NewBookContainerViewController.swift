@@ -92,7 +92,7 @@ class NewBookContainerViewController: UIViewController, NewBookPageViewControlle
             return
         }
         
-        guard let name = pageViewController.bookName ?? "",
+        guard let name = pageViewController.bookName,
               let startDate = pageViewController.startDate,
               let endDate = pageViewController.endDate,
               let country = pageViewController.bookCountry,
