@@ -95,13 +95,12 @@
 		1CF560C2254012FB003EEC66 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C1254012FA003EEC66 /* Double+Ext.swift */; };
 		1CF560C525403662003EEC66 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF560C425403662003EEC66 /* BookDetailViewController.swift */; };
 		B0E156276A0D3701F1A3060F /* Pods_TravelXpense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E3CBAEC2F458CBBCA552727 /* Pods_TravelXpense.framework */; };
-		BE10A43E281A458400693128 /* Settings.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43A281A458200693128 /* Settings.gif */; };
 		BE10A441281A458400693128 /* Login.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A43D281A458400693128 /* Login.gif */; };
-		BE10A443281A710000693128 /* Record.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A442281A710000693128 /* Record.gif */; };
-		BE10A445281A718400693128 /* Chart.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A444281A718400693128 /* Chart.gif */; };
 		BE10A447281A721E00693128 /* BookSettings.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A446281A721E00693128 /* BookSettings.gif */; };
-		BE10A449281A728D00693128 /* CategorySettings.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A448281A728D00693128 /* CategorySettings.gif */; };
 		BE10A44B281A730A00693128 /* DataBackup.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A44A281A730A00693128 /* DataBackup.gif */; };
+		BE10A44D281A746000693128 /* RecordUpdate.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A44C281A746000693128 /* RecordUpdate.gif */; };
+		BE10A44F281A755900693128 /* CategoryCurrencySettings.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A44E281A755900693128 /* CategoryCurrencySettings.gif */; };
+		BE10A451281A758A00693128 /* BookChart.gif in Resources */ = {isa = PBXBuildFile; fileRef = BE10A450281A758A00693128 /* BookChart.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,13 +199,12 @@
 		1CF560C425403662003EEC66 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		4E3CBAEC2F458CBBCA552727 /* Pods_TravelXpense.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelXpense.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFE12B85D9C1D1B2F5A546D /* Pods-TravelXpense.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelXpense.release.xcconfig"; path = "Target Support Files/Pods-TravelXpense/Pods-TravelXpense.release.xcconfig"; sourceTree = "<group>"; };
-		BE10A43A281A458200693128 /* Settings.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings.gif; sourceTree = "<group>"; };
 		BE10A43D281A458400693128 /* Login.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Login.gif; sourceTree = "<group>"; };
-		BE10A442281A710000693128 /* Record.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Record.gif; sourceTree = "<group>"; };
-		BE10A444281A718400693128 /* Chart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Chart.gif; sourceTree = "<group>"; };
 		BE10A446281A721E00693128 /* BookSettings.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = BookSettings.gif; sourceTree = "<group>"; };
-		BE10A448281A728D00693128 /* CategorySettings.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = CategorySettings.gif; sourceTree = "<group>"; };
 		BE10A44A281A730A00693128 /* DataBackup.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DataBackup.gif; sourceTree = "<group>"; };
+		BE10A44C281A746000693128 /* RecordUpdate.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = RecordUpdate.gif; sourceTree = "<group>"; };
+		BE10A44E281A755900693128 /* CategoryCurrencySettings.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = CategoryCurrencySettings.gif; sourceTree = "<group>"; };
+		BE10A450281A758A00693128 /* BookChart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = BookChart.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,13 +513,12 @@
 		BE10A429281A39D200693128 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				BE10A442281A710000693128 /* Record.gif */,
-				BE10A444281A718400693128 /* Chart.gif */,
 				BE10A43D281A458400693128 /* Login.gif */,
 				BE10A44A281A730A00693128 /* DataBackup.gif */,
 				BE10A446281A721E00693128 /* BookSettings.gif */,
-				BE10A448281A728D00693128 /* CategorySettings.gif */,
-				BE10A43A281A458200693128 /* Settings.gif */,
+				BE10A44E281A755900693128 /* CategoryCurrencySettings.gif */,
+				BE10A450281A758A00693128 /* BookChart.gif */,
+				BE10A44C281A746000693128 /* RecordUpdate.gif */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -596,23 +593,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE10A451281A758A00693128 /* BookChart.gif in Resources */,
 				1CF560B025394F6F003EEC66 /* Rubik-Regular.ttf in Resources */,
 				1C6AB453255BD7C800073095 /* Localizable.strings in Resources */,
 				1CBCD5D82546AB9A00FB6C12 /* Roboto-Bold.ttf in Resources */,
 				1C6AB463255D276B00073095 /* InfoPlist.strings in Resources */,
 				1CBCD5DC2546ABA000FB6C12 /* Roboto-Medium.ttf in Resources */,
 				1CF560AE25394F6C003EEC66 /* Rubik-Light.ttf in Resources */,
+				BE10A44F281A755900693128 /* CategoryCurrencySettings.gif in Resources */,
 				BE10A44B281A730A00693128 /* DataBackup.gif in Resources */,
 				1CBCD5DA2546AB9D00FB6C12 /* Roboto-Light.ttf in Resources */,
-				BE10A449281A728D00693128 /* CategorySettings.gif in Resources */,
 				1C731D622566E11100359BCE /* GoogleService-Info.plist in Resources */,
+				BE10A44D281A746000693128 /* RecordUpdate.gif in Resources */,
 				1CBCD5DE2546ABA200FB6C12 /* Roboto-Thin.ttf in Resources */,
-				BE10A43E281A458400693128 /* Settings.gif in Resources */,
 				1CD182042512048D00AFD985 /* LaunchScreen.storyboard in Resources */,
-				BE10A443281A710000693128 /* Record.gif in Resources */,
 				1CBCD5D12546AA2200FB6C12 /* Roboto-Regular.ttf in Resources */,
 				1CF560B225394F72003EEC66 /* Rubik-Medium.ttf in Resources */,
-				BE10A445281A718400693128 /* Chart.gif in Resources */,
 				BE10A441281A458400693128 /* Login.gif in Resources */,
 				BE10A447281A721E00693128 /* BookSettings.gif in Resources */,
 				1CD182012512048D00AFD985 /* Assets.xcassets in Resources */,
